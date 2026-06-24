@@ -37,6 +37,47 @@ drought_indices:
   # rather than globbing the "chir[p|t]s" prefix.
   filename_pattern: "chir[p|t]s_{INDEX}-{TIMESCALE}_chile_{YYYY-MM-01}.tif"
 
+# Annual aridity index (P / PET), CHIRPS-CHIRTS derived, 1981-2026. STATIC-ish climate
+# descriptor: a watershed's mean aridity is a candidate MATCHING covariate (alongside
+# Köppen, elevation), and the year-by-year series is a slow-moving aridification trend
+# (drying baseline that drought anomalies ride on top of). NOT a standardized anomaly —
+# it is the raw ratio, so low = arid, high = humid (opposite sign convention to SPI/SPEI).
+aridity_index:
+  description: >
+    Annual aridity index (P/PET ratio) for Chile from the same CHIRPS-CHIRTS inputs as
+    the standardized drought indices. One GeoTIFF per year. Dimensionless ratio, NOT a
+    z-score: classify with UNEP bands (hyper-arid <0.05, arid 0.05-0.2, semi-arid 0.2-0.5,
+    dry sub-humid 0.5-0.65, humid >0.65). Chile-wide median ~0.25 (semi-arid).
+  source: CHIRPS-CHIRTS
+  root: /media/francisco/Respaldo_frzambra/data/drought/CHIRPS-CHIRTS/1981-2026/aridity_index/
+  format: GeoTIFF (.tif)
+  grid: Chile (EPSG:4326)
+  resolution_deg: 0.05
+  dtype: Float32
+  nodata: NaN                              # flagged nan; ~40% of grid is NA (ocean/void)
+  units: dimensionless (P/PET ratio)
+
+  annual:
+    subdir: annual
+    temporal_resolution: annual
+    span: ["1981", "2026"]                 # 46 yearly rasters
+    filename_pattern: "aridity_index_chir[p|t]s.chile.{YYYY}.tif"
+  monthly:
+    subdir: monthly
+    temporal_resolution: monthly
+    span: ["1981-01", "2026-05"]           # 545 files
+    filename_pattern: "aridity_index_chir[p|t]s.chile.{YYYY.MM}.tif"
+
+  notes: >
+    Same "chir[p|t]s" filename quirk as the standardized indices (literal brackets/pipe are
+    glob metacharacters — key on a fixed token like ".chile." or escape, do not naive-glob).
+    Valid values run ~0.001..5.8; a handful of cells carry a spurious large-negative fill
+    (~ -172.9) that is NOT flagged as NoData — MASK values < 0 to NA before zonal stats.
+    gdalinfo reports STATISTICS_MEAN=-9999, which is stale placeholder stat metadata, not
+    real data (zero -9999 cells). 2026 is a partial-year value; treat as provisional.
+    Sign convention is OPPOSITE the SPI/SPEI anomalies (low aridity index = dry), so do not
+    pool it with the standardized indices without re-signing.
+
 # Ecological-drought OUTCOME indices, MODIS-derived. These are the impact/response
 # variables (vegetation + actual ET) for H1's tail analysis and H2's mediator/outcome.
 # All EPSG:4326, GeoTIFF. Standardized anomalies: negative = below-normal (drought stress).
