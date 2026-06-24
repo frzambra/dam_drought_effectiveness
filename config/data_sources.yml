@@ -71,6 +71,60 @@ ecological_indices:
       span: ["2000-01-01", "2024-12-01"]     # 300 files per timescale
       filename_pattern: "SETI-{TIMESCALE}_chile_{YYYY-MM-01}.tif"
 
+# Annual land-cover / land-use, MapBiomas Chile Collection 2 (30 m). Tier-2 driver:
+# land-cover trajectories, agricultural/irrigated-area expansion, silviculture, and
+# the "induced demand" mechanism. One single-band classified raster per year.
+landcover:
+  description: >
+    MapBiomas Chile Collection 2 annual land-cover/land-use classification at 30 m.
+    Single-band categorical GeoTIFFs (class ID per pixel); legend in
+    data/metadata/mapbiomas_legend.md.
+  source: MapBiomas Chile (Colección 2)
+  root: /media/francisco/Respaldo_frzambra/data/MapBiomas_v2.0/
+  format: GeoTIFF (.tif)
+  grid: Chile (EPSG:4326)
+  resolution_deg: 0.000269494585236     # ~30 m
+  resolution_m: 30
+  dtype: Byte                            # categorical class IDs, not continuous
+  nodata: 0                              # 0 = no data; legend "Not observed" is class 27
+  temporal_resolution: annual
+  span: ["1999", "2024"]                 # 26 yearly rasters
+  filename_pattern: "mapbiomas_v2.0_{YYYY}.tif"
+
+  # Class IDs (legend: data/metadata/mapbiomas_legend.md). Codes are raster pixel
+  # values; level-1 parent classes and their level-2/3 children share the hierarchy.
+  legend_file: data/metadata/mapbiomas_legend.md
+  classes:
+    1:  Forest formation (level 1)
+    3:  Forest
+    59: Primary forest
+    60: Secondary forest
+    67: Dwarf forest
+    10: Natural non-forest formation (level 1)
+    11: Wetland
+    12: Grassland
+    63: Steppe
+    66: Shrubland
+    29: Rocky outcrop
+    14: Farming and silviculture (level 1)
+    9:  Silviculture
+    18: Agriculture
+    15: Pasture
+    22: Non-vegetated area (level 1)
+    24: Infrastructure
+    23: Beach, dune and sand spot
+    61: Salt flat
+    25: Other non-vegetated area
+    26: Water bodies (level 1)
+    33: River, lake or ocean
+    34: Ice and snow
+    27: Not observed
+  notes: >
+    Tier-2 analyses (demand expansion) key on classes 18 (Agriculture), 15 (Pasture)
+    and 9 (Silviculture). 30 m is finer than the 0.05 deg / 500 m ecological indices
+    and the index grids — aggregate to the analysis unit (watershed fractional cover)
+    rather than working at the pixel.
+
 # Reservoir join + spatial keys (see data/raw/reservoirs/).
 reservoirs:
   levels_csv: data/raw/reservoirs/reservoirs_levels_2005-2026.csv   # comma-delimited, UTF-8, wide
@@ -90,9 +144,10 @@ reservoirs:
     contributing-watershed delineation is gated on acquiring watershed boundaries.
 
 # --- Notes ----------------------------------------------------------------
-# - CHIRPS-CHIRTS indices begin 1991; MODIS ecological indices begin 2000; reservoir
-#   storage begins 2005-01. Usable three-way overlap is 2005-01 onward; the forcing-only
-#   pre-period (for placebo/matching slopes) is 1991-2009 (MODIS only from 2000).
+# - CHIRPS-CHIRTS indices begin 1991; MODIS ecological indices begin 2000; MapBiomas
+#   land cover 1999; reservoir storage begins 2005-01. Usable multi-source overlap is
+#   2005-01 onward; the forcing-only pre-period (for placebo/matching slopes) is
+#   1991-2009 (MODIS only from 2000, land cover from 1999).
 # - Sibling CHIRPS-CHIRTS datasets NOT used by default: top-level SPI/SPEI/EDDI on a
 #   1998-2024 baseline, ET0/ (reference ET0, 1981-2026), 1981-2026/aridity_index/.
 #   Register explicitly if an analysis requires them.
