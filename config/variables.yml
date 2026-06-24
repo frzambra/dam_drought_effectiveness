@@ -1,0 +1,47 @@
+# Variable registry: the forcing (cause), outcome (effect), and treatment variables.
+# Analysis code iterates over these lists; roots/paths live in data_sources.yml.
+
+# --- FORCING: meteorological / hydrological drought (the deficit signal) -------------
+# Conditioning on these is how we break the mega-drought confound (estimate effects on
+# the deficit->impact SLOPE, not on levels). Source: CHIRPS-CHIRTS, data_sources.yml.
+forcing:
+  source_key: drought_indices
+  indices:
+    - {name: SPI,  meaning: Standardized Precipitation Index,        timescales: [1, 3, 6, 12, 24, 36]}
+    - {name: SPEI, meaning: Standardized Precip-Evapotranspiration Index, timescales: [1, 3, 6, 12, 24, 36]}
+    - {name: EDDI, meaning: Evaporative Demand Drought Index,        timescales: [1, 3, 6, 12, 24, 36]}
+  # Default accumulation timescales to scan when selecting the propagation lag/timescale.
+  scan_timescales: [3, 6, 12, 24]
+
+# --- OUTCOME: ecological drought (vegetation + actual ET) ---------------------------
+# H1's tail variable and H2's mediator/outcome. Source: MODIS, data_sources.yml.
+# All standardized: negative = below-normal (drought stress).
+outcome:
+  source_key: ecological_indices
+  products:
+    - {name: zcNDVI, meaning: z-score accumulated NDVI,  cadence: monthly, timescales: [6],                role: vegetation_state}
+    - {name: SETI,   meaning: standardized AET anomaly,  cadence: monthly, timescales: [1,3,6,12,24,36],   role: water_use_response}
+    - {name: zNPP,   meaning: z-score annual NPP,        cadence: annual,  timescales: [],                 role: productivity_state}
+  primary: zcNDVI            # headline ecological-drought outcome
+  mediator_proxy: SETI       # consumptive-use signal standing in for irrigated-demand (until land-cover data)
+
+# --- TREATMENT / regulation state ---------------------------------------------------
+treatment:
+  storage:
+    raw: level                          # reservoir level (units shared with max_level_hm3, hm3)
+    normalized: pct_capacity            # 100 * level / max_level_hm3  -> cross-reservoir comparable
+    threshold_var: storage_fraction     # state relative to estimated s* (H1)
+  dose:
+    capacity_hm3: max_level_hm3         # structural buffer size (time-invariant, drought-clock-orthogonal)
+    # capacity_per_command_area: GATED on irrigated-area data
+  static_attributes:                    # from the points shapefile
+    construction_year: ANOCONTR
+    use: USO_EMBAL                       # RIEGO = irrigation
+    size_class: TAMANO
+
+# --- GATED (not yet on disk) --------------------------------------------------------
+gated:
+  - watershed_boundaries        # -> contributing-catchment spatial unit (replaces dam-point extraction)
+  - irrigated_area_landcover    # -> the H2 mediator (induced demand); highest-value acquisition
+  - reservoir_operating_rules   # -> distinguish emergent s* from rule-curve policy (H1)
+  - streamflow                  # -> vegetation-independent availability outcome

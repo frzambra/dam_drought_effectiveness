@@ -1,0 +1,34 @@
+# Reservoir-specific handling. The canonical roster comes from the levels CSV (26 rows);
+# this file records only the exceptions and choices the pipeline must respect.
+
+count_monitored: 26
+
+# No usable capacity -> percent-of-capacity undefined. Drop by default; polygon-area
+# imputation is a sensitivity analysis only.
+no_capacity:
+  - Rungue
+
+# Commissioning is largely LEFT-CENSORED: most reservoirs predate the 2005 panel start,
+# so a staggered-adoption event study has very few usable switch-on events. Treat the
+# event study as SECONDARY corroboration, not primary identification (see
+# docs/conceptual_framework/identification-strategy.md). Construction year comes from the
+# shapefile ANOCONTR attribute; values of 0 mean unknown.
+within_panel_switch_ons:        # commissioned after 2005-01 (approximate; verify vs ANOCONTR)
+  - {name: El_Bato,        anocontr: 2011, use: RIEGO}
+  - {name: Convento_Viejo, note: "irrigation switch-on near mega-drought onset (~2009) — contaminated"}
+  - {name: Aromos,         note: "irrigation switch-on near mega-drought onset (~2010) — contaminated"}
+  - {name: Ralco,          note: "hydropower (~2006)"}
+  - {name: Panque,         note: "hydropower (~2006)"}
+
+# Stratify analyses by purpose; the induced-demand mechanism (H2) concerns irrigation
+# reservoirs. Source: shapefile USO_EMBAL.
+stratify_by: USO_EMBAL          # RIEGO (irrigation) vs hydropower / other
+
+# Interim spatial unit for raster extraction until watershed boundaries arrive.
+extraction:
+  spatial_unit: point           # dam point from the shapefile
+  buffer_m: 0                   # 0 = point sampling; set >0 to average a neighborhood
+  note: >
+    Extracting a drought/ecological index AT the dam point is a placeholder. The
+    hydrologically correct unit is the contributing watershed (forcing) and the
+    downstream command area (ecological response) — both gated on boundary data.

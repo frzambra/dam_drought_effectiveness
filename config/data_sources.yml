@@ -1,0 +1,98 @@
+# Data source registry — external raw datasets that live outside the repo.
+# Paths are absolute and machine-specific (external drive). Read these from code
+# rather than hard-coding paths; mirror or symlink into data/raw/ as needed.
+
+drought_indices:
+  description: >
+    Standardized drought indices (SPI, SPEI, EDDI) for Chile, derived from
+    CHIRPS (precipitation) and CHIRTS (temperature) inputs. Monthly GeoTIFF
+    rasters, one file per month per accumulation timescale.
+  source: CHIRPS-CHIRTS
+  reference_period: "1991-2026"          # baseline period used to standardize the indices
+  root: /media/francisco/Respaldo_frzambra/data/drought/CHIRPS-CHIRTS/1991-2026/
+  format: GeoTIFF (.tif)
+  grid: Chile
+  temporal_resolution: monthly
+
+  # Directory layout:  <root>/<INDEX>/<INDEX>-<timescale>/<file>
+  # e.g. .../1991-2026/SPI/SPI-3/chir[p|t]s_SPI-3_chile_1998-03-01.tif
+  timescales_months: [1, 3, 6, 12, 24, 36]
+
+  indices:
+    SPI:
+      subdir: SPI            # SPI/SPI-1 ... SPI/SPI-36
+      span: ["1991-01-01", "2026-05-01"]   # 425 files per timescale
+    SPEI:
+      subdir: SPEI           # SPEI/SPEI-1 ... SPEI/SPEI-36
+      span: ["1991-01-01", "2026-05-01"]   # 425 files per timescale
+    EDDI:
+      subdir: EDDI           # EDDI/EDDI-1 ... EDDI/EDDI-36
+      span: ["1991-01-01", "2026-06-01"]   # 400-401 files (EDDI-1/-3 reach 2026-06)
+
+  # FILENAME QUIRK: the literal prefix contains square brackets and a pipe,
+  # "chir[p|t]s", which are glob/regex metacharacters. Do NOT match with a naive
+  # wildcard. Pattern:  chir[p|t]s_<INDEX>-<scale>_chile_<YYYY-MM-01>.tif
+  # In R, match with fixed strings or escape the brackets, e.g.:
+  #   list.files(dir, pattern = "_SPI-3_chile_.*\\.tif$")   # key on the index token
+  # rather than globbing the "chir[p|t]s" prefix.
+  filename_pattern: "chir[p|t]s_{INDEX}-{TIMESCALE}_chile_{YYYY-MM-01}.tif"
+
+# Ecological-drought OUTCOME indices, MODIS-derived. These are the impact/response
+# variables (vegetation + actual ET) for H1's tail analysis and H2's mediator/outcome.
+# All EPSG:4326, GeoTIFF. Standardized anomalies: negative = below-normal (drought stress).
+ecological_indices:
+  description: >
+    MODIS-derived standardized ecological-drought indices for Chile.
+  root: /media/francisco/Respaldo_frzambra/data/drought/MODIS/
+  grid: Chile (EPSG:4326)
+
+  products:
+    zNPP:
+      meaning: historical z-score of annual Net Primary Productivity (MOD17A3HGF)
+      subdir: zNPP
+      temporal_resolution: annual            # dated YYYY.01.01
+      resolution_m: 500
+      span: ["2000-01-01", "2025-01-01"]     # 26 files
+      filename_pattern: "zNPP.MOD17A3HGF_Chile_500m_{YYYY.01.01}.tif"
+    zcNDVI:
+      meaning: z-score of accumulated NDVI
+      subdir: zcNDVI
+      temporal_resolution: monthly
+      resolution_deg: 0.05
+      timescales_months: [6]                 # ONLY the 6-month accumulation exists
+      span: ["2000-02-01", "2025-07-01"]     # 307 files
+      filename_pattern: "zcNDVI{TIMESCALE}_chile_{YYYY-MM-01}.tif"   # scale glued to name, no dash
+    SETI:
+      meaning: standardized anomaly of actual evapotranspiration (AET)
+      subdir: SETI
+      temporal_resolution: monthly
+      resolution_deg: 0.05
+      timescales_months: [1, 3, 6, 12, 24, 36]
+      span: ["2000-01-01", "2024-12-01"]     # 300 files per timescale
+      filename_pattern: "SETI-{TIMESCALE}_chile_{YYYY-MM-01}.tif"
+
+# Reservoir join + spatial keys (see data/raw/reservoirs/).
+reservoirs:
+  levels_csv: data/raw/reservoirs/reservoirs_levels_2005-2026.csv   # comma-delimited, UTF-8, wide
+  points_shapefile: data/raw/reservoirs/reservoirs_shapefile/Embalse_2026_05_31.shp
+  # The shapefile is the national dam POINT registry (1370 features), NOT water-body polygons.
+  # Join the 26 monitored reservoirs to their points by:  levels$ID_DGA == shapefile$CODEMBAL
+  join_key: {levels: ID_DGA, shapefile: CODEMBAL}
+  shapefile_crs: "SIRGAS-Chile (geographic)"     # reproject to EPSG:4326 to match rasters
+  useful_point_attributes:
+    ANOCONTR: construction year (treatment-timing proxy; some are 0 = unknown)
+    USO_EMBAL: use (RIEGO = irrigation, etc. — for irrigation-vs-hydropower stratification)
+    TAMANO: size class
+    NOMREG: region
+  notes: >
+    Rungue has a blank max_level_hm3 (no capacity) -> percent-of-capacity undefined.
+    Spatial unit for index extraction is currently the dam POINT (interim); proper
+    contributing-watershed delineation is gated on acquiring watershed boundaries.
+
+# --- Notes ----------------------------------------------------------------
+# - CHIRPS-CHIRTS indices begin 1991; MODIS ecological indices begin 2000; reservoir
+#   storage begins 2005-01. Usable three-way overlap is 2005-01 onward; the forcing-only
+#   pre-period (for placebo/matching slopes) is 1991-2009 (MODIS only from 2000).
+# - Sibling CHIRPS-CHIRTS datasets NOT used by default: top-level SPI/SPEI/EDDI on a
+#   1998-2024 baseline, ET0/ (reference ET0, 1981-2026), 1981-2026/aridity_index/.
+#   Register explicitly if an analysis requires them.

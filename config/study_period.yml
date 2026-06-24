@@ -1,0 +1,37 @@
+# Temporal scope and the period definitions the identification strategy depends on.
+# Convert any relative reasoning to absolute dates here so code never hard-codes them.
+
+# Full reservoir storage record (the binding constraint on the treated panel).
+reservoir_record:
+  start: 2005-01-01
+  end:   2026-04-01
+
+# Three-way analysis window where storage + forcing + ecological outcomes all exist.
+analysis:
+  start: 2005-01-01
+  end:   2024-12-01            # SETI ends 2024-12; trim to common coverage
+
+# Pre-treatment / placebo baseline for matching on drought-RESPONSE SLOPE (not levels).
+# Forcing indices reach back to 1991; MODIS outcomes only to 2000.
+pre_period:
+  forcing:
+    start: 1991-01-01
+    end:   2009-12-01
+  ecological:
+    start: 2000-01-01
+    end:   2009-12-01
+
+# The 2010-present mega-drought — collinear with the treatment clock (threat T1).
+# NEVER identify off calendar time across this boundary; condition on forcing instead.
+mega_drought:
+  start: 2010-01-01
+  end:   2026-04-01
+  # The severe-tail realization that drives H1's (low) power.
+  super_drought_trough:
+    start: 2019-01-01
+    end:   2022-12-01
+  # Weaker earlier tail draws usable as additional extreme events.
+  prior_drought_events:
+    - {start: 1998-01-01, end: 1999-12-01}
+
+reference_period_indices: "1991-2026"   # baseline used to standardize SPI/SPEI/EDDI
