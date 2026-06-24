@@ -73,13 +73,86 @@ essentially no undammed analog and are "matched" by ebal only through weighting.
 hard-to-match units; if the estimate is sensitive to them, lean on the CEM (n=17) subset as
 the conservative headline.
 
+## Baseline aridity: carried as a diagnostic, not a balance target
+
+Quantitative baseline aridity is now computed (`aridity_index` in `config/data_sources.yml`,
+`extract_unit_aridity()`): long-term **mean annual P/PET** over the 1991–2020 WMO normal
+(temporal mean of the *annual* rasters — annual-sum P / annual-sum PET — **not** a mean of
+the unstable monthly P/PET product). Carried into `match_covariates` as `aridity_mean` /
+`log_aridity` and reported as an untargeted balance diagnostic, exactly as latitude was.
+
+The diagnostic is informative, and the decision went the *opposite* way to latitude:
+
+- **Dammed subcuencas are markedly more arid** — median aridity **0.255** (semi-arid) vs
+  **0.801** (humid) for controls; unadjusted `log_aridity` SMD = **−0.33**. Reservoirs are
+  built where water is scarce, so aridity is a genuine confound, not a nuisance.
+- **It does NOT balance for free.** Under the primary spec (`log_area + elev_mean` within
+  Köppen group) the residual `log_aridity` SMD is **0.17** — above the 0.1 threshold and,
+  unlike latitude (which fell to −0.02), *not* absorbed by elevation.
+- **But targeting it is the wrong trade.** Adding `log_aridity` to the ebal formula drives
+  its SMD to 0 yet **collapses ESS 91 → 19** (a 79% loss, leaving 21 treated essentially
+  unpowered) **and breaks latitude balance (−0.02 → 0.55)**. Aridity, latitude, and
+  elevation are mutually confounded within Köppen group — the same fight that demoted
+  latitude from a target. Exact aridity balance is bought by re-imbalancing the rest.
+
+**Decision:** keep `log_area + elev_mean` as the ebal targets; carry baseline aridity as a
+reported diagnostic and **mop up the residual 0.17 via doubly-robust regression adjustment**
+(enhancement #2 below) — far cheaper than spending 72 ESS to hard-balance it. Köppen group
+already captures most of the aridity signal categorically; the residual is within-group.
+
+## Doubly-robust ATT (the residual-aridity mop-up, demonstrated)
+
+Implemented in `fit_doubly_robust()` (`src/R/causal/doubly_robust.R`, target `dr_att`). On
+the ebal matched set it fits three estimators on the *same* sample and reports all three so
+the reader sees functional-form sensitivity directly:
+
+1. **weighting-only** — ebal-weighted difference in means (no covariate adjustment);
+2. **regression-only** — covariate-adjusted, unweighted (g-computation over treated units);
+3. **doubly-robust** — ebal-weighted **and** covariate-adjusted (the headline), with the
+   outcome model carrying `log_aridity + elev_mean + log_area`. Continuous covariates are
+   centered at the treated mean so the `treated` coefficient reads as the ATT; SEs are HC3
+   robust (ebal weights treated as fixed — weight-estimation uncertainty not propagated, the
+   standard, mildly anti-conservative ebal simplification).
+
+**Demonstration outcome (provisional).** The primary H2 outcome (irrigated-area expansion)
+is gated, so the estimator is exercised on the available stand-in: the **storage-era
+(2005–2024) trend in annual zNPP** per subcuenca (`outcome_subcuencas`), a greening/
+productivity slope. 21 treated / 236 controls carry the outcome (8 controls drop for missing
+zNPP coverage).
+
+**Result — the three estimators agree to the third decimal:**
+
+| estimator | ATT (zNPP trend, yr⁻¹) | 95% CI | t |
+|---|---:|---:|---:|
+| weighting-only  | −0.0243 | [−0.041, −0.008] | −2.91 |
+| regression-only | −0.0240 | [−0.040, −0.008] | −2.91 |
+| **doubly-robust** | **−0.0244** | **[−0.042, −0.007]** | −2.76 |
+
+Covariate adjustment barely moves the estimate off the weighting-only number — the residual
+aridity imbalance was **not** driving the result, which is exactly the reassurance DR is for.
+Dammed subcuencas show a *more negative* productivity trend than matched controls (raw
+−0.018 vs +0.005 yr⁻¹).
+
+**Caveat — this is not yet a clean reservoir effect.** The ATT is on the *raw* trend and the
+matched design controls baseline climate (Köppen + aridity + elevation), **not** the realized
+2010–2015+ megadrought intensity, which was concentrated in exactly the arid central-Chile
+basins where reservoirs sit. So a negative productivity trend in dammed basins partly
+reflects drought *exposure*, not reservoir *causation*. Breaking that confound is the job of
+the forcing-conditioned response function (the `dose_response` / `period_slopes` levers) — the
+matched ATT and the forcing-conditioning must be combined before any causal claim. Treat the
+sign as a hypothesis-generating signal, not a finding.
+
 ## Enhancements (in priority order)
 
-1. ~~Add elevation~~ **done** (SRTM 3s; `dem` in `config/data_sources.yml`,
-   `extract_unit_terrain()`).
-2. **Add quantitative baseline aridity** computed as long-term *annual* P/PET (annual sums,
-   not a mean of the unstable monthly P/PET product on the drive).
+1. ~~Add elevation~~ **done** (SRTM 3s; `dem`, `extract_unit_terrain()`). ~~Add quantitative
+   baseline aridity~~ **done** (annual P/PET, `aridity_index`, `extract_unit_aridity()`) —
+   diagnostic, not a target, for the ESS reason above. ~~Doubly-robust adjustment~~ **done**
+   (`fit_doubly_robust()`, `dr_att`) — see section above; ready to re-point at the gated
+   irrigated-area outcome when it lands.
+2. **Forcing-conditioned ATT:** combine the matched set with drought-forcing conditioning so
+   the effect is on the deficit→impact *slope*, not the raw trend — removes the megadrought-
+   exposure confound flagged above. Extract a per-subcuenca forcing series (SPEI) and add it
+   (or its interaction with `treated`) to the DR outcome model.
 3. **Sensitivity:** vary `min_controls` / `elev_buffer_m`; compare ebal vs CEM vs 1:k NN
    (MatchIt) as robustness; consider adding within-unit relief (`elev_sd`) if it helps.
-4. **Doubly-robust:** estimate effects by regression adjustment on the weighted matched
-   set, not weighting alone — report both.
+   Re-fit ebal weights on the outcome-complete sample (the 8 dropped controls) as a check.

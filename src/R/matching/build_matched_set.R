@@ -8,9 +8,10 @@
 # controls. log(area) and latitude are balanced within each group.
 #
 # Covariates are deliberately parsimonious and all robustly available: log basin area,
-# centroid latitude (the dominant N-S aridity/temperature gradient in Chile), and Köppen
-# main group. Elevation and a quantitative annual aridity index are NOT yet available
-# (no DEM on the drive; the monthly P/PET product is unstable) — see caveats in
+# centroid latitude (the dominant N-S aridity/temperature gradient in Chile), Köppen main
+# group, mean elevation (SRTM), and long-term baseline aridity (annual P/PET). Aridity is
+# carried as an untargeted balance DIAGNOSTIC first (like latitude): if Köppen group +
+# elevation already balance it, there is no need to spend ESS targeting it — see
 # docs/design/matched-controls.md.
 
 #' Assemble subcuenca matching covariates (treated + clean controls only).
@@ -18,9 +19,12 @@
 #' @param flags      compare_grains()$flags$subcuenca (status, area_km2, kg_modal, kg_code)
 #' @param climate    extract_unit_climate() output (kg_modal_frac)
 #' @param terrain    extract_unit_terrain() output (elev_mean, elev_sd); optional
+#' @param aridity    extract_unit_aridity() output (aridity_mean, aridity_sd); optional
 #' @return data.table(unit_id, treated, status, area_km2, log_area, lat, lon,
-#'                    kg_code, kg_group, kg_modal_frac, elev_mean, elev_sd)
-build_match_covariates <- function(subcuencas, flags, climate, terrain = NULL) {
+#'                    kg_code, kg_group, kg_modal_frac, elev_mean, elev_sd,
+#'                    aridity_mean, log_aridity)
+build_match_covariates <- function(subcuencas, flags, climate, terrain = NULL,
+                                   aridity = NULL) {
   fl <- data.table::as.data.table(flags)[status %in% c("treated", "control_clean")]
 
   cen <- sf::st_coordinates(suppressWarnings(sf::st_centroid(sf::st_geometry(subcuencas))))
@@ -30,10 +34,15 @@ build_match_covariates <- function(subcuencas, flags, climate, terrain = NULL) {
   dt <- merge(dt, climate[, .(unit_id, kg_modal_frac)], by = "unit_id", all.x = TRUE)
   if (!is.null(terrain))
     dt <- merge(dt, terrain[, .(unit_id, elev_mean, elev_sd)], by = "unit_id", all.x = TRUE)
+  if (!is.null(aridity))
+    dt <- merge(dt, aridity[, .(unit_id, aridity_mean, aridity_sd)], by = "unit_id",
+                all.x = TRUE)
 
   dt[, treated  := as.integer(status == "treated")]
   dt[, log_area := log(area_km2)]
   dt[, kg_group := substr(kg_code, 1L, 1L)]      # Köppen main group: A/B/C/D/E
+  if ("aridity_mean" %in% names(dt))
+    dt[, log_aridity := log(aridity_mean)]       # P/PET is right-skewed; balance on log
   data.table::setorder(dt, -treated, kg_group, unit_id)
   dt[]
 }
@@ -91,8 +100,11 @@ fit_matched_set <- function(cov, min_controls = 10L, elev_buffer_m = 250) {
   )
   cov[, w := W$weights]
 
-  # Report balance on the targeted covariates PLUS latitude (diagnostic, untargeted).
-  bal <- cobalt::bal.tab(W, un = TRUE, addl = ~lat, data = as.data.frame(cov),
+  # Report balance on the targeted covariates PLUS untargeted diagnostics: latitude and
+  # long-term baseline aridity (log P/PET). If aridity balances for free here, Köppen group
+  # + elevation already capture it and we need not spend ESS targeting it.
+  addl <- if ("log_aridity" %in% names(cov)) ~lat + log_aridity else ~lat
+  bal <- cobalt::bal.tab(W, un = TRUE, addl = addl, data = as.data.frame(cov),
                          disp = c("means", "sds"),
                          stats = c("mean.diffs", "variance.ratios"))
 

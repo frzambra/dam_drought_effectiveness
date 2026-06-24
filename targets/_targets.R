@@ -77,6 +77,12 @@ list(
   tar_target(dem_path, cfg_sources$dem$path, format = "file"),
   tar_target(terrain_subcuencas,
              extract_unit_terrain(subcuencas_dissolved, dem_path)),
+  # Long-term baseline aridity (annual P/PET, 1991-2020 WMO normal) as a quantitative
+  # climate matching covariate. NOT format="file": the "chir[p|t]s" filenames contain | and
+  # *, which targets bans in tracked file paths — depend on sources_yml for invalidation.
+  tar_target(aridity_paths, { sources_yml; aridity_annual_paths(cfg_sources) }),
+  tar_target(aridity_subcuencas,
+             extract_unit_aridity(subcuencas_dissolved, aridity_paths)),
   tar_target(grain_choice,
              compare_grains(reservoir_units, cuencas_dissolved, subcuencas_dissolved,
                             clim_cuencas, clim_subcuencas)),
@@ -84,10 +90,22 @@ list(
   # --- matched control set (subcuenca grain, ATT entropy balancing) ------------------
   tar_target(match_covariates,
              build_match_covariates(subcuencas_dissolved, grain_choice$flags$subcuenca,
-                                    clim_subcuencas, terrain_subcuencas)),
+                                    clim_subcuencas, terrain_subcuencas,
+                                    aridity_subcuencas)),
   tar_target(matched_set, fit_matched_set(match_covariates)),
   tar_target(robustness_matches,
              fit_robustness_matches(match_covariates, matched_set)),
+
+  # --- doubly-robust ATT: ebal weights + outcome-regression adjustment ----------------
+  # Outcome = storage-era (2005-2024) trend in annual zNPP per subcuenca, an ecological-
+  # expansion proxy standing in for the gated irrigated-area outcome (config variables:gated).
+  # The outcome model carries log_aridity to absorb the residual aridity imbalance the
+  # weights leave behind (see docs/design/matched-controls.md).
+  tar_target(znpp_stack, { sources_yml; ecological_annual_paths(cfg_sources, "zNPP") }),
+  tar_target(outcome_subcuencas,
+             extract_unit_index_trend(subcuencas_dissolved, znpp_stack)),
+  tar_target(dr_att, fit_doubly_robust(matched_set, outcome_subcuencas,
+                                       outcome_col = "trend")),
 
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),

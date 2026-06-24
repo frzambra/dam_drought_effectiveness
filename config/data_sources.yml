@@ -370,5 +370,5 @@ reservoirs:
 #   2005-01 onward; the forcing-only pre-period (for placebo/matching slopes) is
 #   1991-2009 (MODIS only from 2000, land cover from 1999).
 # - Sibling CHIRPS-CHIRTS datasets NOT used by default: top-level SPI/SPEI/EDDI on a
-#   1998-2024 baseline, ET0/ (reference ET0, 1981-2026), 1981-2026/aridity_index/.
-#   Register explicitly if an analysis requires them.
+#   1998-2024 baseline, ET0/ (reference ET0, 1981-2026). The 1981-2026/aridity_index/ is
+#   now registered above (annual + monthly). Register the others explicitly if needed.
