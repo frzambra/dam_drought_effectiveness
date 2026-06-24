@@ -21,14 +21,19 @@ tar_source(file.path(root, "src", "R"))   # source all analysis functions recurs
 
 tar_option_set(
   packages = c("data.table", "sf", "terra", "yaml",
-               "fixest", "segmented", "lubridate")
+               "fixest", "segmented", "lubridate",
+               "WeightIt", "cobalt", "MatchIt")
 )
 
 list(
   # --- config -----------------------------------------------------------------------
-  tar_target(cfg_study,   load_config("study_period")),
-  tar_target(cfg_vars,    load_config("variables")),
-  tar_target(cfg_sources, load_config("data_sources")),
+  # Track the YAML files so edits invalidate downstream targets automatically.
+  tar_target(study_yml,   project_path("config/study_period.yml"), format = "file"),
+  tar_target(vars_yml,    project_path("config/variables.yml"),    format = "file"),
+  tar_target(sources_yml, project_path("config/data_sources.yml"), format = "file"),
+  tar_target(cfg_study,   { study_yml;   load_config("study_period") }),
+  tar_target(cfg_vars,    { vars_yml;    load_config("variables") }),
+  tar_target(cfg_sources, { sources_yml; load_config("data_sources") }),
 
   # --- raw inputs (tracked as files) ------------------------------------------------
   tar_target(reservoir_csv,
@@ -37,11 +42,52 @@ list(
   tar_target(reservoir_shp,
              project_path("data/raw/reservoirs/reservoirs_shapefile/Embalse_2026_05_31.shp"),
              format = "file"),
+  tar_target(cuencas_shp,
+             project_path("data/raw/watersheds/watersheds_DGA/Cuencas_BNA.shp"),
+             format = "file"),
+  tar_target(subcuencas_shp,
+             project_path("data/raw/watersheds/subwatersheds_DGA/SubCuencas_BNA.shp"),
+             format = "file"),
 
   # --- ingestion --------------------------------------------------------------------
   tar_target(levels_long, read_reservoir_levels(reservoir_csv)),
   tar_target(reservoir_ids, unique(levels_long$ID_DGA)),
   tar_target(points, read_reservoir_points(reservoir_shp, reservoir_ids)),
+
+  # --- watershed units + reservoir-to-unit assignment (point-in-polygon) ------------
+  # cuencas_shp / subcuencas_shp force rebuilds when the shapefiles change.
+  tar_target(cuencas,    { cuencas_shp;    read_watersheds(cfg_sources, "cuencas") }),
+  tar_target(subcuencas, { subcuencas_shp; read_watersheds(cfg_sources, "subcuencas") }),
+  tar_target(reservoir_units,
+             assign_reservoirs_both_levels(points, cuencas, subcuencas)),
+  # Dissolved to one feature per unit_id — the geometry for zonal raster extraction.
+  tar_target(cuencas_dissolved,    dissolve_watersheds(cuencas)),
+  tar_target(subcuencas_dissolved, dissolve_watersheds(subcuencas)),
+
+  # --- grain selection: climate covariate + cuenca-vs-subcuenca diagnostics ----------
+  tar_target(koppen_path,
+             project_path(cfg_sources$koppen_geiger$root,
+                          cfg_sources$koppen_geiger$resolutions[["0p00833333"]]$file),
+             format = "file"),
+  tar_target(kg_legend, koppen_legend(cfg_sources)),
+  tar_target(clim_cuencas,
+             extract_unit_climate(cuencas_dissolved, koppen_path, kg_legend)),
+  tar_target(clim_subcuencas,
+             extract_unit_climate(subcuencas_dissolved, koppen_path, kg_legend)),
+  tar_target(dem_path, cfg_sources$dem$path, format = "file"),
+  tar_target(terrain_subcuencas,
+             extract_unit_terrain(subcuencas_dissolved, dem_path)),
+  tar_target(grain_choice,
+             compare_grains(reservoir_units, cuencas_dissolved, subcuencas_dissolved,
+                            clim_cuencas, clim_subcuencas)),
+
+  # --- matched control set (subcuenca grain, ATT entropy balancing) ------------------
+  tar_target(match_covariates,
+             build_match_covariates(subcuencas_dissolved, grain_choice$flags$subcuenca,
+                                    clim_subcuencas, terrain_subcuencas)),
+  tar_target(matched_set, fit_matched_set(match_covariates)),
+  tar_target(robustness_matches,
+             fit_robustness_matches(match_covariates, matched_set)),
 
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),

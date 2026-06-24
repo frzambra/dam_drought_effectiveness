@@ -43,18 +43,52 @@ rather than reducing it.*
 - **Drought-vs-land-conversion attribution** in NDVI/ET must be settled before H2/H4.
 - **n ≈ 26 reservoirs** caps generalizability — frame as "Chile as natural laboratory."
 
-## Data-state caveat (2026-06)
+## Data-state caveat (updated 2026-06-24)
 
-Only reservoir storage (`data/raw/reservoirs/`) is real; all other `data/raw/*` are
-empty placeholders. Every test below is **contingent on data acquisition**. The storage
-series is a **relative index, not volume** (reservoir-specific ceilings) — it must be
-converted to percent-of-capacity before any cross-reservoir or "remaining slack"
-computation.
+Most core datasets are now **on disk and registered in `config/data_sources.yml`**:
+
+- **Reservoir storage** — 26 monitored reservoirs, monthly 2005-01 → 2026-04, with a
+  `max_level_hm3` capacity column. Storage and capacity **share units (hm³)**, so this is
+  volume, not a unitless index; percent-of-capacity = `value / max_level_hm3` is directly
+  computable (still required before any cross-reservoir or "remaining slack" work; `Rungue`
+  has no capacity → drop/impute). National dam **point** registry shapefile (1370 dams;
+  construction year, use, size, region) also present.
+- **Meteorological drought (CHIRPS-CHIRTS)** — SPI/SPEI/EDDI, monthly, 1991–2026,
+  timescales 1/3/6/12/24/36 months.
+- **Ecological-drought / EO (MODIS)** — zNPP (annual, 2000–2025), zcNDVI-6 (monthly,
+  2000–2025), SETI (standardized actual-ET anomaly, monthly, scales 1–36, 2000–2024).
+- **Land cover** — MapBiomas Chile Col. 2, 30 m annual 1999–2024 (agriculture/pasture/
+  silviculture classes); MODIS MCD12Q1 IGBP, 500 m annual 2001–2024 as a coarse cross-check.
+
+- **Watershed boundaries** — now available: DGA BNA **139 cuencas** + **489 subcuencas**
+  (`data/raw/watersheds/`, registered in `config/data_sources.yml`). These are the analysis
+  unit; assign reservoirs to their containing unit by point-in-polygon. The interim
+  dam-point extraction is retired.
+
+**Still missing (gates the causal claim):**
+
+- **No streamflow / gauge data** — so hydrological drought (SSI) is unavailable; only the
+  meteorological indices and MODIS ET/veg products exist. This breaks the
+  *hydrological-drought* link in the core pathway.
+- **Reservoir operating rules** — needed before the H1 manuscript (not before the first analysis).
 
 ## Next steps
 
-- [ ] Acquire and audit hydroclimate / EO / land-cover / operating-rule datasets.
+- [x] Acquire and audit hydroclimate / EO / land-cover datasets (done; see `config/data_sources.yml`).
+- [x] Acquire watershed boundaries — DGA BNA cuencas (139) + subcuencas (489) now in `data/raw/watersheds/`.
+- [x] Assign reservoirs to containing cuenca/subcuenca (point-in-polygon) — 26/26 matched at both grains.
+- [x] Pick the analysis grain — **subcuenca** (24 treated, 398 clean controls); cuenca as robustness. See [`../design/grain-selection.md`](../design/grain-selection.md).
+- [x] Build the matched control set — entropy balancing, ATT, within Köppen group on log-area + mean elevation; 21/24 treated retained, perfect balance, ESS≈91. See [`../design/matched-controls.md`](../design/matched-controls.md).
+- [x] Add elevation (SRTM 3s DEM) — took matched-set ESS from 9 to 91; `dem` in config, `extract_unit_terrain()`.
+- [ ] Acquire DGA streamflow → SSI (closes the hydrological-drought link) — now the largest missing dataset.
+- [x] CEM / 1:k-NN robustness matches — ebal & NN agree on all 21 treated (NN |SMD|<0.1); CEM prunes the 4 most extreme large/high basins. See [`../design/matched-controls.md`](../design/matched-controls.md).
+- [ ] Add annual P/PET aridity covariate; doubly-robust effect estimation on the weighted set (report with/without the 4 CEM-pruned units).
+- [ ] Acquire DGA streamflow → compute SSI to close the hydrological-drought link.
+- [ ] Acquire reservoir operating rules (before H1 manuscript).
 - [ ] Normalize storage to percent-of-capacity.
-- [ ] Hand H2 and H1 to `reservoir-causal-analyst` for identification design.
+- [ ] **Run H1 first** (per `nature-water-editor`): storage-state-conditional meteorology→ET/vegetation
+      contrast on matched watersheds — the falsification gate for the whole program — before H2's headline.
+- [ ] Identify off **continuous within-panel storage-state variation** (matched dammed/undammed),
+      NOT staggered-DiD-on-commissioning (~21/26 reservoirs predate the 2005 panel → too few events).
 - [ ] Win the **mediation gate** (H2) and the **counterfactual-overshoot test** (H1)
       before committing either to the manuscript.

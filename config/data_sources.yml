@@ -86,7 +86,7 @@ landcover:
   resolution_deg: 0.000269494585236     # ~30 m
   resolution_m: 30
   dtype: Byte                            # categorical class IDs, not continuous
-  nodata: 0                              # 0 = no data; legend "Not observed" is class 27
+  nodata: 0                              # 0 = NoData fill (78.4% of the grid = outside Chile's land mask)
   temporal_resolution: annual
   span: ["1999", "2024"]                 # 26 yearly rasters
   filename_pattern: "mapbiomas_v2.0_{YYYY}.tif"
@@ -124,6 +124,185 @@ landcover:
     and 9 (Silviculture). 30 m is finer than the 0.05 deg / 500 m ecological indices
     and the index grids — aggregate to the analysis unit (watershed fractional cover)
     rather than working at the pixel.
+    NODATA: verified by full raw scans of 1999/2010/2024 — value 0 is the only NoData
+    (78.40% of the grid, identical every year = bounding box outside Chile's land mask);
+    mask on 0. Legend class 27 ("Not observed") is effectively DEAD (0-21 px nationwide),
+    so 0 and 27 are NOT interchangeable and there is no hidden "unobserved" population at
+    27. Two UNDOCUMENTED codes appear at trace levels (79: ~4.6k px, 80: ~8.1k px in 2024;
+    not in the legend) — treat as NoData / drop, do not pass through as real classes.
+
+# Annual land cover, MODIS MCD12Q1 (Collection 6.1) IGBP scheme, ~500 m. Coarser,
+# longer-running companion to MapBiomas; useful as an independent cross-check on
+# land-cover trajectories and where MapBiomas's finer classes are noisy.
+landcover_modis:
+  description: >
+    MODIS MCD12Q1.061 annual land-cover classification (IGBP / Land Cover Type 1),
+    clipped to Chile at ~500 m. Single-band categorical GeoTIFFs (IGBP class per pixel).
+  source: MODIS MCD12Q1 v061 (Land Cover Type 1, IGBP)
+  root: /media/francisco/Respaldo_frzambra/data/MODIS/extraidos/IGBP.MCD12Q1.061_2001-2024_Chile_500m/
+  format: GeoTIFF (.tif)
+  grid: Chile (EPSG:4326)
+  resolution_deg: 0.003332547773361     # ~500 m
+  resolution_m: 500
+  dtype: Int8                            # categorical IGBP class IDs (1-17)
+  nodata: -128
+  temporal_resolution: annual
+  span: ["2001", "2024"]                 # 24 yearly rasters
+  filename_pattern: "IGBP_Chile_{YYYY}.tif"
+
+  # IGBP Land Cover Type 1 scheme (MCD12Q1 standard; pixel values 1-17).
+  classes:
+    1:  Evergreen needleleaf forests
+    2:  Evergreen broadleaf forests
+    3:  Deciduous needleleaf forests
+    4:  Deciduous broadleaf forests
+    5:  Mixed forests
+    6:  Closed shrublands
+    7:  Open shrublands
+    8:  Woody savannas
+    9:  Savannas
+    10: Grasslands
+    11: Permanent wetlands
+    12: Croplands
+    13: Urban and built-up lands
+    14: Cropland/natural vegetation mosaics
+    15: Permanent snow and ice
+    16: Barren
+    17: Water bodies
+  notes: >
+    For demand-expansion (Tier 2), the cropland signal is classes 12 (Croplands) and
+    14 (Cropland/natural vegetation mosaics). Resolution (~500 m) matches the MODIS
+    ecological indices but is ~16x coarser than MapBiomas (30 m); treat as a
+    robustness cross-check on agricultural trajectories, not the primary land-cover
+    source. NoData is -128 (Int8), distinct from MapBiomas's 0.
+
+# SRTM digital elevation model (~90 m), Chile. STATIC matching covariate — mean elevation
+# + relief per watershed. The key axis missing from the v1 matched set: it separates the
+# high-Andes reservoir units (whose Köppen-ET "controls" are otherwise Patagonian) and
+# sharpens the Mediterranean (C-group) matches. See docs/design/matched-controls.md.
+dem:
+  description: >
+    SRTM 3-arc-second (~90 m) elevation for Chile, single-band Float32 GeoTIFF. Source of
+    terrain matching covariates (mean elevation, within-unit relief/ruggedness).
+  source: SRTM 3s (CGIAR/USGS)
+  path: /media/francisco/Respaldo_frzambra/data/DEM/Chile_DEM_SRTM_3s.tif   # external drive (absolute)
+  format: GeoTIFF (.tif)
+  grid: Chile (EPSG:4326)
+  resolution_deg: 0.000833333333333          # 3 arc-sec, ~90 m
+  dtype: Float32
+  nodata: NaN
+  units: metres
+  notes: >
+    Valid elevation range in Chile is ~0..6928 m; the raster reports a spurious minimum of
+    -630 m (ocean/void fill). Mask values < -100 m to NA before zonal stats. terra reads
+    NaN as NA already; the < -100 guard catches the unflagged fill.
+
+# Köppen-Geiger climate classification (Beck et al. 2023), 1991-2020 baseline. STATIC
+# matching covariate / stratifier — assigns each watershed a climate zone so dammed vs
+# undammed controls are compared within the same climate. Not a time series.
+koppen_geiger:
+  description: >
+    Beck et al. (2023) high-resolution Köppen-Geiger climate maps, 1991-2020 normals.
+    Single-band categorical GeoTIFFs (climate class per pixel, 1-30) with an embedded
+    RGB palette; global extent, clip to Chile. Use as a watershed-level matching
+    covariate (modal/dominant class) and for climate stratification of treatment effects.
+  source: Beck et al. 2023, Scientific Data 10:724 (constrained CMIP6, 1 km)
+  reference_period: "1991-2020"
+  root: data/raw/climate_koppen_geiger/1991_2020/
+  legend_file: data/raw/climate_koppen_geiger/legend.txt
+  format: GeoTIFF (.tif)
+  grid: Global (EPSG:4326)
+  dtype: Byte
+  nodata: 0
+  temporal_resolution: static            # one map for the 1991-2020 normal period
+
+  # Four resolutions shipped; pick by use. ~1 km is the analysis default for watershed
+  # zonal stats; coarser ones are for context maps only.
+  resolutions:
+    "0p00833333": { file: koppen_geiger_0p00833333.tif, deg: 0.008333333333333, approx: "~1 km",  default: true }
+    "0p1":        { file: koppen_geiger_0p1.tif,        deg: 0.1,               approx: "~11 km" }
+    "0p5":        { file: koppen_geiger_0p5.tif,        deg: 0.5,               approx: "~55 km" }
+    "1p0":        { file: koppen_geiger_1p0.tif,        deg: 1.0,               approx: "~110 km" }
+
+  # Class IDs (legend.txt). Classes actually present over Chile (verified by tallying the
+  # ~1 km map), most to least common: BWk(5) & BSk(7) cold desert/steppe ~57% (Atacama,
+  # altiplano, Patagonian steppe); ET(29) ~16% (Andes/high latitude); Csb(9) ~9%
+  # (Mediterranean central Chile); Cfb(15)+Cfc(16) ~9% (temperate south); BWh(4)/BSh(6)
+  # hot arid far north; minor Ds/Dw/Df and EF(30). Cfa(14) and Csa(8) are negligible.
+  classes:
+    1:  {code: Af,  desc: "Tropical, rainforest"}
+    2:  {code: Am,  desc: "Tropical, monsoon"}
+    3:  {code: Aw,  desc: "Tropical, savannah"}
+    4:  {code: BWh, desc: "Arid, desert, hot"}
+    5:  {code: BWk, desc: "Arid, desert, cold"}
+    6:  {code: BSh, desc: "Arid, steppe, hot"}
+    7:  {code: BSk, desc: "Arid, steppe, cold"}
+    8:  {code: Csa, desc: "Temperate, dry summer, hot summer"}
+    9:  {code: Csb, desc: "Temperate, dry summer, warm summer"}
+    10: {code: Csc, desc: "Temperate, dry summer, cold summer"}
+    11: {code: Cwa, desc: "Temperate, dry winter, hot summer"}
+    12: {code: Cwb, desc: "Temperate, dry winter, warm summer"}
+    13: {code: Cwc, desc: "Temperate, dry winter, cold summer"}
+    14: {code: Cfa, desc: "Temperate, no dry season, hot summer"}
+    15: {code: Cfb, desc: "Temperate, no dry season, warm summer"}
+    16: {code: Cfc, desc: "Temperate, no dry season, cold summer"}
+    17: {code: Dsa, desc: "Cold, dry summer, hot summer"}
+    18: {code: Dsb, desc: "Cold, dry summer, warm summer"}
+    19: {code: Dsc, desc: "Cold, dry summer, cold summer"}
+    20: {code: Dsd, desc: "Cold, dry summer, very cold winter"}
+    21: {code: Dwa, desc: "Cold, dry winter, hot summer"}
+    22: {code: Dwb, desc: "Cold, dry winter, warm summer"}
+    23: {code: Dwc, desc: "Cold, dry winter, cold summer"}
+    24: {code: Dwd, desc: "Cold, dry winter, very cold winter"}
+    25: {code: Dfa, desc: "Cold, no dry season, hot summer"}
+    26: {code: Dfb, desc: "Cold, no dry season, warm summer"}
+    27: {code: Dfc, desc: "Cold, no dry season, cold summer"}
+    28: {code: Dfd, desc: "Cold, no dry season, very cold winter"}
+    29: {code: ET,  desc: "Polar, tundra"}
+    30: {code: EF,  desc: "Polar, frost"}
+  notes: >
+    Matching grain: take the MODAL (most-frequent) class per watershed, or class-fraction
+    vector for finer stratification — large Andean basins straddle several zones (arid
+    valley floor to ET/EF crest). Reproject/clip the global ~1 km map to EPSG:4326 (already
+    EPSG:4326) and extract against cuencas_dissolved/subcuencas_dissolved. NoData = 0
+    (oceans); palette is cosmetic, key on the integer class ID.
+
+# Watershed / sub-watershed boundaries — the ANALYSIS UNIT for treatment/control
+# matching and zonal extraction of all rasters above (see data/raw/watersheds/).
+# DGA Banco Nacional de Aguas (BNA) hydrographic divisions.
+watersheds:
+  description: >
+    Chilean DGA Banco Nacional de Aguas (BNA) hydrographic boundaries: 139 cuencas
+    (watersheds) and 489 subcuencas (sub-watersheds), nested. These are the spatial
+    units for matched dammed-vs-undammed comparison and for zonal stats of the drought,
+    ecological, and land-cover rasters. Replaces the interim dam-POINT extraction unit.
+  source: DGA Chile — Banco Nacional de Aguas (BNA)
+  crs: "SIRGAS-Chile (geographic)"        # GCS_SIRGAS-Chile; reproject to EPSG:4326 to match rasters
+  geometry: Polygon
+  full_extent: true                        # covers all Chile incl. insular/Antarctic territory; clip to mainland as needed
+
+  cuencas:
+    shapefile: data/raw/watersheds/watersheds_DGA/Cuencas_BNA.shp
+    n_features: 139
+    id_field: COD_CUEN                     # watershed code (BNA)
+    name_field: NOM_CUEN
+    region_fields: [REGION, COD_REGION]
+  subcuencas:
+    shapefile: data/raw/watersheds/subwatersheds_DGA/SubCuencas_BNA.shp
+    n_features: 489
+    id_field: COD_SUBC                     # sub-watershed code, nested under COD_CUEN
+    parent_field: COD_CUEN                 # join sub -> parent watershed
+    name_field: NOM_SUBC
+    region_fields: [REGION, COD_REGION]
+
+  notes: >
+    Assign each reservoir to its containing unit by POINT-IN-POLYGON (spatial join of the
+    reservoir points onto cuencas/subcuencas) — there is no attribute key linking the
+    reservoir table to BNA codes. Decide cuenca vs subcuenca as the analysis grain: 489
+    subcuencas give more matched control candidates and tighter spatial controls, 139
+    cuencas give cleaner hydrologic closure (better for storage/streamflow balances).
+    Same SIRGAS-Chile CRS as the reservoir points; reproject both to EPSG:4326 before
+    extracting against the rasters.
 
 # Reservoir join + spatial keys (see data/raw/reservoirs/).
 reservoirs:
@@ -140,8 +319,9 @@ reservoirs:
     NOMREG: region
   notes: >
     Rungue has a blank max_level_hm3 (no capacity) -> percent-of-capacity undefined.
-    Spatial unit for index extraction is currently the dam POINT (interim); proper
-    contributing-watershed delineation is gated on acquiring watershed boundaries.
+    Watershed boundaries are now available (see `watersheds:` above) — assign each
+    reservoir to its containing cuenca/subcuenca by point-in-polygon to define the
+    treatment unit, replacing the interim dam-POINT extraction.
 
 # --- Notes ----------------------------------------------------------------
 # - CHIRPS-CHIRTS indices begin 1991; MODIS ecological indices begin 2000; MapBiomas
