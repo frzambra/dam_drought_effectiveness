@@ -1,4 +1,4 @@
-# Códigos de las clases de coberutra y uso del suelo y paleta de colores utilizadas en la colección 2 de MapBiomas Chile 
+#Códigos de las clases de coberutra y uso del suelo y paleta de colores utilizadas en la colección 2 de MapBiomas Chile 
 
 
 |**COLECCIÓN 2 - CLASES**|**COLLECTION 2 - CLASSES**|**ID**|**Color number**||
