@@ -14,20 +14,10 @@ clim_cuencas|stem|02c310d18ff0e974|a1389a1493387048|8d94e24d8374ce93|404974536||
 clim_subcuencas|stem|0660112499621616|695b9d2f4a1f7c67|7c5da81ccbfc1475|785939432||t20628.6615328205s|s6013b|6013|rds|local|vector|||3.042||
 grain_choice|stem|56f734d612da6eac|27f1e676869ed418|c2adbe82b49b63de|-431936130||t20628.6615425311s|s9329b|9329|rds|local|vector|||0.77||
 terrain_subcuencas|stem|dc922e0d553ecd68|13299eff6a46c977|c4962718a33766a9|-899515727||t20628.8302740076s|s12765b|12765|rds|local|vector|||285.595||
-sources_yml|stem|934fe3346de0f965|4eae6a03df0b442c|488b4a6a07596008|839153539|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/config/data_sources.yml|t20628.9191220021s|s19366b|19366|file|local|vector|||5.867||
-cfg_sources|stem|9b0b949025c16fbb|68717b2433825977|a7d86c3e0bf46a8b|673512938||t20628.9232132865s|s5624b|5624|rds|local|vector|||0.011||
-cuencas|stem|dd6df23972448fd0|d34132a0742e9736|378ec45afd8c8c47|2094047216||t20628.9232191487s|s2980985b|2980985|rds|local|vector|||0.132|cuencas: 38 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
-subcuencas|stem|efd21f8b4fa6d7eb|391f4f3a64a9386e|3d6dc873069a68ce|-80653007||t20628.9232258542s|s3886655b|3886655|rds|local|vector|||0.157|subcuencas: 22 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
-aridity_paths|stem|1d1973a782d80b5b|18f4c6a715bfe671|cdc69a1aea9d3db9|-1525564961||t20628.9235493755s|s277b|277|rds|local|vector|||0.001||
-kg_legend|stem|c2a410638d6644ce|b7c44f1819f99dd4|a0d3a40a1b13aa9e|-1282790615||t20628.923549821s|s218b|218|rds|local|vector|||0||
-dem_path|stem|829a7b28485b766b|8765e659048c15e1|6164e3c5d999bcd3|-146511287|/media/francisco/Respaldo_frzambra/data/DEM/Chile_DEM_SRTM_3s.tif|t20628.8229116758s|s570835147b|570835147|file|local|vector|||0.001||
-koppen_path|stem|d2c87df38e94540b|34106dc9bbed22d1|127d0ccc4c6a2caf|-1445837198|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/data/raw/climate_koppen_geiger/1991_2020/koppen_geiger_0p00833333.tif|t20383.1599074074s|s12494241b|12494241|file|local|vector|||0.017||
 aridity_subcuencas|stem|04cf0290f7f55584|bd0600a8cae1ee12|dc84e88bd5721f91|-276312405||t20628.9237469874s|s9583b|9583|rds|local|vector|||1.402||
 match_covariates|stem|faab64865ff50acf|f1dfeacc5ab803e2|0384f27b509f8344|-634155002||t20628.9237569712s|s33803b|33803|rds|local|vector|||0.478||
 matched_set|stem|8648bfc24124d12f|2bd48e4967afad10|13a20d6b069c1ad8|157167621||t20628.9237641869s|s72427b|72427|rds|local|vector|||0.607||
 robustness_matches|stem|6a0368a96af9bbac|330905bb4f0fb183|341731217e1f9dad|-754189864||t20628.9253807427s|s207851b|207851|rds|local|vector|||0.424||
-znpp_stack|stem|448e9b169ee78fef|1899a22249cb4086|cf140bd4a1a34c26|1312444500||t20628.9305866871s|s305b|305|rds|local|vector|||0.016||
-spei_stack|stem|d433804102a97ff9|eee5051e03a1444a|27820713cbd2e8a3|753229460||t20630.5976563163s|s1673b|1673|rds|local|vector|||0.026||
 forcing_subcuencas|stem|4487a2f376db899f|128f59e7824cca6b|990f616dc4409edc|1752987461||t20630.5977798253s|s71362b|71362|rds|local|vector|||10.554||
 znpp_annual|stem|c5aaff2abcded790|bcd0cd12573c4357|0d0e21ee87e7fb8c|-1842442479||t20630.5979143305s|s69051b|69051|rds|local|vector|||11.526||
 response_panel|stem|49498b73bd159713|af8bffdb67a39290|7dc57a1901138a60|-1636202562||t20630.5979148298s|s136477b|136477|rds|local|vector|||0.012||
@@ -45,23 +35,47 @@ storage_threshold|stem|4cff577131627ed9|009fdb0c89566c95|0abcb92d601b63fc|-18694
 period_slopes|stem|3de67c648835d81a|8a4478d8635dea15|9f97f1e54afa2d20|604784209||t20630.6006883153s|s251167b|251167|rds|local|vector|||0.123||
 dose_response|stem|ad762d8a68ce05a7|cf1399e3b6fd7afd|0d07c27583dea776|1332134782||t20630.6006889853s|s280572b|280572|rds|local|vector|||0.018||
 propagation_summary|stem|ac2372e14b99cd94|bf2868b29d5922d2|2e0fe040b8facde9|-668540468||t20630.6006891831s|s485b|485|rds|local|vector|||0.003||
-spei_stack_24|stem|346a997e193a3818|89d670b3e8872431|27820713cbd2e8a3|1499396123||t20630.6198167299s|s1672b|1672|rds|local|vector|||0.026||
-spei_stack_6|stem|7b4d06e6c428e6c0|c53771dcb49b1a78|27820713cbd2e8a3|-1970098387||t20630.6198172004s|s1636b|1636|rds|local|vector|||0.002||
 forcing_subcuencas_24|stem|39e80104faf7be62|3a6a6078d1d316d8|8a11093439ff4a11|-594060567||t20630.6199270233s|s70878b|70878|rds|local|vector|||9.361||
 forcing_subcuencas_6|stem|92f3d725dd033246|d642efed38c33541|d78b58076ba26fa0|141925871||t20630.6200224459s|s72141b|72141|rds|local|vector|||8.177||
 dr_att_forcing_robustness|stem|ea282e54fd59b85b|4afc6f69390fbdf0|ef293d488d6a1044|-1162521492||t20630.6200566626s|s247035b|247035|rds|local|vector|||2.889|essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect|
-mb_baseline_paths|stem|34b08365efb57428|bcb36d460d8c10e0|970957034b573e13|1091222080||t20630.6280988779s|s124b|124|rds|local|vector|||0.001||
 matched_subcuencas|stem|f1a8387ca8f059ad|250f344ee9d82779|9ee94ff472307112|-1051229724||t20630.6281027526s|s2301574b|2301574|rds|local|vector|||0.022||
 znpp_strat|stem|8a12c7f894eccc7d|bbf62d7df9aab284|34737052012cd253|-1372098548||t20630.631508761s|s45313b|45313|rds|local|vector|||294.21||
 dr_att_forcing_strat|stem|f110155577caa0e9|45d4921774cc89ad|83ddf0cca2db910e|-359048211||t20630.6315142122s|s16601b|16601|rds|local|vector|||0.45|essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable|
 dr_att|stem|3f25349d8f8625ac|fddb9a0065f9e100|ac0b3c1bf365a5e2|-2049730457||t20630.6339567432s|s239950b|239950|rds|local|vector|||0.093||
 dr_att_forcing|stem|5532d830af25c341|cc1f4dcaa5907f50|f28e92043d1cac25|1787486039||t20630.6339583204s|s240440b|240440|rds|local|vector|||0.073||
-mb_baseline_multi|stem|0f6182b829d4b293|5ddf3c6e397b28af|970957034b573e13|-597328886||t20630.6449818923s|s131b|131|rds|local|vector|||0.001||
 znpp_strat_farming|stem|87b4d3fa35873b3a|9388101dfe8c4ae4|2e6891a143e83a06|-1696517984||t20630.6546762824s|s56348b|56348|rds|local|vector|||837.511||
 dr_att_forcing_strat_farming|stem|0508e7adafceb660|569ccefb5227a3b6|c298c80ad6d73ef1|-1089708538||t20630.654685426s|s18841b|18841|rds|local|vector|||0.713|essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable|
+znpp_strat_irrig|stem|3c4eec720e5059d0|eadfb2d40ea3fc22|2e6891a143e83a06|-1014913574||t20630.6664180744s|s52056b|52056|rds|local|vector|||912.57||
+dr_att_forcing_strat_irrig|stem|067dc27abb4b2838|064dbdd08236a52f|2f01c4c3fa9db6ff|-482863532||t20630.6664241877s|s18055b|18055|rds|local|vector|||0.483|essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable|
+sources_yml|stem|8ee3f6bac90d1a60|4eae6a03df0b442c|488b4a6a07596008|839153539|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/config/data_sources.yml|t20630.686799193s|s21483b|21483|file|local|vector|||6.056||
+cfg_sources|stem|80d998cca97de307|68717b2433825977|8428362e5dbfcf0f|673512938||t20630.6877062274s|s6414b|6414|rds|local|vector|||0.03||
+subcuencas|stem|efd21f8b4fa6d7eb|391f4f3a64a9386e|6b2f75d6a85a5933|-80653007||t20630.6877134844s|s3886655b|3886655|rds|local|vector|||0.152|subcuencas: 22 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
+znpp_stack|stem|448e9b169ee78fef|1899a22249cb4086|8b48ed1aec1236a1|1312444500||t20630.687713817s|s305b|305|rds|local|vector|||0.012||
+orchard_root|stem|88eca0204e9973f6|03e101df1745b07d|58c4a1712511473d|533976010||t20630.6877139953s|s119b|119|rds|local|vector|||0||
+kg_legend|stem|c2a410638d6644ce|b7c44f1819f99dd4|9880cf1c2e36cb0c|-1282790615||t20630.6877141842s|s218b|218|rds|local|vector|||0.001||
+koppen_path|stem|d2c87df38e94540b|34106dc9bbed22d1|d2ddbdbb246fc795|-1445837198|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/data/raw/climate_koppen_geiger/1991_2020/koppen_geiger_0p00833333.tif|t20383.1599074074s|s12494241b|12494241|file|local|vector|||0.001||
+mb_baseline_paths|stem|34b08365efb57428|bcb36d460d8c10e0|49846ef2e0bb4ef1|1091222080||t20630.6877146966s|s124b|124|rds|local|vector|||0||
+cuencas|stem|dd6df23972448fd0|d34132a0742e9736|c8c4e992bebddada|2094047216||t20630.6877203445s|s2980985b|2980985|rds|local|vector|||0.136|cuencas: 38 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
+dem_path|stem|829a7b28485b766b|8765e659048c15e1|58c4a1712511473d|-146511287|/media/francisco/Respaldo_frzambra/data/DEM/Chile_DEM_SRTM_3s.tif|t20628.8229116758s|s570835147b|570835147|file|local|vector|||0||
+aridity_paths|stem|1d1973a782d80b5b|18f4c6a715bfe671|d088f779f7bce91b|-1525564961||t20630.6879010069s|s277b|277|rds|local|vector|||0||
+spei_stack|stem|d433804102a97ff9|eee5051e03a1444a|24647b4620369f38|753229460||t20630.6879014693s|s1673b|1673|rds|local|vector|||0.022||
+orchards_latest|stem|b4515e782e4518f4|6e1441534e857151|974a99303c8b3b65|344992151||t20630.6882053526s|s14205270b|14205270|rds|local|vector|||24.747||
+orchards_dissolved|stem|087e9a4bda5f528d|9637127c236cec61|5df6025b0afc2ac1|582957934||t20630.6885015859s|s13332436b|13332436|rds|local|vector|||23.336||
+orchard_frac_file|stem|1f7fb364b661a5a9|a29c5b83c87a51e0|6dc8e06ce9ff10d3|-220661516|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/data/processed/orchards/orchard_frac.tif|t20630.6887368473s|s1075841b|1075841|file|local|vector|||20.155||
+znpp_orchard|stem|193044133c612466|6068d4ef27d2f070|c455e8d31a1353c3|-1154406711||t20630.6888202429s|s8388b|8388|rds|local|vector|||7.062||
+znpp_orchard_natural|stem|3846ea193528d4bd|479ff433ca5133d6|077de99dfa7153b9|1387147849||t20630.6888205785s|s45610b|45610|rds|local|vector|||0.003||
+dr_att_forcing_orchard|stem|c6b5257e16259247|9b366d37b17ec4d6|9fee78dafaec29a4|1969670266||t20630.6888259492s|s16652b|16652|rds|local|vector|||0.431|essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable|
+orchards_assigned|stem|1215c5a8c0b744e8|d022a432f6383a48|cfa522850c4ac9f8|1782488758||t20630.6926671638s|s129983b|129983|rds|local|vector|||2.762||
+att_orchard_expansion|stem|ef7182b80cf52603|9e5cc6d511730716|e7d1312558f4b520|-623778798||t20630.6926709763s|s229529b|229529|rds|local|vector|||0.097||
+orchard_panel|stem|74c874ab4af7c67d|c4280bbca9bc8b73|435e8e191049fd26|-1133569389||t20630.6930800637s|s5419b|5419|rds|local|vector|||0.06||
+orchard_expansion|stem|a1b7a59f85d3737b|054a512d34c99799|2135bccbebcf0ddf|1019224564||t20630.6930808634s|s4938b|4938|rds|local|vector|||0.027||
+orchard_latest_shapefiles|function|54e4dc80983ca331
 .threshold_na|function|7a39e3c5482edb63
 common_support_trim|function|24a6eecf98c146f2
+orchard_expansion_summary|function|ac7ab60de93f2221
 .assemble_dr_frame|function|28626e899446cd08
+orchard_fraction_raster|function|ef6d571e5177d334
+assign_orchards_to_units|function|1df14dc926001000
 .baseline_cover_fracs|function|54b40796f588712e
 .match_summary|function|a9e74c340478033c
 add_storage_fraction|function|0b053fc34bc9791f
@@ -72,6 +86,8 @@ dr_estimate|function|f97c2794dfcce634
 fit_response_slopes|function|a92cf09b54dd774e
 extract_unit_index_annual|function|47de08c84f09bfa1
 extract_unit_forcing_annual|function|ab295c5b21eb5ad4
+dissolve_orchards|function|2ede0a4252f7c54d
+extract_unit_orchard_znpp|function|511ea21e9ad7baf3
 here_root|function|2e86cd08d9fa39cb
 extract_unit_climate|function|076356deec594dde
 read_reservoir_levels|function|8a3c95c566289886
@@ -80,6 +96,7 @@ aridity_annual_paths|function|2504b80e69e2d25c
 summarise_propagation|function|1fde42bd5efa84a4
 ecological_annual_paths|function|92504b9162a7976c
 forcing_monthly_paths|function|03bcc3440def5110
+orchard_area_panel|function|c6c5af4a53e3b521
 root|object|58cb1a94cb00a10b
 list_rasters|function|5f98401d72e3b7a9
 mapbiomas_paths|function|f77a14e557d686d7
@@ -89,11 +106,13 @@ read_reservoir_points|function|6cc1fb941ec6e521
 dissolve_watersheds|function|5429aecc62da8f91
 fit_dose_response|function|d58e8de4aaa51446
 koppen_legend|function|42ffab54a481f6e2
+combine_orchard_natural|function|026f24865c13a546
 assemble_analysis_panel|function|470af3c21599657c
 extract_unit_terrain|function|65c2ced0838bf377
-extract_index_at_points|function|9342c4b80d9b2174
 best_timescale_lag|function|a5c04c351ace4b14
 fit_period_slopes|function|b7a687120b5a9bb7
+extract_index_at_points|function|9342c4b80d9b2174
+read_orchards_latest|function|9804308fa41ab331
 estimate_storage_threshold|function|1022573f58c432f5
 fit_matched_set|function|a17315bf710050d8
 stratified_znpp_annual|function|a4603f4720a5b4cf
@@ -106,10 +125,12 @@ extract_unit_index_trend|function|a08c8017e6d06da4
 project_path|function|54c6a0b4cbf20d58
 build_raster_catalog|function|49250859291e554b
 run_forcing_robustness|function|3c15d56d23553e67
+fit_orchard_expansion_att|function|827f01600968a8d2
 fit_forcing_conditioned_att|function|41007383279df423
 fit_stratified_forcing_att|function|a06446d90e9b4cb5
 resolve_path|function|664096c22a719499
 load_config|function|760bee6d5a331e55
 read_watersheds|function|1e876d68eb0ca4f0
-znpp_strat_irrig|stem|3c4eec720e5059d0|eadfb2d40ea3fc22|2e6891a143e83a06|-1014913574||t20630.6664180744s|s52056b|52056|rds|local|vector|||912.57||
-dr_att_forcing_strat_irrig|stem|067dc27abb4b2838|064dbdd08236a52f|2f01c4c3fa9db6ff|-482863532||t20630.6664241877s|s18055b|18055|rds|local|vector|||0.483|essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable. essentially perfect fit: summary may be unreliable|
+spei_stack_6|stem|7b4d06e6c428e6c0|c53771dcb49b1a78|24647b4620369f38|-1970098387||t20630.6942358548s|s1636b|1636|rds|local|vector|||0.024||
+mb_baseline_multi|stem|0f6182b829d4b293|5ddf3c6e397b28af|49846ef2e0bb4ef1|-597328886||t20630.6942362922s|s131b|131|rds|local|vector|||0.001||
+spei_stack_24|stem|346a997e193a3818|89d670b3e8872431|24647b4620369f38|1499396123||t20630.6942371391s|s1672b|1672|rds|local|vector|||0.002||

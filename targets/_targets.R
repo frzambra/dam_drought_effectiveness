@@ -176,6 +176,38 @@ list(
   tar_target(dr_att_forcing_strat_irrig,
              fit_stratified_forcing_att(matched_set, znpp_strat_irrig, forcing_subcuencas)),
 
+  # --- DEFINITIVE irrigated stratum: Catastro Frutícola orchard footprint (ground truth) ----
+  # Replaces the MapBiomas class-18 proxy with actual irrigated-orchard polygons. Each region's
+  # latest survey year, dissolved to a national footprint, rasterized to the zNPP grid as a
+  # cover fraction, thresholded (>=0.05) into the irrigated stratum; contrasted with natural.
+  tar_target(orchard_root, cfg_sources$catastro_fruticola$root),
+  tar_target(orchards_latest, { sources_yml; read_orchards_latest(orchard_root) }),
+  tar_target(orchards_dissolved, sf::st_transform(dissolve_orchards(orchards_latest), 4326)),
+  # SpatRaster can't serialize through targets -> persist the cover-fraction raster as a file.
+  tar_target(orchard_frac_file, {
+               r <- orchard_fraction_raster(orchards_dissolved, znpp_stack)
+               p <- project_path("data/processed/orchards/orchard_frac.tif")
+               terra::writeRaster(r, p, overwrite = TRUE); p
+             }, format = "file"),
+  tar_target(znpp_orchard,
+             extract_unit_orchard_znpp(matched_subcuencas, znpp_stack,
+                                       terra::rast(orchard_frac_file))),
+  tar_target(znpp_orchard_natural, combine_orchard_natural(znpp_orchard, znpp_strat)),
+  tar_target(dr_att_forcing_orchard,
+             fit_stratified_forcing_att(matched_set, znpp_orchard_natural, forcing_subcuencas)),
+
+  # --- H2 induced-demand: orchard-area EXPANSION mediator (Catastro plant_year) --------------
+  # Reconstruct cumulative irrigated-orchard area present by each year per subcuenca, then the
+  # dammed-vs-control expansion ATT. Tests the FIRST limb of H2 (reservoirs -> agricultural
+  # expansion), distinct from the ecological-slope tests (the vulnerability limb).
+  tar_target(orchards_assigned, assign_orchards_to_units(orchards_latest, matched_subcuencas)),
+  tar_target(orchard_panel,
+             orchard_area_panel(orchards_assigned, matched_set$data$unit_id)),
+  tar_target(orchard_expansion,
+             orchard_expansion_summary(orchard_panel, matched_set$data)),
+  tar_target(att_orchard_expansion,
+             fit_orchard_expansion_att(matched_set, orchard_expansion)),
+
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),
 

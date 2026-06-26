@@ -132,7 +132,16 @@ agricultural-slope claim with real power.
 | agricultural — class 18, thr 0.5 (sharp, low power) | 0.143 (ns) | 0.091 (ns) | 18 / 34 |
 | agricultural — farming {9,15,18} (powered, rain-fed-mixed) | 0.278 [0.08, 0.47], t=2.78 | 0.096 (ns), t=1.40 | 20 / 104 |
 | **agricultural — class 18, thr 0.1 (powered, IRRIGATION-specific)** | **0.077** [−0.08, 0.24], t=0.95 (ns) | **0.007** (ns), t=0.11 | 21 / 62 |
+| **irrigated — Catastro orchards (GROUND TRUTH)** | **0.060** [−0.11, 0.24], t=0.68 (ns) | **−0.048** (ns), t=−0.66 | 18 / 36 |
 | natural | 0.362 [0.20, 0.53], t=4.31 | 0.127, t=2.03 | 21 / 224 |
+
+**Ground-truth confirmation (Catastro Frutícola orchards).** Replacing the MapBiomas class-18
+proxy with the actual irrigated-orchard footprint (CIREN/ODEPA cadastre, §"Definitive irrigated
+stratum" below) gives the **same clean null** (0.060, t=0.68; −0.048 under aridity²). On
+definitively-irrigated land, dammed and control basins transmit drought to productivity *almost
+identically* (raw slopes 0.224 vs 0.159) — the entire dammed-vs-control divergence is in natural
+cover (0.251 vs −0.119). Three independent irrigated definitions (class-18 proxy, ground-truth
+orchards, and the aridity²-adjusted farming stratum) now agree on the H2 null.
 
 **The powered, mechanism-pure test is a clean H2 null — and reveals where the broad signal came
 from:**
@@ -186,10 +195,17 @@ from:**
 - `src/R/causal/forcing_robustness.R` (new) — `run_forcing_robustness()` (10-scenario battery).
 - `src/R/preprocessing/landcover_cover.R` (new) — `mapbiomas_paths()`,
   `stratified_znpp_annual()` (per-polygon 30 m cover mask → ag/natural zNPP strata).
+- `src/R/data_ingestion/read_orchards.R` (new) — `read_orchards_latest()`,
+  `dissolve_orchards()` (Catastro Frutícola → national irrigated-orchard footprint).
+- `src/R/preprocessing/orchard_outcomes.R` (new) — `orchard_fraction_raster()`,
+  `extract_unit_orchard_znpp()`, `combine_orchard_natural()` (ground-truth irrigated stratum).
+- `config/data_sources.yml` — `catastro_fruticola` source block.
 - `targets/_targets.R` — `spei_stack`, `forcing_subcuencas`, `znpp_annual`, `response_panel`,
   `response_slopes`, `dr_att_forcing`; robustness: `spei_stack_6/24`,
   `forcing_subcuencas_6/24`, `dr_att_forcing_robustness`; land cover: `mb_baseline_paths`,
   `mb_baseline_multi`, `matched_subcuencas`, `znpp_strat` + `dr_att_forcing_strat` (class-18),
   `znpp_strat_farming` + `dr_att_forcing_strat_farming` (powered farming),
-  `znpp_strat_irrig` + `dr_att_forcing_strat_irrig` (powered irrigation-specific).
+  `znpp_strat_irrig` + `dr_att_forcing_strat_irrig` (powered irrigation-specific);
+  orchards: `orchards_latest`, `orchards_dissolved`, `orchard_frac_file`, `znpp_orchard`,
+  `znpp_orchard_natural`, `dr_att_forcing_orchard` (ground-truth irrigated).
 - `docs/design/matched-controls.md` (forcing-conditioned section + enhancement #2 closed).

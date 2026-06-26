@@ -364,6 +364,36 @@ reservoirs:
     reservoir to its containing cuenca/subcuenca by point-in-polygon to define the
     treatment unit, replacing the interim dam-POINT extraction.
 
+# CIREN/ODEPA Catastro Frutícola — DEFINITIVELY IRRIGATED fruit-orchard cadastre polygons.
+# The ground-truth irrigated-agriculture layer: replaces the MapBiomas class-18 proxy for the
+# transmission-slope irrigated stratum, and (via plantation year) reconstructs irrigated-area
+# EXPANSION — the gated H2 induced-demand mediator.
+catastro_fruticola:
+  description: >
+    CIREN/ODEPA Catastro Frutícola: irrigated perennial fruit-orchard polygons (cherry, table
+    grape, blueberry, avocado, walnut, citrus, stone fruit, olive, ...). One survey per region
+    every ~3-4 years; use each region's LATEST poligonos_<year> layer.
+  root: /media/francisco/Respaldo_frzambra/data/vectorial/Catastro_fruticola/
+  format: ESRI Shapefile           # per region: poligonos_<year>/cubierta_interseccion_*.shp
+  crs: "EPSG:32719"                # UTM 19S, uniform across ALL regions; reproject to 4326
+  geometry: MULTIPOLYGON
+  n_regions: 12                    # Atacama→Los_Lagos + Aysén; latest years span 2021–2025
+  totals: { polygons: 89683, area_ha_declared: 335384, area_ha_geometric: 379318 }
+  attributes:
+    ESPECIE: crop species
+    "AñO DE PL": plantation year (orchard establishment) — column is "AñO PLANT" in Ñuble/Valpo
+    SUPERFICIE: declared planted area (ha)
+  processed: data/processed/orchards/orchards_{latest,dissolved}.gpkg   # built by read_orchards.R
+  notes: >
+    PERENNIAL FRUIT ONLY — a clean, definitively-irrigated SUBSET of agriculture; excludes
+    annual crops/vegetables and wine grapes (separate vineyard cadastre). Dissolve in the native
+    UTM (planar GEOS): the geographic s2 path fails on degenerate cadastre edges. Geometric
+    footprint ~13% larger than declared SUPERFICIE (cover polygons exceed planted ha) — use
+    geometry for masks, SUPERFICIE for reported area. plant_year ~8% missing with a 1900 fill
+    for unknown. Latest-year SNAPSHOT; plant_year gives the time-varying / expansion view.
+    19 of 21 matched dammed subcuencas contain orchards (median ~2170 ha) vs 46/244 controls
+    (median ~216 ha) — reservoirs↔orchards strongly coupled.
+
 # --- Notes ----------------------------------------------------------------
 # - CHIRPS-CHIRTS indices begin 1991; MODIS ecological indices begin 2000; MapBiomas
 #   land cover 1999; reservoir storage begins 2005-01. Usable multi-source overlap is

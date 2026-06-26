@@ -179,7 +179,8 @@ stratum:
 |---|---:|---:|---:|
 | natural | 0.362 (t=4.31) | 0.127 (t=2.03) | 21 / 224 |
 | farming {9,15,18} (powered) | 0.278 (t=2.78) | 0.096 (ns) | 20 / 104 |
-| **irrigated cropland — class 18, powered** | **0.077 (ns)** | **0.007 (ns)** | 21 / 62 |
+| irrigated cropland — class 18, powered | 0.077 (ns) | 0.007 (ns) | 21 / 62 |
+| **irrigated — Catastro orchards (ground truth)** | **0.060 (ns)** | **−0.048 (ns)** | 18 / 36 |
 
 The effect lives in **rain-fed** vegetation (natural + the silviculture/pasture part of
 farming), tracks baseline aridity (r=−0.53), and **collapses under aridity²** everywhere. The
