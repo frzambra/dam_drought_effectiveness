@@ -208,6 +208,16 @@ list(
   tar_target(att_orchard_expansion,
              fit_orchard_expansion_att(matched_set, orchard_expansion)),
 
+  # --- causal scrutiny of the expansion ATT: left-censoring + siting pre-trends -------------
+  # Most dams predate the orchard record (left-censored), so the expansion ATT cannot be cleanly
+  # causally identified; this tests whether the dammed-vs-control gap predates 2005 (siting) or
+  # opens up after (reservoir/drought era). orchard_panel_long extends the panel back to 1990.
+  tar_target(commission_years, reservoir_commission_years(reservoir_units, points)),
+  tar_target(orchard_panel_long,
+             orchard_area_panel(orchards_assigned, matched_set$data$unit_id, years = 1990:2024)),
+  tar_target(expansion_pretrends,
+             orchard_expansion_pretrends(orchard_panel_long, matched_set)),
+
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),
 

@@ -58,19 +58,52 @@ Raw: dammed orchard area **17,997 → 101,680 ha (2005→2024)**; treated mean e
 **Significant across all three metrics: dammed basins expanded irrigated orchards markedly more
 than climatically-matched controls** — the induced-demand prediction.
 
+## Arc 2b — Causal scrutiny of the expansion ATT (done) — NOT cleanly identifiable
+
+Is the expansion ATT a reservoir *effect*, or endogenous *siting* (reservoirs built in Chile's
+prime fruit basins)? Diagnostics (`commission_years`, `expansion_pretrends`,
+`src/R/causal/expansion_identification.R`):
+
+- **Left-censoring is binding.** Of 21 matched treated basins, **13 have dams commissioned
+  pre-1990, only 5 in 1995–2011, 3 undated** (Rapel/Colbún/Ralco hydropower). For most treated
+  basins there is **no pre-treatment period** in any orchard record — a valid reservoir DiD /
+  event study is impossible, exactly as the identification-strategy doc anticipated (~5 events).
+- **Aggregate trajectory points to SITING.** The treated/control total-orchard-area ratio was
+  **3.32× in 1990, falling monotonically to 1.70× by 2024** — dammed basins were already
+  proportionally far more orcharded *before* the study period, with controls catching up. That
+  is the siting signature, not a post-dam divergence.
+- **The unit-level DiD-in-slopes is positive but NOT a causal estimate.** treated:post(2005) =
+  **+1.44 (t=4.97)** on log-area, but 2005 is *not* a treatment date (it is mid-treatment for the
+  13 left-censored dams), and — decisively — **survival bias makes every reconstructed trajectory
+  accelerate toward the survey year** (grubbed orchards vanish from early years), so the time
+  dimension of the plant_year reconstruction cannot support timing-based causal inference at all.
+
+**Verdict: the reservoir → orchard-expansion causal claim is NOT identifiable with this reservoir
+panel.** The cross-sectional association (dammed ≫ control orchard area) is strong and consistent
+with H2 induced demand, but equally consistent with siting; left-censoring removes the
+counterfactual and survival bias corrupts the trajectory. The expansion ATT should be reported as
+**associational**, not causal. A clean test would need either reservoirs with observable
+commissioning (absent here) or a survival-bias-free annual land-cover area series with a genuine
+pre-period — the binding constraint is the dams' timing, which no dataset fixes.
+
 ## The decomposition (the headline of the whole arc)
 
-H2 has two limbs, and the orchard data resolves them oppositely:
+H2 has two limbs, and the orchard data resolves them as follows:
 
-1. **Reservoirs → agricultural expansion: SUPPORTED.** Dammed basins expanded irrigated orchard
-   area ~2–15× more than matched controls (expansion ATT significant).
+1. **Reservoirs → agricultural expansion: ASSOCIATED, but NOT causally identified.** Dammed
+   basins have ~2–15× more irrigated orchard area than matched controls (expansion ATT
+   significant), but Arc 2b shows this is confounded by endogenous siting + left-censoring — the
+   gap predates the study period. Strong association, causal direction unestablished.
 2. **Expansion → amplified ecological drought vulnerability: NOT detected.** Irrigated land in
    dammed basins is no more drought-sensitive (transmission-slope ATT null) — the basin-mean
    "vulnerability" signal was a natural-vegetation aridity confound, not the irrigated mechanism.
 
-The induced demand is real; its translation into *ecological* drought vulnerability is not visible
-in NPP — plausibly because irrigation buffers productivity (reservoirs supply the water), or
-because the true vulnerability outcome is water-balance / shortage / ET, not greenness.
+So neither H2 limb survives clean scrutiny on the available data: the expansion association can't
+be pinned to the reservoirs (siting), and the ecological-vulnerability signal isn't there at all.
+The induced-demand *association* is real; its causal attribution to reservoirs and its translation
+into *ecological* drought vulnerability both remain unproven — the latter plausibly because
+irrigation buffers productivity, or because the true vulnerability outcome is water-balance /
+shortage / ET, not greenness.
 
 ## Caveats / open items
 
@@ -87,11 +120,16 @@ because the true vulnerability outcome is water-balance / shortage / ET, not gre
 
 ## Next (priority order)
 
-1. **Causal treatment of the expansion ATT** — pre-trends / forcing-conditioning / timing to move
-   from "dammed basins have more orchards" to "reservoirs facilitated expansion."
+1. ~~Causal treatment of the expansion ATT~~ **done (Arc 2b)** — verdict: not identifiable
+   (left-censoring + siting + survival bias). The expansion claim stays associational.
 2. **Better vulnerability outcome** — water-balance / streamflow / ET shortage (gated on
-   streamflow) to test the second H2 limb where NPP is blind.
-3. Extend the orchard ingestion beyond the matched set if the analysis grain widens.
+   streamflow) to test the second H2 limb where NPP is blind. Now the highest-value direction:
+   both ecological-proxy limbs are exhausted; a water-availability outcome is the only untested
+   route to the core question (resilience vs postponed vulnerability).
+3. **Reframe the contribution** — the honest finding (strong association, no clean causal
+   identification for either H2 limb on these data) plus the forcing-conditioning + cover-
+   disaggregation methodology is a defensible methods-forward paper: a cautionary, rigorous
+   re-examination of reservoir "vulnerability" claims that survive only as aridity/siting confounds.
 
 ## Files touched
 
@@ -101,8 +139,11 @@ because the true vulnerability outcome is water-balance / shortage / ET, not gre
   `extract_unit_orchard_znpp()`, `combine_orchard_natural()`.
 - `src/R/preprocessing/orchard_expansion.R` (new) — `assign_orchards_to_units()`,
   `orchard_area_panel()`, `orchard_expansion_summary()`, `fit_orchard_expansion_att()`.
+- `src/R/causal/expansion_identification.R` (new) — `reservoir_commission_years()`,
+  `orchard_expansion_pretrends()` (siting / left-censoring diagnostics).
 - `config/data_sources.yml` — `catastro_fruticola` block.
 - `targets/_targets.R` — `orchard_root`, `orchards_latest`, `orchards_dissolved`,
   `orchard_frac_file`, `znpp_orchard`, `znpp_orchard_natural`, `dr_att_forcing_orchard`;
-  `orchards_assigned`, `orchard_panel`, `orchard_expansion`, `att_orchard_expansion`.
+  `orchards_assigned`, `orchard_panel`, `orchard_expansion`, `att_orchard_expansion`;
+  `commission_years`, `orchard_panel_long`, `expansion_pretrends`.
 - `data/processed/orchards/` — `orchards_latest.gpkg`, `orchards_dissolved.gpkg`, `orchard_frac.tif`.
