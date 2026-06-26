@@ -22,18 +22,17 @@ ecological_annual_paths <- function(sources, product = "zNPP", years = 2005:2024
   list(paths = files[ok], years = years[ok])
 }
 
-#' Storage-era OLS trend of an annual index per watershed unit.
+#' Annual per-unit zonal mean of an annual index (the long panel behind the trend).
 #'
-#' Zonal-means the index within each polygon for every year (one number per unit-year), then
-#' fits a per-unit OLS slope over calendar year. The slope is the outcome: index units per
-#' year. OLS (not Theil-Sen) keeps the dependency footprint to base R; with ~20 annual points
-#' it is adequate and the matched comparison, not the trend estimator, carries the inference.
+#' Zonal-means the index within each polygon for every year — one number per unit-year. This
+#' is the raw material both for the calendar-time trend (regress on year) AND for the
+#' forcing-conditioned response slope (regress on the SPEI forcing of the same year), so it is
+#' factored out here and shared.
 #'
 #' @param units sf polygons with `unit_id`
 #' @param stack list(paths, years) from ecological_annual_paths()
-#' @param min_years require at least this many non-NA years to report a slope (default 10)
-#' @return data.table(unit_id, trend, mean_level, n_years)
-extract_unit_index_trend <- function(units, stack, min_years = 10L) {
+#' @return data.table(unit_id, year, level) — NA-level unit-years dropped
+extract_unit_index_annual <- function(units, stack) {
   r <- terra::rast(stack$paths)                 # one layer per year
   yrs <- stack$years
   v <- terra::vect(units)
@@ -48,7 +47,25 @@ extract_unit_index_trend <- function(units, stack, min_years = 10L) {
   long <- data.table::melt(ex, id.vars = c("ID", "unit_id"),
                            variable.name = "yvar", value.name = "level")
   long[, year := as.integer(sub("^y", "", yvar))]
-  long <- long[!is.na(level)]
+  long <- long[!is.na(level), .(unit_id, year, level)]
+  data.table::setorder(long, unit_id, year)
+  long[]
+}
+
+#' Storage-era OLS trend of an annual index per watershed unit.
+#'
+#' Fits a per-unit OLS slope over calendar year on the annual panel. The slope is the outcome:
+#' index units per year. OLS (not Theil-Sen) keeps the dependency footprint to base R; with
+#' ~20 annual points it is adequate and the matched comparison, not the trend estimator,
+#' carries the inference. NOTE this is a CALENDAR-TIME slope — see forcing_conditioned.R for
+#' the forcing-conditioned alternative that breaks the mega-drought-exposure confound.
+#'
+#' @param units sf polygons with `unit_id`
+#' @param stack list(paths, years) from ecological_annual_paths()
+#' @param min_years require at least this many non-NA years to report a slope (default 10)
+#' @return data.table(unit_id, trend, mean_level, n_years)
+extract_unit_index_trend <- function(units, stack, min_years = 10L) {
+  long <- extract_unit_index_annual(units, stack)
 
   per <- long[, {
     if (.N >= min_years && data.table::uniqueN(year) >= 3L) {

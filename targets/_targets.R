@@ -107,6 +107,23 @@ list(
   tar_target(dr_att, fit_doubly_robust(matched_set, outcome_subcuencas,
                                        outcome_col = "trend")),
 
+  # --- forcing-conditioned ATT: the deficit->impact RESPONSE SLOPE as the outcome -----
+  # Breaks the mega-drought-exposure confound the raw zNPP TREND carries (identification
+  # strategy Lever 1): per subcuenca regress annual zNPP on annual SPEI-12 forcing, take the
+  # transmission slope, and run the SAME doubly-robust matched-set estimator on it. Both
+  # series are standardized anomalies -> the slope is a cross-basin drought-transmission
+  # elasticity, not a calendar-time trend. Reported alongside dr_att.
+  tar_target(spei_stack, { sources_yml;
+             forcing_monthly_paths(cfg_sources, index = "SPEI", timescale = 12L) }),
+  tar_target(forcing_subcuencas,
+             extract_unit_forcing_annual(subcuencas_dissolved, spei_stack)),
+  tar_target(znpp_annual,
+             extract_unit_index_annual(subcuencas_dissolved, znpp_stack)),
+  tar_target(response_panel, build_response_panel(znpp_annual, forcing_subcuencas)),
+  tar_target(response_slopes, fit_response_slopes(response_panel)),
+  tar_target(dr_att_forcing,
+             fit_forcing_conditioned_att(matched_set, response_slopes)),
+
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),
 

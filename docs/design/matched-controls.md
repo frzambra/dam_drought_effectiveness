@@ -142,6 +142,32 @@ the forcing-conditioned response function (the `dose_response` / `period_slopes`
 matched ATT and the forcing-conditioning must be combined before any causal claim. Treat the
 sign as a hypothesis-generating signal, not a finding.
 
+## Forcing-conditioned ATT (the mega-drought-exposure fix, done)
+
+The trend-based `dr_att` above carries the exposure confound flagged in its caveat: the raw
+zNPP trend is a *calendar-time* slope, so the ATT on it conflates reservoir effect with
+mega-drought exposure. The forcing-conditioned estimator (`dr_att_forcing`,
+[`src/R/causal/forcing_conditioned.R`](../../src/R/causal/forcing_conditioned.R)) implements
+Lever 1 of the identification strategy: per subcuenca, regress annual zNPP on annual SPEI-12
+forcing (2005–2024) and take the **transmission slope** (a standardized, cross-basin
+drought-transmission elasticity) as the outcome of the *same* DR machinery.
+
+**The sign flips once forcing is conditioned out:**
+
+| outcome | DR ATT | 95% CI | t |
+|---|---:|---:|---:|
+| raw zNPP trend (calendar-time) | −0.0244 | [−0.042, −0.007] | −2.76 |
+| **transmission slope (forcing-conditioned)** | **+0.328** | **[0.181, 0.476]** | 4.36 |
+
+Dammed basins convert a unit of meteorological deficit into **more** ecological impact (a
+*steeper* slope: treated +0.223 vs control −0.089), the **H2 vulnerability** signature, not the
+H1 buffering one. The raw-trend negative was largely exposure. **Confound checks:** the
+baseline-aridity/water-limitation confound is real but small (predicts ≈+0.06 of the +0.31 ATT)
+and the gap survives within Köppen group (B +0.243 vs +0.038; C +0.202 vs −0.163). See
+[`docs/progress_summary/2026-06-26_forcing-conditioned-att.md`](../progress_summary/2026-06-26_forcing-conditioned-att.md)
+for the full check and open caveats (nonlinear aridity; basin-mean cover mixes natural +
+irrigated; noisy per-unit slopes; single timescale/lag).
+
 ## Enhancements (in priority order)
 
 1. ~~Add elevation~~ **done** (SRTM 3s; `dem`, `extract_unit_terrain()`). ~~Add quantitative
@@ -149,10 +175,10 @@ sign as a hypothesis-generating signal, not a finding.
    diagnostic, not a target, for the ESS reason above. ~~Doubly-robust adjustment~~ **done**
    (`fit_doubly_robust()`, `dr_att`) — see section above; ready to re-point at the gated
    irrigated-area outcome when it lands.
-2. **Forcing-conditioned ATT:** combine the matched set with drought-forcing conditioning so
-   the effect is on the deficit→impact *slope*, not the raw trend — removes the megadrought-
-   exposure confound flagged above. Extract a per-subcuenca forcing series (SPEI) and add it
-   (or its interaction with `treated`) to the DR outcome model.
-3. **Sensitivity:** vary `min_controls` / `elev_buffer_m`; compare ebal vs CEM vs 1:k NN
-   (MatchIt) as robustness; consider adding within-unit relief (`elev_sd`) if it helps.
-   Re-fit ebal weights on the outcome-complete sample (the 8 dropped controls) as a check.
+2. ~~**Forcing-conditioned ATT**~~ **done** (`dr_att_forcing`) — see section above; the
+   transmission-slope outcome removes the mega-drought-exposure confound and flips the sign.
+3. **Sensitivity (now the priority):** for the forcing-conditioned ATT — nonlinear aridity
+   adjustment, vary SPEI timescale (6/12/24) and forcing lag, re-fit on CEM / 1:k NN subsets.
+   For the matched set generally — vary `min_controls` / `elev_buffer_m`; consider within-unit
+   relief (`elev_sd`); re-fit ebal weights on the outcome-complete sample (the 8 dropped
+   controls). Confirmatory: land-cover-disaggregated transmission slope (gated).
