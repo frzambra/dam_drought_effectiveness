@@ -161,12 +161,34 @@ drought-transmission elasticity) as the outcome of the *same* DR machinery.
 
 Dammed basins convert a unit of meteorological deficit into **more** ecological impact (a
 *steeper* slope: treated +0.223 vs control −0.089), the **H2 vulnerability** signature, not the
-H1 buffering one. The raw-trend negative was largely exposure. **Confound checks:** the
-baseline-aridity/water-limitation confound is real but small (predicts ≈+0.06 of the +0.31 ATT)
-and the gap survives within Köppen group (B +0.243 vs +0.038; C +0.202 vs −0.163). See
-[`docs/progress_summary/2026-06-26_forcing-conditioned-att.md`](../progress_summary/2026-06-26_forcing-conditioned-att.md)
-for the full check and open caveats (nonlinear aridity; basin-mean cover mixes natural +
-irrigated; noisy per-unit slopes; single timescale/lag).
+H1 buffering one. The raw-trend negative was largely exposure.
+
+**Robustness (`dr_att_forcing_robustness`, 10 scenarios) — direction robust, magnitude
+sensitive.** Every scenario (nonlinear aridity, SPEI-6/12/24, lag, CEM/NN subsets, slope-fit
+thresholds) is positive with a CI excluding zero, but the magnitude spans **0.11–0.39**. The
+two movers: adding a **quadratic aridity** term cuts the ATT to **0.110** (the conservative
+floor — linear adjustment under-controlled the water-limitation curve), and a 1-year forcing
+lag halves it to 0.147 (annual NPP responds contemporaneously). Matching design is irrelevant
+(CEM 0.32 / NN 0.39 bracket ebal) and the slope-fit thresholds are non-binding.
+
+**Land-cover disaggregation reframes the basin-mean result — it is an aridity confound, not
+H2.** Splitting the slope by cover (`dr_att_forcing_strat*`) and powering the agricultural
+stratum:
+
+| stratum | DR ATT | + aridity² | n_t / n_c |
+|---|---:|---:|---:|
+| natural | 0.362 (t=4.31) | 0.127 (t=2.03) | 21 / 224 |
+| farming {9,15,18} (powered) | 0.278 (t=2.78) | 0.096 (ns) | 20 / 104 |
+| **irrigated cropland — class 18, powered** | **0.077 (ns)** | **0.007 (ns)** | 21 / 62 |
+
+The effect lives in **rain-fed** vegetation (natural + the silviculture/pasture part of
+farming), tracks baseline aridity (r=−0.53), and **collapses under aridity²** everywhere. The
+powered, **irrigation-specific** stratum — exactly where H2 predicts steepening — is a **clean
+null** (0.077 → 0.007). Ordering is anti-H2 (natural ≈ farming ≫ irrigated cropland). **So the
+steeper dammed-basin transmission is a water-limitation/residual-aridity confound on rain-fed
+cover, not the irrigated-demand (H2) mechanism; at the zNPP grain there is no reservoir
+vulnerability effect.** H2 awaits its proper outcome (irrigated area + ET). Full result + caveats:
+[`docs/progress_summary/2026-06-26_forcing-conditioned-att.md`](../progress_summary/2026-06-26_forcing-conditioned-att.md).
 
 ## Enhancements (in priority order)
 
@@ -177,8 +199,10 @@ irrigated; noisy per-unit slopes; single timescale/lag).
    irrigated-area outcome when it lands.
 2. ~~**Forcing-conditioned ATT**~~ **done** (`dr_att_forcing`) — see section above; the
    transmission-slope outcome removes the mega-drought-exposure confound and flips the sign.
-3. **Sensitivity (now the priority):** for the forcing-conditioned ATT — nonlinear aridity
-   adjustment, vary SPEI timescale (6/12/24) and forcing lag, re-fit on CEM / 1:k NN subsets.
-   For the matched set generally — vary `min_controls` / `elev_buffer_m`; consider within-unit
+3. ~~**Sensitivity of the forcing-conditioned ATT**~~ **done** (`dr_att_forcing_robustness`):
+   nonlinear aridity, SPEI-6/12/24, forcing lag, CEM/NN subsets, slope-fit thresholds — see the
+   robustness paragraph above. Direction robust; magnitude ≈0.11–0.39.
+4. **Still open:** matched-set sensitivity to `min_controls` / `elev_buffer_m`; within-unit
    relief (`elev_sd`); re-fit ebal weights on the outcome-complete sample (the 8 dropped
-   controls). Confirmatory: land-cover-disaggregated transmission slope (gated).
+   controls). **Confirmatory (gated, now highest value):** land-cover-disaggregated
+   transmission slope — isolates the H2 mechanism and sidesteps the aridity confound.

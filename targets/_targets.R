@@ -124,6 +124,58 @@ list(
   tar_target(dr_att_forcing,
              fit_forcing_conditioned_att(matched_set, response_slopes)),
 
+  # --- forcing-conditioned ATT robustness battery -------------------------------------
+  # Nonlinear aridity, SPEI timescale (6/12/24), forcing lag, CEM/NN subsets, slope-fit
+  # thresholds — all on the same dr_estimate() core. SPEI-6/24 forcing needs its own zonal
+  # extraction; SPEI-12 is reused from forcing_subcuencas above.
+  tar_target(spei_stack_6,  { sources_yml;
+             forcing_monthly_paths(cfg_sources, index = "SPEI", timescale = 6L) }),
+  tar_target(spei_stack_24, { sources_yml;
+             forcing_monthly_paths(cfg_sources, index = "SPEI", timescale = 24L) }),
+  tar_target(forcing_subcuencas_6,
+             extract_unit_forcing_annual(subcuencas_dissolved, spei_stack_6)),
+  tar_target(forcing_subcuencas_24,
+             extract_unit_forcing_annual(subcuencas_dissolved, spei_stack_24)),
+  tar_target(dr_att_forcing_robustness,
+             run_forcing_robustness(
+               matched_set, robustness_matches, znpp_annual,
+               forcing_by_ts = list(`6`  = forcing_subcuencas_6,
+                                    `12` = forcing_subcuencas,
+                                    `24` = forcing_subcuencas_24))),
+
+  # --- land-cover-disaggregated transmission slope: the decisive aridity-vs-mechanism test --
+  # Split per-subcuenca annual zNPP into AGRICULTURAL (MapBiomas class 18) vs NATURAL cover
+  # using a static 2007 baseline mask, then run the forcing-conditioned ATT within each
+  # stratum. Heavy (per-polygon 30 m crops) -> restricted to the matched-set units only.
+  tar_target(mb_baseline_paths, { sources_yml; mapbiomas_paths(cfg_sources, 2007L) }),
+  tar_target(matched_subcuencas,
+             subcuencas_dissolved[subcuencas_dissolved$unit_id %in% matched_set$data$unit_id, ]),
+  # Sharp (mechanism-pure) stratum: irrigated Agriculture (class 18) only, single-year mask.
+  tar_target(znpp_strat,
+             stratified_znpp_annual(matched_subcuencas, znpp_stack, mb_baseline_paths)),
+  tar_target(dr_att_forcing_strat,
+             fit_stratified_forcing_att(matched_set, znpp_strat, forcing_subcuencas)),
+  # Power upgrade: broaden the managed-cover stratum to FARMING {9 silviculture, 15 pasture,
+  # 18 agriculture} on a 3-year baseline mask. Class-18-only left only 34 controls (no power);
+  # farming triples the control pool (~110+). Trades mechanism-sharpness (now "managed cover",
+  # not irrigated-only) for the power needed to credibly test the H2 agricultural-slope null.
+  tar_target(mb_baseline_multi, { sources_yml;
+             mapbiomas_paths(cfg_sources, c(2005L, 2007L, 2009L)) }),
+  tar_target(znpp_strat_farming,
+             stratified_znpp_annual(matched_subcuencas, znpp_stack, mb_baseline_multi,
+                                    agri = c(9L, 15L, 18L))),
+  tar_target(dr_att_forcing_strat_farming,
+             fit_stratified_forcing_att(matched_set, znpp_strat_farming, forcing_subcuencas)),
+  # Irrigation-specific powered test: Agriculture (18) ONLY but at a low fraction threshold
+  # (0.1) on the 3-year baseline, to power the mechanism-pure stratum (~65 controls) that the
+  # farming broadening dilutes with rain-fed silviculture/pasture. Cells are more mixed at
+  # thr=0.1 — read as "any non-trivial irrigated cropland", complementing the sharp thr=0.5.
+  tar_target(znpp_strat_irrig,
+             stratified_znpp_annual(matched_subcuencas, znpp_stack, mb_baseline_multi,
+                                    agri = c(18L), frac_thr = 0.1)),
+  tar_target(dr_att_forcing_strat_irrig,
+             fit_stratified_forcing_att(matched_set, znpp_strat_irrig, forcing_subcuencas)),
+
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),
 

@@ -36,8 +36,26 @@ fit_doubly_robust <- function(matched_set, outcome, outcome_col = "trend",
   o <- o[, .(unit_id, y = get(outcome_col))]
 
   d <- merge(d, o, by = "unit_id")
+  core <- dr_estimate(d, covars)
+  c(core, list(outcome_col = outcome_col, covars = core$covars))
+}
+
+#' Core doubly-robust estimator on a pre-assembled unit-level frame.
+#'
+#' Shared by fit_doubly_robust() and the robustness battery (forcing_robustness.R) so every
+#' scenario uses an identical estimator: the only thing that varies across scenarios is the
+#' assembled frame (which weights `w`, which outcome `y`, which covariates, which subset).
+#'
+#' @param d      data.table/data.frame carrying `treated` (0/1), `y` (outcome), `w` (weights),
+#'               the `covars` columns, and optionally `kg_group` (added as a stratum FE)
+#' @param covars continuous covariates to adjust for (missing ones are silently dropped)
+#' @return list(estimates, models, data, covars) — `estimates` has weighting_only /
+#'         regression_only / doubly_robust rows with att, se, t, ci_lo, ci_hi, n_*
+dr_estimate <- function(d, covars = c("log_area", "elev_mean", "log_aridity")) {
+  d <- data.table::as.data.table(data.table::copy(d))
+  if (!"w" %in% names(d)) stop("dr_estimate: frame must carry a weight column `w`")
   covars <- intersect(covars, names(d))
-  d <- d[!is.na(y) & stats::complete.cases(d[, ..covars])]
+  d <- d[!is.na(y) & w > 0 & stats::complete.cases(d[, ..covars])]
   if (d[treated == 1L, .N] < 2L || d[treated == 0L, .N] < 2L)
     stop("too few treated/control units with outcome + covariates to estimate the ATT")
 
@@ -69,5 +87,5 @@ fit_doubly_robust <- function(matched_set, outcome, outcome_col = "trend",
   estimates[, `:=`(n_treated = d[treated == 1L, .N], n_control = d[treated == 0L, .N])]
 
   list(estimates = estimates[], models = list(w = m_w, r = m_r, dr = m_dr),
-       data = d[], outcome_col = outcome_col, covars = covars)
+       data = d[], covars = covars)
 }

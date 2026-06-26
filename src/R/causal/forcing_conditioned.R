@@ -94,3 +94,59 @@ fit_forcing_conditioned_att <- function(matched_set, response_slopes,
   fit_doubly_robust(matched_set, response_slopes, outcome_col = "resp_slope",
                     covars = covars)
 }
+
+#' Land-cover-stratified forcing-conditioned ATT — the decisive aridity-vs-mechanism test.
+#'
+#' Runs the forcing-conditioned ATT SEPARATELY on the agricultural-cover and natural-cover
+#' transmission slopes (from stratified_znpp_annual()). The contrast is the whole point:
+#'   - ATT(agri) > 0 with ATT(natural) ≈ 0  ⇒ the steeper dammed-basin slope is a
+#'     reservoir/land-use (H2) effect — reservoirs water crops, not native vegetation.
+#'   - ATT(agri) ≈ ATT(natural)             ⇒ it is a baseline-aridity/water-limitation
+#'     artefact (which hits both covers), NOT reservoir-specific.
+#' Comparing within a cover class also holds water-demand regime roughly fixed, sidestepping
+#' the aridity confound that moved the basin-mean estimate (the aridity² robustness scenario).
+#'
+#' @param matched_set  fit_matched_set() output
+#' @param znpp_strat   stratified_znpp_annual() output (unit_id, year, level, stratum, n_cells)
+#' @param forcing      extract_unit_forcing_annual() output (the SPEI forcing)
+#' @param lag          forcing lead in years (default 0)
+#' @param covars       outcome-model covariates
+#' @return list(table = stratum x DR-ATT comparison, slopes = per-stratum response_slopes,
+#'              group_means = treated/control mean slope per stratum)
+fit_stratified_forcing_att <- function(matched_set, znpp_strat, forcing, lag = 0L,
+                                       covars = c("log_area", "elev_mean", "log_aridity")) {
+  zs <- data.table::as.data.table(znpp_strat)
+  strata <- sort(unique(zs$stratum))
+  ms <- data.table::as.data.table(matched_set$data)[, .(unit_id, treated, w)]
+
+  rows <- list(); slope_tabs <- list(); gmeans <- list()
+  for (st in strata) {
+    panel  <- build_response_panel(zs[stratum == st, .(unit_id, year, level)], forcing, lag = lag)
+    slopes <- fit_response_slopes(panel)
+    slope_tabs[[st]] <- slopes
+
+    fit <- tryCatch(
+      fit_doubly_robust(matched_set, slopes, outcome_col = "resp_slope", covars = covars),
+      error = function(e) e)
+    if (inherits(fit, "error")) {
+      rows[[st]] <- data.table::data.table(stratum = st, att = NA_real_, se = NA_real_,
+        t = NA_real_, ci_lo = NA_real_, ci_hi = NA_real_, n_treated = NA_integer_,
+        n_control = NA_integer_, note = conditionMessage(fit))
+      next
+    }
+    e <- fit$estimates[estimator == "doubly_robust"]
+    rows[[st]] <- data.table::data.table(stratum = st, att = e$att, se = e$se, t = e$t,
+      ci_lo = e$ci_lo, ci_hi = e$ci_hi, n_treated = e$n_treated, n_control = e$n_control,
+      note = "")
+
+    g <- merge(ms, slopes[, .(unit_id, resp_slope)], by = "unit_id")[!is.na(resp_slope)]
+    gmeans[[st]] <- data.table::data.table(stratum = st,
+      treated_mean  = g[treated == 1L, mean(resp_slope)],
+      control_mean  = g[treated == 0L, mean(resp_slope)],
+      control_wmean = g[treated == 0L, stats::weighted.mean(resp_slope, w)])
+  }
+
+  list(table       = data.table::rbindlist(rows, use.names = TRUE)[],
+       slopes      = slope_tabs,
+       group_means = data.table::rbindlist(gmeans, use.names = TRUE)[])
+}
