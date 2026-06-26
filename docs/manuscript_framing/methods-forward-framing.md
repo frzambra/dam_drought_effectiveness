@@ -73,7 +73,25 @@ vulnerability read.
   reconstructed trajectory — so the association is **siting**, not a reservoir effect.
 
 **Net:** a strong, publishable-looking reservoir vulnerability signal exists at face value and
-**survives none of the three diagnostics**. That is the paper.
+the *irrigated-demand* reading of it survives none of the three diagnostics. That is the paper.
+
+**Two precision caveats (hypothesis-challenger, 2026-06-26; the residual one now resolved):**
+- A **0.127 natural-cover residual survives aridity²** (CI excludes 0). The hypothesis-challenger
+  flagged it might be a genuine reservoir effect on natural/riparian vegetation. **The pre-2010
+  PLACEBO settles it: the gap is present — and larger — *before* the megadrought (0.483 pre vs
+  0.408 during), so it is a pre-existing, drought-independent confound, NOT a reservoir effect.**
+  Safe framing: "the irrigated-demand vulnerability signal dissolves; the residual is a fixed
+  baseline-aridity difference, confirmed by a pre-period placebo." Avoid the bare "dissolves
+  entirely" — say "is fully attributable to aridity + pre-existing differences."
+- The **irrigated null is not positive evidence of absence** — irrigation-decoupling predicts that
+  null whether or not H2 is true. Cite it as "no detectable effect where one was predicted," not
+  "proof of no effect." **The ET-buffering follow-up (MOD16 500 m, `att_et_buffering`) resolves the
+  grain worry and sharpens the reading:** irrigated orchard ET is nearly insensitive to drought in
+  *both* dammed and control basins (strong buffering), but the dammed-vs-control buffering ATT is
+  null — **reservoirs add no detectable ET buffering beyond what irrigated agriculture already gets
+  from other water sources.** So the irrigated null is now backed at adequate resolution, not just
+  a grain artefact. (Earlier "need 30 m ET" was wrong — that was the SETI *product's* 5.5 km, not a
+  fundamental ET-resolution limit; native MOD16 at 500 m suffices for an aggregated orchard signal.)
 
 ## 5. Proposed structure
 

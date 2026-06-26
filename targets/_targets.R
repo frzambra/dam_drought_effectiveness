@@ -218,6 +218,47 @@ list(
   tar_target(expansion_pretrends,
              orchard_expansion_pretrends(orchard_panel_long, matched_set)),
 
+  # --- discriminating diagnostics (hypothesis-challenger, 2026-06-26) ------------------------
+  # Test A: orchard-ET (SETI~SPEI) transmission slope — does irrigation buffer ET where it did
+  # not visibly buffer NPP? GRAIN-LIMITED (SETI ~5.5 km; orchard cells mostly matrix).
+  tar_target(seti_stack, { sources_yml; seti_monthly_paths(cfg_sources, "SETI", 12L) }),
+  tar_target(orchard_frac_seti_file, {
+               tmpl <- terra::rast(seti_stack$paths[1])
+               r <- terra::rasterize(terra::vect(orchards_dissolved), tmpl, cover = TRUE)
+               p <- project_path("data/processed/orchards/orchard_frac_seti.tif")
+               terra::writeRaster(r, p, overwrite = TRUE); p
+             }, format = "file"),
+  tar_target(att_orchard_et,
+             fit_orchard_et_att(matched_subcuencas, seti_stack,
+                                terra::rast(orchard_frac_seti_file),
+                                forcing_subcuencas, matched_set)),
+  # Test B: pre-megadrought PLACEBO on the natural-cover slope (zNPP/SPEI extended to 2000-2024).
+  tar_target(znpp_stack_full, { sources_yml;
+             ecological_annual_paths(cfg_sources, "zNPP", years = 2000:2024) }),
+  tar_target(znpp_strat_full,
+             stratified_znpp_annual(matched_subcuencas, znpp_stack_full, mb_baseline_paths)),
+  tar_target(forcing_subcuencas_full, { sources_yml;
+             extract_unit_forcing_annual(matched_subcuencas,
+               forcing_monthly_paths(cfg_sources, "SPEI", 12L, years = 2000:2024)) }),
+  tar_target(placebo_period_att,
+             fit_period_transmission_att(znpp_strat_full, forcing_subcuencas_full, matched_set)),
+
+  # Test A2 (the feasible ET-buffering test): MOD16 500 m ET on orchard-majority cells. Native
+  # MODIS ET is fine enough (orchard cells reach ~90% cover at 500 m) where the 5.5 km SETI was
+  # not. Outcome = slope of log(annual ET) on SPEI; H1 buffering -> flatter slope in dammed basins.
+  tar_target(et_stack, { sources_yml; mod16_monthly_paths(cfg_sources, years = 2001:2024) }),
+  tar_target(orchard_frac_et_file, {
+               tmpl <- terra::rast(et_stack$paths[1])
+               r <- terra::rasterize(terra::vect(orchards_dissolved), tmpl, cover = TRUE)
+               p <- project_path("data/processed/orchards/orchard_frac_et.tif")
+               terra::writeRaster(r, p, overwrite = TRUE); p
+             }, format = "file"),
+  tar_target(et_orchard_annual,
+             extract_unit_et_annual(matched_subcuencas, et_stack,
+                                    terra::rast(orchard_frac_et_file))),
+  tar_target(att_et_buffering,
+             fit_et_buffering_att(et_orchard_annual, forcing_subcuencas_full, matched_set)),
+
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),
 

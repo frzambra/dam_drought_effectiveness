@@ -57,11 +57,14 @@ forcing_monthly_paths <- function(sources, index = "SPEI", timescale = 12L,
 #' @param clamp    |value| above this is treated as fill and set NA (default 6; standardized
 #'                 SPEI is bounded ~|3.5|, so this only catches unflagged fill, not real data)
 #' @param min_months_per_year require at least this many months to report a year (default 10)
+#' @param mask     optional boolean SpatRaster (cells to KEEP) aligned to `stack` — restricts the
+#'                 zonal mean to a stratum (e.g. orchard cells on the SETI grid); default NULL
 #' @return data.table(unit_id, year, forcing, n_months)
 extract_unit_forcing_annual <- function(units, stack, clamp = 6,
-                                        min_months_per_year = 10L) {
+                                        min_months_per_year = 10L, mask = NULL) {
   r <- terra::rast(stack$paths)                 # one layer per month
   r <- terra::ifel(abs(r) > clamp, NA, r)       # drop unflagged fill, keep real anomalies
+  if (!is.null(mask)) r <- terra::mask(r, mask, maskvalues = c(NA, FALSE))
   v <- terra::vect(units)
   if (!terra::same.crs(v, r)) v <- terra::project(v, r)
 

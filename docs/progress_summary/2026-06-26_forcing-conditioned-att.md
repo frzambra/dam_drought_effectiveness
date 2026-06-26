@@ -44,10 +44,13 @@ deficit bites). This is hypothesis-supporting for the central question — but s
 ## Confound checks (done, partial)
 
 - **Water-limitation / baseline aridity.** Arid basins are naturally more water-coupled, and
-  dammed basins are more arid (mean aridity 0.42 vs 0.98). Real but **small**: the controls-only
-  slope–aridity gradient is −0.072 per log-unit (p≈6e-16); dammed basins are more arid by
-  Δlog≈−0.85, predicting only **≈+0.06** of the observed **+0.31** ATT. DR (with `log_aridity`)
-  barely moves off weighting-only, so linear aridity adjustment does not absorb it.
+  dammed basins are more arid (mean aridity 0.42 vs 0.98). A *linear* back-of-envelope
+  (controls-only slope–aridity gradient −0.072 per log-unit, p≈6e-16; treated more arid by
+  Δlog≈−0.85) predicts only **≈+0.06** of the +0.31 ATT — but **this LINEAR estimate is
+  superseded and was an under-count.** The aridity²-adjusted robustness below removes ~0.22
+  (0.33→0.11), i.e. the slope–aridity relationship is **nonlinear/convex**, so a linear control
+  badly understates the confound. **Corrected reading: baseline aridity explains the *majority*
+  (~2/3) of the ATT, not ≈0.06.** (Flagged by hypothesis-challenger, 2026-06-26.)
 - **Within Köppen group the gap survives:** B (arid) +0.243 vs +0.038; C (Mediterranean)
   +0.202 vs −0.163. Not an artifact of climate-class mixing.
 
@@ -159,6 +162,45 @@ from:**
   amplified vulnerability — though the ATT is null, so read as "no detectable difference," not
   a buffering finding.
 
+## Discriminating diagnostics (hypothesis-challenger, 2026-06-26)
+
+Two tests to resolve what the irrigated null and the natural-cover residual actually mean
+(`src/R/causal/diagnostic_tests.R`).
+
+**Test A — ET buffering on orchards.** Two products; the 500 m one is decisive.
+
+- *A1 — SETI (~5.5 km), `att_orchard_et`: inconclusive, grain-limited.* Orchard-ET slope shows no
+  dammed-vs-control difference (DR ATT −0.05, t=−0.29, ns), but at 5.5 km orchard cells are ≥83 %
+  matrix — grain-limited, not evidence of absence.
+- *A2 — **MOD16 500 m**, `att_et_buffering`: clean null at adequate resolution.* Native MODIS ET
+  (~500 m) resolves orchards (median densest cell ~90 % orchard; 18 t / 30 c). Outcome = slope of
+  **log(annual ET) on SPEI** (fractional ET sensitivity — amplitude-preserving, so buffering shows):
+  dammed orchards **0.007** vs control **0.022**; **DR ATT −0.003 [−0.020, 0.014], t=−0.31 (ns).**
+  **Two findings:** (1) orchard ET is **nearly insensitive to drought in BOTH groups** (~0.7–2.2 %
+  per SPEI unit) — irrigated orchards strongly buffer ET; (2) but that buffering is **NOT
+  reservoir-specific** — the dammed-vs-control ATT is null (nominally in the buffering direction,
+  t=−0.31). Control orchards buffer ET just as well via groundwater / run-of-river / water markets.
+  **Reservoirs give no detectable *additional* ET buffering beyond what irrigated agriculture
+  already achieves through other water sources.** (Caveat: MOD16 under-estimates irrigated ET,
+  compressing the range; a PML_V2 cross-check would help. The earlier "need 30 m" was wrong — that
+  was the SETI product's coarseness, not ET resolution; 500 m suffices for an aggregated signal.)
+
+**Test B — pre-megadrought PLACEBO on the natural-cover slope, `placebo_period_att`. Decisive: confirms CONFOUND.**
+
+| period | ATT (linear) | + aridity² | n_t / n_c |
+|---|---:|---:|---:|
+| **pre-drought 2000–2009** | **0.483** [0.25, 0.72], t=4.04 | 0.121 (ns) | 21 / 225 |
+| drought 2010–2024 | 0.408 [0.26, 0.55], t=5.44 | 0.165 (t=2.69) | 21 / 225 |
+| storage-era 2005–2024 (ref) | 0.362 | 0.127 | 21 / 225 |
+
+**The natural-cover gap was already present — and LARGER — before the megadrought** (0.483 pre vs
+0.408 during), so it does **not** track the drought era: it is a **fixed, drought-independent basin
+trait (baseline aridity)**, not a reservoir-vulnerability effect. **This resolves the residual
+question** the hypothesis-challenger raised — the 0.127 aridity²-residual is a *pre-existing
+confound*, not a "real riparian/groundwater reservoir effect" (it is present, and ns under aridity²,
+in the placebo period too). Caveat: most dams are left-censored pre-2000, so the placebo shows
+drought-era *non-amplification*; the parsimonious reading is the aridity confound.
+
 ## Caveats / open items
 
 - **zNPP is a coarse proxy** for the H2 outcome — annual NPP z-score over cropland does not
@@ -193,6 +235,16 @@ from:**
 - `src/R/causal/doubly_robust.R` — factored out `dr_estimate()` (reusable estimator core)
   shared by `fit_doubly_robust()`, the robustness battery, and the stratified ATT.
 - `src/R/causal/forcing_robustness.R` (new) — `run_forcing_robustness()` (10-scenario battery).
+- `src/R/causal/diagnostic_tests.R` (new) — `seti_monthly_paths()`, `fit_orchard_et_att()`
+  (Test A1, SETI), `fit_period_transmission_att()` (Test B, pre-2010 placebo).
+- `src/R/preprocessing/et_data.R` (new) — `mod16_monthly_paths()`, `extract_unit_et_annual()`
+  (log-ET), `fit_et_buffering_att()` (Test A2, MOD16 500 m ET buffering).
+- `src/R/preprocessing/forcing_data.R` — `extract_unit_forcing_annual()` gained an optional
+  `mask` arg (restrict the zonal mean to a cover stratum).
+- `config/data_sources.yml` — `et_mod16` source block.
+- targets (diagnostics): `seti_stack`, `orchard_frac_seti_file`, `att_orchard_et`;
+  `znpp_stack_full`, `znpp_strat_full`, `forcing_subcuencas_full`, `placebo_period_att`;
+  `et_stack`, `orchard_frac_et_file`, `et_orchard_annual`, `att_et_buffering`.
 - `src/R/preprocessing/landcover_cover.R` (new) — `mapbiomas_paths()`,
   `stratified_znpp_annual()` (per-polygon 30 m cover mask → ag/natural zNPP strata).
 - `src/R/data_ingestion/read_orchards.R` (new) — `read_orchards_latest()`,

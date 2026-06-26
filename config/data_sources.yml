@@ -364,6 +364,24 @@ reservoirs:
     reservoir to its containing cuenca/subcuenca by point-in-polygon to define the
     treatment unit, replacing the interim dam-POINT extraction.
 
+# MOD16A2GF actual-ET, monthly, ~500 m — the native MODIS ET (finer than the 0.05° SETI
+# anomaly product). Used for the reservoir ET-buffering test on orchard cells (slope of
+# log annual ET on SPEI). Raw ET (scaled int, MODIS fill > 32760), NOT a standardized anomaly.
+et_mod16:
+  description: >
+    MODIS MOD16A2GF.061 gap-filled actual evapotranspiration, aggregated to monthly, clipped to
+    Chile at ~500 m. One GeoTIFF per month. Scaled integer (apply 0.1 for mm); MODIS fill codes
+    > 32760 (water/void) must be masked. Known to UNDER-estimate irrigated-crop ET.
+  root: /media/francisco/Respaldo_frzambra/data/MODIS/extraidos/ET.MOD16A2GF.061_monthly_2000-2025_Chile_500m/
+  source: MODIS MOD16A2GF v061
+  format: GeoTIFF (.tif)
+  grid: Chile (EPSG:4326)
+  resolution_deg: 0.00333          # ~370-500 m
+  temporal_resolution: monthly
+  span: ["2000-01", "2024-12"]     # 300 files; use 2001-2024 (drop partial 2000)
+  filename_pattern: "ET.MOD16A2GF.061_monthly_{YYYYMMDD}.tif"
+  nodata: ">32760"                 # MODIS fill (water/void); mask before stats
+
 # CIREN/ODEPA Catastro Frutícola — DEFINITIVELY IRRIGATED fruit-orchard cadastre polygons.
 # The ground-truth irrigated-agriculture layer: replaces the MapBiomas class-18 proxy for the
 # transmission-slope irrigated stratum, and (via plantation year) reconstructs irrigated-area
