@@ -22,7 +22,7 @@ tar_source(file.path(root, "src", "R"))   # source all analysis functions recurs
 tar_option_set(
   packages = c("data.table", "sf", "terra", "yaml",
                "fixest", "segmented", "lubridate",
-               "WeightIt", "cobalt", "MatchIt")
+               "WeightIt", "cobalt", "MatchIt", "exactextractr")
 )
 
 list(
@@ -246,7 +246,19 @@ list(
   # Test A2 (the feasible ET-buffering test): MOD16 500 m ET on orchard-majority cells. Native
   # MODIS ET is fine enough (orchard cells reach ~90% cover at 500 m) where the 5.5 km SETI was
   # not. Outcome = slope of log(annual ET) on SPEI; H1 buffering -> flatter slope in dammed basins.
-  tar_target(et_stack, { sources_yml; mod16_monthly_paths(cfg_sources, years = 2001:2024) }),
+  tar_target(et_stack, { sources_yml; mod16_8day_paths(cfg_sources, years = 2001:2024) }),
+  # The 8-day source is on a slow USB-NTFS drive where terra's windowed reads seek at ~2 MB/s
+  # (a single year took ~30 min in place). Mirror the 1104 files to local NVMe ONCE (sequential
+  # copy, ~15-40x faster), then aggregate from the local copy. Idempotent: skips files already
+  # mirrored, so this is a one-time cost. (~105 GB local in data/interim/et_8day/.)
+  tar_target(et_local_dir, project_path("data/interim/et_8day")),
+  tar_target(et_stack_local, mirror_et_local(et_stack, et_local_dir)),
+  # Cache the 1104-layer stack as a 24-band annual-ET (mm/yr) raster (year-by-year). Every
+  # per-unit/per-stratum extraction below then reads only 24 bands (fast, re-runnable).
+  tar_target(et_annual_file,
+             aggregate_et_annual(et_stack_local, project_path("data/interim/et/et_annual_mm.tif"),
+                                 units = matched_subcuencas),
+             format = "file"),
   tar_target(orchard_frac_et_file, {
                tmpl <- terra::rast(et_stack$paths[1])
                r <- terra::rasterize(terra::vect(orchards_dissolved), tmpl, cover = TRUE)
@@ -254,10 +266,92 @@ list(
                terra::writeRaster(r, p, overwrite = TRUE); p
              }, format = "file"),
   tar_target(et_orchard_annual,
-             extract_unit_et_annual(matched_subcuencas, et_stack,
+             extract_unit_et_annual(matched_subcuencas, terra::rast(et_annual_file),
                                     terra::rast(orchard_frac_et_file))),
   tar_target(att_et_buffering,
              fit_et_buffering_att(et_orchard_annual, forcing_subcuencas_full, matched_set)),
+
+  # === H2 OUTCOME ACQUISITION: annual ET (mm/yr) + observed irrigated-area panels ============
+  # The forcing-conditioned + cover-disaggregated zNPP tests exhausted the ecological PROXY
+  # (clean H2 null on the deficit->impact slope) but cannot test the area/ET MEDIATOR directly.
+  # These targets build the two missing time-varying outcomes (2026-06-27):
+  #   (1) per-unit annual ET LEVEL (mm/yr) — consumptive water use, whole-basin and orchard cells;
+  #   (2) OBSERVED annual agricultural area (MapBiomas) — the no-survival-bias counterpart to the
+  #       Catastro orchard reconstruction. Closes config/variables.yml:gated irrigated_area_landcover.
+
+  # (1a) whole-basin annual ET level (mm/yr), all matched units. min_cells=20 drops hyper-arid
+  # northern basins where MOD16 is nearly all fill over barren/salar (1-8 valid cells, spurious
+  # ~1700-2967 mm/yr); real vegetated basins have hundreds-thousands of cells (10th pctile 193).
+  tar_target(et_unit_annual,
+             extract_unit_et_total_annual(matched_subcuencas, terra::rast(et_annual_file),
+                                          min_cells = 20L)),
+  # (1b) orchard-stratum annual ET level (mm/yr) — ET on irrigated cells, the H2 consumptive signal.
+  tar_target(et_orchard_level,
+             extract_unit_et_total_annual(matched_subcuencas, terra::rast(et_annual_file),
+                                          terra::rast(orchard_frac_et_file))),
+
+  # (2) OBSERVED agricultural-area panel from MapBiomas (30 m), 1999-2024, matched units.
+  #     irrig = Agriculture (class 18, the irrigated-cropland proxy); farm = farming {9,15,18}.
+  tar_target(mb_area_years, 1999:2024),
+  # Mirror the 26 MapBiomas files to local NVMe (slow USB source); idempotent, ~3.6 GB.
+  tar_target(mb_area_paths,
+             { sources_yml
+               mirror_paths_local(mapbiomas_paths(cfg_sources, mb_area_years),
+                                  project_path("data/interim/mapbiomas_local")) },
+             format = "file"),
+  tar_target(irrig_area_panel,
+             extract_unit_area_panel(matched_subcuencas, mb_area_paths, mb_area_years,
+                                     classes = 18L)),
+  tar_target(farm_area_panel,
+             extract_unit_area_panel(matched_subcuencas, mb_area_paths, mb_area_years,
+                                     classes = c(9L, 15L, 18L))),
+  # observed-area expansion ATT (compare to att_orchard_expansion from the Catastro reconstruction)
+  tar_target(irrig_area_expansion, area_expansion_summary(irrig_area_panel, matched_set$data)),
+  tar_target(att_irrig_area_expansion,
+             fit_area_expansion_att(matched_set, irrig_area_expansion)),
+
+  # === FORCING-INTERACTED DiD / EVENT-STUDY (reservoir-causal-analyst design 2026-06) ===========
+  # Treatment is near-time-invariant (dams predate the panel) and calendar time is megadrought-
+  # confounded, so the dose is SPEI, not the year: feols(y ~ treat:spei_c + spei_c | unit + year).
+  # year FE remove the common drought shock; treat:spei_c is the differential deficit->impact SLOPE.
+  # Forcing = meteorological SPEI-12 (forcing_subcuencas_full, 2000-2024), NOT a streamflow/storage
+  # series. Outcomes: area_frac (no survival bias), log whole-basin ET, log orchard ET (cleanest H2).
+  tar_target(did_panel_area,
+             build_did_panel(irrig_area_panel, forcing_subcuencas_full, matched_set,
+                             "area_frac", log_outcome = FALSE)),
+  tar_target(did_panel_et,
+             build_did_panel(et_unit_annual, forcing_subcuencas_full, matched_set,
+                             "et_mm", log_outcome = TRUE)),
+  tar_target(did_panel_orch,
+             build_did_panel(et_orchard_level, forcing_subcuencas_full, matched_set,
+                             "et_mm", log_outcome = TRUE)),
+
+  # PRIMARY slope-gap models + dynamic event-study (parallel-trends/divergence diagnostic, ref 2009)
+  tar_target(did_area, fit_forcing_did(did_panel_area)),
+  tar_target(did_et,   fit_forcing_did(did_panel_et)),
+  tar_target(did_orch, fit_forcing_did(did_panel_orch)),
+  tar_target(es_area,  fit_event_study(did_panel_area)),
+  tar_target(es_et,    fit_event_study(did_panel_et)),
+  tar_target(es_orch,  fit_event_study(did_panel_orch)),
+
+  # MECHANISM triple-difference (does the slope gap widen with irrigation intensity?)
+  tar_target(irr_share, irrig_area_panel[, .(irr_share = mean(area_frac)), by = unit_id]),
+  tar_target(did_triple_orch, fit_triple_diff(did_panel_orch, irr_share)),
+
+  # PLACEBO: high-aridity-tercile pseudo-treatment among CONTROLS (must be ~0)
+  tar_target(did_placebo_area, fit_aridity_placebo(did_panel_area)),
+  tar_target(did_placebo_orch, fit_aridity_placebo(did_panel_orch)),
+
+  # randomization inference on treat:spei_c (permute treatment within kg_group x aridity-tercile
+  # strata; ~24 treated CLUSTERS, not unit-years — fwildclusterboot is off CRAN so this is the
+  # design-based small-cluster inference)
+  tar_target(perm_area, permutation_test_slope(did_panel_area, did_area)),
+  tar_target(perm_et,   permutation_test_slope(did_panel_et,   did_et)),
+  tar_target(perm_orch, permutation_test_slope(did_panel_orch, did_orch)),
+  tar_target(did_summary, data.table::rbindlist(list(
+               did_slope_summary(did_area, "area_frac",      perm_area),
+               did_slope_summary(did_et,   "log_basin_ET",   perm_et),
+               did_slope_summary(did_orch, "log_orchard_ET", perm_orch)))),
 
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),

@@ -2,3 +2,4 @@
 - [Data Situation](data_situation.md) — what is real (storage, SPI/SPEI/EDDI) vs blocked (NDVI, land-cover, capacity rules, streamflow)
 - [Treatment Design Constraints](treatment_design_constraints.md) — n=26, mostly left-censored commissioning; only ~5 switch on in-panel
 - [Mega-Drought Confound](megadrought_confound_t1.md) — 2010+ collinear with treatment clock; the make-or-break threat and how to break it
+- [Forcing-Interacted DiD Design](forcing_interacted_did_design.md) — treat x SPEI slope DiD (year FE = exposure control); ranked specs, fixest formulas, wild-boot inference, decision rules

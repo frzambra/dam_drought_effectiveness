@@ -364,23 +364,36 @@ reservoirs:
     reservoir to its containing cuenca/subcuenca by point-in-polygon to define the
     treatment unit, replacing the interim dam-POINT extraction.
 
-# MOD16A2GF actual-ET, monthly, ~500 m — the native MODIS ET (finer than the 0.05° SETI
-# anomaly product). Used for the reservoir ET-buffering test on orchard cells (slope of
-# log annual ET on SPEI). Raw ET (scaled int, MODIS fill > 32760), NOT a standardized anomaly.
+# MOD16A2GF actual-ET, 8-DAY composites, ~500 m — the native MODIS ET (finer than the 0.05°
+# SETI anomaly product). Used for the reservoir ET-buffering test on orchard cells (slope of
+# log annual ET on SPEI) AND the per-unit annual ET (mm/yr) consumptive-use panel. NOT a
+# standardized anomaly.
+#
+# IMPORTANT — verified against the files on disk 2026-06-27 (the earlier "monthly / scaled-int /
+# fill>32760 / *_monthly_{YYYYMMDD}.tif" description was WRONG and matched zero files):
+#   * 8-DAY composites, 46 per year (last is 5-6 days), NOT monthly. Annual ET = SUM of the
+#     8-day composites (each value is mm over its 8-day period), NOT a mean.
+#   * Values are ALREADY in mm/8day (Float, scale ×1) — do NOT apply 0.1. (A cold Patagonian basin
+#     sums to ~365 mm/yr at ×1, physically correct; ×0.1 would give an absurd ~37 mm/yr.)
+#   * TWO non-physical populations: a fill PLATEAU at ~3276.1-3276.7 AND a contamination cluster at
+#     ~2000-3270 mm/8day (3-5% of cells). Real 8-day ET is ≤~50-60 (bimodally separated, ~nothing in
+#     80-2000), so mask values > 100 mm/8day (a single physical cap removes both; the old ">32760"
+#     never triggered and ">3270" leaked the contamination, inflating basin ET to ~20000 mm/yr).
 et_mod16:
   description: >
-    MODIS MOD16A2GF.061 gap-filled actual evapotranspiration, aggregated to monthly, clipped to
-    Chile at ~500 m. One GeoTIFF per month. Scaled integer (apply 0.1 for mm); MODIS fill codes
-    > 32760 (water/void) must be masked. Known to UNDER-estimate irrigated-crop ET.
-  root: /media/francisco/Respaldo_frzambra/data/MODIS/extraidos/ET.MOD16A2GF.061_monthly_2000-2025_Chile_500m/
+    MODIS MOD16A2GF.061 gap-filled actual evapotranspiration, 8-day composites, clipped to Chile
+    at ~500 m. One GeoTIFF per 8-day period. Values pre-scaled to mm/8day (Float); fill plateau at
+    ~3276.6 (mask > 3270). Annual ET = SUM of the year's composites. Under-estimates irrigated ET.
+  root: /media/francisco/Respaldo_frzambra/data/MODIS/extraidos/ET.MOD16A2GF.061/
   source: MODIS MOD16A2GF v061
   format: GeoTIFF (.tif)
   grid: Chile (EPSG:4326)
   resolution_deg: 0.00333          # ~370-500 m
-  temporal_resolution: monthly
-  span: ["2000-01", "2024-12"]     # 300 files; use 2001-2024 (drop partial 2000)
-  filename_pattern: "ET.MOD16A2GF.061_monthly_{YYYYMMDD}.tif"
-  nodata: ">32760"                 # MODIS fill (water/void); mask before stats
+  temporal_resolution: 8-day       # 46 composites/yr; annual = SUM, not mean
+  span: ["2000-01-01", "2025-12-27"]   # ~1195 files; use 2001-2024 (drop partial 2000/2025)
+  filename_pattern: "ET.MOD1623GF_Chile_500m_{YYYY.MM.DD}.tif"   # note dot-separated date; "MOD1623GF" export typo
+  units: mm/8day (scale ×1; do NOT apply 0.1)
+  nodata: ">100"                   # physical cap: removes fill plateau (~3276) AND ~2000-3270 contamination
 
 # CIREN/ODEPA Catastro Frutícola — DEFINITIVELY IRRIGATED fruit-orchard cadastre polygons.
 # The ground-truth irrigated-agriculture layer: replaces the MapBiomas class-18 proxy for the
