@@ -59,3 +59,30 @@ knitr::kable(tab[, .(Group = group, Outcome = outcome, Estimand = estimand,
 #| echo: false
 knitr::include_graphics("../../results/figures/fig_convergent_null.png")
 ```
+
+## The apparent buffering is reservoir siting, not regulation
+
+The preceding nulls use vegetation and ET proxies. We obtain the same answer on the direct,
+vegetation-independent availability outcome — streamflow — and, uniquely here, can show *why* a
+naive analysis would mislead. From CR2 daily gauge records (2000–2020) we build a 12-month
+Standardized Streamflow Index (SSI-12) and test whether meteorological drought (SPEI-12)
+propagates less strongly to streamflow drought in dammed than in matched-control basins
+(@fig-streamflow). Dammed basins do show a flatter SPEI→SSI transmission — the visual signature
+of buffering (@fig-streamflow, panel a). But this apparent attenuation **(i)** does not survive
+randomization inference (intent-to-treat slope gap $-0.18$, cluster $p = 0.03$ but
+$p_{\text{perm}} = 0.39$), and **(ii)** is present just as strongly at gauges located *upstream*
+of the dam — which are physically unregulated — as at downstream gauges
+($-0.20$ vs $-0.16$; @fig-streamflow, panel b). There is no downstream-versus-upstream
+dose-response, the signature a genuine regulation effect would require. The flatter slope is
+therefore a property of *where* reservoirs are sited — arid, hydrogeologically distinct basins —
+not of the reservoirs themselves. Because the upstream-of-dam comparison is unavailable for any
+vegetation outcome, streamflow provides the cleanest within-design falsification of the buffering
+hypothesis: the effect that naive dammed-versus-control or calendar-time analyses would report is
+siting, not regulation.
+
+```{r}
+#| label: fig-streamflow
+#| fig-cap: "Streamflow buffering is reservoir siting, not regulation. (a) SPEI-12 to SSI-12 transmission for dammed versus matched-control basins (downstream gauges); dammed basins show a flatter slope, the apparent buffering. (b) Differential slope (treat:SPEI; <0 = buffering) for intent-to-treat, downstream-only, and the upstream-only placebo, with randomization-inference p-values. All are permutation-null, and the upstream placebo - above-dam, unregulated - is as strong as downstream, so the attenuation is siting/aridity, not the dam."
+#| echo: false
+knitr::include_graphics("../../results/figures/fig_streamflow.png")
+```

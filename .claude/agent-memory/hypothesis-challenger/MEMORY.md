@@ -6,3 +6,4 @@
 - [Recurring Alternatives in Reservoir-Drought Claims](reservoir-drought-alternatives.md) — standard rival mechanisms that mimic attenuation-then-amplification
 - [Power Reality for Tail/Threshold Estimation](tail-power-reality.md) — ~21yr monthly across 26 basins cannot identify per-basin GPD tails or distinct thresholds
 - [Forcing-ATT Internal Tensions](forcing-att-internal-tensions.md) — 0.06-vs-0.22 aridity contradiction, "dissolves entirely" over-claim, irrigated null is weak evidence; tests to run before manuscript
+- [H5 Recovery Enhancement](h5-recovery-enhancement.md) — recovery-limb hypothesis after H1/H2 failed; asymmetry estimand, confounds, natural-cover-only decisive falsifier, ~15-20% prior

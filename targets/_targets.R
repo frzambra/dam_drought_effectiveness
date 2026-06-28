@@ -379,6 +379,30 @@ list(
   tar_target(h1_tar,           fit_storage_tar(treated_storage_panel)),
   tar_target(h1_overshoot,     overshoot_test(severity_panel, h1_tar)),
 
+  # === H1 BUFFERING ON STREAMFLOW (the vegetation-independent availability outcome) ============
+  # CR2 daily flow -> SSI-12; does meteorological drought propagate LESS to streamflow drought in
+  # dammed vs control? treat:spei_c NEGATIVE = buffering. ITT (all dammed gauges) is the conservative
+  # primary; downstream-only (gauge below dam) the refinement; UPSTREAM-only the decisive placebo
+  # (above-dam gauges cannot be regulated -> any "buffering" there is siting/aridity, not the dam).
+  tar_target(streamflow_stations_raw, { sources_yml; read_cr2_stations(cfg_sources) }),
+  tar_target(dam_elev, extract_dam_elevation(points, reservoir_units, cfg_sources)),
+  tar_target(streamflow_stations,
+             assign_stations_to_units(streamflow_stations_raw, matched_subcuencas, matched_set, dam_elev)),
+  tar_target(streamflow_monthly, { sources_yml; read_cr2_monthly_flow(cfg_sources, streamflow_stations$codigo) }),
+  tar_target(ssi12, compute_ssi(streamflow_monthly)),
+  tar_target(ssi_panel_itt,  build_ssi_panel(ssi12, streamflow_stations, spei12_monthly, matched_set, "itt")),
+  tar_target(ssi_panel_down, build_ssi_panel(ssi12, streamflow_stations, spei12_monthly, matched_set, "down")),
+  tar_target(ssi_panel_up,   build_ssi_panel(ssi12, streamflow_stations, spei12_monthly, matched_set, "up")),
+  tar_target(ssi_buffer_itt,  fit_ssi_buffering(ssi_panel_itt)),
+  tar_target(ssi_buffer_down, fit_ssi_buffering(ssi_panel_down)),
+  tar_target(ssi_buffer_up,   fit_ssi_buffering(ssi_panel_up)),
+  tar_target(ssi_perm_itt,  permute_ssi_buffer(ssi_panel_itt)),
+  tar_target(ssi_perm_down, permute_ssi_buffer(ssi_panel_down)),
+  tar_target(ssi_perm_up,   permute_ssi_buffer(ssi_panel_up)),
+  tar_target(streamflow_summary,
+             ssi_buffer_summary(ssi_buffer_itt, ssi_buffer_down, ssi_buffer_up,
+                                ssi_perm_itt, ssi_perm_down, ssi_perm_up)),
+
   # === MANUSCRIPT FIGURES + TABLES (results/ via file targets; one message each) ===============
   # Main results table: convergent H2 null across cross-sectional ATTs + forcing-interacted DiD.
   tar_target(main_results_table,
@@ -390,6 +414,12 @@ list(
   tar_target(fig_area_did_obj, fig_area_did(did_panel_area, es_area)),
   tar_target(fig_area_did_file,
              save_fig(fig_area_did_obj, "fig_area_did", width = "onehalf", height_mm = 120),
+             format = "file"),
+
+  # Fig 3: streamflow buffering is siting (SPEI->SSI slopes + ITT/downstream/upstream-placebo coefs)
+  tar_target(fig_streamflow_obj, fig_streamflow(streamflow_summary, ssi_panel_down)),
+  tar_target(fig_streamflow_file,
+             save_fig(fig_streamflow_obj, "fig_streamflow", width = "onehalf", height_mm = 130),
              format = "file"),
 
   # Fig 2: convergent-null forest plot (standardized effect / SE across all methods)

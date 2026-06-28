@@ -425,6 +425,33 @@ catastro_fruticola:
     19 of 21 matched dammed subcuencas contain orchards (median ~2170 ha) vs 46/244 controls
     (median ~216 ha) — reservoirs↔orchards strongly coupled.
 
+# CR2 daily streamflow (caudal, m3/s) — the GATED vegetation-independent availability outcome for the
+# H1 buffering test (does meteorological drought propagate LESS to streamflow drought in dammed vs
+# matched-control basins). 811 DGA gauges, 1913-2020-03; compiled by CR2 (cr2.cl).
+streamflow:
+  description: >
+    CR2 compiled daily mean streamflow (caudal medio diario, m3/s) for 811 Chilean gauges,
+    Feb 1913 - Mar 2020. Wide CSV: 15 METADATA rows (codigo_estacion, institucion, fuente, nombre,
+    altura, latitud, longitud, codigo_cuenca, nombre_cuenca, codigo_sub_cuenca, nombre_sub_cuenca,
+    inicio/fin_observaciones, cantidad_observaciones, inicio_automatica) then daily YYYY-MM-DD rows.
+  dir: data/raw/streamflow/cr2_qflxDaily_2020/
+  data_file: cr2_qflxDaily_2020.txt           # wide; column 1 = date, one column per station
+  stations_file: cr2_qflxDaily_2020_stations.txt   # comma-sep station metadata (lat/lon/altura/BNA codes)
+  format: CSV (comma-sep, '.' decimal)
+  units: m3/s
+  nodata: -9999
+  span: ["1913-02", "2020-03"]                 # analysis window 2000-2020 (record ENDS 2020-03)
+  n_stations: 811
+  notes: >
+    Station codes are zero-padded 8-digit in the DATA header (e.g. 01201005) but un-padded in
+    stations.txt (1201005) — match on as.integer. Record ends 2020-03 so the deep 2020-24 megadrought
+    tail is missing. Assign gauge->subcuenca by point-in-polygon (lat/lon). A gauge in a dammed
+    subcuenca may be UP- or DOWN-stream of the dam; only downstream flow is regulated -> intent-to-treat
+    (all gauges in dammed units) is the conservative primary, downstream-only (gauge altura < dam
+    elevation) the refinement, upstream-only the decisive placebo. SSI = per-calendar-month Gringorten
+    normal-quantile transform of the trailing-12-month mean flow (robust to zeros/skew), standardized
+    on the common 2000-2020 window. See agent-memory drought-propagation-analyst/streamflow-ssi-test-design.md.
+
 # --- Notes ----------------------------------------------------------------
 # - CHIRPS-CHIRTS indices begin 1991; MODIS ecological indices begin 2000; MapBiomas
 #   land cover 1999; reservoir storage begins 2005-01. Usable multi-source overlap is

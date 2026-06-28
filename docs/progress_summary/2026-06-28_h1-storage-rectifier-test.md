@@ -57,6 +57,28 @@ structure is respected — is itself the contribution.
   `severity_panel`, `treated_storage_panel`) + H1 tests (`h1_quantreg`, `h1_tail_contrast`, `h1_perm`,
   `h1_gpd`, `h1_tar`, `h1_overshoot`); packages `quantreg`, `extRemes`.
 
+## H5 — post-drought RECOVERY enhancement (evaluated + gate-tested 2026-06-28)
+
+`hypothesis-challenger` evaluated a NEW hypothesis (dammed basins REBOUND faster than controls;
+agent-memory `h5-recovery-enhancement.md`). Sharpest identifiable estimand given the persistent
+megadrought: onset/recovery ASYMMETRY = triple interaction `treat:spei12:rising` on monthly zcNDVI-6
+(unit + year-month FE, ebal weights; rising = 1{ΔSPEI12 > 0}); decisive falsifier = natural-cover-only
+split; honest prior ~15-20% survival. Cheap gate test (scratch, on cached `severity_panel`):
+
+| term | estimate | t | cluster p |
+|---|---:|---:|---:|
+| `spei12:treat` (overall transmission) | +0.259 | 4.37 | ~0 |
+| **`spei12:rising:treat` (H5 recovery asymmetry)** | **−0.021** | −1.42 | **0.16** |
+
+H5 predicts POSITIVE; observed is **wrong-signed and NS** — dammed basins respond slightly *less* to
+improving SPEI on the recovery limb. No positive signal to even pass to the natural-cover falsifier;
+permutation (strictly more conservative) was unnecessary. The `spei12:treat` = +0.26 is cluster-robust
+over-rejection of the same forcing-transmission slope that collapses under permutation/aridity (not new).
+
+**H1, H2, and now H5 all fail under proper inference** — the reservoir signal keeps reducing to
+siting + baseline aridity + cropland phenology. (H5 gate test is a scratch script, not yet a target;
+wire it if the recovery angle is pursued — e.g. on its proper outcome once streamflow is acquired.)
+
 ## Next
 1. H1 figure (QR coefficient-by-τ fan + GPD tails) for the supplement, framed as the tail-null.
 2. The modest C1 "buffering-while-full" mean-threshold could anchor a tempered H1 sub-result.
