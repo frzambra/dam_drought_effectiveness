@@ -22,7 +22,8 @@ tar_source(file.path(root, "src", "R"))   # source all analysis functions recurs
 tar_option_set(
   packages = c("data.table", "sf", "terra", "yaml",
                "fixest", "segmented", "lubridate",
-               "WeightIt", "cobalt", "MatchIt", "exactextractr")
+               "WeightIt", "cobalt", "MatchIt", "exactextractr",
+               "ggplot2", "patchwork")
 )
 
 list(
@@ -352,6 +353,25 @@ list(
                did_slope_summary(did_area, "area_frac",      perm_area),
                did_slope_summary(did_et,   "log_basin_ET",   perm_et),
                did_slope_summary(did_orch, "log_orchard_ET", perm_orch)))),
+
+  # === MANUSCRIPT FIGURES + TABLES (results/ via file targets; one message each) ===============
+  # Main results table: convergent H2 null across cross-sectional ATTs + forcing-interacted DiD.
+  tar_target(main_results_table,
+             build_main_results_table(att_irrig_area_expansion, att_et_buffering, did_summary)),
+  tar_target(table_main_file, write_table(main_results_table, "table_main_results"),
+             format = "file"),
+
+  # Fig 1: observed irrigated-area DiD — siting level gap + flat event-study (the clean dynamic null)
+  tar_target(fig_area_did_obj, fig_area_did(did_panel_area, es_area)),
+  tar_target(fig_area_did_file,
+             save_fig(fig_area_did_obj, "fig_area_did", width = "onehalf", height_mm = 120),
+             format = "file"),
+
+  # Fig 2: convergent-null forest plot (standardized effect / SE across all methods)
+  tar_target(fig_convergent_obj, fig_convergent_null(main_results_table)),
+  tar_target(fig_convergent_file,
+             save_fig(fig_convergent_obj, "fig_convergent_null", width = "onehalf", height_mm = 85),
+             format = "file"),
 
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),

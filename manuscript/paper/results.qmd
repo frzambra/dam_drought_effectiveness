@@ -1,0 +1,61 @@
+# Results
+
+## Reservoirs concentrate irrigated land but do not alter its drought dynamics
+
+Across the matched design (21 dammed vs 244 control subcuencas), dammed basins contain
+roughly an order of magnitude more cropland than matched controls — a mean of
+11.1% of basin area versus 2.4% (@fig-area, panel a). This gap, however, is a
+*siting* signature: it is present and stable across the entire 2000–2024 record, with
+dammed and control trajectories evolving in parallel through the 2010-onset megadrought
+(dashed line). A dynamic event study confirms this — the dammed × year coefficients on
+cropland area are jointly flat before 2009 (Wald $p = 0.68$) and show no divergence after the
+drought onset (@fig-area, panel b). Reservoirs mark where irrigated agriculture already
+was; they do not detectably expand it or change how it responds to drought.
+
+```{r}
+#| label: fig-area
+#| fig-cap: "Observed irrigated-area dynamics in dammed versus matched-control basins. (a) Weighted mean cropland area (% of basin, MapBiomas class 18); dammed basins hold ~10x more cropland but trajectories are parallel. (b) Dynamic event study (dammed x year, reference 2009): flat pre-trends and no post-megadrought divergence. Dashed line, 2010 megadrought onset."
+#| echo: false
+knitr::include_graphics("../../results/figures/fig_area_did.png")
+```
+
+## The induced-demand mechanism is unsupported across every test
+
+We test the H2 vulnerability mechanism with four independent estimators (@tbl-main):
+two cross-sectional doubly-robust matched ATTs — net irrigated-area expansion
+($-0.69$ ha km^-2^, 95% CI $[-2.4, 1.1]$) and reservoir evapotranspiration buffering
+($-0.014$ d log ET / d SPEI, $[-0.065, 0.037]$) — and forcing-interacted
+difference-in-differences slope gaps on the observed area and ET panels, in which the
+deficit dose is the meteorological SPEI rather than calendar time (so year fixed effects
+absorb the common megadrought shock and the estimand is the differential deficit-to-impact
+*slope*). Because the treatment is effectively time-invariant (18 of 24 reservoirs predate
+the record), this within-unit, forcing-based design is the only defensible dynamic
+identification; inference uses randomization of treatment within climate x aridity strata
+(~24 treated clusters).
+
+Every estimate straddles zero (@fig-forest). The forcing-interacted slope gap is null for
+irrigated area ($p_{\text{perm}} = 0.91$) and orchard ET ($p_{\text{perm}} = 0.24$). The
+whole-basin ET slope gap is nominally positive under cluster-robust errors but null under
+randomization inference ($p_{\text{perm}} = 0.11$), and its pre-trends fail
+($p \approx 10^{-10}$) — a few-clusters over-rejection on a panel known to be confounded by
+residual aridity over barren land; the ET conclusion therefore rests on the cross-sectional
+buffering null. No panel exhibits the positive slope that the vulnerability hypothesis
+predicts.
+
+```{r}
+#| label: tbl-main
+#| tbl-cap: "Convergent null across estimators. Cross-sectional doubly-robust matched ATTs and forcing-interacted DiD slope gaps (treat:SPEI). DiD rows are judged by randomization-inference p-values (p); cluster-robust CIs are shown for completeness. Positive estimates would support the H2 induced-demand vulnerability mechanism."
+#| echo: false
+tab <- data.table::fread("../../results/tables/table_main_results.csv")
+knitr::kable(tab[, .(Group = group, Outcome = outcome, Estimand = estimand,
+                     Estimate = round(estimate, 3),
+                     `95% CI` = sprintf("[%.3g, %.3g]", ci_lo, ci_hi),
+                     p = ifelse(is.na(p), "-", sprintf("%.2f", p)), Verdict = verdict)])
+```
+
+```{r}
+#| label: fig-forest
+#| fig-cap: "Standardized dammed - control effect (estimate / SE) across all four estimators. DiD rows are standardized via their randomization-inference p-value. Dotted lines mark +/-1.96; every confidence interval spans zero. The H2 vulnerability mechanism predicts positive effects."
+#| echo: false
+knitr::include_graphics("../../results/figures/fig_convergent_null.png")
+```

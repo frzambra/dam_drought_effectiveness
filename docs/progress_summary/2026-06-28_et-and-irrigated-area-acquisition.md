@@ -108,9 +108,26 @@ pre-trends, slope-gap CI covers 0, placebo null). For ET, the slope-gap is null 
 design fails its own assumptions (pre-trends + placebo), so ET evidence stays cross-sectional. No
 panel shows a positive H2 effect — nothing overturned.
 
+## Manuscript figures + tables (added 2026-06-28)
+
+Figure infrastructure built: `config/figure_settings.yml` (Nature Water style), `src/R/visualization/`
+(`theme.R` publication theme + palette + `save_fig`; `figures.R`; `tables.R`). Outputs flow to
+`results/figures/` and `results/tables/` as file targets, and are wired into
+`manuscript/paper/results.qmd`.
+
+- **Fig 1 (`fig_area_did`)** — observed irrigated-area DiD: (a) dammed (~11%) vs control (~2.4%)
+  cropland-fraction trajectories (the ~10x siting gap, parallel), (b) event-study (flat pre-trends,
+  no post-2010 divergence). The clean dynamic null.
+- **Fig 2 (`fig_convergent_null`)** — forest plot, standardized effect (estimate/SE; DiD rows via
+  permutation p) across all four estimators; every CI spans zero.
+- **Table 1 (`table_main_results`)** — convergent-null table (2 cross-sectional ATTs + 3 DiD
+  slope-gaps); verdict from the trustworthy inference (permutation p for DiD). CSV + markdown.
+
+Pipeline fully up to date (0 outdated, 121 targets).
+
 ## Next
-1. **renv::snapshot()** to pin `exactextractr` in the lockfile (`fwildclusterboot` is off CRAN —
-   permutation inference used instead).
+1. **renv::snapshot()** to pin `exactextractr`, `patchwork`, `ggtext` in the lockfile
+   (`fwildclusterboot` is off CRAN — permutation inference used instead).
 2. **Reframe the contribution**: a convergent multi-method null (forcing-conditioned slope, ET
    buffering, net area expansion, AND a clean dynamic area DiD with parallel trends) shows the
    cross-sectional dammed-vs-control gaps are siting + baseline aridity, not a reservoir-driven

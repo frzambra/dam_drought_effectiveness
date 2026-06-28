@@ -1,0 +1,28 @@
+# Figure style for the manuscript (Nature Water family). Read by src/R/visualization/theme.R.
+# One key message per figure; no rainbow scales, no 3D, minimal chrome.
+
+device:
+  dpi: 400
+  # Nature column widths (mm): single 89, 1.5 120, double 183.
+  width_single_mm: 89
+  width_onehalf_mm: 120
+  width_double_mm: 183
+  formats: [pdf, png]          # vector for submission, png for preview
+
+font:
+  family: sans                 # Helvetica/Arial-like; Nature uses sans
+  base_size_pt: 7              # Nature body ~7 pt
+  title_size_pt: 8
+  geom_text_size: 2.5          # ggplot geom_text size units (~7 pt)
+
+# Two-condition palette (treated = dammed, control = matched undammed). Colour-blind safe.
+palette:
+  treated: "#C2410C"           # burnt orange (dammed)
+  control: "#0E7490"           # teal (control)
+  neutral: "#6B7280"           # grey
+  zero_line: "#9CA3AF"         # reference / null line
+  ci_band_alpha: 0.18
+
+labels:
+  treated: "Dammed"
+  control: "Matched control"
