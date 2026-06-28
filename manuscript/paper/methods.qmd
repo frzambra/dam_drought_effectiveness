@@ -1,0 +1,54 @@
+# Methods
+
+## Study design and units
+
+The analysis unit is the Chilean DGA sub-watershed (subcuenca). Treated units are subcuencas
+containing a major reservoir; controls are undammed subcuencas. Treatment is effectively
+time-invariant over the study window — 18 of 24 reservoirs were commissioned before the
+observational record begins, so a staggered-adoption (commissioning) event study is
+infeasible.
+
+## Matching
+
+We construct a matched comparison of 21 dammed versus 244 control subcuencas using entropy
+balancing on baseline aridity (P/PET), watershed area, mean elevation, and Köppen–Geiger
+climate class. All treatment-effect estimates are doubly-robust: entropy-balancing weights
+combined with outcome-regression adjustment on the same covariates.
+
+## Outcomes
+
+- **Irrigated area** — annual cropland fraction per subcuenca from MapBiomas Collection 2
+  (30 m; class 18, agriculture), 1999–2024, extracted with area-weighted zonal statistics.
+- **Evapotranspiration** — annual actual ET (mm yr^-1^) from MODIS MOD16A2GF (8-day, ~500 m),
+  for whole basins and for an orchard stratum (CIREN/ODEPA cadastre), 2001–2024.
+- **Drought forcing** — annual SPEI-12 (CHIRPS/CHIRTS), a purely meteorological deficit index
+  (precipitation and potential evapotranspiration), used as the exogenous dose.
+
+## Estimators
+
+We test the vulnerability hypothesis with four estimators. Two are cross-sectional
+doubly-robust matched ATTs: net irrigated-area expansion (ha km^-2^ added) and reservoir ET
+buffering (the slope of log annual ET on SPEI). Two are forcing-interacted
+difference-in-differences specifications,
+
+$$
+y_{it} = \beta\,(\text{dammed}_i \times \text{SPEI}_{it}) + \gamma\,\text{SPEI}_{it}
+         + \alpha_i + \tau_t + \varepsilon_{it},
+$$
+
+estimated with subcuenca ($\alpha_i$) and year ($\tau_t$) fixed effects and entropy-balancing
+weights, on the observed area and ET panels. Because treatment is time-invariant, the dose is
+the meteorological SPEI rather than calendar year: year fixed effects absorb the common
+megadrought shock, and the estimand $\beta$ is the differential deficit-to-impact *slope*
+between dammed and matched-control basins — robust to the siting-in-arid-central-Chile
+confound, which biases levels far more than slopes. The vulnerability hypothesis predicts
+$\beta > 0$.
+
+## Inference
+
+Because the design has only ~24 treated clusters, cluster-robust standard errors over-reject.
+We report randomization-inference p-values from permuting the treatment label among units
+within Köppen × aridity-tercile strata (999 permutations); cluster-robust confidence
+intervals are shown for completeness. A dynamic event study (dammed × year, reference 2009)
+provides the parallel-trends diagnostic, and an aridity placebo (relabeling the most-arid
+control tercile as pseudo-treated) probes residual confounding.

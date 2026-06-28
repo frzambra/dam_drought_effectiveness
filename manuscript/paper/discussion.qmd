@@ -1,0 +1,29 @@
+# Discussion
+
+::: {.callout-note appearance="simple"}
+Draft section — scaffolding for the results above.
+:::
+
+Across four independent estimators — net irrigated-area expansion, reservoir ET buffering, and
+forcing-interacted slope gaps on observed area and ET — we find no evidence that reservoirs
+drive the induced-demand vulnerability dynamic. Dammed basins do hold roughly an order of
+magnitude more cropland than matched controls, but this gap is fixed across the record, with
+parallel pre-trends and no divergence through the megadrought. It is a *siting* signature, not
+a treatment effect.
+
+The methodological message is as important as the substantive one. A naive dammed–control
+contrast, or a calendar-time difference-in-differences, would read the large cross-sectional
+area and ET gaps — amplified during the drought — as a reservoir effect. Conditioning on the
+realized meteorological forcing and estimating a deficit-to-impact *slope* removes that
+confound, and the apparent signal disappears. Studies that infer reservoir impacts from
+basin-mean vegetation or from levels rather than forcing-conditioned responses are therefore
+liable to mistake aridity and siting for causation.
+
+Several limitations qualify the null. Treatment is time-invariant over the record, so we
+identify differential drought *response* rather than the effect of switching a reservoir on;
+MapBiomas class 18 captures total cropland, not irrigation status, and the real expansion has
+been compositional (a shift toward perennial orchards within roughly constant cropland area);
+and whole-basin MODIS ET remains confounded by residual aridity over barren land, so the ET
+conclusion rests on the cross-sectional buffering null and the orchard stratum. Whether the
+perennial-composition shift carries a latent water-demand signal not visible in net area is a
+question for future work.

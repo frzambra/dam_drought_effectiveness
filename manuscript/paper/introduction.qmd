@@ -1,0 +1,22 @@
+# Introduction
+
+::: {.callout-note appearance="simple"}
+Draft section — scaffolding for the results below.
+:::
+
+Reservoirs are a central instrument of drought adaptation, yet their long-run effect on
+water security is contested. A socio-hydrological view holds that storage buffers
+meteorological drought in the short term but may *increase* vulnerability over time by
+inducing demand — encouraging the expansion of irrigated, water-dependent land uses that
+raise consumptive water use and sharpen the impact of prolonged dry spells (the "reservoir
+effect"). Distinguishing this dynamic from the simple fact that reservoirs are *built where
+irrigation demand already exists* requires a counterfactual: how would dammed basins have
+behaved under the same drought forcing without the reservoir?
+
+Chile offers a strong testbed. Its 2010-onset megadrought is one of the longest instrumental
+dry spells on record, and reservoirs are concentrated in the arid, agriculturally intensive
+central basins most exposed to it. That very collinearity — reservoirs sit where it is driest
+and where the drought bit hardest — is the central identification threat, and one that
+basin-mean greenness or calendar-time comparisons cannot resolve. Here we combine a matched
+dammed-versus-undammed design with a forcing-conditioned estimand to ask whether reservoirs
+create resilience or merely postpone and concentrate vulnerability.

@@ -23,7 +23,7 @@ tar_option_set(
   packages = c("data.table", "sf", "terra", "yaml",
                "fixest", "segmented", "lubridate",
                "WeightIt", "cobalt", "MatchIt", "exactextractr",
-               "ggplot2", "patchwork")
+               "ggplot2", "patchwork", "quantreg", "extRemes")
 )
 
 list(
@@ -353,6 +353,31 @@ list(
                did_slope_summary(did_area, "area_frac",      perm_area),
                did_slope_summary(did_et,   "log_basin_ET",   perm_et),
                did_slope_summary(did_orch, "log_orchard_ET", perm_orch)))),
+
+  # === H1 STORAGE-RECTIFIER (drought-propagation-analyst design) ===============================
+  # Monthly zcNDVI-6 severity vs monthly SPEI-12/-3 forcing. C3 (control-anchored): heavier upper-tail
+  # ecological-drought severity in dammed vs matched-control basins, conditional on forcing. C1/C2
+  # (within-treated): a storage threshold s* with lower-tail variance inflation below it.
+  tar_target(zc6_stack,    { sources_yml; zcndvi_monthly_paths(cfg_sources, 6L, 2000:2024) }),
+  tar_target(zc6_monthly,  extract_unit_index_monthly(matched_subcuencas, zc6_stack)),
+  tar_target(spei12_stack, { sources_yml; forcing_monthly_paths(cfg_sources, "SPEI", 12L, 2000:2024) }),
+  tar_target(spei12_monthly, extract_unit_index_monthly(matched_subcuencas, spei12_stack)),
+  tar_target(spei3_stack,  { sources_yml; forcing_monthly_paths(cfg_sources, "SPEI", 3L, 2000:2024) }),
+  tar_target(spei3_monthly, extract_unit_index_monthly(matched_subcuencas, spei3_stack)),
+  tar_target(severity_panel,
+             build_severity_panel(zc6_monthly, spei12_monthly, spei3_monthly, matched_set)),
+  tar_target(treated_storage_panel,
+             build_treated_storage_panel(zc6_monthly, spei12_monthly, spei3_monthly,
+                                         storage_pct, reservoir_units, matched_set)),
+  # C3: dammed-vs-control upper-tail severity (quantile regression + GPD; permutation inference)
+  tar_target(h1_quantreg,      fit_tail_quantreg(severity_panel)),
+  tar_target(h1_tail_contrast, tail_contrast(h1_quantreg)),
+  tar_target(h1_perm,
+             permute_tail_stat(severity_panel, tail_contrast_fast, n_perm = 1000L)),
+  tar_target(h1_gpd,           fit_gpd_tail(severity_panel)),
+  # C1/C2: within-treated storage threshold + variance break + counterfactual-overshoot falsifier
+  tar_target(h1_tar,           fit_storage_tar(treated_storage_panel)),
+  tar_target(h1_overshoot,     overshoot_test(severity_panel, h1_tar)),
 
   # === MANUSCRIPT FIGURES + TABLES (results/ via file targets; one message each) ===============
   # Main results table: convergent H2 null across cross-sectional ATTs + forcing-interacted DiD.
