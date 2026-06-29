@@ -14,10 +14,13 @@ deepening dependence on infrastructure and amplifying the damage when a drought 
 storage capacity [@di_baldassarre_water_2018]. Global accounting is consistent with this view:
 water demand has outpaced storage capacity in recent decades, and local water histories from
 Las Vegas, Melbourne and Athens show consumption rising to meet, and then exceed, each new
-increment of supply [@di_baldassarre_water_2018]. Critically, the rebound means the enhanced
-damage from over-reliance need not be offset by a lower frequency of shortage, making the
-safe-development paradox potentially *more* dangerous for drought than for floods
-[@di_baldassarre_water_2018].
+increment of supply [@di_baldassarre_water_2018], and the storage returns of new dam
+construction are themselves diminishing worldwide [@li_diminishing_2023]. Critically, the
+rebound means the enhanced damage from over-reliance need not be offset by a lower frequency of
+shortage, making the safe-development paradox potentially *more* dangerous for drought than for
+floods [@di_baldassarre_water_2018]. Whether these feedbacks dominate in practice, or are
+outweighed by reservoirs' protective function, remains actively debated
+[@kellner_controversial_2021].
 
 The short-term, hydrological side of this ledger is well documented. Comparisons of regulated
 against naturalized streamflow show that reservoir operation reduces the duration and
@@ -30,7 +33,8 @@ lengthened and intensified droughts *downstream* of the reservoir relative to th
 period [@lopezmoreno_dam_2009]. The long-term, demand side is far less constrained empirically.
 Irrigation modernization that nominally "saves" water often expands irrigated area or shifts
 farmers toward higher-value, more water-intensive crops — the efficiency paradox — raising
-consumptive use and basin-scale vulnerability rather than lowering it [@jordan_adaptation_2025].
+consumptive use and basin-scale vulnerability rather than lowering it
+[@grafton_paradox_2018; @jordan_adaptation_2025].
 Whether reservoirs set the same trap remains largely untested.
 
 Chile is an acute testbed. Since 2010 central Chile (30--38° S) has endured a *megadrought*:
@@ -43,12 +47,14 @@ Pacific decadal variability [@garreaud_20102015_2017; @Boisier2018]. The signal 
 propagates: a ~30 % reduction in Andean snow-water equivalent translates into streamflow
 declines of 20--70 % (locally up to 90 %), with the streamflow deficit in arid sectors often
 twice the rainfall deficit, and reservoirs and groundwater drawn to historical lows
-[@garreaud_20102015_2017; @AlvarezGarreton2021]. Demand, however, has scarcely relented —
+[@garreaud_20102015_2017; @AlvarezGarreton2021] — part of a global pattern in which most
+reservoirs now fail to refill under intensifying drought [@wang_reservoir_2024]. Demand, however, has scarcely relented —
 infrastructure and intensive groundwater pumping have held human withdrawals near pre-drought
 levels, masking a "Day Zero" that surface water alone could not avert
 [@AlvarezGarreton2021; @Garreaud2025]. Mounting evidence suggests the region is crossing from
-episodic drought into structural aridification, with long-term declines in water supply driving
-land-cover change [@zambrano_drought_2025].
+episodic drought into structural aridification, with long-term declines in water supply — and
+rising atmospheric evaporative demand — driving land-cover change
+[@zambrano_drought_2025; @Vicente-Serrano2022].
 
 These dynamics are inseparable from Chile's water governance. The 1981 Water Code, the
 paradigm case of market-based water management, made water-use rights tradable, perpetual

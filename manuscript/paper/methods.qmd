@@ -1,54 +1,156 @@
 # Methods
 
-## Study design and units
+## Study area and design
 
-The analysis unit is the Chilean DGA sub-watershed (subcuenca). Treated units are subcuencas
-containing a major reservoir; controls are undammed subcuencas. Treatment is effectively
-time-invariant over the study window — 18 of 24 reservoirs were commissioned before the
-observational record begins, so a staggered-adoption (commissioning) event study is
-infeasible.
+We study continental Chile (≈18–44° S), a strong north–south aridity gradient spanning hyper-arid,
+Mediterranean, and humid-temperate climates, over 2005–2024 — the window in which reservoir
+storage, meteorological forcing, and satellite outcomes jointly exist (`config/study_period.yml`).
+The design is a matched comparison of **dammed versus undammed sub-watersheds**, with reservoir
+presence treated as a basin-level intervention. Because 18 of 24 monitored reservoirs were
+commissioned before the storage record begins, treatment is effectively time-invariant over the
+window and a staggered-adoption (commissioning) event study is infeasible; identification therefore
+rests on a matched cross-section combined with conditioning on meteorological forcing rather than
+on calendar time.
 
-## Matching
+The central estimand is the operational effect of a reservoir on drought outcomes *conditional on
+the covariates that govern where reservoirs are sited* — that is, whether dammed basins respond to
+the same drought forcing differently from hydroclimatically comparable undammed basins. This
+isolates reservoir *operation* from reservoir *siting* [@di_baldassarre_water_2018].
 
-We construct a matched comparison of 21 dammed versus 244 control subcuencas using entropy
-balancing on baseline aridity (P/PET), watershed area, mean elevation, and Köppen–Geiger
-climate class. All treatment-effect estimates are doubly-robust: entropy-balancing weights
-combined with outcome-regression adjustment on the same covariates.
+## Spatial units and treatment assignment
 
-## Outcomes
+The analysis grain is the DGA BNA **sub-watershed (subcuenca)** (467 units), chosen over the
+coarser cuenca grain (101 units) for power and common support: reservoirs sit in Chile's largest
+main-stem basins, and the finer grain supplies far more controls inside the treated size range
+(`docs/design/grain-selection.md`). A subcuenca is **treated** if it contains ≥1 of the 26
+monitored reservoirs by point-in-polygon assignment, giving **24 treated units**. An untreated
+subcuenca that lies within a cuenca containing a reservoir is flagged as **contaminated** — it
+shares the regulated main stem and is not a clean counterfactual — and removed (45 units),
+leaving **398 clean controls**. This contamination rule defuses the most direct
+downstream-spillover (SUTVA) violation; residual adjacency and shared-aquifer spillovers between
+neighbouring subcuencas are carried as an identification caveat and checked at cuenca grain.
 
-- **Irrigated area** — annual cropland fraction per subcuenca from MapBiomas Collection 2
-  (30 m; class 18, agriculture), 1999–2024, extracted with area-weighted zonal statistics.
-- **Evapotranspiration** — annual actual ET (mm yr^-1^) from MODIS MOD16A2GF (8-day, ~500 m),
-  for whole basins and for an orchard stratum (CIREN/ODEPA cadastre), 2001–2024.
-- **Drought forcing** — annual SPEI-12 (CHIRPS/CHIRTS), a purely meteorological deficit index
-  (precipitation and potential evapotranspiration), used as the exogenous dose.
+## Data
 
-## Estimators
+**Reservoir storage and treatment.** Monthly storage for 26 monitored reservoirs (2005-01 to
+2026-04) with a per-reservoir capacity column (`max_level_hm3`); storage and capacity share units
+(hm³), so percent-of-capacity (`100 × level / max_level_hm3`) is the cross-reservoir-comparable
+state variable. Static attributes (commissioning year, use, size class) come from the national dam
+registry.
 
-We test the vulnerability hypothesis with four estimators. Two are cross-sectional
-doubly-robust matched ATTs: net irrigated-area expansion (ha km^-2^ added) and reservoir ET
-buffering (the slope of log annual ET on SPEI). Two are forcing-interacted
-difference-in-differences specifications,
+**Meteorological forcing.** Standardized drought indices — SPI, SPEI, and EDDI — derived from
+CHIRPS precipitation and CHIRTS temperature at timescales of 1/3/6/12/24/36 months, standardized
+on the 1991–2026 baseline (`config/variables.yml`). SPEI-12 is the primary exogenous dose; the
+suitability of CHIRPS-derived standardized indices for Chilean drought monitoring is established
+[@Zambrano2017]. Conditioning on forcing — estimating effects on the deficit-to-impact *slope*
+rather than on levels — is how we break the collinearity between the 2010-onset megadrought and the
+treatment clock.
+
+**Hydrological drought.** Daily streamflow from the CR2 network (2000–2020) is aggregated to the
+Standardized Streamflow Index at 12 months (SSI-12), the regulated-flow analogue of SPEI-12, used
+as the outcome in the within-basin placebo (below). Gauges are classified as upstream or downstream
+of each dam from an SRTM digital elevation model.
+
+**Ecological and land-use outcomes.** (i) annual irrigated/cropland area from MapBiomas Chile
+Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS (8-day, ~500 m,
+2001–2024), for whole basins and for an orchard stratum from the CIREN/ODEPA cadastre; (iii)
+standardized vegetation and productivity anomalies — monthly z-score accumulated NDVI (zcNDVI-6),
+annual z-score NPP (zNPP), and the standardized actual-ET anomaly (SETI) — from MODIS over
+2000–2024; the zcNDVI productivity proxy is validated for Chilean agricultural drought
+[@Zambrano2018].
+
+**Matching covariates.** Baseline aridity (long-term mean annual P/PET over the 1991–2020 WMO
+normal), watershed area, mean elevation (SRTM), and Köppen–Geiger climate class, extracted per
+subcuenca by zonal statistics.
+
+## Matched control construction
+
+We estimate the average treatment effect on the treated (ATT) using **entropy balancing**
+(`WeightIt`, `method = "ebal"`) exact-matched within Köppen main group, balancing **log(area)** and
+**mean elevation** (`docs/design/matched-controls.md`). Balancing on size and elevation rather than
+latitude is deliberate: latitude and the climate class fight each other across the Andes–Patagonia
+span, and substituting SRTM elevation raised the effective control sample size from ≈9 to ≈91 while
+balancing latitude for free.
+
+The procedure retains **21 of 24 treated subcuencas** (three high-Andes units fall outside local
+elevation common support) and achieves essentially perfect balance — standardized mean differences
+for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1 — with an
+**effective control sample size ≈91** out of 244 in-window controls. Baseline aridity is a genuine
+confound (dammed basins are markedly more arid: median P/PET 0.26 vs 0.80) but is *not* used as a
+balance target, because hard-balancing it collapses the ESS from 91 to 19; instead the residual
+aridity imbalance (SMD ≈0.17) is mopped up by doubly-robust regression adjustment. Robustness to the
+matching method is assessed with coarsened exact matching (CEM) and 1:2 nearest-neighbour
+(Mahalanobis) matching on the identical common-support sample; entropy balancing and NN agree on all
+21 treated, while CEM additionally prunes the 4 most extreme large/high basins, so all
+treatment effects are reported with and without those units.
+
+## Causal estimands and estimators
+
+**Doubly-robust matched ATT.** Each outcome is estimated three ways on the same sample —
+weighting-only (ebal-weighted difference in means), regression-only (covariate-adjusted
+g-computation), and the headline **doubly-robust** estimator (ebal weights *and* an outcome model
+in log(area), elevation, and log(aridity)) — so functional-form sensitivity is visible. Continuous
+covariates are centred at the treated mean so the treatment coefficient reads as the ATT; standard
+errors are HC3-robust (ebal weights treated as fixed, the standard mildly anti-conservative
+simplification).
+
+**Forcing-conditioned transmission slope.** To remove megadrought *exposure* (concentrated in
+exactly the arid basins where reservoirs sit), the outcome for the DR machinery is the per-basin
+**transmission slope** — the regression of an annual outcome (e.g. zNPP) on annual SPEI-12 over
+2005–2024 — a standardized, cross-basin drought-transmission elasticity. The vulnerability
+hypothesis predicts a *steeper* slope (more impact per unit deficit) in dammed basins.
+
+**Forcing-interacted difference-in-differences.** On the observed area and ET panels we fit
 
 $$
 y_{it} = \beta\,(\text{dammed}_i \times \text{SPEI}_{it}) + \gamma\,\text{SPEI}_{it}
          + \alpha_i + \tau_t + \varepsilon_{it},
 $$
 
-estimated with subcuenca ($\alpha_i$) and year ($\tau_t$) fixed effects and entropy-balancing
-weights, on the observed area and ET panels. Because treatment is time-invariant, the dose is
-the meteorological SPEI rather than calendar year: year fixed effects absorb the common
-megadrought shock, and the estimand $\beta$ is the differential deficit-to-impact *slope*
-between dammed and matched-control basins — robust to the siting-in-arid-central-Chile
-confound, which biases levels far more than slopes. The vulnerability hypothesis predicts
-$\beta > 0$.
+with subcuenca ($\alpha_i$) and year ($\tau_t$) fixed effects and entropy-balancing weights.
+Because treatment is time-invariant, the dose is meteorological SPEI rather than calendar year: the
+year fixed effects absorb the common megadrought shock, and $\beta$ is the differential
+deficit-to-impact slope between dammed and matched-control basins — robust to the
+siting-in-arid-central-Chile confound, which biases levels far more than slopes. The vulnerability
+hypothesis predicts $\beta > 0$.
+
+**Equivalence testing and minimum detectable effect.** Because the headline results are nulls, we
+move beyond failure-to-reject and bound the operational effect. For each null we report a two
+one-sided test (TOST): the effect is declared equivalent to zero if its 90% confidence interval lies
+within a negligible region of ±25% of the baseline (untreated) transmission slope. The minimum
+detectable effect (at 80% power, two-sided $\alpha=0.05$) and the equivalence interval are built
+from the **standard deviation of the permutation-null distribution**, not the analytic standard
+error, since cluster-robust SEs over-reject at ~21 clusters (`src/R/causal/equivalence.R`).
+
+**Siting-confound decomposition.** To quantify how much of any apparent buffering is selection, we
+fit a ladder on the same panel: (1) a naive pooled slope gap (no weights, no fixed effects — what a
+conventional dammed-vs-undammed study reports); (2) unit + time fixed effects, unweighted; (3) the
+design estimator (ebal weights + fixed effects). The shrinkage from (1) to (3) is the siting
+confound; the residual at (3) is the regulation estimate.
+
+**Within-basin upstream/downstream placebo.** The decisive selection-versus-effect discriminator
+contrasts the SPEI-12→SSI-12 transmission slope at regulated **downstream** reaches against
+physically unregulated **upstream** reaches of the *same* dammed basins, which share climate,
+geology, and selection history. A genuine regulation effect implies a downstream-specific
+dose-response that the upstream placebo does not reproduce; an attenuation equally present upstream
+is siting, not regulation. Of the 21 treated matched basins, 15 have both an upstream and a
+downstream gauge, giving near-national coverage rather than a single case study. The contrast is
+also split by Köppen region to test whether a regulation effect emerges in the high-supply south.
 
 ## Inference
 
-Because the design has only ~24 treated clusters, cluster-robust standard errors over-reject.
-We report randomization-inference p-values from permuting the treatment label among units
-within Köppen × aridity-tercile strata (999 permutations); cluster-robust confidence
-intervals are shown for completeness. A dynamic event study (dammed × year, reference 2009)
-provides the parallel-trends diagnostic, and an aridity placebo (relabeling the most-arid
-control tercile as pseudo-treated) probes residual confounding.
+With only ~21 treated clusters, cluster-robust standard errors over-reject, so the primary inference
+is **randomization inference**: the treatment label is permuted among units within Köppen × aridity-
+tercile strata (≥999 permutations) and the observed statistic is compared against the resulting null
+distribution; cluster-robust confidence intervals are reported alongside for completeness. Parallel
+pre-trends are checked with a dynamic event study (dammed × year, reference 2009), and residual
+confounding is probed with an aridity placebo that relabels the most-arid control tercile as
+pseudo-treated.
+
+## Software and reproducibility
+
+All analyses are implemented in R within a `targets` pipeline (matched-set construction, estimators,
+and figures are individual targets), using `WeightIt`/`cobalt` for balancing and diagnostics,
+`fixest` for fixed-effects regression, `sf`/`terra`/`exactextractr` for the spatial extractions, and
+`renv` for package pinning. Every result in the manuscript corresponds to a named pipeline target;
+no figure or table is produced by hand.

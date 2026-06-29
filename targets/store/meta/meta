@@ -150,6 +150,8 @@ ssi_buffer_down|stem|41b2c4ecedb01728|1af05243b4cf0834|ee34d0a718261a71|-2878666
 ssi_buffer_itt|stem|70ccb18480275a0a|e9397a6f730ff9ba|76bb7feeb24f5ac5|1102183133||t20632.7909188578s|s648522b|648522|rds|local|vector|||0.019||
 ssi_perm_itt|stem|011b1909a724d586|92e0fc2957e7e625|a514d322b1af3ad8|-2080935176||t20632.7910562877s|s128b|128|rds|local|vector|||11.849||
 streamflow_summary|stem|7565e69cd07c2254|0f4b4c60d25c734e|f8fdbb2eeeb8dd34|1671860835||t20632.8038880597s|s376b|376|rds|local|vector|||0.029||
+fig_streamflow_obj|stem|bb5bf49bbef76544|84540c6363458a0a|0cec6fc2364e7637|106039430||t20632.8100787328s|s1800559b|1800559|rds|local|vector|||0.412|`geom_errorbarh()` was deprecated in ggplot2 4.0.0. ℹ Please use the `orientation` argument of `geom_errorbar()` instead.|
+fig_streamflow_file|stem|7b6ccaab825109f0|d8e69d03419b8e2f|be802bd03dcfd96a|-1412446313|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_streamflow.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_streamflow.png|t20632.8101090926s|s192072b|192072|file|local|vector|||2.284||
 fit_forcing_did|function|99e7146da04fe1a6
 best_timescale_lag|function|a5c04c351ace4b14
 ecological_annual_paths|function|92504b9162a7976c
@@ -164,6 +166,7 @@ extract_unit_index_annual|function|47de08c84f09bfa1
 fit_tail_quantreg|function|ac7b077e12cb60f3
 flag_units|function|e4523c1c86561c71
 mirror_et_local|function|11605999b95a78c0
+storage_band_annual|function|e64c8d4296631572
 fit_response_slopes|function|a92cf09b54dd774e
 .match_summary|function|a9e74c340478033c
 build_main_results_table|function|9a343fd1b93ff629
@@ -184,6 +187,7 @@ assemble_analysis_panel|function|470af3c21599657c
 build_response_panel|function|275aed9eb261c4b2
 dr_estimate|function|f97c2794dfcce634
 seti_monthly_paths|function|5c479e36ce0a053c
+.baseline_slope|function|9dea87e0dc6c8f7e
 zcndvi_monthly_paths|function|8d53df676ee3338f
 extract_index_at_points|function|9342c4b80d9b2174
 read_cr2_stations|function|76e307c63a101bda
@@ -192,6 +196,7 @@ add_storage_fraction|function|0b053fc34bc9791f
 fit_event_study|function|9b69a8876f1070a5
 extract_unit_forcing_annual|function|79cee0b3f02b8553
 combine_orchard_natural|function|026f24865c13a546
+.gap_coef|function|f498915d8cd3110d
 .threshold_na|function|7a39e3c5482edb63
 .nqt|function|7127ccc330fc1583
 list_rasters|function|5f98401d72e3b7a9
@@ -199,6 +204,8 @@ extract_unit_climate|function|076356deec594dde
 mapbiomas_paths|function|f77a14e557d686d7
 area_expansion_summary|function|7903c7697beb4f1e
 read_reservoir_points|function|6cc1fb941ec6e521
+fit_storage_band_trends|function|3d698fa15a7c9793
+siting_decomposition|function|ccc07cbd665cf0e8
 fit_triple_diff|function|6ca7dbb7a77f497f
 assign_reservoirs_to_units|function|267316668abaf426
 overshoot_test|function|963f8e782fa01966
@@ -234,6 +241,7 @@ mod16_8day_paths|function|2a9b9304c826d9e8
 assign_orchards_to_units|function|1df14dc926001000
 .year_et_sum|function|d7f0f62b42405a25
 extract_dam_elevation|function|6ac0b1a56e8bb800
+equivalence_summary|function|91c29e17eb326792
 extract_unit_et_total_annual|function|9b721f5aed710887
 read_orchards_latest|function|9804308fa41ab331
 extract_unit_index_trend|function|a08c8017e6d06da4
@@ -244,6 +252,7 @@ fit_robustness_matches|function|e17b6103a6bcdbf8
 stratified_znpp_annual|function|a4603f4720a5b4cf
 fit_doubly_robust|function|e045e842a1185503
 .dr_row|function|65c63e19861d303b
+perm_null_dist|function|88c59defd6623fcb
 estimate_storage_threshold|function|1022573f58c432f5
 compute_ssi|function|24f9b8c02e5ff3c3
 build_raster_catalog|function|49250859291e554b
@@ -266,12 +275,16 @@ load_config|function|760bee6d5a331e55
 write_table|function|058668bca5cb936d
 read_watersheds|function|1e876d68eb0ca4f0
 fig_cfg|function|6a00b02688c3122a
-nw_labs|function|4c4dfc100b724c46
-theme_nw|function|c89ae5a31100da60
 nw_pal|function|a4f560dc09bb7f23
+theme_nw|function|c89ae5a31100da60
+nw_labs|function|4c4dfc100b724c46
 save_fig|function|6b333d474582dfee
-fig_area_did|function|9d9a5e745b74616a
+fig_storage_band|function|3b64219b6793d2e5
 fig_convergent_null|function|21582e26bad8b33f
+fig_area_did|function|9d9a5e745b74616a
 fig_streamflow|function|c15a374de00a58e0
-fig_streamflow_obj|stem|bb5bf49bbef76544|84540c6363458a0a|0cec6fc2364e7637|106039430||t20632.8100787328s|s1800559b|1800559|rds|local|vector|||0.412|`geom_errorbarh()` was deprecated in ggplot2 4.0.0. ℹ Please use the `orientation` argument of `geom_errorbar()` instead.|
-fig_streamflow_file|stem|7b6ccaab825109f0|d8e69d03419b8e2f|be802bd03dcfd96a|-1412446313|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_streamflow.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_streamflow.png|t20632.8101090926s|s192072b|192072|file|local|vector|||2.284||
+storage_band|stem|152b9f6c351a313b|c9e4bc98faff2cc7|bcca3f31a083117a|-843194440||t20633.8598060421s|s6236b|6236|rds|local|vector|||0.03||
+storage_band_trends|stem|b6d5164cad132595|a463595896dffeda|3cd6488f7ee97dd3|-729491536||t20633.8598086359s|s359b|359|rds|local|vector|||0.183||
+fig_storage_obj|stem|c4369ccfbe545ebf|924c54b430cc7713|5a91ba77eccf4e23|1011990451||t20633.8598280794s|s823278b|823278|rds|local|vector|||0.471|`geom_errorbarh()` was deprecated in ggplot2 4.0.0. ℹ Please use the `orientation` argument of `geom_errorbar()` instead.|
+table_storage_band_file|stem|ea4ac09003345ae5|6ebc3a773a253e24|92cf8e9c8da1f690|-379138156|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_storage_band.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_storage_band.md|t20633.8598285176s|s610b|610|file|local|vector|||0.023||
+fig_storage_file|stem|477fbc94499d531c|58c8ded1e002f3e6|0b4742c8437c72bb|-506211410|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_storage_band.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_storage_band.png|t20633.8598497117s|s158189b|158189|file|local|vector|||1.593||

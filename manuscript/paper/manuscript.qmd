@@ -1,21 +1,35 @@
 ---
-title: "Reservoirs concentrate irrigated agriculture but do not drive drought vulnerability: a matched, forcing-conditioned analysis across Chile"
+title: "Under aridification the binding constraint is inflow, not storage: why building more dams is a supply-blind drought response"
 author:
   - name: Francisco Zambrano Bigiarini
 date: today
 abstract: |
-  Reservoirs are widely assumed to buffer drought in the short term while fostering
-  long-term vulnerability through induced demand and the expansion of water-dependent land
-  uses. We test this hypothesis in Chile (2000–2024) using a matched design of dammed versus
-  undammed sub-watersheds and four independent estimators spanning observed irrigated-area
-  trajectories (MapBiomas), actual evapotranspiration (MODIS), and the deficit-to-impact
-  transmission of meteorological drought (SPEI). Dammed basins contain roughly ten times more
-  cropland than matched controls, but this gap is a fixed siting signature: irrigated area and
-  its drought response are statistically indistinguishable from controls, with parallel
-  pre-trends and no divergence through the 2010-onset megadrought. The induced-demand
-  vulnerability mechanism is unsupported across every test. We argue that cross-sectional
-  dammed–control contrasts conflate reservoir siting and baseline aridity with reservoir
-  effects, a confound that basin-mean greenness studies routinely miss.
+  Expanding reservoir storage is the reflexive policy response to intensifying drought, yet
+  whether dams build resilience or merely mark where vulnerability already concentrates
+  remains untested under sustained drying. We treat reservoir presence as a basin-level
+  intervention across central Chile — 26 monitored reservoirs spanning the 2010–present
+  megadrought — and estimate its effect on drought propagation and water-dependent land use
+  using a national matched design (entropy balancing within Köppen × aridity strata; 21 of 24
+  treated basins retained), doubly-robust matched ATT, forcing-conditioned
+  difference-in-differences, and randomization inference. Across every operational pathway —
+  meteorological-to-hydrological drought transmission, evapotranspiration buffering, and
+  irrigated-area expansion — the treatment effect brackets zero once siting is matched out. A
+  within-basin placebo comparing regulated downstream reaches against physically unregulated
+  upstream reaches of the same dammed basins (15 of 21 basins) is decisive: the apparent
+  national buffering signal (slope gap −0.18) is as strong upstream as downstream and
+  collapses to ≈ −0.03 within climate region (p_perm = 0.39) — the signature of an
+  aridity-gradient confound, not regulation. Refill efficiency is undiminished; instead
+  storage shows a whole-band downshift, indicating the binding constraint is declining inflow,
+  not storage capacity or operation. Reservoirs in Chile mark pre-existing,
+  siting-determined vulnerability rather than make resilience — reframing storage expansion as
+  a supply-blind response to aridification.
+keywords:
+  - reservoir effect
+  - drought propagation
+  - socio-hydrology
+  - causal inference
+  - megadrought
+  - Chile
 format:
   html:
     toc: true

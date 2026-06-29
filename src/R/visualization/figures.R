@@ -105,6 +105,59 @@ fig_area_did <- function(did_panel_area, es_area, ref_year = 2009L) {
       theme = theme_nw())
 }
 
+#' FIGURE: the binding constraint is INFLOW, not storage. (a) Cross-reservoir annual storage band —
+#' peak and trough percent-of-capacity (mean line, IQR ribbon) — drifts DOWN over 2005-2024 with
+#' roughly parallel trend lines: the whole band shifts while the seasonal amplitude stays flat.
+#' (b) Per-year trend slope of peak / trough / amplitude (reservoir FE, clustered): peak and trough
+#' both decline, amplitude ~ 0 — a supply-side level decline, not a refill/buffer degradation.
+#' @param band_annual storage_band_annual() output (fraction-of-capacity)
+#' @param band_trends fit_storage_band_trends() output
+fig_storage_band <- function(band_annual, band_trends) {
+  pal <- nw_pal(); cfg <- fig_cfg()
+  b <- data.table::as.data.table(band_annual)
+  by <- b[, .(peak_m   = mean(peak),
+              peak_lo  = stats::quantile(peak, 0.25),  peak_hi  = stats::quantile(peak, 0.75),
+              trough_m = mean(trough),
+              trough_lo = stats::quantile(trough, 0.25), trough_hi = stats::quantile(trough, 0.75)),
+          by = year]
+
+  pa <- ggplot2::ggplot(by, ggplot2::aes(year)) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = 100 * peak_lo,   ymax = 100 * peak_hi),
+                         fill = pal[["treated"]], alpha = cfg$palette$ci_band_alpha) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = 100 * trough_lo, ymax = 100 * trough_hi),
+                         fill = pal[["control"]], alpha = cfg$palette$ci_band_alpha) +
+    ggplot2::geom_smooth(ggplot2::aes(y = 100 * peak_m),   method = "lm", se = FALSE,
+                         colour = pal[["treated"]], linewidth = 0.5) +
+    ggplot2::geom_smooth(ggplot2::aes(y = 100 * trough_m), method = "lm", se = FALSE,
+                         colour = pal[["control"]], linewidth = 0.5) +
+    ggplot2::geom_point(ggplot2::aes(y = 100 * peak_m),   colour = pal[["treated"]], size = 0.7) +
+    ggplot2::geom_point(ggplot2::aes(y = 100 * trough_m), colour = pal[["control"]], size = 0.7) +
+    ggplot2::annotate("text", x = max(by$year), y = 100 * by[year == max(year), peak_m],
+                      label = "peak", hjust = 1, vjust = -0.7,
+                      size = cfg$font$geom_text_size, colour = pal[["treated"]]) +
+    ggplot2::annotate("text", x = max(by$year), y = 100 * by[year == max(year), trough_m],
+                      label = "trough", hjust = 1, vjust = 1.4,
+                      size = cfg$font$geom_text_size, colour = pal[["control"]]) +
+    ggplot2::labs(tag = "a", x = NULL, y = "Storage (% of capacity)") +
+    theme_nw()
+
+  tr <- data.table::as.data.table(band_trends)
+  tr[, component := factor(component, levels = c("amplitude", "trough", "peak"))]
+  pb <- ggplot2::ggplot(tr, ggplot2::aes(100 * slope, component)) +
+    ggplot2::geom_vline(xintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.4) +
+    ggplot2::geom_errorbarh(ggplot2::aes(xmin = 100 * ci_lo, xmax = 100 * ci_hi), height = 0.16,
+                            colour = "grey30", linewidth = 0.4) +
+    ggplot2::geom_point(colour = pal[["treated"]], size = 1.6) +
+    ggplot2::labs(tag = "b", x = "Trend (% of capacity per year)", y = NULL) +
+    theme_nw()
+
+  patchwork::wrap_plots(pa, pb, ncol = 1, heights = c(1, 0.55)) +
+    patchwork::plot_annotation(
+      title = "The binding constraint is inflow, not storage",
+      subtitle = "Whole storage band shifts down; seasonal amplitude unchanged (buffer intact)",
+      theme = theme_nw())
+}
+
 #' FIGURE: convergent null — forest plot on a STANDARDIZED axis (estimate / SE, "standard errors
 #' from the null") so heterogeneous estimands (ha km^-2, log-ET slope, DiD slope-gaps) are
 #' comparable. The +-1.96 guides mark conventional significance; every estimate sits inside them.

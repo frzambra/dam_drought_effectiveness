@@ -1,29 +1,94 @@
 # Discussion
 
-::: {.callout-note appearance="simple"}
-Draft section — scaffolding for the results above.
-:::
+Across a matched national design and four independent estimators — cross-sectional irrigated-area
+expansion and ET buffering, and forcing-interacted slope gaps on observed area and ET — the
+operational effect of reservoirs on drought outcomes brackets zero once siting is matched out. The
+same answer holds for the direct, vegetation-independent availability outcome: the apparent
+flattening of meteorological-to-streamflow drought propagation in dammed basins is as strong at
+physically unregulated *upstream* reaches as downstream, and collapses from a slope gap of $-0.18$
+to ≈$-0.03$ when the comparison is made within climate region. Dammed basins do hold roughly an
+order of magnitude more cropland than matched controls, but this gap is fixed across the record,
+with parallel pre-trends and no divergence through the megadrought. Taken together, the evidence
+supports a single interpretation: reservoirs **mark** where water-dependent vulnerability already
+concentrated — arid, already-irrigated basins — rather than **make** it. The vulnerability
+signature is a property of siting, set before the drought and stable through it, not a dynamic
+consequence of regulation.
 
-Across four independent estimators — net irrigated-area expansion, reservoir ET buffering, and
-forcing-interacted slope gaps on observed area and ET — we find no evidence that reservoirs
-drive the induced-demand vulnerability dynamic. Dammed basins do hold roughly an order of
-magnitude more cropland than matched controls, but this gap is fixed across the record, with
-parallel pre-trends and no divergence through the megadrought. It is a *siting* signature, not
-a treatment effect.
+This reframes "no effect" as the finding rather than a failure of power, but only because a
+credible *cause* of the apparent effect is identified. The within-basin upstream/downstream placebo
+is decisive here: a genuine regulation effect must appear downstream of the dam and be absent
+upstream, and it is not. What remains, once that placebo and within-region conditioning are applied,
+is the aridity gradient itself. The methodological corollary is general. A naive dammed–control
+contrast, or a calendar-time difference-in-differences, would read the large cross-sectional area,
+ET, and transmission gaps — amplified during the drought — as a reservoir effect; conditioning on
+realized meteorological forcing and estimating a deficit-to-impact *slope*, and benchmarking against
+an unregulated within-basin reach, makes the signal disappear. Reservoir-buffering studies that
+compare dammed against undammed basins, or pre- against post-construction levels, inherit the full
+siting confound [@lopezmoreno_dam_2009; @wu_non-linear_2017; @wu_impacts_2018; @schilstra_effects_2024; @lee_drought_2026];
+the upstream placebo is a transferable identification tool applicable to any regulated river with
+gauges above and below the structure.
 
-The methodological message is as important as the substantive one. A naive dammed–control
-contrast, or a calendar-time difference-in-differences, would read the large cross-sectional
-area and ET gaps — amplified during the drought — as a reservoir effect. Conditioning on the
-realized meteorological forcing and estimating a deficit-to-impact *slope* removes that
-confound, and the apparent signal disappears. Studies that infer reservoir impacts from
-basin-mean vegetation or from levels rather than forcing-conditioned responses are therefore
-liable to mistake aridity and siting for causation.
+If reservoirs neither buffer nor amplify drought operationally, what fails under a multi-decadal dry
+spell is supply, not the structures — and the storage record localizes the failure precisely. The
+seasonal refill remains efficient and its amplitude is unchanged, yet the entire storage band drifts
+downward, peak and trough declining in step at roughly $-1.3$ and $-1.2$ percentage points of
+capacity per year. A band that drops without narrowing is the signature of a falling supply ceiling,
+not a degraded buffer: there is simply less water arriving to store. This is consistent with Chile's
+documented transition from episodic drought toward structural aridification, in which declining
+precipitation and rising atmospheric evaporative demand lower inflows independently of any
+infrastructure [@zambrano_drought_2025; @Vicente-Serrano2022; @garreaud_20102015_2017; @AlvarezGarreton2021],
+and it mirrors a global pattern in which most reservoirs increasingly fail to refill and the storage
+returns of new dam construction are diminishing [@wang_reservoir_2024; @li_diminishing_2023]. Under
+a falling supply ceiling, the binding constraint is inflow, not storage capacity or operation.
 
-Several limitations qualify the null. Treatment is time-invariant over the record, so we
-identify differential drought *response* rather than the effect of switching a reservoir on;
-MapBiomas class 18 captures total cropland, not irrigation status, and the real expansion has
-been compositional (a shift toward perennial orchards within roughly constant cropland area);
-and whole-basin MODIS ET remains confounded by residual aridity over barren land, so the ET
-conclusion rests on the cross-sectional buffering null and the orchard stratum. Whether the
-perennial-composition shift carries a latent water-demand signal not visible in net area is a
-question for future work.
+The policy implication is direct and uncomfortable for the prevailing response to scarcity in Chile
+and elsewhere. Because the 1981 Water Code makes existing water-use rights perpetual private
+property that the state cannot readily curtail during drought, the reflexive response has been
+supply-side — a national programme of new dams and inter-basin transfers
+[@Barria2021; @Garreaud2025; @macpherson_evolving_2023]. Our results imply that adding storage to
+basins whose inflow is declining is a supply-blind response to a supply problem: it cannot
+manufacture water that aridification is removing, and the buffering benefit it is built to provide
+is, on this evidence, attributable to where dams sit rather than to what they do. This is the
+drought-domain expression of the reservoir-effect and supply–demand-cycle hypotheses
+[@di_baldassarre_water_2018], whose practical force has been contested for want of quantification
+[@kellner_controversial_2021]; we provide a credibly identified test and find the protective
+function over-attributed. The leverage instead lies on the demand and allocation side — curbing the
+over-allocation and induced expansion that the efficiency paradox entrenches
+[@grafton_paradox_2018; @reade_malagueno_libre_2024; @jordan_adaptation_2025] — and in managed
+recharge and reallocation rather than new impoundments [@rivera-vidal_managed_2025; @rivera_legal_2016].
+
+Several limitations qualify these conclusions. First, treatment is effectively time-invariant over
+the record (most reservoirs predate it), so we identify differential drought *response* rather than
+the effect of switching a reservoir on; a staggered-commissioning design is infeasible here and
+would be the cleaner counterfactual where construction dates and longer records permit. Second, the
+result is a bounded null, not a proven equivalence: with ~21 treated clusters the design rules out
+buffering larger than ≈46–59% of baseline transmission for streamflow but cannot exclude small
+operational effects, so the causal weight rests on the placebo, not on equivalence. Third, the
+observed-area outcome (MapBiomas class 18) captures total cropland rather than irrigation status,
+and Chile's agricultural change has been compositional — a shift toward perennial orchards within
+roughly constant cropland area — so a latent water-demand signal not visible in net area remains
+possible; whole-basin MODIS ET is additionally confounded by residual aridity over barren land, so
+the ET conclusion leans on the cross-sectional buffering null and the orchard stratum. Fourth, the
+streamflow placebo covers 15 of 21 treated basins over 2000–2020, and the high-supply southern
+subset is small; a modest regulation effect in wetter basins cannot be excluded, though drought is
+also least binding there. Finally, residual SUTVA spillovers (adjacency, shared aquifers) survive
+the contamination rule, and our estimand is the *drought* effect of reservoirs — not their value for
+hydropower, flood control, or urban supply, which this study does not assess.
+
+One alternative interpretation deserves emphasis because mean-based estimators cannot see it:
+damming might leave the *magnitude* of drought impact unchanged while recomposing its
+**dependence structure**, weakening the meteorology→outcome coupling and substituting a
+storage→outcome coupling — a regime shift that would itself explain the convergent null. We cannot
+adjudicate this with the present data: the storage-recovery dynamics are stationary (refill
+efficiency and amplitude are flat), which weakens the premise, and the decisive test requires
+reservoir release and operating-rule records that are not yet available; only a drawdown proxy is on
+disk. Absent that information, and given that any apparent decoupling must survive the upstream
+placebo, the dependence-shift account reduces to the siting interpretation. Resolving it — together
+with longer streamflow records and water-rights allocation data — is the priority for future work.
+
+Returning to the question that motivates the study — do reservoirs create resilience or merely
+postpone vulnerability under prolonged drought? — our evidence indicates that, under aridification,
+they do neither operationally: storage neither buffers nor amplifies the drought signal beyond what
+basin siting already implies, while the water available to store steadily declines. Resilience to a
+falling supply ceiling will not come from more impoundments but from confronting demand and
+allocation — the harder, and unavoidable, adaptation.

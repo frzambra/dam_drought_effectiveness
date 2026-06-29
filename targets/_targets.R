@@ -428,6 +428,18 @@ list(
              save_fig(fig_convergent_obj, "fig_convergent_null", width = "onehalf", height_mm = 85),
              format = "file"),
 
+  # Fig 4: the binding constraint is inflow, not storage — the whole storage band shifts down
+  # (annual peak & trough percent-of-capacity both decline) while seasonal amplitude stays flat,
+  # a supply-side level shift rather than refill/buffer degradation. Built from storage_pct.
+  tar_target(storage_band, storage_band_annual(storage_pct)),
+  tar_target(storage_band_trends, fit_storage_band_trends(storage_band)),
+  tar_target(table_storage_band_file, write_table(storage_band_trends, "table_storage_band"),
+             format = "file"),
+  tar_target(fig_storage_obj, fig_storage_band(storage_band, storage_band_trends)),
+  tar_target(fig_storage_file,
+             save_fig(fig_storage_obj, "fig_storage_band", width = "onehalf", height_mm = 120),
+             format = "file"),
+
   # --- storage preprocessing --------------------------------------------------------
   tar_target(storage_pct, add_storage_fraction(compute_pct_capacity(levels_long))),
 
