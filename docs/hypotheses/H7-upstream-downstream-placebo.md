@@ -36,6 +36,39 @@ therefore covers **15/21 ≈ 71%** of treated basins — a **near-national resul
 case study. (217 classified gauges over the matched set: 61 downstream, 35 upstream, 121
 control; CR2 record window 2000–2020.)
 
+## Regional robustness — does the placebo hold in the high-supply south? (2026-06-29)
+
+Chile's strong north–south aridity gradient raises the worry that the national null hides
+heterogeneity: perhaps the placebo holds in the arid north but a real regulation effect emerges
+in the wetter south. It does not. Splitting the buffering slope gap (`treat:SPEI`; negative =
+buffering) by Köppen region:
+
+| Region | Downstream gap | Upstream placebo gap | Verdict |
+|--------|---------------|----------------------|---------|
+| Wet south (Köppen C, aridity 0.4–1.7; 7 treated / 39 ctrl) | −0.036 (p=0.67) | −0.034 (p=0.71) | down ≈ up, both ≈ 0 |
+| Arid north (Köppen B; 8 treated / **5 ctrl**) | −0.012 (p=0.96) | +0.069 (p=0.73) | down ≈ up, both ≈ 0 |
+| National (reference) | −0.165 (p=0.06) | −0.201 (p=0.03) | up ≥ down → siting |
+
+In the high-supply south the downstream and upstream gaps are **statistically identical
+(−0.036 vs −0.034)** and both indistinguishable from zero — randomization inference on the
+southern downstream gap gives **p_perm = 0.778**. There is no downstream-specific dose-response
+even where buffering should be easiest to detect.
+
+**The sharper point:** the national "buffering" signal (−0.16 to −0.20) **collapses to ≈ −0.03
+once the comparison is made within climate region** — the textbook signature of a between-region
+confound. The apparent national attenuation comes from contrasting arid treated basins against a
+control pool spanning the whole wet→dry gradient; it is the aridity gradient (siting), not
+within-region regulation. Splitting by Köppen both kills the signal *and* equalizes up/down — two
+independent confirmations of the siting interpretation.
+
+*Caveats:* power is limited — the south has 6–7 treated basins (39 controls, adequate for the
+down-vs-up contrast), but the arid-north subset has only 5 control basins and is unstable, so the
+northern row should not be leaned on. A small southern regulation effect cannot be excluded, but
+the qualitative result (down ≈ up in the high-supply south) is unambiguous. Physically, drought is
+less binding in wet basins (reservoirs rarely drawn down hard), so a near-zero southern gap is
+partly expected — which cuts against, not for, building dams in the south for drought protection.
+Test script: `scratchpad/ssi_region_split.R`.
+
 ## Required data
 
 All on disk. CR2 daily streamflow → SSI-12 (2000–2020); dam elevation (SRTM DEM) to classify
