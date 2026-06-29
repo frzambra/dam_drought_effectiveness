@@ -1,36 +1,60 @@
 # Research Hypotheses — Reservoir Effectiveness & Drought Vulnerability in Chile
 
-Generated 2026-06-23 by the `hypothesis-generator` agent; H1 and H2 subsequently
-stress-tested by the `hypothesis-challenger` agent (see
-[`challenge-findings.md`](challenge-findings.md)).
+Original program (H1–H4) generated 2026-06-23 and stress-tested by the
+`hypothesis-challenger` agent (see [`challenge-findings.md`](challenge-findings.md)).
+**Program pivot (2026-06-29):** H1–H4 all returned a convergent null; the program was
+re-centred on H5–H7 by the `hypothesis-generator` agent.
 
 ## Core question
 
 Do reservoirs reduce drought impacts, or do they primarily **delay** impacts while
 increasing long-term vulnerability through expansion of water-dependent land uses?
 
-## Retained hypotheses (all clear the >8 Nature Water bar)
+## Current program — retained hypotheses (post-pivot, >8 Nature Water bar)
 
 | ID | Short name | Overall | Role |
 |----|------------|---------|------|
-| [H2](H2-induced-demand.md) | Induced demand erases the buffer | **9.4** | **Central narrative** — most publishable |
-| [H1](H1-storage-rectifier.md) | Storage as a drought-signal rectifier | 8.8 | Mechanism — **most transformative** |
-| [H4](H4-ecological-lockin.md) | Ecological lock-in (resistance vs. resilience) | 8.3 | Ecological consequence |
-| [H3](H3-spatial-displacement.md) | Spatial displacement of vulnerability | 8.1 | Robustness/decomposition — **most risky** |
+| [H5](H5-markers-not-makers.md) | Reservoirs as markers, not makers | **9.0** | **Central narrative** |
+| [H7](H7-upstream-downstream-placebo.md) | Upstream/downstream within-basin placebo | 8.3 | **Identification engine** (15/21 basins) |
+| [H6](H6-decoupling-regime-shift.md) | Damming changes *what drought means* | 7.8 | Demoted — discussion only |
+| H8 | The evaporating buffer (refill degradation) | **RETIRED** | Tested 2026-06-29, null 4/4 (powered) |
 
-## Recommended paper arc
+### Recommended paper arc
 
-1. **H2** establishes the headline socio-hydrological finding (reservoirs trade
-   short-term protection for induced-demand vulnerability), quantified at national scale.
-2. **H1** supplies the physical mechanism for *why* the eroded buffer fails
-   catastrophically rather than gracefully (threshold rectification → tail amplification).
-3. **H4** demonstrates the ecological cost (resilience loss), closing the pathway
-   *Meteorological → Storage → Demand → Ecology → Vulnerability*.
-4. **H3** pre-empts the skeptical reviewer by checking whether the apparent effect is
-   spatial accounting.
+1. **H5** establishes the headline: conditional on siting, the operational reservoir effect
+   brackets zero — reservoirs *mark* pre-existing vulnerability, they do not *make* it.
+2. **H7** is the identification engine: the within-basin upstream placebo (covering 15/21
+   treated basins) differences out siting and shows the apparent buffering is selection.
+3. **Aridification** (Zambrano et al. 2025, *Earth's Future*) reframes the policy stakes as a
+   **supply ceiling**: refill efficiency is intact (H8 null), but less water arrives, so the
+   binding constraint is inflow, not storage.
 
-**Single message:** *Reservoirs in Chile postpone and concentrate drought vulnerability
-rather than reducing it.*
+**Single message:** *Reservoirs in Chile still store water as well as ever — there is just less
+and less to store; under aridification the binding constraint is inflow, not storage, so
+building more dams is a supply-blind response, not resilience.*
+
+> **H8 — "The evaporating buffer" (RETIRED).** Proposed that refill efficiency
+> (storage produced per unit meteorological surplus) decays over time under aridification;
+> pre-specified fingerprint = negative SPEI-surplus × year interaction. Tested 2026-06-29 on
+> cached storage/SPEI panels (22 reservoirs / 20 matched units, 2005–2024) and **null 4/4 with
+> demonstrated power** (mid-sample refill transmission +0.013, p=0.027; interaction −0.0006,
+> p=0.57 monthly, −0.034, p=0.33 annual-gain). The real signal is a whole-band storage
+> downshift (peak −0.013/yr, trough drops too, amplitude flat) — a supply/demand level shift,
+> *not* a refill-degradation mechanism. The honest anti-"build more dams" argument is therefore
+> a **supply** argument, not a buffer-degradation one.
+
+## Superseded program (H1–H4) — all returned a convergent null
+
+| ID | Short name | Original score | Outcome |
+|----|------------|---------|------|
+| [H2](H2-induced-demand.md) | Induced demand erases the buffer | 9.4 | **Null** across 4 estimators |
+| [H1](H1-storage-rectifier.md) | Storage as a drought-signal rectifier | 8.8 | **Null** (QR tail dies under permutation; GPD tail anti-H1) |
+| [H4](H4-ecological-lockin.md) | Ecological lock-in (resistance vs. resilience) | 8.3 | Not pursued after pivot |
+| [H3](H3-spatial-displacement.md) | Spatial displacement of vulnerability | 8.1 | Not pursued after pivot |
+
+These four treated endogenous siting as a confound to defeat en route to a treatment effect;
+the convergent null plus the H7 placebo showed siting **is** the mechanism — which is what H5
+now makes the object of study.
 
 ## Cross-cutting threats (must be resolved before any causal claim)
 
