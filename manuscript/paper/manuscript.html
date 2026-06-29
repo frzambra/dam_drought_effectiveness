@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Francisco Zambrano Bigiarini">
-<meta name="dcterms.date" content="2026-06-28">
+<meta name="dcterms.date" content="2026-06-29">
 
 <title>Reservoirs concentrate irrigated agriculture but do not drive drought vulnerability: a matched, forcing-conditioned analysis across Chile</title>
 <style>
@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="manuscript_files/libs/clipboard/clipboard.min.js"></script>
@@ -118,7 +138,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 28, 2026</p>
+      <p class="date">June 29, 2026</p>
     </div>
   </div>
   
@@ -138,18 +158,12 @@ window.Quarto = {
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Draft section — scaffolding for the results below.</p>
-</div>
-</div>
-</div>
-<p>Reservoirs are a central instrument of drought adaptation, yet their long-run effect on water security is contested. A socio-hydrological view holds that storage buffers meteorological drought in the short term but may <em>increase</em> vulnerability over time by inducing demand — encouraging the expansion of irrigated, water-dependent land uses that raise consumptive water use and sharpen the impact of prolonged dry spells (the “reservoir effect”). Distinguishing this dynamic from the simple fact that reservoirs are <em>built where irrigation demand already exists</em> requires a counterfactual: how would dammed basins have behaved under the same drought forcing without the reservoir?</p>
-<p>Chile offers a strong testbed. Its 2010-onset megadrought is one of the longest instrumental dry spells on record, and reservoirs are concentrated in the arid, agriculturally intensive central basins most exposed to it. That very collinearity — reservoirs sit where it is driest and where the drought bit hardest — is the central identification threat, and one that basin-mean greenness or calendar-time comparisons cannot resolve. Here we combine a matched dammed-versus-undammed design with a forcing-conditioned estimand to ask whether reservoirs create resilience or merely postpone and concentrate vulnerability.</p>
+<p>Reservoirs are the dominant structural response to drought: when water shortages inflict economic damage, public pressure tends to drive the expansion of storage to raise water availability, which in the short term lowers the frequency, severity and duration of shortage <span class="citation" data-cites="di_baldassarre_water_2018">(<a href="#ref-di_baldassarre_water_2018" role="doc-biblioref">Di Baldassarre et al. 2018</a>)</span>. Yet a socio-hydrological perspective warns that the same infrastructure can be self-defeating over the planning horizon of a dam (20–30 years) through two coupled feedbacks. In the <em>supply–demand cycle</em>, greater supply enables agricultural, urban or industrial expansion, so demand grows faster than projected from socio-economic trends alone and quickly offsets the initial benefit — a rebound, or Jevons, effect <span class="citation" data-cites="di_baldassarre_water_2018">(<a href="#ref-di_baldassarre_water_2018" role="doc-biblioref">Di Baldassarre et al. 2018</a>)</span>. In the <em>reservoir effect</em> — the drought analogue of the levee effect — prolonged reliance on abundant stored water erodes the incentive to adapt, deepening dependence on infrastructure and amplifying the damage when a drought finally exceeds storage capacity <span class="citation" data-cites="di_baldassarre_water_2018">(<a href="#ref-di_baldassarre_water_2018" role="doc-biblioref">Di Baldassarre et al. 2018</a>)</span>. Global accounting is consistent with this view: water demand has outpaced storage capacity in recent decades, and local water histories from Las Vegas, Melbourne and Athens show consumption rising to meet, and then exceed, each new increment of supply <span class="citation" data-cites="di_baldassarre_water_2018">(<a href="#ref-di_baldassarre_water_2018" role="doc-biblioref">Di Baldassarre et al. 2018</a>)</span>. Critically, the rebound means the enhanced damage from over-reliance need not be offset by a lower frequency of shortage, making the safe-development paradox potentially <em>more</em> dangerous for drought than for floods <span class="citation" data-cites="di_baldassarre_water_2018">(<a href="#ref-di_baldassarre_water_2018" role="doc-biblioref">Di Baldassarre et al. 2018</a>)</span>.</p>
+<p>The short-term, hydrological side of this ledger is well documented. Comparisons of regulated against naturalized streamflow show that reservoir operation reduces the duration and magnitude of short-term (1–3 month) hydrological drought downstream and lengthens the lag between meteorological and hydrological drought <span class="citation" data-cites="wu_non-linear_2017 wu_impacts_2018">(<a href="#ref-wu_non-linear_2017" role="doc-biblioref">Wu et al. 2017</a>, <a href="#ref-wu_impacts_2018" role="doc-biblioref">2018</a>)</span>, and that reservoir management can damp rapid drought-to-flood transitions, particularly in snowmelt-driven catchments <span class="citation" data-cites="gotte_hydrological_2024">(<a href="#ref-gotte_hydrological_2024" role="doc-biblioref">Götte and Brunner 2024</a>)</span>. But the same regulation can redistribute scarcity in space and time: in the transboundary Tagus, operation of the Alcántara dam lengthened and intensified droughts <em>downstream</em> of the reservoir relative to the pre-dam period <span class="citation" data-cites="lopezmoreno_dam_2009">(<a href="#ref-lopezmoreno_dam_2009" role="doc-biblioref">López‐Moreno et al. 2009</a>)</span>. The long-term, demand side is far less constrained empirically. Irrigation modernization that nominally “saves” water often expands irrigated area or shifts farmers toward higher-value, more water-intensive crops — the efficiency paradox — raising consumptive use and basin-scale vulnerability rather than lowering it <span class="citation" data-cites="jordan_adaptation_2025">(<a href="#ref-jordan_adaptation_2025" role="doc-biblioref">Jordán et al. 2025</a>)</span>. Whether reservoirs set the same trap remains largely untested.</p>
+<p>Chile is an acute testbed. Since 2010 central Chile (30–38° S) has endured a <em>megadrought</em>: an uninterrupted run of dry years with mean rainfall deficits of 25–45 %, punctuated by “hyperdrought” winters in 2019 and 2021 with deficits exceeding 75 % <span class="citation" data-cites="garreaud_20102015_2017 Garreaud2025">(<a href="#ref-garreaud_20102015_2017" role="doc-biblioref">R. D. Garreaud et al. 2017</a>; <a href="#ref-Garreaud2025" role="doc-biblioref">R. Garreaud et al. 2025</a>)</span>. The event is unprecedented over the instrumental record and has no clear analogue in millennial tree-ring reconstructions; roughly one-quarter to one-third of its intensity is attributable to anthropogenic forcing, the remainder to Pacific decadal variability <span class="citation" data-cites="garreaud_20102015_2017 Boisier2018">(<a href="#ref-garreaud_20102015_2017" role="doc-biblioref">R. D. Garreaud et al. 2017</a>; <a href="#ref-Boisier2018" role="doc-biblioref">Boisier et al. 2018</a>)</span>. The signal amplifies as it propagates: a ~30 % reduction in Andean snow-water equivalent translates into streamflow declines of 20–70 % (locally up to 90 %), with the streamflow deficit in arid sectors often twice the rainfall deficit, and reservoirs and groundwater drawn to historical lows <span class="citation" data-cites="garreaud_20102015_2017 AlvarezGarreton2021">(<a href="#ref-garreaud_20102015_2017" role="doc-biblioref">R. D. Garreaud et al. 2017</a>; <a href="#ref-AlvarezGarreton2021" role="doc-biblioref">Alvarez-Garreton et al. 2021</a>)</span>. Demand, however, has scarcely relented — infrastructure and intensive groundwater pumping have held human withdrawals near pre-drought levels, masking a “Day Zero” that surface water alone could not avert <span class="citation" data-cites="AlvarezGarreton2021 Garreaud2025">(<a href="#ref-AlvarezGarreton2021" role="doc-biblioref">Alvarez-Garreton et al. 2021</a>; <a href="#ref-Garreaud2025" role="doc-biblioref">R. Garreaud et al. 2025</a>)</span>. Mounting evidence suggests the region is crossing from episodic drought into structural aridification, with long-term declines in water supply driving land-cover change <span class="citation" data-cites="zambrano_drought_2025">(<a href="#ref-zambrano_drought_2025" role="doc-biblioref">Zambrano et al. 2025</a>)</span>.</p>
+<p>These dynamics are inseparable from Chile’s water governance. The 1981 Water Code, the paradigm case of market-based water management, made water-use rights tradable, perpetual private property separable from land <span class="citation" data-cites="macpherson_evolving_2023 reade_malagueno_libre_2024">(<a href="#ref-macpherson_evolving_2023" role="doc-biblioref">Macpherson et al. 2023</a>; <a href="#ref-reade_malagueno_libre_2024" role="doc-biblioref">Reade Malagueño and D’Odorico 2024</a>)</span>. Rights were granted on the stationarity assumption that historical flows would persist, producing over-allocated “paper rights” in many basins, while management was delegated largely to private water-user organizations <span class="citation" data-cites="Barria2021 rivera_legal_2016 rivera-vidal_managed_2025">(<a href="#ref-Barria2021" role="doc-biblioref">Barría et al. 2021</a>; <a href="#ref-rivera_legal_2016" role="doc-biblioref">Rivera et al. 2016</a>; <a href="#ref-rivera-vidal_managed_2025" role="doc-biblioref">Rivera-Vidal et al. 2025</a>)</span>. Because the state cannot readily curtail existing private rights during scarcity, the policy reflex has been supply-side: a national programme of new dams and inter-basin transfers <span class="citation" data-cites="Barria2021 Garreaud2025">(<a href="#ref-Barria2021" role="doc-biblioref">Barría et al. 2021</a>; <a href="#ref-Garreaud2025" role="doc-biblioref">R. Garreaud et al. 2025</a>)</span>. The same institutional setting rewarded conversion to high-value, water-demanding export crops — orchards and vineyards — concentrating water in agro-export firms and locking in consumptive demand even as supply contracted <span class="citation" data-cites="reade_malagueno_libre_2024 webb_water_2021">(<a href="#ref-reade_malagueno_libre_2024" role="doc-biblioref">Reade Malagueño and D’Odorico 2024</a>; <a href="#ref-webb_water_2021" role="doc-biblioref">Webb et al. 2021</a>)</span>. Yet most farmers still meet scarcity with short-term, reactive measures rather than durable adaptation, leaving long-run vulnerability largely intact <span class="citation" data-cites="jordan_adaptation_2025">(<a href="#ref-jordan_adaptation_2025" role="doc-biblioref">Jordán et al. 2025</a>)</span>. Chile thus exhibits, in compressed form, every ingredient of the reservoir effect: an extreme and persistent forcing, a supply-side infrastructure response, market incentives for demand expansion, and weak adaptive feedback.</p>
+<p>Despite its prominence, the reservoir effect for drought has been described far more than it has been <em>measured</em>. The framework’s authors note that we lack the datasets and analytical tools to quantify these social–technical–hydrological feedbacks, and — above all — defensible counterfactuals: what a drought’s impact <em>would have been</em> in a basin had the reservoir not been built <span class="citation" data-cites="di_baldassarre_water_2018">(<a href="#ref-di_baldassarre_water_2018" role="doc-biblioref">Di Baldassarre et al. 2018</a>)</span>. Existing work compounds the difficulty. Drought- propagation studies remain mostly temporal, leaving the spatial footprint of upstream regulation on downstream drought poorly resolved <span class="citation" data-cites="schilstra_effects_2024">(<a href="#ref-schilstra_effects_2024" role="doc-biblioref">Schilstra et al. 2024</a>)</span>, and quantitative comparisons of drought resistance across dams are scarce <span class="citation" data-cites="lee_drought_2026">(<a href="#ref-lee_drought_2026" role="doc-biblioref">Lee, Kang, and Kim 2026</a>)</span>. The core obstacle is identification: reservoirs are not sited at random but built where irrigation demand and aridity already concentrate, so dammed basins differ systematically from undammed ones before any drought strikes. Basin-mean greenness, raw before–after contrasts, or calendar-time comparisons cannot separate a genuine reservoir effect from this siting confound.</p>
+<p>Here we ask whether reservoirs build resilience or merely postpone and concentrate vulnerability during prolonged drought. We treat the presence of a major reservoir as a basin-level intervention and construct the missing counterfactual by pairing a matched dammed-versus-undammed design with a forcing-conditioned estimand — comparing how dammed and hydroclimatically comparable undammed basins respond to the <em>same</em> drought forcing. This design targets the long-term demand-side feedback that prior, hydrology-only analyses leave open, and turns the socio-hydrological reservoir-effect hypothesis into a falsifiable, causally framed test in the setting where it matters most.</p>
 </section>
 <section id="methods" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Methods</h1>
@@ -338,9 +352,68 @@ Figure&nbsp;3: Streamflow buffering is reservoir siting, not regulation. (a) SPE
 <p>Across four independent estimators — net irrigated-area expansion, reservoir ET buffering, and forcing-interacted slope gaps on observed area and ET — we find no evidence that reservoirs drive the induced-demand vulnerability dynamic. Dammed basins do hold roughly an order of magnitude more cropland than matched controls, but this gap is fixed across the record, with parallel pre-trends and no divergence through the megadrought. It is a <em>siting</em> signature, not a treatment effect.</p>
 <p>The methodological message is as important as the substantive one. A naive dammed–control contrast, or a calendar-time difference-in-differences, would read the large cross-sectional area and ET gaps — amplified during the drought — as a reservoir effect. Conditioning on the realized meteorological forcing and estimating a deficit-to-impact <em>slope</em> removes that confound, and the apparent signal disappears. Studies that infer reservoir impacts from basin-mean vegetation or from levels rather than forcing-conditioned responses are therefore liable to mistake aridity and siting for causation.</p>
 <p>Several limitations qualify the null. Treatment is time-invariant over the record, so we identify differential drought <em>response</em> rather than the effect of switching a reservoir on; MapBiomas class 18 captures total cropland, not irrigation status, and the real expansion has been compositional (a shift toward perennial orchards within roughly constant cropland area); and whole-basin MODIS ET remains confounded by residual aridity over barren land, so the ET conclusion rests on the cross-sectional buffering null and the orchard stratum. Whether the perennial-composition shift carries a latent water-demand signal not visible in net area is a question for future work.</p>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-AlvarezGarreton2021" class="csl-entry" role="listitem">
+Alvarez-Garreton, Camila, Juan Pablo Boisier, René Garreaud, Jan Seibert, and Marc Vis. 2021. <span>“Progressive Water Deficits During Multiyear Droughts in Basins with Long Hydrological Memory in <span>Chile</span>.”</span> <em>Hydrology and Earth System Sciences</em> 25 (1): 429–46. <a href="https://doi.org/10.5194/hess-25-429-2021">https://doi.org/10.5194/hess-25-429-2021</a>.
+</div>
+<div id="ref-Barria2021" class="csl-entry" role="listitem">
+Barría, Pilar, Ignacio Barría Sandoval, Carlos Guzman, Cristián Chadwick, Camila Alvarez-Garreton, Raúl Díaz-Vasconcellos, Anahí Ocampo-Melgar, and Rodrigo Fuster. 2021. <span>“Water Allocation Under Climate Change.”</span> <em>Elementa: Science of the Anthropocene</em> 9 (1): 00131. <a href="https://doi.org/10.1525/elementa.2020.00131">https://doi.org/10.1525/elementa.2020.00131</a>.
+</div>
+<div id="ref-Boisier2018" class="csl-entry" role="listitem">
+Boisier, Juan P., Camila Alvarez-Garreton, Raúl R. Cordero, Alessandro Damiani, Laura Gallardo, René D. Garreaud, Fabrice Lambert, Cinthya Ramallo, Maisa Rojas, and Roberto Rondanelli. 2018. <span>“Anthropogenic Drying in Central-Southern <span>Chile</span> Evidenced by Long-Term Observations and Climate Model Simulations.”</span> <em>Elementa</em> 6 (1): 74. <a href="https://doi.org/10.1525/elementa.328">https://doi.org/10.1525/elementa.328</a>.
+</div>
+<div id="ref-di_baldassarre_water_2018" class="csl-entry" role="listitem">
+Di Baldassarre, Giuliano, Niko Wanders, Amir AghaKouchak, Linda Kuil, Sally Rangecroft, Ted I. E. Veldkamp, Margaret Garcia, Pieter R. Van Oel, Korbinian Breinl, and Anne F. Van Loon. 2018. <span>“Water Shortages Worsened by Reservoir Effects.”</span> <em>Nature Sustainability</em> 1 (11): 617–22. <a href="https://doi.org/10.1038/s41893-018-0159-0">https://doi.org/10.1038/s41893-018-0159-0</a>.
+</div>
+<div id="ref-garreaud_20102015_2017" class="csl-entry" role="listitem">
+Garreaud, René D., Camila Alvarez-Garreton, Jonathan Barichivich, Juan Pablo Boisier, Duncan Christie, Mauricio Galleguillos, Carlos LeQuesne, James McPhee, and Mauricio Zambrano-Bigiarini. 2017. <span>“The 2010–2015 Megadrought in Central <span>Chile</span>: Impacts on Regional Hydroclimate and Vegetation.”</span> <em>Hydrology and Earth System Sciences</em> 21 (12): 6307–27. <a href="https://doi.org/10.5194/hess-21-6307-2017">https://doi.org/10.5194/hess-21-6307-2017</a>.
+</div>
+<div id="ref-Garreaud2025" class="csl-entry" role="listitem">
+Garreaud, René, Juan Pablo Boisier, Camila Álvarez-Garreton, Duncan Christie, Tomás Carrasco-Escaff, Iván Vergara, Roberto O. Chávez, et al. 2025. <span>“Hyperdroughts in Central <span>Chile</span>: <span>Drivers</span>, <span>Impacts</span> and <span>Projections</span>.”</span> Hydrometeorology/Instruments; observation techniques. <a href="https://doi.org/10.5194/egusphere-2025-517">https://doi.org/10.5194/egusphere-2025-517</a>.
+</div>
+<div id="ref-gotte_hydrological_2024" class="csl-entry" role="listitem">
+Götte, Jonas, and Manuela I. Brunner. 2024. <span>“Hydrological <span>Drought</span>‐<span>To</span>‐<span>Flood</span> <span>Transitions</span> <span>Across</span> <span>Different</span> <span>Hydroclimates</span> in the <span>United</span> <span>States</span>.”</span> <em>Water Resources Research</em> 60 (7): e2023WR036504. <a href="https://doi.org/10.1029/2023WR036504">https://doi.org/10.1029/2023WR036504</a>.
+</div>
+<div id="ref-jordan_adaptation_2025" class="csl-entry" role="listitem">
+Jordán, C., A. Engler, C. Bopp, P. Marijn Poortvliet, and R. Jara-Rojas. 2025. <span>“Adaptation Behavior to Prolonged Drought Conditions: <span>Farmers</span>’ Responses to Water Scarcity in <span>Central</span> <span>Chile</span>.”</span> <em>Environment, Development and Sustainability</em>, June. <a href="https://doi.org/10.1007/s10668-025-06421-y">https://doi.org/10.1007/s10668-025-06421-y</a>.
+</div>
+<div id="ref-lee_drought_2026" class="csl-entry" role="listitem">
+Lee, Chaelim, Sinuk Kang, and Sangdan Kim. 2026. <span>“Drought Resistance of Dams Based on Propagation Analysis: <span>A</span> Case Study of Various Multipurpose Dams in <span>South</span> <span>Korea</span>.”</span> <em>Journal of Hydrology: Regional Studies</em> 63 (February): 103106. <a href="https://doi.org/10.1016/j.ejrh.2026.103106">https://doi.org/10.1016/j.ejrh.2026.103106</a>.
+</div>
+<div id="ref-lopezmoreno_dam_2009" class="csl-entry" role="listitem">
+López‐Moreno, J. I., S. M. Vicente‐Serrano, S. Beguería, J. M. García‐Ruiz, M. M. Portela, and A. B. Almeida. 2009. <span>“Dam Effects on Droughts Magnitude and Duration in a Transboundary Basin: <span>The</span> <span>Lower</span> <span>River</span> <span>Tagus</span>, <span>Spain</span> and <span>Portugal</span>.”</span> <em>Water Resources Research</em> 45 (2): 2008WR007198. <a href="https://doi.org/10.1029/2008WR007198">https://doi.org/10.1029/2008WR007198</a>.
+</div>
+<div id="ref-macpherson_evolving_2023" class="csl-entry" role="listitem">
+Macpherson, Elizabeth, Cristy Clark, Pía Weber Salazar, Natalie Baird, Afshin Akhtar-Khavari, and Edward Challies. 2023. <span>“Evolving Rights to (and of) Water in <span>Chile</span>: A Case for Relationship-Based Water Law and Governance.”</span> <em>The International Journal of Human Rights</em>, October, 1–26. <a href="https://doi.org/10.1080/13642987.2023.2266719">https://doi.org/10.1080/13642987.2023.2266719</a>.
+</div>
+<div id="ref-reade_malagueno_libre_2024" class="csl-entry" role="listitem">
+Reade Malagueño, Benji, and Paolo D’Odorico. 2024. <span>“<em>¿<span>Libre</span> de La <span>Maleza</span> <span>Estatista</span>?</em> <span>Assessing</span> <span>Neoliberal</span> <span>Promises</span> and <span>Water</span> <span>Markets</span> in <span>Chile</span>.”</span> <em>Earth’s Future</em> 12 (10): e2024EF004963. <a href="https://doi.org/10.1029/2024EF004963">https://doi.org/10.1029/2024EF004963</a>.
+</div>
+<div id="ref-rivera_legal_2016" class="csl-entry" role="listitem">
+Rivera, Diego, Alex Godoy-Faúndez, Mario Lillo, Amaya Alvez, Verónica Delgado, Consuelo Gonzalo-Martín, Ernestina Menasalvas, Roberto Costumero, and Ángel García-Pedrero. 2016. <span>“Legal Disputes as a Proxy for Regional Conflicts over Water Rights in <span>Chile</span>.”</span> <em>Journal of Hydrology</em> 535 (April): 36–45. <a href="https://doi.org/10.1016/j.jhydrol.2016.01.057">https://doi.org/10.1016/j.jhydrol.2016.01.057</a>.
+</div>
+<div id="ref-rivera-vidal_managed_2025" class="csl-entry" role="listitem">
+Rivera-Vidal, Rayen, José Luis Arumí, Ovidio Melo, Verónica Delgado, Víctor Parra, Alejandra Stehr, and Linda Daniele. 2025. <span>“Managed Aquifer Recharge Implementation Challenges: <span>Lessons</span> from <span>Chile</span>’s Water-Scarce Regions.”</span> <em>Groundwater for Sustainable Development</em> 31 (November): 101502. <a href="https://doi.org/10.1016/j.gsd.2025.101502">https://doi.org/10.1016/j.gsd.2025.101502</a>.
+</div>
+<div id="ref-schilstra_effects_2024" class="csl-entry" role="listitem">
+Schilstra, Marco, Wen Wang, Pieter Richard Van Oel, Jingshu Wang, and Hui Cheng. 2024. <span>“The Effects of Reservoir Storage and Water Use on the Upstream–Downstream Drought Propagation.”</span> <em>Journal of Hydrology</em> 631 (March): 130668. <a href="https://doi.org/10.1016/j.jhydrol.2024.130668">https://doi.org/10.1016/j.jhydrol.2024.130668</a>.
+</div>
+<div id="ref-webb_water_2021" class="csl-entry" role="listitem">
+Webb, Mariana J., Winter, Spera, Chipman, and Erich C. and Osterberg. 2021. <span>“Water, Agriculture, and Climate Dynamics in Central <span>Chile</span>’s <span>Aconcagua</span> <span>River</span> <span>Basin</span>.”</span> <em>Physical Geography</em> 42 (5): 395–415. <a href="https://doi.org/10.1080/02723646.2020.1790719">https://doi.org/10.1080/02723646.2020.1790719</a>.
+</div>
+<div id="ref-wu_non-linear_2017" class="csl-entry" role="listitem">
+Wu, Jiefeng, Xingwei Chen, Huaxia Yao, Lu Gao, Ying Chen, and Meibing Liu. 2017. <span>“Non-Linear Relationship of Hydrological Drought Responding to Meteorological Drought and Impact of a Large Reservoir.”</span> <em>Journal of Hydrology</em> 551 (August): 495–507. <a href="https://doi.org/10.1016/j.jhydrol.2017.06.029">https://doi.org/10.1016/j.jhydrol.2017.06.029</a>.
+</div>
+<div id="ref-wu_impacts_2018" class="csl-entry" role="listitem">
+Wu, Jiefeng, Zhiyong Liu, Huaxia Yao, Xiaohong Chen, Xingwei Chen, Yanhui Zheng, and Yanhu He. 2018. <span>“Impacts of Reservoir Operations on Multi-Scale Correlations Between Hydrological Drought and Meteorological Drought.”</span> <em>Journal of Hydrology</em> 563 (August): 726–36. <a href="https://doi.org/10.1016/j.jhydrol.2018.06.053">https://doi.org/10.1016/j.jhydrol.2018.06.053</a>.
+</div>
+<div id="ref-zambrano_drought_2025" class="csl-entry" role="listitem">
+Zambrano, Francisco, Anton Vrieling, Francisco Meza, Iongel Duran‐Llacer, Francisco Fernández, Alejandro Venegas‐González, Nicolas Raab, and Dylan Craven. 2025. <span>“From <span>Drought</span> to <span>Aridification</span>: <span>Land</span>‐<span>Cover</span> <span>Fingerprints</span> of a <span>Drying</span> <span>Chile</span>.”</span> <em>Earth’s Future</em> 13 (12): e2025EF006744. <a href="https://doi.org/10.1029/2025EF006744">https://doi.org/10.1029/2025EF006744</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
