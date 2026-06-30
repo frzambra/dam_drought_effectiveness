@@ -1,8 +1,17 @@
 ---
-title: "Under aridification the binding constraint is inflow, not storage: why building more dams is a supply-blind drought response"
+title: "Reservoirs mark, but do not make, drought vulnerability: storage buffering reflects siting, not regulation, across Chile"
 author:
   - name: Francisco Zambrano Bigiarini
-date: today
+    affiliations:
+      - name: Universidad Mayor
+        id: 1
+        department: Hémera Centro de Observación de la Tierra, Facultad de Ciencias
+        address: Camino La Pirámide 5750
+        city: Santiago
+        country: Chile
+    email: frzambra@gmail.com
+    attributes:
+      corresponding: true
 abstract: |
   Expanding reservoir storage is the reflexive policy response to intensifying drought, yet
   whether dams build resilience or merely mark where vulnerability already concentrates
@@ -10,19 +19,20 @@ abstract: |
   intervention across central Chile — 26 monitored reservoirs spanning the 2010–present
   megadrought — and estimate its effect on drought propagation and water-dependent land use
   using a national matched design (entropy balancing within Köppen × aridity strata; 21 of 24
-  treated basins retained), doubly-robust matched ATT, forcing-conditioned
-  difference-in-differences, and randomization inference. Across every operational pathway —
-  meteorological-to-hydrological drought transmission, evapotranspiration buffering, and
-  irrigated-area expansion — the treatment effect brackets zero once siting is matched out. A
-  within-basin placebo comparing regulated downstream reaches against physically unregulated
-  upstream reaches of the same dammed basins (15 of 21 basins) is decisive: the apparent
+  treated basins retained, effective control sample ≈91), doubly-robust matched ATT,
+  forcing-conditioned difference-in-differences, and randomization inference. Across every
+  operational pathway — meteorological-to-hydrological drought transmission, evapotranspiration
+  buffering, and irrigated-area expansion — the treatment effect brackets zero once siting is
+  matched out. A within-basin placebo comparing regulated downstream reaches against physically
+  unregulated upstream reaches of the same dammed basins (15 of 21 basins) is the cleanest
+  within-design falsification: the apparent
   national buffering signal (slope gap −0.18) is as strong upstream as downstream and
   collapses to ≈ −0.03 within climate region (p_perm = 0.39) — the signature of an
-  aridity-gradient confound, not regulation. Refill efficiency is undiminished; instead
-  storage shows a whole-band downshift, indicating the binding constraint is declining inflow,
-  not storage capacity or operation. Reservoirs in Chile mark pre-existing,
-  siting-determined vulnerability rather than make resilience — reframing storage expansion as
-  a supply-blind response to aridification.
+  aridity-gradient confound, not regulation. Refill efficiency is undiminished while the whole
+  storage band drifts downward, a pattern consistent with declining water supply rather than a
+  loss of storage or buffering capacity. Reservoirs in Chile thus appear to mark pre-existing,
+  siting-determined vulnerability rather than make resilience; once siting is accounted for, the
+  operational case for storage expansion as drought protection is not supported by these data.
 keywords:
   - reservoir effect
   - drought propagation
@@ -31,11 +41,15 @@ keywords:
   - megadrought
   - Chile
 format:
-  html:
-    toc: true
+  nature-pdf:
+    journal:
+      cite-style: sn-nature
+      model: 3p
+    classoption: [referee, lineno]   
+    cite-method: natbib
+    keep-tex: true
+    equal-margins: true
     number-sections: true
-    fig-cap-location: bottom
-    theme: cosmo
 bibliography: references.bib
 execute:
   echo: false

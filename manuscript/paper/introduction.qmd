@@ -22,13 +22,15 @@ floods [@di_baldassarre_water_2018]. Whether these feedbacks dominate in practic
 outweighed by reservoirs' protective function, remains actively debated
 [@kellner_controversial_2021].
 
-The short-term, hydrological side of this ledger is well documented. Comparisons of regulated
-against naturalized streamflow show that reservoir operation reduces the duration and
-magnitude of short-term (1--3 month) hydrological drought downstream and lengthens the lag
-between meteorological and hydrological drought [@wu_non-linear_2017; @wu_impacts_2018], and
+The short-term, hydrological side of this ledger is well documented. As drought propagates from
+precipitation deficit through soil moisture to streamflow, modulated by catchment characteristics
+[@VanLoon2015; @wang_propagation_2016; @van_loon_hydrological_2015],
+comparisons of regulated against naturalized streamflow show that reservoir operation reduces the
+duration and magnitude of short-term (1--3 month) hydrological drought downstream and lengthens
+the lag between meteorological and hydrological drought [@wu_non-linear_2017; @wu_impacts_2018], and
 that reservoir management can damp rapid drought-to-flood transitions, particularly in
 snowmelt-driven catchments [@gotte_hydrological_2024]. But the same regulation can redistribute
-scarcity in space and time: in the transboundary Tagus, operation of the Alcántara dam
+scarcity in space and time [@van_loon_making_2013]: in the transboundary Tagus, operation of the Alcántara dam
 lengthened and intensified droughts *downstream* of the reservoir relative to the pre-dam
 period [@lopezmoreno_dam_2009]. The long-term, demand side is far less constrained empirically.
 Irrigation modernization that nominally "saves" water often expands irrigated area or shifts
@@ -42,19 +44,27 @@ an uninterrupted run of dry years with mean rainfall deficits of 25--45 %, punct
 "hyperdrought" winters in 2019 and 2021 with deficits exceeding 75 %
 [@garreaud_20102015_2017; @Garreaud2025]. The event is unprecedented over the instrumental
 record and has no clear analogue in millennial tree-ring reconstructions; roughly one-quarter
-to one-third of its intensity is attributable to anthropogenic forcing, the remainder to
-Pacific decadal variability [@garreaud_20102015_2017; @Boisier2018]. The signal amplifies as it
-propagates: a ~30 % reduction in Andean snow-water equivalent translates into streamflow
-declines of 20--70 % (locally up to 90 %), with the streamflow deficit in arid sectors often
-twice the rainfall deficit, and reservoirs and groundwater drawn to historical lows
+to one-third of its intensity is attributable to anthropogenic forcing — in line with
+warming-driven increases in drought risk documented globally
+[@Trenberth2014; @diffenbaugh_anthropogenic_2015] — the remainder to Pacific decadal variability
+and long-term regional drying
+[@garreaud_20102015_2017; @Boisier2018; @Montecinos2003; @Quintana2012]. The signal
+amplifies as it propagates: a ~30 % reduction in Andean snow-water equivalent
+[@saavedra_changes_2018] — part of intensifying snow drought worldwide
+[@huning_global_2020; @cowherd_evolution_2023] — translates into streamflow declines of
+20--70 % (locally up to 90 %),
+with the streamflow deficit in arid sectors often twice the rainfall deficit, and reservoirs and
+groundwater drawn to historical lows
 [@garreaud_20102015_2017; @AlvarezGarreton2021] — part of a global pattern in which most
 reservoirs now fail to refill under intensifying drought [@wang_reservoir_2024]. Demand, however, has scarcely relented —
 infrastructure and intensive groundwater pumping have held human withdrawals near pre-drought
 levels, masking a "Day Zero" that surface water alone could not avert
-[@AlvarezGarreton2021; @Garreaud2025]. Mounting evidence suggests the region is crossing from
+[@AlvarezGarreton2021; @Garreaud2025] — at the cost of aquifer overexploitation now well
+documented in central Chile [@Taucare2024; @Duran2020; @venegas-quinones_development_2024].
+Mounting evidence suggests the region is crossing from
 episodic drought into structural aridification, with long-term declines in water supply — and
 rising atmospheric evaporative demand — driving land-cover change
-[@zambrano_drought_2025; @Vicente-Serrano2022].
+[@zambrano_drought_2025; @Vicente-Serrano2022; @Fuentes2021; @running_global_2022].
 
 These dynamics are inseparable from Chile's water governance. The 1981 Water Code, the
 paradigm case of market-based water management, made water-use rights tradable, perpetual
@@ -62,7 +72,7 @@ private property separable from land [@macpherson_evolving_2023; @reade_malaguen
 Rights were granted on the stationarity assumption that historical flows would persist,
 producing over-allocated "paper rights" in many basins, while management was delegated largely
 to private water-user organizations
-[@Barria2021; @rivera_legal_2016; @rivera-vidal_managed_2025]. Because the state cannot readily
+[@Barria2021; @rivera_legal_2016; @rivera-vidal_managed_2025; @Valdes-Pineda2014]. Because the state cannot readily
 curtail existing private rights during scarcity, the policy reflex has been supply-side: a
 national programme of new dams and inter-basin transfers [@Barria2021; @Garreaud2025]. The same
 institutional setting rewarded conversion to high-value, water-demanding export crops —

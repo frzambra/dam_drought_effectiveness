@@ -40,15 +40,22 @@ registry.
 
 **Meteorological forcing.** Standardized drought indices — SPI, SPEI, and EDDI — derived from
 CHIRPS precipitation and CHIRTS temperature at timescales of 1/3/6/12/24/36 months, standardized
-on the 1991–2026 baseline (`config/variables.yml`). SPEI-12 is the primary exogenous dose; the
-suitability of CHIRPS-derived standardized indices for Chilean drought monitoring is established
-[@Zambrano2017]. Conditioning on forcing — estimating effects on the deficit-to-impact *slope*
+on the 1991–2026 baseline (`config/variables.yml`). SPEI [@Vicente-Serrano2010] at 12 months is
+the primary exogenous dose; the suitability of CHIRPS-derived standardized indices for Chilean
+drought monitoring is established, including ENSO-modulated drought variability across the country
+[@Zambrano2017; @Meza2013; @Oertel2020]. We use the 12-month accumulation because it matches the
+annual, snowmelt-fed hydrological cycle of central Chile — winter precipitation stored as snow and
+released through the growing season — and so captures the inter-seasonal carryover that irrigation
+reservoirs are built to bridge, at the scale at which multi-year vulnerability (rather than
+sub-seasonal operation) is expressed. By construction this does not resolve short-term (1–3 month)
+operational buffering, which reservoirs are documented to provide [@wu_non-linear_2017; @wu_impacts_2018]
+and which we flag as a boundary of our conclusions (Discussion). Conditioning on forcing — estimating effects on the deficit-to-impact *slope*
 rather than on levels — is how we break the collinearity between the 2010-onset megadrought and the
 treatment clock.
 
 **Hydrological drought.** Daily streamflow from the CR2 network (2000–2020) is aggregated to the
-Standardized Streamflow Index at 12 months (SSI-12), the regulated-flow analogue of SPEI-12, used
-as the outcome in the within-basin placebo (below). Gauges are classified as upstream or downstream
+Standardized Streamflow Index at 12 months [SSI-12; @Vicente-Serrano2012c; @lema_technical_2025], the regulated-flow
+analogue of SPEI-12, used as the outcome in the within-basin placebo (below). Gauges are classified as upstream or downstream
 of each dam from an SRTM digital elevation model.
 
 **Ecological and land-use outcomes.** (i) annual irrigated/cropland area from MapBiomas Chile
@@ -56,8 +63,9 @@ Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS (8-d
 2001–2024), for whole basins and for an orchard stratum from the CIREN/ODEPA cadastre; (iii)
 standardized vegetation and productivity anomalies — monthly z-score accumulated NDVI (zcNDVI-6),
 annual z-score NPP (zNPP), and the standardized actual-ET anomaly (SETI) — from MODIS over
-2000–2024; the zcNDVI productivity proxy is validated for Chilean agricultural drought
-[@Zambrano2018].
+2000–2024; the zcNDVI productivity proxy is validated for Chilean agricultural drought, and the
+ecological response of Chilean vegetation to the megadrought is well characterized
+[@Zambrano2018; @Glade2016; @Venegas2022].
 
 **Matching covariates.** Baseline aridity (long-term mean annual P/PET over the 1991–2020 WMO
 normal), watershed area, mean elevation (SRTM), and Köppen–Geiger climate class, extracted per
@@ -78,7 +86,11 @@ for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios �
 **effective control sample size ≈91** out of 244 in-window controls. Baseline aridity is a genuine
 confound (dammed basins are markedly more arid: median P/PET 0.26 vs 0.80) but is *not* used as a
 balance target, because hard-balancing it collapses the ESS from 91 to 19; instead the residual
-aridity imbalance (SMD ≈0.17) is mopped up by doubly-robust regression adjustment. Robustness to the
+aridity imbalance (SMD ≈0.17, above the 0.1 target) is absorbed by doubly-robust regression
+adjustment. Because the matched set does not fully balance aridity, this adjustment is
+*load-bearing* rather than cosmetic, and the estimates can be sensitive to its functional form; we
+therefore stress-test the aridity-adjusted estimates with a quadratic aridity term and report the
+curvature-robust values where feasible (see Results). Robustness to the
 matching method is assessed with coarsened exact matching (CEM) and 1:2 nearest-neighbour
 (Mahalanobis) matching on the identical common-support sample; entropy balancing and NN agree on all
 21 treated, while CEM additionally prunes the 4 most extreme large/high basins, so all
@@ -117,10 +129,21 @@ hypothesis predicts $\beta > 0$.
 **Equivalence testing and minimum detectable effect.** Because the headline results are nulls, we
 move beyond failure-to-reject and bound the operational effect. For each null we report a two
 one-sided test (TOST): the effect is declared equivalent to zero if its 90% confidence interval lies
-within a negligible region of ±25% of the baseline (untreated) transmission slope. The minimum
+within a negligible region of ±25% of the baseline (untreated) transmission slope. We are not aware
+of an established hydrological or operational standard defining a "negligible" reservoir effect on
+drought transmission, so we adopt ±25% as a deliberately strict, pre-specified margin — an
+attenuation smaller than a quarter of the natural deficit-to-impact slope is operationally marginal
+for drought classification — and, because the equivalence verdict is sensitive to this bound, we
+report the threshold-free MDE so that readers may apply any margin they consider material. The
+qualitative conclusion (only large effects are excluded; no outcome is equivalent at ±25%) does not
+depend on the exact margin. The minimum
 detectable effect (at 80% power, two-sided $\alpha=0.05$) and the equivalence interval are built
 from the **standard deviation of the permutation-null distribution**, not the analytic standard
-error, since cluster-robust SEs over-reject at ~21 clusters (`src/R/causal/equivalence.R`).
+error, since cluster-robust SEs over-reject at ~21 clusters (`src/R/causal/equivalence.R`). To
+confirm the null is informative rather than underpowered, we additionally run a **positive control**:
+a known buffering slope is injected into the treated units and the full estimator and randomization
+inference are re-run, verifying that the design recovers an effect of policy-relevant size and
+correctly flags none when none is injected.
 
 **Siting-confound decomposition.** To quantify how much of any apparent buffering is selection, we
 fit a ladder on the same panel: (1) a naive pooled slope gap (no weights, no fixed effects — what a
@@ -128,7 +151,7 @@ conventional dammed-vs-undammed study reports); (2) unit + time fixed effects, u
 design estimator (ebal weights + fixed effects). The shrinkage from (1) to (3) is the siting
 confound; the residual at (3) is the regulation estimate.
 
-**Within-basin upstream/downstream placebo.** The decisive selection-versus-effect discriminator
+**Within-basin upstream/downstream placebo.** The primary selection-versus-effect discriminator
 contrasts the SPEI-12→SSI-12 transmission slope at regulated **downstream** reaches against
 physically unregulated **upstream** reaches of the *same* dammed basins, which share climate,
 geology, and selection history. A genuine regulation effect implies a downstream-specific
@@ -136,6 +159,10 @@ dose-response that the upstream placebo does not reproduce; an attenuation equal
 is siting, not regulation. Of the 21 treated matched basins, 15 have both an upstream and a
 downstream gauge, giving near-national coverage rather than a single case study. The contrast is
 also split by Köppen region to test whether a regulation effect emerges in the high-supply south.
+Because upstream gauges sit at higher elevations than downstream gauges, we test the placebo's
+comparability assumption directly: we quantify the elevation gap and regress the per-gauge
+transmission slope on elevation among undammed control gauges, so that any elevation-driven regime
+difference is measured rather than assumed.
 
 ## Inference
 
