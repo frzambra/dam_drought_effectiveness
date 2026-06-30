@@ -131,12 +131,17 @@ move beyond failure-to-reject and bound the operational effect. For each null we
 one-sided test (TOST): the effect is declared equivalent to zero if its 90% confidence interval lies
 within a negligible region of ±25% of the baseline (untreated) transmission slope. We are not aware
 of an established hydrological or operational standard defining a "negligible" reservoir effect on
-drought transmission, so we adopt ±25% as a deliberately strict, pre-specified margin — an
-attenuation smaller than a quarter of the natural deficit-to-impact slope is operationally marginal
-for drought classification — and, because the equivalence verdict is sensitive to this bound, we
-report the threshold-free MDE so that readers may apply any margin they consider material. The
-qualitative conclusion (only large effects are excluded; no outcome is equivalent at ±25%) does not
-depend on the exact margin. The minimum
+drought transmission, so we anchor the margin in the granularity of operational drought
+classification rather than choosing it arbitrarily. Standardized drought indices are managed in
+discrete severity categories each ≈0.5 standardized units wide [@McKee1993; @Vicente-Serrano2010];
+over the observed range of meteorological deficits a change of <25% in the deficit-to-impact slope
+(≈0.13 SSI units on the 0.53 baseline) alters the propagated streamflow-drought index by less than a
+single severity category, i.e. it cannot move a basin across an operational drought-severity
+threshold and is therefore marginal for drought management. We adopt ±25% as this deliberately
+strict, pre-specified margin and, because the equivalence verdict is nonetheless sensitive to the
+bound, also report the threshold-free MDE so that readers may apply any margin they consider
+material. The qualitative conclusion (only large effects are excluded; no outcome is equivalent at
+±25%) does not depend on the exact margin. The minimum
 detectable effect (at 80% power, two-sided $\alpha=0.05$) and the equivalence interval are built
 from the **standard deviation of the permutation-null distribution**, not the analytic standard
 error, since cluster-robust SEs over-reject at ~21 clusters (`src/R/causal/equivalence.R`). To

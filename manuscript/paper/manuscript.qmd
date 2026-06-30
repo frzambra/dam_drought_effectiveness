@@ -1,5 +1,5 @@
 ---
-title: "Reservoirs mark, but do not make, drought vulnerability: storage buffering reflects siting, not regulation, across Chile"
+title: "Dams mark drought vulnerability rather than buffer it, and storage cannot offset a falling water supply in Chile"
 author:
   - name: Francisco Zambrano Bigiarini
     affiliations:

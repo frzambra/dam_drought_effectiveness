@@ -113,7 +113,7 @@ than regulation.
 
 ```{r}
 #| label: tbl-equiv
-#| tbl-cap: "Equivalence / minimum-detectable-effect bounds on the headline nulls. Observed slope gap, MDE (smallest effect detectable at 80% power from the permutation-null SD), the 90% (TOST) interval, and whether it lies within the negligible region (+/-25% of baseline). 'baseline' is the untreated (control) SPEI->SSI / SPEI->impact transmission slope from the fixed-effects model. No outcome is formally equivalent to zero; the streamflow design rules out attenuations larger than ~46-59% of baseline transmission."
+#| tbl-cap: "Equivalence / minimum-detectable-effect bounds on the headline nulls. Observed slope gap, MDE (smallest effect detectable at 80% power from the permutation-null SD), the 90% (TOST) interval, and whether it lies within the negligible region (+/-25% of baseline). 'baseline' is the untreated (control) SPEI->SSI / SPEI->impact transmission slope from the fixed-effects model. No outcome is formally equivalent to zero; the streamflow design rules out attenuations larger than ~46-58% of baseline transmission."
 #| echo: false
 eq <- data.table::fread("../../results/tables/table_equivalence.csv")
 knitr::kable(eq[, .(Outcome = outcome,

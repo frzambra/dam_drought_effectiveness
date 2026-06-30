@@ -73,7 +73,7 @@ the record (most reservoirs predate it), so we identify differential drought *re
 the effect of switching a reservoir on; a staggered-commissioning design is infeasible here and
 would be the cleaner counterfactual where construction dates and longer records permit. Second, the
 result is a bounded null, not a proven equivalence: with ~21 treated clusters the design rules out
-buffering larger than ≈46–59% of baseline transmission for streamflow but cannot exclude small
+buffering larger than ≈46–58% of baseline transmission for streamflow but cannot exclude small
 operational effects, so the causal weight rests on the placebo, not on equivalence. Third, the
 observed-area outcome (MapBiomas class 18) captures total cropland rather than irrigation status,
 and Chile's agricultural change has been compositional — a shift toward perennial orchards within
@@ -133,7 +133,8 @@ allocation — the harder, and unavoidable, adaptation.
 
 The full analysis pipeline — the `targets` workflow, the reusable R functions (`src/R/`), the
 study-parameter configuration (`config/`), and the scripts that generate every figure and table —
-is openly available at [REPOSITORY URL] and archived at [Zenodo DOI]. The pinned R environment
+is openly available at <https://github.com/frzambra/dam_drought_effectiveness> and archived on
+Zenodo (DOI: 10.5281/zenodo.XXXXXXX). The pinned R environment
 (`renv.lock`) reproduces the package versions used. Reservoir storage records, the derived result
 tables, and matched-set metadata are included in the repository; the third-party input datasets are
 publicly available from their providers as cited: CHIRPS/CHIRTS (standardized drought indices),
