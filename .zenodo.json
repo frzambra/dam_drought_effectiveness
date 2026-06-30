@@ -1,0 +1,34 @@
+{
+  "title": "Reservoirs mark, but do not make, drought vulnerability: storage buffering reflects siting, not regulation, across Chile — data and code",
+  "upload_type": "dataset",
+  "description": "Data and code archive for the manuscript. Contains the analysis pipeline (R/targets), the study's primary reservoir storage and capacity dataset, DGA watershed units, analysis-ready per-unit panels that reproduce the statistics without the large raster inputs, all result tables and figures, and the Quarto manuscript sources. Large third-party raster inputs (CHIRPS/CHIRTS, MODIS, MapBiomas, CR2 streamflow, SRTM, Koppen-Geiger, Catastro Fruticola) are public and documented in DATA_SOURCES.md rather than redistributed.",
+  "creators": [
+    {
+      "name": "Zambrano Bigiarini, Francisco",
+      "affiliation": "Hemera Centro de Observacion de la Tierra, Facultad de Ciencias, Universidad Mayor, Santiago, Chile",
+      "orcid": "0000-0001-6896-8534"
+    }
+  ],
+  "keywords": [
+    "reservoir effect",
+    "drought propagation",
+    "socio-hydrology",
+    "causal inference",
+    "megadrought",
+    "aridification",
+    "Chile",
+    "water resources",
+    "reproducible research"
+  ],
+  "license": "cc-by-4.0",
+  "language": "eng",
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/frzambra/dam_drought_effectiveness",
+      "scheme": "url"
+    }
+  ],
+  "notes": "Once the DOI is minted, insert it into the manuscript's Data and code availability section."
+}

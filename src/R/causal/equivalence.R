@@ -68,6 +68,31 @@ equivalence_summary <- function(outcome, observed, baseline, null_vec,
     p_perm = (1 + sum(abs(null_vec) >= abs(observed), na.rm = TRUE)) / (1 + nv))
 }
 
+#' Build the equivalence / MDE table over the INTERPRETABLE null outcomes (Nature Water review
+#' #1/#3 — makes the previously orphan `table_equivalence.csv` a reproducible pipeline target).
+#' Whole-basin ET is deliberately omitted: its event-study pre-trends fail, so an equivalence bound
+#' on a confounded estimate would be meaningless (see Results). For each outcome we fit the model,
+#' take the observed slope gap and the baseline (untreated) transmission slope, and build the
+#' permutation-null distribution for the MDE/equivalence interval.
+#' @param ssi_panel_itt,ssi_panel_down build_ssi_panel() outputs (streamflow)
+#' @param did_panel_area,did_panel_orch build_did_panel() outputs (irrigated area, orchard ET)
+#' @param n_perm permutations for the null distribution
+#' @return data.table (equivalence_summary columns), one row per outcome
+build_equivalence_table <- function(ssi_panel_itt, ssi_panel_down,
+                                    did_panel_area, did_panel_orch, n_perm = 1000L) {
+  one <- function(outcome, panel, fitfun, coeffun) {
+    m  <- fitfun(panel)
+    nd <- perm_null_dist(panel, fitfun, coeffun = coeffun, n_perm = n_perm)
+    equivalence_summary(outcome, observed = coeffun(m),
+                        baseline = .baseline_slope(m), null_vec = nd)
+  }
+  data.table::rbindlist(list(
+    one("streamflow SSI (ITT)",        ssi_panel_itt,  fit_ssi_buffering, ssi_buffer_coef),
+    one("streamflow SSI (downstream)", ssi_panel_down, fit_ssi_buffering, ssi_buffer_coef),
+    one("irrigated area (DiD)",        did_panel_area, fit_forcing_did,   .gap_coef),
+    one("orchard ET (DiD)",            did_panel_orch, fit_forcing_did,   .gap_coef)))
+}
+
 #' SITING-CONFOUND DECOMPOSITION (#5): how much of the apparent dammed-vs-control buffering is
 #' siting/aridity vs a regulation effect? Fits a ladder of estimators on the same panel:
 #'   (1) NAIVE   — pooled OLS slope gap, no weights, no FE (what a dammed-vs-undammed study reports)

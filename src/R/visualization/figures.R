@@ -175,8 +175,8 @@ fig_convergent_null <- function(results_table) {
                             colour = "grey25", linewidth = 0.4) +
     ggplot2::geom_point(colour = pal[["treated"]], size = 1.4) +
     ggplot2::labs(x = "Standardized effect (estimate / SE)", y = NULL,
-                  title = "No reservoir-driven vulnerability",
-                  subtitle = "H2 predicts > 0; all CIs span zero (dotted = ±1.96)") +
+                  title = "Operational reservoir effect brackets zero",
+                  subtitle = "DiD rows judged by permutation p; whole-basin ET confounded (see text)") +
     theme_nw() +
     ggplot2::theme(legend.position = "none", plot.title = ggplot2::element_text(hjust = 0),
                    plot.subtitle = ggplot2::element_text(hjust = 0))

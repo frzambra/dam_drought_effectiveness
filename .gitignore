@@ -1,1 +1,5 @@
 data/
+.claude/
+.RData
+.Rhistory
+.Rprofile

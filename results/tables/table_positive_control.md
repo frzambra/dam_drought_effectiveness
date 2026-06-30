@@ -1,0 +1,6 @@
+| beta_injected | recovered | p_perm | detected |
+|---|---|---|---|
+|    0 | -0.165 | 0.48 | FALSE |
+| -0.15 | -0.315 | 0.135 | FALSE |
+| -0.3 | -0.465 | 0.014 |  TRUE |
+| -0.45 | -0.615 | 0.001 |  TRUE |

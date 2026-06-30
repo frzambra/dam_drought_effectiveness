@@ -403,6 +403,27 @@ list(
              ssi_buffer_summary(ssi_buffer_itt, ssi_buffer_down, ssi_buffer_up,
                                 ssi_perm_itt, ssi_perm_down, ssi_perm_up)),
 
+  # --- placebo validation (Nature Water review #5, #6) -----------------------------------------
+  # #5 COMPARABILITY: upstream gauges sit higher than downstream, so quantify the gap and test
+  # whether gauge elevation drives the SPEI->SSI transmission slope among undammed controls (if not,
+  # the up/down elevation difference cannot manufacture a spurious slope gap -> placebo defended).
+  tar_target(ssi_placebo_check,
+             ssi_placebo_comparability(streamflow_stations, ssi12, ssi_panel_itt)),
+  tar_target(table_placebo_check_file, write_table(ssi_placebo_check, "table_placebo_check"),
+             format = "file"),
+  # #6 POSITIVE CONTROL: inject a known buffering slope into treated downstream units, confirm the
+  # estimator recovers it and that randomization inference rejects once the effect exceeds the MDE.
+  tar_target(ssi_positive_ctrl, ssi_positive_control(ssi_panel_down)),
+  tar_target(table_positive_ctrl_file, write_table(ssi_positive_ctrl, "table_positive_control"),
+             format = "file"),
+
+  # Equivalence / MDE bounds on the interpretable nulls — makes the formerly orphan
+  # table_equivalence.csv a reproducible target. Whole-basin ET omitted (pre-trends fail).
+  tar_target(equivalence_table,
+             build_equivalence_table(ssi_panel_itt, ssi_panel_down, did_panel_area, did_panel_orch)),
+  tar_target(table_equivalence_file, write_table(equivalence_table, "table_equivalence"),
+             format = "file"),
+
   # === MANUSCRIPT FIGURES + TABLES (results/ via file targets; one message each) ===============
   # Main results table: convergent H2 null across cross-sectional ATTs + forcing-interacted DiD.
   tar_target(main_results_table,
