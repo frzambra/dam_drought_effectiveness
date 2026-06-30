@@ -1,5 +1,0 @@
-- [Project Overview](project_overview.md) — core question, hypotheses H1-H4, paper arc, Chile reservoir/drought study
-- [Data On Disk](project_data_state.md) — what is actually available (2026-06); supersedes stale README caveat
-- [Identification Strategy](project_identification.md) — left-censoring kills staggered DiD; use continuous storage-state variation
-- [Editorial Decisions Log](project_editorial_log.md) — recommendations rendered and revision trajectory
-- [PI Profile](user_pi.md) — Francisco Zambrano Bigiarini, PI; how he prefers to work
