@@ -1,5 +1,76 @@
 # Manuscript figures. Each builds ONE message and is saved via save_fig() in a tar_target.
 
+#' FIGURE (concept): the two comparisons that separate the reservoir from its location. (a) The
+#' matched design: each dammed basin is compared only with undammed basins that share its climate,
+#' size and elevation, then both are exposed to the same drought and their impact compared. (b) The
+#' within-basin placebo: inside a dammed basin, a gauge below the dam (regulated) is compared with a
+#' gauge above it (unregulated); a genuine dam effect must appear downstream only. Purely schematic.
+fig_design_schematic <- function() {
+  pal <- nw_pal(); cfg <- fig_cfg(); ts <- cfg$font$geom_text_size
+  void <- ggplot2::theme_void(base_family = cfg$font$family) +
+    ggplot2::theme(plot.tag = ggplot2::element_text(size = cfg$font$title_size_pt, face = "bold"),
+                   plot.title = ggplot2::element_text(size = cfg$font$base_size_pt, face = "bold",
+                                                      hjust = 0.5))
+  basin <- function(x0, x1, y0 = 0.18, y1 = 0.82)
+    ggplot2::annotate("rect", xmin = x0, xmax = x1, ymin = y0, ymax = y1,
+                      fill = "grey96", colour = "grey60", linewidth = 0.3)
+
+  # ---- panel a: matched dammed vs control ----
+  pa <- ggplot2::ggplot() +
+    basin(0.03, 0.44) + basin(0.56, 0.97) +
+    ggplot2::annotate("rect", xmin = 0.19, xmax = 0.30, ymin = 0.42, ymax = 0.60,
+                      fill = pal[["control"]], alpha = 0.5, colour = NA) +               # reservoir
+    ggplot2::annotate("point", x = 0.245, y = 0.415, shape = 24, size = 2.8,
+                      fill = pal[["treated"]], colour = "white", stroke = 0.4) +          # dam
+    ggplot2::annotate("text", x = 0.235, y = 0.75, label = "Dammed\nbasin", hjust = 0.5,
+                      size = ts, fontface = "bold") +
+    ggplot2::annotate("text", x = 0.765, y = 0.75, label = "Matched\ncontrol basin", hjust = 0.5,
+                      size = ts, fontface = "bold") +
+    ggplot2::annotate("segment", x = 0.45, xend = 0.55, y = 0.5, yend = 0.5,
+                      arrow = grid::arrow(ends = "both", length = grid::unit(1.4, "mm")),
+                      colour = "grey30", linewidth = 0.4) +
+    ggplot2::annotate("text", x = 0.5, y = 0.30,
+                      label = "matched on\nclimate, size,\nelevation", hjust = 0.5, vjust = 1,
+                      size = ts * 0.8, colour = "grey30") +
+    ggplot2::annotate("text", x = 0.5, y = 0.08,
+                      label = "same drought, compare the impact", hjust = 0.5,
+                      size = ts * 0.9, colour = "grey15") +
+    ggplot2::coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), expand = FALSE, clip = "off") +
+    ggplot2::labs(tag = "a", title = "Matched dammed vs control basins") + void
+
+  # ---- panel b: within-basin upstream/downstream placebo ----
+  pb <- ggplot2::ggplot() +
+    basin(0.05, 0.95, 0.14, 0.88) +
+    ggplot2::annotate("segment", x = 0.80, xend = 0.20, y = 0.80, yend = 0.22,
+                      colour = pal[["control"]], linewidth = 1) +                         # river
+    ggplot2::annotate("text", x = 0.82, y = 0.84, label = "headwaters", hjust = 0.5,
+                      size = ts * 0.75, colour = "grey45") +
+    ggplot2::annotate("text", x = 0.18, y = 0.18, label = "outlet", hjust = 0.5,
+                      size = ts * 0.75, colour = "grey45") +
+    ggplot2::annotate("point", x = 0.66, y = 0.66, shape = 16, size = 2.3,
+                      colour = pal[["control"]]) +                                        # upstream gauge
+    ggplot2::annotate("text", x = 0.66, y = 0.78, label = "upstream gauge\n(unregulated)",
+                      hjust = 0.5, size = ts * 0.8, colour = pal[["control"]]) +
+    ggplot2::annotate("point", x = 0.50, y = 0.50, shape = 24, size = 3,
+                      fill = pal[["treated"]], colour = "white", stroke = 0.4) +          # dam
+    ggplot2::annotate("text", x = 0.50, y = 0.50, label = "dam", hjust = -0.35, vjust = -0.4,
+                      size = ts * 0.8, colour = pal[["treated"]]) +
+    ggplot2::annotate("point", x = 0.34, y = 0.34, shape = 15, size = 2.3,
+                      colour = pal[["treated"]]) +                                        # downstream gauge
+    ggplot2::annotate("text", x = 0.34, y = 0.24, label = "downstream gauge\n(regulated)",
+                      hjust = 0.5, size = ts * 0.8, colour = pal[["treated"]]) +
+    ggplot2::annotate("text", x = 0.5, y = 0.04,
+                      label = "a real dam effect must appear downstream only", hjust = 0.5,
+                      size = ts * 0.9, colour = "grey15") +
+    ggplot2::coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), expand = FALSE, clip = "off") +
+    ggplot2::labs(tag = "b", title = "Within-basin upstream/downstream placebo") + void
+
+  patchwork::wrap_plots(pa, pb, ncol = 2) +
+    patchwork::plot_annotation(
+      title = "Two comparisons separate the reservoir from its location",
+      theme = theme_nw())
+}
+
 #' Pick the treated unit best suited to illustrate the upstream/downstream gauge geometry:
 #' one with BOTH up- and down-dam gauges, preferring the Mediterranean core (Köppen `prefer`,
 #' the study's agricultural setting) and a balanced picture (max min(up, down)), tie-broken toward
@@ -86,11 +157,14 @@ fig_study_area <- function(matched_set, matched_subc, subc_context, points, rese
     ggplot2::geom_sf(data = points[points$ID_DGA %in%
                        data.table::as.data.table(reservoir_units)[
                          level == "subcuencas" & unit_id %in% trt$unit_id, ID_DGA], ],
-                     shape = 24, fill = pal[["treated"]], colour = "white",
-                     size = 1.3, stroke = 0.2) +
+                     ggplot2::aes(shape = "Reservoir"),
+                     fill = pal[["treated"]], colour = "white", size = 1.3, stroke = 0.2) +
     ggplot2::scale_fill_viridis_c(option = "cividis", name = "Aridity (P/PET)",
                                   trans = "sqrt") +
     ggplot2::scale_size_area(name = "Balancing weight", max_size = 2.6) +
+    ggplot2::scale_shape_manual(values = c(Reservoir = 24), name = NULL,
+                                guide = ggplot2::guide_legend(
+                                  override.aes = list(fill = pal[["treated"]], colour = "white"))) +
     ggplot2::coord_sf(xlim = c(bb["xmin"] - padx, bb["xmax"] + padx),
                       ylim = c(bb["ymin"] - pady, bb["ymax"] + pady), expand = FALSE) +
     ggplot2::labs(tag = "a", x = NULL, y = NULL,
@@ -117,11 +191,14 @@ fig_study_area <- function(matched_set, matched_subc, subc_context, points, rese
   pb <- ggplot2::ggplot() +
     ggplot2::geom_sf(data = ib, fill = "grey96", colour = "grey55", linewidth = 0.2) +
     ggplot2::geom_sf(data = gz, ggplot2::aes(colour = Gauge, shape = Gauge), size = 1.5) +
-    ggplot2::geom_sf(data = idam, shape = 24, fill = pal[["treated"]], colour = "white",
-                     size = 2, stroke = 0.3) +
-    ggplot2::scale_colour_manual(values = gz_pal, name = NULL) +
+    ggplot2::geom_sf(data = idam, ggplot2::aes(colour = "Reservoir (dam)", shape = "Reservoir (dam)"),
+                     fill = pal[["treated"]], size = 2, stroke = 0.3) +
+    ggplot2::scale_colour_manual(values = c(gz_pal, `Reservoir (dam)` = "grey20"), name = NULL) +
     ggplot2::scale_shape_manual(values = c(`Upstream (unregulated)` = 16,
-                                           `Downstream (regulated)` = 15), name = NULL) +
+                                           `Downstream (regulated)` = 15,
+                                           `Reservoir (dam)` = 24), name = NULL,
+                                guide = ggplot2::guide_legend(
+                                  override.aes = list(fill = pal[["treated"]]))) +
     ggplot2::coord_sf(expand = TRUE) +
     ggplot2::labs(tag = "b", x = NULL, y = NULL,
                   subtitle = sprintf("Placebo geometry (basin %s):\nupstream gauges cannot be regulated", iu)) +
@@ -634,7 +711,7 @@ fig_convergent_null <- function(results_table) {
     ggplot2::scale_linetype_manual(values = c(`FALSE` = "solid", `TRUE` = "22"), guide = "none") +
     ggplot2::facet_wrap(~gfac, ncol = 1, scales = "free_y", strip.position = "top") +
     ggplot2::coord_cartesian(xlim = c(-4, 7)) +
-    ggplot2::labs(x = "Effect in standard errors  (estimate / SE)", y = NULL,
+    ggplot2::labs(x = "Effect in standard errors (estimate / its SE; within +/-2 = no effect)", y = NULL,
                   title = "Operational reservoir effect brackets zero",
                   subtitle = "Positive = vulnerability; negative = buffering") +
     theme_nw() +

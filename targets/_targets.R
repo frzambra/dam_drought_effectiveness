@@ -431,7 +431,14 @@ list(
   tar_target(table_main_file, write_table(main_results_table, "table_main_results"),
              format = "file"),
 
-  # Fig 1 (design): study-area / treatment-control map — matched sample on Chile's aridity gradient,
+  # Fig 1 (concept): schematic of the two comparisons (matched dammed-vs-control; within-basin
+  # upstream/downstream placebo) that separate the reservoir from its siting.
+  tar_target(fig_schematic_obj, fig_design_schematic()),
+  tar_target(fig_schematic_file,
+             save_fig(fig_schematic_obj, "fig_design_schematic", width = "onehalf", height_mm = 75),
+             format = "file"),
+
+  # Study-area / treatment-control map (Supplementary) — matched sample on Chile's aridity gradient,
   # controls sized by entropy-balancing weight, plus the within-basin up/down placebo geometry inset.
   tar_target(fig_study_area_obj,
              fig_study_area(matched_set, matched_subcuencas, subcuencas_dissolved, points,

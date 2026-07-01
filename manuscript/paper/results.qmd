@@ -1,106 +1,79 @@
 # Results
 
-We frame reservoir presence as a basin-level intervention and build a national matched design
-across central Chile's aridity gradient (@fig-map). Dammed (treated) subcuencas concentrate in
-the arid centre and north, precisely where irrigation demand and water scarcity already
-coincide, so a raw dammed-versus-undammed contrast would confound the reservoir with its siting.
-We therefore entropy-balance controls to treated units within Köppen climate strata, retaining
-21 dammed basins against 244 controls (effective control sample ≈91), so that the weighted
-controls span the same climate strata as the treated basins (@fig-map, panel a). The design also
-supports a within-basin falsification: in dammed basins, gauges below the dam are hydrologically
-regulated while gauges above it are not, so any apparent buffering seen equally at unregulated
-upstream gauges must be siting rather than the reservoir (@fig-map, panel b).
+## Reservoirs sit where water is already scarce
+
+Reservoirs in Chile are built where drought bites hardest: our 21 dammed basins cluster in the arid
+centre and north, where irrigation demand and aridity already coincide, so a raw comparison of
+dammed against undammed basins would confuse the reservoir with its location. We separate the two
+with the design in @fig-schematic. First, we compare each dammed basin only with undammed basins
+that share its climate, size and elevation, statistical matching that keeps 21 of 24 dammed basins
+against an effective 91 of 244 controls (Supplementary Figs. S4 and S5), and we condition on the
+drought each basin actually experienced, so we compare how much impact a basin registers per unit of
+meteorological deficit rather than its raw level. Second, within each dammed basin we compare
+regulated reaches below the dam against physically unregulated reaches above it. A genuine reservoir
+effect must show up in these comparisons; across every pathway, it does not.
 
 ```{r}
-#| label: fig-map
+#| label: fig-schematic
 #| out-width: \\textwidth
-#| fig-cap: "A national matched design across Chile's aridity gradient. (a) Matched sample of subcuencas, each filled by long-term aridity (P/PET, the north-south gradient the design conditions on); dammed (treated) basins are outlined in orange and marked with their reservoir (triangles), and each matched-control basin carries a centroid dot sized by its entropy-balancing weight, so the effective control sample (≈91) is visible against the nominal 244. Dammed basins concentrate in the arid centre and north; weighted controls span the same climate strata. (b) Within-basin placebo geometry for one representative dammed basin: the reservoir (triangle) with its downstream (regulated) gauges below the dam and upstream (unregulated) gauges above it. Buffering that also appears at the upstream gauges is siting or aridity, not regulation."
+#| fig-cap: "The two comparisons that separate the reservoir from its location. (a) Matched comparison: each dammed basin is compared only with undammed basins that share its climate, size and elevation, and both are then exposed to the same drought so their impact can be compared. (b) Within-basin placebo: inside a dammed basin, a streamflow gauge below the dam (regulated) is compared with a gauge above it (unregulated); a genuine reservoir effect must appear downstream only. Schematic; the full study-area map and matching diagnostics are in Supplementary Figs. S4 and S5."
 #| echo: false
-knitr::include_graphics("../../results/figures/fig_study_area.png")
+knitr::include_graphics("../../results/figures/fig_design_schematic.png")
 ```
 
-Matching removes the siting imbalance that would otherwise masquerade as a reservoir effect
-(@fig-map). Before weighting, dammed basins are far larger and higher than undammed ones
-(standardized mean differences of 1.18 in log basin area, 0.37 in mean elevation, and a 0.73
-latitude gap); entropy balancing within Köppen strata collapses each of these to essentially zero
-(@fig-balance, panel a). Long-term aridity, deliberately left untargeted as a diagnostic, falls
-from 0.33 to a small residual 0.17 that the doubly-robust outcome model absorbs directly. The
-balancing concentrates the ATT on an effective 91 of the 244 controls. Three of the 24 dammed
-basins are dropped as off-support: they sit in cold and polar Köppen strata (high-Andes basins
-above 2,200 m) that hold no comparable undammed controls, so they are excluded rather than matched
-by extrapolation (@fig-balance, panel b).
+## The apparent buffering is the location, not the dam {#sec-placebo}
+
+The most direct and intuitive test is on streamflow. Meteorological drought (SPEI-12) propagates
+into streamflow drought (SSI-12) more gently in dammed basins, the visual signature of buffering
+(@fig-streamflow, panel a). But this flattening tracks where dams sit, not what they do. If the dam
+were doing the buffering, transmission would flatten only below it; instead it flattens just as much
+at the unregulated *upstream* reaches of the same basins (differential slope $-0.20$ upstream versus
+$-0.16$ downstream; @fig-streamflow, panel b). Because the upstream line flattens too, the cause
+must be the aridity of the location, not the reservoir. The national slope gap of $-0.18$
+accordingly collapses to about $-0.03$ once dammed and control basins are compared within the same
+climate region, and in the high-supply south, where buffering should be easiest to see, the upstream
+and downstream gaps are statistically identical ($-0.036$ versus $-0.034$). None survives
+randomization inference ($p_{\text{perm}} = 0.39$). The apparent buffering is therefore the
+between-region aridity gradient, the textbook signature of a siting confound, not an effect of
+regulation; a step-by-step decomposition confirms the signal survives matching and fixed effects but
+dies only when basins are compared within climate region (Supplementary Fig. S3 and Table S4).
+Upstream and downstream reaches are not perfectly interchangeable, since upstream gauges sit higher
+and elevation predicts transmission among controls, but their raw transmission slopes are nearly
+identical and the apparent buffering is if anything stronger upstream, neither of which is consistent
+with a regulation effect hidden by elevation (Supplementary Table S2).
 
 ```{r}
-#| label: fig-balance
-#| out-width: \\textwidth
-#| fig-cap: "Covariate balance and common support for the matched design. (a) Love plot of the absolute standardized mean difference between dammed and control basins before (unweighted) and after entropy balancing, for the two balanced covariates (log basin area, mean elevation) and two untargeted diagnostics (latitude, log aridity); the dashed line is the conventional 0.1 balance threshold. Weighting collapses the large siting imbalances to ~0, leaving only a small residual aridity difference (0.17) carried by the doubly-robust outcome model, and reduces the effective control sample from 244 to 91. (b) Climate-stratum common support: mean elevation of control (grey) and dammed (orange, retained) basins within each Köppen main group, with the three pruned dammed basins (x) shown at the elevation of their stratum. Pruned units fall in the cold (D) and polar (E) strata, whose controls lie far below them, so they are off-support and correctly excluded rather than matched by extrapolation."
+#| label: fig-streamflow
+#| fig-cap: "Streamflow buffering is reservoir siting, not regulation. (a) SPEI-12 to SSI-12 transmission for dammed versus matched-control basins (downstream gauges); lines are weighted least-squares fits and shaded bands are 95% confidence intervals; dammed basins show a flatter slope, the apparent buffering. (b) Differential slope (treat:SPEI; <0 = buffering) for intent-to-treat, downstream-only, and the upstream-only placebo; horizontal bars are 95% confidence intervals (estimate +/- 1.96 cluster-robust SE), annotated with randomization-inference p-values. All are permutation-null, and the upstream placebo (above-dam, unregulated) is as strong as downstream, so the attenuation is siting/aridity, not the dam."
 #| echo: false
-knitr::include_graphics("../../results/figures/fig_covariate_balance.png")
+knitr::include_graphics("../../results/figures/fig_streamflow.png")
 ```
 
-## Reservoirs mark, but do not make, irrigated vulnerability
+## No reservoir effect survives across any operational pathway {#sec-bounding}
 
-Across the matched design (21 dammed vs 244 control subcuencas, effective control sample ≈91
-after entropy balancing), dammed basins contain
-roughly 4.6 times more cropland than matched controls, a mean of
-11.1% of basin area versus 2.4% (@fig-area, panel a). This gap, however, is a
-*siting* signature: it is present and stable across the entire 2000–2024 record, with
-dammed and control trajectories evolving in parallel through the 2010-onset megadrought
-(shaded). A dynamic event study confirms this. The dammed × year coefficients on
-cropland area show flat differential pre-trends (pre-2010 trend-slope $p = 0.65$) and no divergence after the
-drought onset (post $p = 0.81$; @fig-area, panel b). Reservoirs mark where irrigated agriculture already
-was; they do not detectably expand it or change how it responds to drought.
+The same answer holds across the other pathways by which reservoirs are thought to modify drought
+(@fig-forest, @tbl-main). We measure each effect as the differential response of dammed and
+matched-control basins to the same meteorological deficit, and place them on a common axis: each
+estimate is divided by its own standard error, so effects on different natural scales (hectares,
+evapotranspiration, streamflow) can be read on one plot, and a value inside $\pm 2$ is
+indistinguishable from no effect. Every interpretable estimate brackets zero: cross-sectional
+irrigated-area expansion ($-0.69$ ha km^-2^, 95% CI $[-2.4, 1.1]$) and evapotranspiration buffering
+($-0.014$ $[-0.065, 0.037]$), and the forcing-conditioned slope gaps for irrigated area
+($p_{\text{perm}} = 0.91$) and orchard evapotranspiration ($p_{\text{perm}} = 0.24$). One outcome,
+whole-basin evapotranspiration, appears positive, but its pre-trends fail and it is confounded by
+residual aridity over barren land, so we flag it as uninterpretable rather than fold it silently into
+the nulls; at face value it points toward *vulnerability*, not buffering.
 
-```{r}
-#| label: fig-area
-#| fig-cap: "Observed irrigated-area dynamics in dammed versus matched-control basins (21 dammed, 244 controls). (a) Entropy-balancing-weighted mean cropland area (% of basin, MapBiomas class 18) with 95% bands (weighted mean +/- 1.96 SE across basins); the y-axis is anchored at zero. Dammed basins hold ~4.6x more cropland (11.1% vs 2.4% of basin area) but the trajectories evolve in parallel. (b) Dynamic event study (dammed x year, reference 2009): the shaded band is the 95% confidence interval (coefficient +/- 1.96 cluster-robust SE). The differential pre-trend is flat (pre-2010 trend-slope p = 0.65) and does not diverge afterwards (post p = 0.81); a linear trend-slope test is used because the joint event-study Wald over-rejects at ~21 treated clusters. The 2010-2024 megadrought is shaded in both panels."
-#| echo: false
-knitr::include_graphics("../../results/figures/fig_area_did.png")
-```
-
-## No operational reservoir effect survives once siting is matched out
-
-We probe the operational vulnerability mechanism with four independent estimators (@tbl-main):
-two cross-sectional doubly-robust matched ATTs, namely net irrigated-area expansion
-($-0.69$ ha km^-2^, 95% CI $[-2.4, 1.1]$) and reservoir evapotranspiration buffering
-($-0.014$ d log ET / d SPEI, $[-0.065, 0.037]$), and forcing-interacted
-difference-in-differences slope gaps on the observed area and ET panels, in which the
-deficit dose is the meteorological SPEI rather than calendar time (so year fixed effects
-absorb the common megadrought shock and the estimand is the differential deficit-to-impact
-*slope*; @fig-forcing). Because the treatment is effectively time-invariant (18 of 24 reservoirs predate
-the record), this within-unit, forcing-based design is the only defensible dynamic
-identification; inference uses randomization of treatment within climate × aridity strata
-(~21 treated clusters).
-
-```{r}
-#| label: fig-forcing
-#| out-width: \\textwidth
-#| fig-cap: "The drought forcing. (a) National mean SPEI-12 across the matched basins, 2000-2024; the negative (drought) excursion is filled and the post-2010 megadrought era shaded, with the 2019 and 2021 hyperdrought winters marked. The deficit is sustained and deep (below -1 for much of 2016-2024), giving the SPEI dose real dynamic range. (b) Entropy-balancing-weighted mean SPEI-12 for dammed versus matched-control basins: both co-move through the same megadrought (a common shock that year fixed effects absorb), with dammed basins running slightly drier, a siting offset that is precisely why the estimand is the differential deficit-to-impact slope rather than a level or calendar-time contrast."
-#| echo: false
-knitr::include_graphics("../../results/figures/fig_drought_forcing.png")
-```
-
-Under the design's primary inference, no estimate indicates an operational effect
-(@fig-forest, @tbl-main). Three of the four straddle zero outright: net irrigated-area
-expansion, and the slope gaps for irrigated area ($p_{\text{perm}} = 0.91$) and orchard ET
-($p_{\text{perm}} = 0.24$). The whole-basin ET slope gap is the exception, and we treat it
-explicitly rather than fold it silently into the nulls. Its cluster-robust interval is positive
-and excludes zero ($+0.048$, $[0.026, 0.070]$); however, it fails the design's pre-specified
-randomization inference ($p_{\text{perm}} = 0.11$) and, decisively, its dynamic event study
-shows strongly non-parallel pre-trends ($p \approx 10^{-10}$). The panel is therefore confounded
-(whole-basin MODIS ET is contaminated by residual aridity over sparsely vegetated, barren land),
-so neither its point estimate nor its cluster-robust interval is interpretable, and for the
-same reason it is the one outcome we exclude from the equivalence bounding below. Two facts keep
-this exception from rescuing a buffering narrative: taken at face value the estimate points
-toward *vulnerability* (a steeper deficit-to-impact slope), not buffering; and the cleaner
-orchard-ET stratum and the cross-sectional ET-buffering ATT both straddle zero. Across the
-interpretable outcomes, then, no panel shows the positive slope the vulnerability mechanism
-predicts nor the negative slope operational buffering would produce: conditional on siting, the
-operational reservoir effect brackets zero.
+This null is informative, not merely underpowered. With about 21 dammed clusters the design cannot
+claim exact equivalence to zero, but it rules out streamflow buffering larger than 46 to 58% of
+baseline transmission, and a positive control confirms the point: when we inject a known buffering
+effect into the treated gauges, the estimator recovers it one-to-one and randomization inference
+detects it once it exceeds that threshold (Methods; Supplementary Fig. S2 and Tables S1, S3). The
+design would therefore have detected a large operational effect had one existed.
 
 ```{r}
 #| label: tbl-main
-#| tbl-cap: "Reservoir-effect estimates across estimators. Cross-sectional doubly-robust matched ATTs and forcing-interacted DiD slope gaps (treat:SPEI). DiD rows are judged by randomization-inference p-values (p), the design's primary inference at ~21 clusters; cluster-robust CIs are shown for completeness and over-reject here. A positive estimate would indicate induced-demand vulnerability; a negative one, operational buffering. *Whole-basin ET fails its event-study pre-trend test (p approximately 1e-10): its cluster-robust CI excludes zero but the panel is confounded by barren-land aridity, so it is labelled confounded and excluded from the equivalence bounds (Table 2)."
+#| tbl-cap: "Reservoir-effect estimates across estimators. Cross-sectional doubly-robust matched ATTs and forcing-interacted DiD slope gaps (treat:SPEI). DiD rows are judged by randomization-inference p-values (p), the design's primary inference at ~21 clusters; cluster-robust CIs are shown for completeness and over-reject here. A positive estimate would indicate induced-demand vulnerability; a negative one, operational buffering. *Whole-basin ET fails its event-study pre-trend test (p approximately 1e-10): its cluster-robust CI excludes zero but the panel is confounded by barren-land aridity, so it is labelled confounded and excluded from the equivalence bounds (Supplementary Table S1)."
 #| echo: false
 tab <- data.table::fread("../../results/tables/table_main_results.csv")
 # Whole-basin ET fails its event-study pre-trends (p~1e-10): the cluster CI excludes zero but the
@@ -115,178 +88,40 @@ knitr::kable(tab[, .(Group = group, Outcome = outcome, Estimand = estimand,
 
 ```{r}
 #| label: fig-forest
-#| fig-cap: "Dammed-versus-control effect across the estimators, each expressed uniformly in its own standard errors (estimate/SE) so the axis metric is identical for every row. Rows are grouped by inference regime: cross-sectional matched ATTs (top) and forcing-interacted DiD slope gaps (bottom). Bars span +/-1.96 SE (the 95% reference interval) and dotted lines mark +/-1.96; a positive effect would indicate induced-demand vulnerability, a negative one operational buffering. DiD rows are annotated with their randomization-inference p (the design's valid inference at ~21 clusters, since the +/-1.96 SE guides over-reject there). Every interpretable estimate brackets zero. Whole-basin ET (open symbol, dashed interval) is the sole exception: its estimate/SE exceeds +1.96 and its cluster-robust CI excludes zero, but the panel fails its event-study pre-trend test and is confounded by barren-land aridity, so it is labelled confounded and excluded (Table 1); taken at face value it points toward vulnerability, not buffering."
+#| fig-cap: "Dammed-versus-control effect across the estimators, each expressed uniformly in its own standard errors (estimate divided by its SE) so the axis metric is identical for every row; an estimate inside +/-2 is indistinguishable from no effect. Rows are grouped by inference regime: cross-sectional matched ATTs (top) and forcing-interacted DiD slope gaps (bottom). Bars span +/-1.96 SE (the 95% reference interval) and dotted lines mark +/-1.96; a positive effect would indicate induced-demand vulnerability, a negative one operational buffering. DiD rows are annotated with their randomization-inference p (the design's valid inference at ~21 clusters, since the +/-1.96 SE guides over-reject there). Every interpretable estimate brackets zero. Whole-basin ET (open symbol, dashed interval) is the sole exception: its estimate/SE exceeds +1.96 and its cluster-robust CI excludes zero, but the panel fails its event-study pre-trend test and is confounded by barren-land aridity, so it is labelled confounded and excluded (@tbl-main); taken at face value it points toward vulnerability, not buffering."
 #| echo: false
 knitr::include_graphics("../../results/figures/fig_convergent_null.png")
 ```
 
-## Sensitivity to aridity adjustment
+## Reservoirs mark, not make, irrigated vulnerability
 
-Dammed basins are systematically more arid than controls, and the matched set does not fully
-remove this: baseline aridity remains imbalanced after weighting (standardized mean difference
-≈$0.17$, above the $0.1$ target), so the doubly-robust adjustment for aridity is load-bearing
-rather than a cosmetic mop-up. Because dammed basins are the more arid, residual under-control
-biases *toward* apparent vulnerability, which makes the nulls conservative. Functional form
-matters and we report it: in the ecological-proxy transmission-slope analysis the dammed-versus-
-control estimate falls from $+0.33$ under linear aridity adjustment to $+0.11$ once a quadratic
-aridity term is added, and in the irrigation-specific stratum it collapses to ≈$0$
-($0.08 \rightarrow 0.01$). The apparent steepening is therefore largely a water-limitation/aridity
-artifact (consistent with the siting interpretation), but the same sensitivity means estimates
-that rely on linear aridity control should be read as functional-form-dependent, and we treat the
-curvature-robust values as the conservative reference.
-
-## Bounding the null: what the design can rule out
-
-A null is only informative against a stated effect size, so we convert each non-result into a
-bound via equivalence testing (two one-sided tests) and a minimum detectable effect (MDE)
-built from the permutation-null spread (@tbl-equiv). We bound the four interpretable outcomes
-(streamflow ITT and downstream, irrigated-area DiD, orchard-ET DiD); whole-basin ET is excluded
-because its pre-trends fail, so an equivalence interval on a confounded estimate would be
-meaningless. The streamflow design has the most power:
-it can detect a buffering effect that attenuates SPEI→SSI transmission by ≳46% of the baseline
-slope (ITT MDE $0.27$ against a baseline transmission of $0.59$; downstream-only MDE $0.31$
-against its $0.53$ baseline, ≳58%). Here "baseline" is the untreated (control) SPEI→SSI slope from
-the fixed-effects model (@tbl-equiv), which is distinct from, and should not be confused with,
-the raw per-gauge mean transmission of downstream gauges ($0.599$) reported for the placebo
-comparability check (@tbl-placebo). No outcome's 90%
-interval falls inside its pre-specified negligible region (±25% of baseline), so we do *not*
-claim formal statistical equivalence to zero (with ~21 treated clusters the design can exclude
-only **large** operational effects, not small ones). A policy-relevant buffer of 20–45% of
-baseline transmission is *not* excluded. The causal weight of the null therefore rests on the
-within-basin placebo below, not on equivalence: the design excludes only large operational
-effects, and the placebo indicates that the residual apparent attenuation is selection rather
-than regulation.
+Dammed basins do carry the vulnerability reservoirs are blamed for concentrating: they hold about
+4.6 times more cropland than matched controls (11.1% versus 2.4% of basin area; @fig-area, panel a).
+But this gap is a *siting* signature, present and stable across the entire 2000–2024 record, with
+dammed and control trajectories evolving in parallel through the megadrought. A dynamic event study
+confirms it: the differential trend is flat before 2010 ($p = 0.65$) and does not diverge afterwards
+($p = 0.81$; @fig-area, panel b). Reservoirs mark where irrigated agriculture already was; they
+neither expanded it nor changed how it responds to drought.
 
 ```{r}
-#| label: tbl-equiv
-#| tbl-cap: "Equivalence / minimum-detectable-effect bounds on the headline nulls. Observed slope gap, MDE (smallest effect detectable at 80% power from the permutation-null SD), the 90% (TOST) interval, and whether it lies within the negligible region (+/-25% of baseline). 'baseline' is the untreated (control) SPEI->SSI / SPEI->impact transmission slope from the fixed-effects model. No outcome is formally equivalent to zero; the streamflow design rules out attenuations larger than ~46-58% of baseline transmission."
+#| label: fig-area
+#| fig-cap: "Observed irrigated-area dynamics in dammed versus matched-control basins (21 dammed, 244 controls). (a) Entropy-balancing-weighted mean cropland area (% of basin, MapBiomas class 18) with 95% bands (weighted mean +/- 1.96 SE across basins); the y-axis is anchored at zero. Dammed basins hold ~4.6x more cropland (11.1% vs 2.4% of basin area) but the trajectories evolve in parallel. (b) Dynamic event study (dammed x year, reference 2009): the shaded band is the 95% confidence interval (coefficient +/- 1.96 cluster-robust SE). The differential pre-trend is flat (pre-2010 trend-slope p = 0.65) and does not diverge afterwards (post p = 0.81); a linear trend-slope test is used because the joint event-study Wald over-rejects at ~21 treated clusters. The 2010-2024 megadrought is shaded in both panels."
 #| echo: false
-eq <- data.table::fread("../../results/tables/table_equivalence.csv")
-knitr::kable(eq[, .(Outcome = outcome,
-                    Observed = round(observed, 3),
-                    MDE = round(mde, 3),
-                    `90% CI` = sprintf("[%.3g, %.3g]", ci90_lo, ci90_hi),
-                    `Equiv. to 0?` = ifelse(equivalent, "yes", "no"),
-                    `p_perm` = round(p_perm, 2))])
+knitr::include_graphics("../../results/figures/fig_area_did.png")
 ```
 
-To confirm that this null is informative rather than merely underpowered (that the design could
-detect a true effect of the relevant order), we ran a positive control on the streamflow estimator
-(@fig-informative, @tbl-poscontrol). Injecting a known buffering slope into the treated downstream units, the
-estimator recovers it almost exactly (a $-0.30$ injection yields $-0.47$ on top of the $-0.17$
-baseline), the no-injection case is correctly *not* flagged ($p_{\text{perm}} = 0.48$), and
-randomization inference detects the effect once the total slope reaches ≈$-0.47$
-($p_{\text{perm}} = 0.014$), with $-0.62$ strongly detected ($p_{\text{perm}} = 0.001$). The
-design therefore has the power to reveal a large operational buffering effect where one exists, so
-its failure to find one is evidence of absence at that magnitude (consistent with the MDE above)
-rather than blindness. This positive control validates the streamflow estimator specifically; the
-irrigated-area and ET nulls are not independently power-validated, their minimum detectable
-effects being large (for irrigated area, far above any plausible effect; @tbl-equiv), and rest on
-the placebo and the conservative direction of the aridity bias rather than on their own power.
+## Storage falls while the seasonal refill holds
 
-```{r}
-#| label: tbl-poscontrol
-#| tbl-cap: "Positive control on the streamflow estimator. A known buffering slope (beta_injected; negative = buffering) is added to treated downstream units; the estimator recovers it (recovered = baseline -0.17 + beta), the no-effect case is not flagged, and randomization inference detects the effect once it exceeds the minimum detectable effect."
-#| echo: false
-knitr::kable(data.table::fread("../../results/tables/table_positive_control.csv"))
-```
-
-```{r}
-#| label: fig-informative
-#| out-width: \\textwidth
-#| fig-cap: "The null is informative, not underpowered blindness. (a) Equivalence / minimum-detectable-effect bounds for the two streamflow outcomes: the observed slope gap (point) and its 90% (TOST) interval against the +/-25%-of-baseline negligible region (grey). The 90% intervals exceed the negligible region, so formal equivalence to zero is not claimed, but they exclude attenuations larger than the minimum detectable effect (45% of baseline transmission for the intent-to-treat design, 58% downstream). (b) Positive control: a known buffering slope injected into the treated downstream gauges is recovered one-to-one by the estimator (points on the dashed expected-recovery line), the no-injection case is correctly not flagged, and randomization inference detects the effect (filled points) once the injected slope reaches -0.30. The estimator would therefore reveal a large operational buffering effect if one existed."
-#| echo: false
-knitr::include_graphics("../../results/figures/fig_informative_null.png")
-```
-
-## The apparent buffering is reservoir siting, not regulation
-
-The preceding nulls use vegetation and ET proxies. We obtain the same answer on the direct,
-vegetation-independent availability outcome (streamflow), and, uniquely here, can show *why* a
-naive analysis would mislead. From CR2 daily gauge records (2000–2020) we build a 12-month
-Standardized Streamflow Index (SSI-12) and test whether meteorological drought (SPEI-12)
-propagates less strongly to streamflow drought in dammed than in matched-control basins
-(@fig-streamflow). Dammed basins do show a flatter SPEI→SSI transmission, the visual signature
-of buffering (@fig-streamflow, panel a). But this apparent attenuation **(i)** does not survive
-randomization inference (intent-to-treat slope gap $-0.18$, cluster $p = 0.03$ but
-$p_{\text{perm}} = 0.39$), and **(ii)** is present just as strongly at gauges located *upstream*
-of the dam (which are physically unregulated) as at downstream gauges
-($-0.20$ vs $-0.16$; @fig-streamflow, panel b). There is no downstream-versus-upstream
-dose-response, the signature a genuine regulation effect would require. The flatter slope is
-therefore a property of *where* reservoirs are sited (arid, hydrogeologically distinct basins),
-not of the reservoirs themselves.
-
-The siting interpretation is confirmed by the way the signal behaves across the aridity
-gradient (@fig-ladder). A decomposition ladder makes the mechanism explicit: the streamflow slope
-gap survives naive pooling, unit and time fixed effects, and the full design estimator alike
-(staying near $-0.18$), so conventional adjustment does not remove it; it is just as strong at the
-unregulated upstream gauges; and it **collapses toward zero once the baseline transmission slope is
-allowed to vary within climate region** (to $\approx -0.05$ pooled, and $\approx -0.03$ split by
-region), the textbook signature of a between-region
-confound, in which arid treated basins are contrasted against a control pool spanning the whole
-wet→dry gradient. In the high-supply south, where buffering should be easiest to detect, the
-downstream and upstream gaps are statistically identical ($-0.036$ vs $-0.034$) and both
-indistinguishable from zero (southern downstream $p_{\text{perm}} = 0.78$). Splitting by region
-thus both kills the signal and equalizes the upstream and downstream reaches, two independent
-confirmations that the attenuation is the aridity gradient, not regulation. Because the
-upstream-of-dam comparison is unavailable for any vegetation outcome, streamflow provides the
-cleanest within-design falsification: the effect a naive dammed-versus-control or calendar-time
-analysis would report is siting, not regulation.
-
-The placebo assumes upstream and downstream reaches are hydrologically comparable, which we test
-directly (@tbl-placebo). Upstream gauges do sit higher than downstream ones (mean $1.0$ vs $0.46$
-km), and gauge elevation is not innocuous. Among undammed control gauges the SPEI→SSI
-transmission slope declines by $0.21$ per kilometre of elevation ($p < 0.001$). The placebo
-nonetheless holds, for two reasons. First, the *raw* transmission slopes of upstream and
-downstream treated gauges are nearly identical ($0.565$ vs $0.599$), so the elevation difference
-does not produce a transmission-regime gap of the size at issue. Second, the apparent buffering is
-if anything *stronger* upstream ($-0.20$) than downstream ($-0.16$), the opposite of what
-regulation, which acts only downstream, would produce. We cannot claim the reaches are perfectly
-interchangeable, and a residual elevation/regime component remains a caveat, but neither the raw
-slopes nor the direction of the gap supports a regulation effect masked by elevation.
-
-```{r}
-#| label: tbl-placebo
-#| tbl-cap: "Upstream/downstream placebo comparability. Upstream gauges are higher than downstream, and gauge elevation predicts the transmission slope among undammed controls (-0.21 per +1000 m), yet upstream and downstream treated gauges have nearly identical raw transmission slopes, so the equal up/down attenuation is not an elevation artifact."
-#| echo: false
-knitr::kable(data.table::fread("../../results/tables/table_placebo_check.csv"))
-```
-
-```{r}
-#| label: fig-streamflow
-#| fig-cap: "Streamflow buffering is reservoir siting, not regulation. (a) SPEI-12 to SSI-12 transmission for dammed versus matched-control basins (downstream gauges); lines are weighted least-squares fits and shaded bands are 95% confidence intervals; dammed basins show a flatter slope, the apparent buffering. (b) Differential slope (treat:SPEI; <0 = buffering) for intent-to-treat, downstream-only, and the upstream-only placebo; horizontal bars are 95% confidence intervals (estimate +/- 1.96 cluster-robust SE), annotated with randomization-inference p-values. All are permutation-null, and the upstream placebo (above-dam, unregulated) is as strong as downstream, so the attenuation is siting/aridity, not the dam."
-#| echo: false
-knitr::include_graphics("../../results/figures/fig_streamflow.png")
-```
-
-```{r}
-#| label: fig-ladder
-#| out-width: \\textwidth
-#| fig-cap: "Siting-confound decomposition ladder. Dammed-versus-control transmission-slope gap (treat:SPEI; <0 = apparent buffering) estimated by increasingly stringent estimators, for the streamflow SSI slope (top) and the two DiD proxy outcomes; bars are 95% cluster-robust confidence intervals and the design and within-region rows carry the design's randomization-inference p. Rungs: (1) naive pooled (no matching, no fixed effects, what a conventional dammed-versus-undammed study reports); (2) unit and time fixed effects, unweighted; (3) the design estimator (entropy-balance weights + fixed effects); (4) design with the baseline SPEI-to-outcome slope allowed to vary within climate region. For streamflow the apparent buffering survives rungs (1) to (3) near -0.18 (permutation-null throughout), then collapses toward zero at rung (4), and is equally strong at the unregulated upstream placebo (grey triangle): the signature of a between-region aridity confound, not regulation. The DiD proxy outcomes carry no signal at any rung."
-#| echo: false
-knitr::include_graphics("../../results/figures/fig_decomposition_ladder.png")
-```
-
-## Storage declines without a loss of buffering capacity
-
-If reservoirs neither buffer nor amplify drought operationally, the relevant change under the
-megadrought is in how much water is available to store (@fig-storage). Over 2005–2024 the entire
-storage band drifts downward in step: annual peak storage declines by $-1.3$ percentage points
-of capacity per year ($p = 0.013$) and the annual trough falls almost identically ($-1.2$ pp
-yr^-1^, $p < 10^{-4}$), while the seasonal amplitude is statistically unchanged ($-0.06$ pp
-yr^-1^, $p = 0.91$). A band that drops without narrowing is consistent with a supply-side level
-shift rather than a degraded buffer, which would compress the amplitude; reservoirs still convert
-meteorological surplus into storage as efficiently as before. We caution that this storage trend
-is descriptive (a pooled within-reservoir trend with no control group or naturalized-inflow
-series), so it cannot by itself distinguish declining inflow from rising demand-side drawdown.
-The most direct demand proxy available to us weighs against the demand explanation, however:
-irrigated area in dammed basins shows no expansion over the period (stable, parallel trajectories,
-@fig-area; differential-expansion ATT indistinguishable from zero, @tbl-main), so a growing
-consumptive footprint is not evident as a driver of the storage decline, though a compositional
-shift toward more water-intensive perennials could raise per-area use without enlarging area.
-Read alongside Chile's documented aridification, the pattern is therefore more consistent with a
-falling water supply than with any loss of storage or buffering capacity, and on that reading the
-operational case for expanding storage as drought protection is weak
+If reservoirs neither buffer nor amplify drought, the change that matters under the megadrought is in
+how much water there is to store (@fig-storage). Over 2005–2024 the entire storage band drifts
+downward in step: annual peak storage falls by 1.3 percentage points of capacity per year
+($p = 0.013$) and the trough almost identically ($1.2$ pp yr^-1^, $p < 10^{-4}$), while the seasonal
+amplitude is statistically unchanged ($-0.06$ pp yr^-1^, $p = 0.91$; Supplementary Table S5). A band
+that drops without narrowing means the reservoirs still refill efficiently each year but from a
+shrinking supply, consistent with a falling water-supply ceiling rather than a degraded buffer. This
+trend is descriptive, with no control group or naturalized-inflow series, but our most direct demand
+proxy weighs against a demand-driven explanation: irrigated area in dammed basins did not expand
+(@fig-area, @tbl-main), so a growing consumptive footprint is not evident as the driver
 [@li_diminishing_2023; @wang_reservoir_2024].
 
 ```{r}
