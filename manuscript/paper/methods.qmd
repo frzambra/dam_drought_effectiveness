@@ -3,7 +3,7 @@
 ## Study area and design
 
 We study continental Chile (≈18–44° S), a strong north–south aridity gradient spanning hyper-arid,
-Mediterranean, and humid-temperate climates, over 2005–2024 — the window in which reservoir
+Mediterranean, and humid-temperate climates, over 2005–2024, the window in which reservoir
 storage, meteorological forcing, and satellite outcomes jointly exist (`config/study_period.yml`).
 The design is a matched comparison of **dammed versus undammed sub-watersheds**, with reservoir
 presence treated as a basin-level intervention. Because 18 of 24 monitored reservoirs were
@@ -13,7 +13,7 @@ rests on a matched cross-section combined with conditioning on meteorological fo
 on calendar time.
 
 The central estimand is the operational effect of a reservoir on drought outcomes *conditional on
-the covariates that govern where reservoirs are sited* — that is, whether dammed basins respond to
+the covariates that govern where reservoirs are sited*, that is, whether dammed basins respond to
 the same drought forcing differently from hydroclimatically comparable undammed basins. This
 isolates reservoir *operation* from reservoir *siting* [@di_baldassarre_water_2018].
 
@@ -24,8 +24,8 @@ coarser cuenca grain (101 units) for power and common support: reservoirs sit in
 main-stem basins, and the finer grain supplies far more controls inside the treated size range
 (`docs/design/grain-selection.md`). A subcuenca is **treated** if it contains ≥1 of the 26
 monitored reservoirs by point-in-polygon assignment, giving **24 treated units**. An untreated
-subcuenca that lies within a cuenca containing a reservoir is flagged as **contaminated** — it
-shares the regulated main stem and is not a clean counterfactual — and removed (45 units),
+subcuenca that lies within a cuenca containing a reservoir is flagged as **contaminated** (it
+shares the regulated main stem and is not a clean counterfactual) and removed (45 units),
 leaving **398 clean controls**. This contamination rule defuses the most direct
 downstream-spillover (SUTVA) violation; residual adjacency and shared-aquifer spillovers between
 neighbouring subcuencas are carried as an identification caveat and checked at cuenca grain.
@@ -38,19 +38,19 @@ neighbouring subcuencas are carried as an identification caveat and checked at c
 state variable. Static attributes (commissioning year, use, size class) come from the national dam
 registry.
 
-**Meteorological forcing.** Standardized drought indices — SPI, SPEI, and EDDI — derived from
+**Meteorological forcing.** Standardized drought indices (SPI, SPEI, and EDDI) derived from
 CHIRPS precipitation and CHIRTS temperature at timescales of 1/3/6/12/24/36 months, standardized
 on the 1991–2026 baseline (`config/variables.yml`). SPEI [@Vicente-Serrano2010] at 12 months is
 the primary exogenous dose; the suitability of CHIRPS-derived standardized indices for Chilean
 drought monitoring is established, including ENSO-modulated drought variability across the country
 [@Zambrano2017; @Meza2013; @Oertel2020]. We use the 12-month accumulation because it matches the
-annual, snowmelt-fed hydrological cycle of central Chile — winter precipitation stored as snow and
-released through the growing season — and so captures the inter-seasonal carryover that irrigation
+annual, snowmelt-fed hydrological cycle of central Chile (winter precipitation stored as snow and
+released through the growing season) and so captures the inter-seasonal carryover that irrigation
 reservoirs are built to bridge, at the scale at which multi-year vulnerability (rather than
 sub-seasonal operation) is expressed. By construction this does not resolve short-term (1–3 month)
 operational buffering, which reservoirs are documented to provide [@wu_non-linear_2017; @wu_impacts_2018]
-and which we flag as a boundary of our conclusions (Discussion). Conditioning on forcing — estimating effects on the deficit-to-impact *slope*
-rather than on levels — is how we break the collinearity between the 2010-onset megadrought and the
+and which we flag as a boundary of our conclusions (Discussion). Conditioning on forcing (estimating effects on the deficit-to-impact *slope*
+rather than on levels) is how we break the collinearity between the 2010-onset megadrought and the
 treatment clock.
 
 **Hydrological drought.** Daily streamflow from the CR2 network (2000–2020) is aggregated to the
@@ -61,8 +61,8 @@ of each dam from an SRTM digital elevation model.
 **Ecological and land-use outcomes.** (i) annual irrigated/cropland area from MapBiomas Chile
 Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS (8-day, ~500 m,
 2001–2024), for whole basins and for an orchard stratum from the CIREN/ODEPA cadastre; (iii)
-standardized vegetation and productivity anomalies — monthly z-score accumulated NDVI (zcNDVI-6),
-annual z-score NPP (zNPP), and the standardized actual-ET anomaly (SETI) — from MODIS over
+standardized vegetation and productivity anomalies, namely monthly z-score accumulated NDVI (zcNDVI-6),
+annual z-score NPP (zNPP), and the standardized actual-ET anomaly (SETI), from MODIS over
 2000–2024; the zcNDVI productivity proxy is validated for Chilean agricultural drought, and the
 ecological response of Chilean vegetation to the megadrought is well characterized
 [@Zambrano2018; @Glade2016; @Venegas2022].
@@ -81,8 +81,8 @@ span, and substituting SRTM elevation raised the effective control sample size f
 balancing latitude for free.
 
 The procedure retains **21 of 24 treated subcuencas** (three high-Andes units fall outside local
-elevation common support) and achieves essentially perfect balance — standardized mean differences
-for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1 — with an
+elevation common support) and achieves essentially perfect balance (standardized mean differences
+for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1), with an
 **effective control sample size ≈91** out of 244 in-window controls. Baseline aridity is a genuine
 confound (dammed basins are markedly more arid: median P/PET 0.26 vs 0.80) but is *not* used as a
 balance target, because hard-balancing it collapses the ESS from 91 to 19; instead the residual
@@ -98,18 +98,18 @@ treatment effects are reported with and without those units.
 
 ## Causal estimands and estimators
 
-**Doubly-robust matched ATT.** Each outcome is estimated three ways on the same sample —
+**Doubly-robust matched ATT.** Each outcome is estimated three ways on the same sample, comprising
 weighting-only (ebal-weighted difference in means), regression-only (covariate-adjusted
 g-computation), and the headline **doubly-robust** estimator (ebal weights *and* an outcome model
-in log(area), elevation, and log(aridity)) — so functional-form sensitivity is visible. Continuous
+in log(area), elevation, and log(aridity)), so functional-form sensitivity is visible. Continuous
 covariates are centred at the treated mean so the treatment coefficient reads as the ATT; standard
 errors are HC3-robust (ebal weights treated as fixed, the standard mildly anti-conservative
 simplification).
 
 **Forcing-conditioned transmission slope.** To remove megadrought *exposure* (concentrated in
 exactly the arid basins where reservoirs sit), the outcome for the DR machinery is the per-basin
-**transmission slope** — the regression of an annual outcome (e.g. zNPP) on annual SPEI-12 over
-2005–2024 — a standardized, cross-basin drought-transmission elasticity. The vulnerability
+**transmission slope**, the regression of an annual outcome (e.g. zNPP) on annual SPEI-12 over
+2005–2024, a standardized, cross-basin drought-transmission elasticity. The vulnerability
 hypothesis predicts a *steeper* slope (more impact per unit deficit) in dammed basins.
 
 **Forcing-interacted difference-in-differences.** On the observed area and ET panels we fit
@@ -122,7 +122,7 @@ $$
 with subcuenca ($\alpha_i$) and year ($\tau_t$) fixed effects and entropy-balancing weights.
 Because treatment is time-invariant, the dose is meteorological SPEI rather than calendar year: the
 year fixed effects absorb the common megadrought shock, and $\beta$ is the differential
-deficit-to-impact slope between dammed and matched-control basins — robust to the
+deficit-to-impact slope between dammed and matched-control basins, robust to the
 siting-in-arid-central-Chile confound, which biases levels far more than slopes. The vulnerability
 hypothesis predicts $\beta > 0$.
 
@@ -151,7 +151,7 @@ inference are re-run, verifying that the design recovers an effect of policy-rel
 correctly flags none when none is injected.
 
 **Siting-confound decomposition.** To quantify how much of any apparent buffering is selection, we
-fit a ladder on the same panel: (1) a naive pooled slope gap (no weights, no fixed effects — what a
+fit a ladder on the same panel: (1) a naive pooled slope gap (no weights, no fixed effects, what a
 conventional dammed-vs-undammed study reports); (2) unit + time fixed effects, unweighted; (3) the
 design estimator (ebal weights + fixed effects). The shrinkage from (1) to (3) is the siting
 confound; the residual at (3) is the regulation estimate.
