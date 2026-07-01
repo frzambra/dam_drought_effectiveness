@@ -4,7 +4,7 @@
 
 We study continental Chile (≈18–44° S), a strong north–south aridity gradient spanning hyper-arid,
 Mediterranean, and humid-temperate climates, over 2005–2024, the window in which reservoir
-storage, meteorological forcing, and satellite outcomes jointly exist (`config/study_period.yml`).
+storage, meteorological forcing, and satellite outcomes jointly exist.
 The design is a matched comparison of **dammed versus undammed sub-watersheds**, with reservoir
 presence treated as a basin-level intervention. Because 18 of 24 monitored reservoirs were
 commissioned before the storage record begins, treatment is effectively time-invariant over the
@@ -22,7 +22,7 @@ isolates reservoir *operation* from reservoir *siting* [@di_baldassarre_water_20
 The analysis grain is the DGA BNA **sub-watershed (subcuenca)** (467 units), chosen over the
 coarser cuenca grain (101 units) for power and common support: reservoirs sit in Chile's largest
 main-stem basins, and the finer grain supplies far more controls inside the treated size range
-(`docs/design/grain-selection.md`). A subcuenca is **treated** if it contains ≥1 of the 26
+(detailed in the archived analysis repository). A subcuenca is **treated** if it contains ≥1 of the 26
 monitored reservoirs by point-in-polygon assignment, giving **24 treated units**. An untreated
 subcuenca that lies within a cuenca containing a reservoir is flagged as **contaminated** (it
 shares the regulated main stem and is not a clean counterfactual) and removed (45 units),
@@ -38,19 +38,22 @@ neighbouring subcuencas are carried as an identification caveat and checked at c
 state variable. Static attributes (commissioning year, use, size class) come from the national dam
 registry.
 
-**Meteorological forcing.** Standardized drought indices (SPI, SPEI, and EDDI) derived from
-CHIRPS precipitation and CHIRTS temperature at timescales of 1/3/6/12/24/36 months, standardized
-on the 1991–2026 baseline (`config/variables.yml`). SPEI [@Vicente-Serrano2010] at 12 months is
-the primary exogenous dose; the suitability of CHIRPS-derived standardized indices for Chilean
-drought monitoring is established, including ENSO-modulated drought variability across the country
-[@Zambrano2017; @Meza2013; @Oertel2020]. We use the 12-month accumulation because it matches the
+**Meteorological forcing.** The Standardized Precipitation-Evapotranspiration Index (SPEI) at a
+12-month accumulation, derived from CHIRPS precipitation and CHIRTS temperature and standardized on
+the 1991–2026 baseline [@Vicente-Serrano2010], is the primary exogenous dose; CHIRPS-derived
+standardized indices are validated for Chilean drought monitoring, including ENSO-modulated
+variability across the country [@Zambrano2017; @Meza2013; @Oertel2020]. We use the 12-month
+accumulation because it matches the
 annual, snowmelt-fed hydrological cycle of central Chile (winter precipitation stored as snow and
 released through the growing season) and so captures the inter-seasonal carryover that irrigation
 reservoirs are built to bridge, at the scale at which multi-year vulnerability (rather than
-sub-seasonal operation) is expressed. By construction this does not resolve short-term (1–3 month)
-operational buffering, which reservoirs are documented to provide [@wu_non-linear_2017; @wu_impacts_2018]
-and which we flag as a boundary of our conclusions (Discussion). Conditioning on forcing (estimating effects on the deficit-to-impact *slope*
-rather than on levels) is how we break the collinearity between the 2010-onset megadrought and the
+sub-seasonal operation) is expressed. The treatment estimates are insensitive to this choice: re-
+estimating the forcing-conditioned effect with 6- and 24-month accumulations leaves it materially
+unchanged (archived analysis code). By construction the 12-month window does not resolve
+short-term (1–3 month) operational buffering, which reservoirs are documented to provide
+[@wu_non-linear_2017; @wu_impacts_2018] and which we flag as a boundary of our conclusions
+(Discussion). Conditioning on forcing (estimating effects on the deficit-to-impact *slope* rather
+than on levels) is how we break the collinearity between the 2010-onset megadrought and the
 treatment clock.
 
 **Hydrological drought.** Daily streamflow from the CR2 network (2000–2020) is aggregated to the
@@ -59,13 +62,8 @@ analogue of SPEI-12, used as the outcome in the within-basin placebo (below). Ga
 of each dam from an SRTM digital elevation model.
 
 **Ecological and land-use outcomes.** (i) annual irrigated/cropland area from MapBiomas Chile
-Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS (8-day, ~500 m,
-2001–2024), for whole basins and for an orchard stratum from the CIREN/ODEPA cadastre; (iii)
-standardized vegetation and productivity anomalies, namely monthly z-score accumulated NDVI (zcNDVI-6),
-annual z-score NPP (zNPP), and the standardized actual-ET anomaly (SETI), from MODIS over
-2000–2024; the zcNDVI productivity proxy is validated for Chilean agricultural drought, and the
-ecological response of Chilean vegetation to the megadrought is well characterized
-[@Zambrano2018; @Glade2016; @Venegas2022].
+Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS MOD16 (8-day, ~500 m,
+2001–2024), for whole basins and for an orchard stratum delineated from the CIREN/ODEPA cadastre.
 
 **Matching covariates.** Baseline aridity (long-term mean annual P/PET over the 1991–2020 WMO
 normal), watershed area, mean elevation (SRTM), and Köppen–Geiger climate class, extracted per
@@ -75,7 +73,7 @@ subcuenca by zonal statistics.
 
 We estimate the average treatment effect on the treated (ATT) using **entropy balancing**
 (`WeightIt`, `method = "ebal"`) exact-matched within Köppen main group, balancing **log(area)** and
-**mean elevation** (`docs/design/matched-controls.md`). Balancing on size and elevation rather than
+**mean elevation** (see the archived analysis repository). Balancing on size and elevation rather than
 latitude is deliberate: latitude and the climate class fight each other across the Andes–Patagonia
 span, and substituting SRTM elevation raised the effective control sample size from ≈9 to ≈91 while
 balancing latitude for free.
@@ -108,8 +106,8 @@ simplification).
 
 **Forcing-conditioned transmission slope.** To remove megadrought *exposure* (concentrated in
 exactly the arid basins where reservoirs sit), the outcome for the DR machinery is the per-basin
-**transmission slope**, the regression of an annual outcome (e.g. zNPP) on annual SPEI-12 over
-2005–2024, a standardized, cross-basin drought-transmission elasticity. The vulnerability
+**transmission slope**, the regression of an annual outcome (e.g. log evapotranspiration) on annual
+SPEI-12 over 2005–2024, a standardized, cross-basin drought-transmission elasticity. The vulnerability
 hypothesis predicts a *steeper* slope (more impact per unit deficit) in dammed basins.
 
 **Forcing-interacted difference-in-differences.** On the observed area and ET panels we fit
@@ -144,7 +142,7 @@ material. The qualitative conclusion (only large effects are excluded; no outcom
 ±25%) does not depend on the exact margin. The minimum
 detectable effect (at 80% power, two-sided $\alpha=0.05$) and the equivalence interval are built
 from the **standard deviation of the permutation-null distribution**, not the analytic standard
-error, since cluster-robust SEs over-reject at ~21 clusters (`src/R/causal/equivalence.R`). To
+error, since cluster-robust SEs over-reject at ~21 clusters (archived analysis code). To
 confirm the null is informative rather than underpowered, we additionally run a **positive control**:
 a known buffering slope is injected into the treated units and the full estimator and randomization
 inference are re-run, verifying that the design recovers an effect of policy-relevant size and

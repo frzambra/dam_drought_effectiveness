@@ -18,7 +18,7 @@ effect must show up in these comparisons; across every pathway, it does not.
 #| out-width: \\textwidth
 #| fig-cap: "The two comparisons that separate the reservoir from its location. (a) Matched comparison: each dammed basin is compared only with undammed basins that share its climate, size and elevation, and both are then exposed to the same drought so their impact can be compared. (b) Within-basin placebo: inside a dammed basin, a streamflow gauge below the dam (regulated) is compared with a gauge above it (unregulated); a genuine reservoir effect must appear downstream only. Schematic; the full study-area map and matching diagnostics are in Supplementary Figs. S4 and S5."
 #| echo: false
-knitr::include_graphics("../../results/figures/fig_design_schematic.png")
+knitr::include_graphics("../../results/figures/fig_design_schematic_v2.png")
 ```
 
 ## The apparent buffering is the location, not the dam {#sec-placebo}

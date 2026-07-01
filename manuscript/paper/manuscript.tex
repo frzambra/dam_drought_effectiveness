@@ -303,15 +303,15 @@ falsifiable, causally framed test, in the setting where it matters most.
 We study continental Chile (≈18--44° S), a strong north--south aridity
 gradient spanning hyper-arid, Mediterranean, and humid-temperate
 climates, over 2005--2024, the window in which reservoir storage,
-meteorological forcing, and satellite outcomes jointly exist
-(\texttt{config/study\_period.yml}). The design is a matched comparison
-of \textbf{dammed versus undammed sub-watersheds}, with reservoir
-presence treated as a basin-level intervention. Because 18 of 24
-monitored reservoirs were commissioned before the storage record begins,
-treatment is effectively time-invariant over the window and a
-staggered-adoption (commissioning) event study is infeasible;
-identification therefore rests on a matched cross-section combined with
-conditioning on meteorological forcing rather than on calendar time.
+meteorological forcing, and satellite outcomes jointly exist. The design
+is a matched comparison of \textbf{dammed versus undammed
+sub-watersheds}, with reservoir presence treated as a basin-level
+intervention. Because 18 of 24 monitored reservoirs were commissioned
+before the storage record begins, treatment is effectively
+time-invariant over the window and a staggered-adoption (commissioning)
+event study is infeasible; identification therefore rests on a matched
+cross-section combined with conditioning on meteorological forcing
+rather than on calendar time.
 
 The central estimand is the operational effect of a reservoir on drought
 outcomes \emph{conditional on the covariates that govern where
@@ -327,7 +327,7 @@ The analysis grain is the DGA BNA \textbf{sub-watershed (subcuenca)}
 (467 units), chosen over the coarser cuenca grain (101 units) for power
 and common support: reservoirs sit in Chile's largest main-stem basins,
 and the finer grain supplies far more controls inside the treated size
-range (\texttt{docs/design/grain-selection.md}). A subcuenca is
+range (detailed in the archived analysis repository). A subcuenca is
 \textbf{treated} if it contains ≥1 of the 26 monitored reservoirs by
 point-in-polygon assignment, giving \textbf{24 treated units}. An
 untreated subcuenca that lies within a cuenca containing a reservoir is
@@ -349,13 +349,12 @@ cross-reservoir-comparable state variable. Static attributes
 (commissioning year, use, size class) come from the national dam
 registry.
 
-\textbf{Meteorological forcing.} Standardized drought indices (SPI,
-SPEI, and EDDI) derived from CHIRPS precipitation and CHIRTS temperature
-at timescales of 1/3/6/12/24/36 months, standardized on the 1991--2026
-baseline (\texttt{config/variables.yml}). SPEI
-\citep{Vicente-Serrano2010} at 12 months is the primary exogenous dose;
-the suitability of CHIRPS-derived standardized indices for Chilean
-drought monitoring is established, including ENSO-modulated drought
+\textbf{Meteorological forcing.} The Standardized
+Precipitation-Evapotranspiration Index (SPEI) at a 12-month
+accumulation, derived from CHIRPS precipitation and CHIRTS temperature
+and standardized on the 1991--2026 baseline \citep{Vicente-Serrano2010},
+is the primary exogenous dose; CHIRPS-derived standardized indices are
+validated for Chilean drought monitoring, including ENSO-modulated
 variability across the country
 \citep{Zambrano2017, Meza2013, Oertel2020}. We use the 12-month
 accumulation because it matches the annual, snowmelt-fed hydrological
@@ -363,8 +362,11 @@ cycle of central Chile (winter precipitation stored as snow and released
 through the growing season) and so captures the inter-seasonal carryover
 that irrigation reservoirs are built to bridge, at the scale at which
 multi-year vulnerability (rather than sub-seasonal operation) is
-expressed. By construction this does not resolve short-term (1--3 month)
-operational buffering, which reservoirs are documented to provide
+expressed. The treatment estimates are insensitive to this choice: re-
+estimating the forcing-conditioned effect with 6- and 24-month
+accumulations leaves it materially unchanged (archived analysis code).
+By construction the 12-month window does not resolve short-term (1--3
+month) operational buffering, which reservoirs are documented to provide
 \citep{wu_non-linear_2017, wu_impacts_2018} and which we flag as a
 boundary of our conclusions (Discussion). Conditioning on forcing
 (estimating effects on the deficit-to-impact \emph{slope} rather than on
@@ -381,15 +383,9 @@ elevation model.
 
 \textbf{Ecological and land-use outcomes.} (i) annual irrigated/cropland
 area from MapBiomas Chile Collection 2 (30 m, 1999--2024); (ii) actual
-evapotranspiration from MODIS (8-day, \textasciitilde500 m, 2001--2024),
-for whole basins and for an orchard stratum from the CIREN/ODEPA
-cadastre; (iii) standardized vegetation and productivity anomalies,
-namely monthly z-score accumulated NDVI (zcNDVI-6), annual z-score NPP
-(zNPP), and the standardized actual-ET anomaly (SETI), from MODIS over
-2000--2024; the zcNDVI productivity proxy is validated for Chilean
-agricultural drought, and the ecological response of Chilean vegetation
-to the megadrought is well characterized
-\citep{Zambrano2018, Glade2016, Venegas2022}.
+evapotranspiration from MODIS MOD16 (8-day, \textasciitilde500 m,
+2001--2024), for whole basins and for an orchard stratum delineated from
+the CIREN/ODEPA cadastre.
 
 \textbf{Matching covariates.} Baseline aridity (long-term mean annual
 P/PET over the 1991--2020 WMO normal), watershed area, mean elevation
@@ -402,12 +398,12 @@ construction}\label{matched-control-construction}
 We estimate the average treatment effect on the treated (ATT) using
 \textbf{entropy balancing} (\texttt{WeightIt},
 \texttt{method\ =\ "ebal"}) exact-matched within Köppen main group,
-balancing \textbf{log(area)} and \textbf{mean elevation}
-(\texttt{docs/design/matched-controls.md}). Balancing on size and
-elevation rather than latitude is deliberate: latitude and the climate
-class fight each other across the Andes--Patagonia span, and
-substituting SRTM elevation raised the effective control sample size
-from ≈9 to ≈91 while balancing latitude for free.
+balancing \textbf{log(area)} and \textbf{mean elevation} (see the
+archived analysis repository). Balancing on size and elevation rather
+than latitude is deliberate: latitude and the climate class fight each
+other across the Andes--Patagonia span, and substituting SRTM elevation
+raised the effective control sample size from ≈9 to ≈91 while balancing
+latitude for free.
 
 The procedure retains \textbf{21 of 24 treated subcuencas} (three
 high-Andes units fall outside local elevation common support) and
@@ -448,10 +444,10 @@ standard mildly anti-conservative simplification).
 \emph{exposure} (concentrated in exactly the arid basins where
 reservoirs sit), the outcome for the DR machinery is the per-basin
 \textbf{transmission slope}, the regression of an annual outcome
-(e.g.~zNPP) on annual SPEI-12 over 2005--2024, a standardized,
-cross-basin drought-transmission elasticity. The vulnerability
-hypothesis predicts a \emph{steeper} slope (more impact per unit
-deficit) in dammed basins.
+(e.g.~log evapotranspiration) on annual SPEI-12 over 2005--2024, a
+standardized, cross-basin drought-transmission elasticity. The
+vulnerability hypothesis predicts a \emph{steeper} slope (more impact
+per unit deficit) in dammed basins.
 
 \textbf{Forcing-interacted difference-in-differences.} On the observed
 area and ET panels we fit
@@ -496,13 +492,12 @@ depend on the exact margin. The minimum detectable effect (at 80\%
 power, two-sided \(\alpha=0.05\)) and the equivalence interval are built
 from the \textbf{standard deviation of the permutation-null
 distribution}, not the analytic standard error, since cluster-robust SEs
-over-reject at \textasciitilde21 clusters
-(\texttt{src/R/causal/equivalence.R}). To confirm the null is
-informative rather than underpowered, we additionally run a
-\textbf{positive control}: a known buffering slope is injected into the
-treated units and the full estimator and randomization inference are
-re-run, verifying that the design recovers an effect of policy-relevant
-size and correctly flags none when none is injected.
+over-reject at \textasciitilde21 clusters (archived analysis code). To
+confirm the null is informative rather than underpowered, we
+additionally run a \textbf{positive control}: a known buffering slope is
+injected into the treated units and the full estimator and randomization
+inference are re-run, verifying that the design recovers an effect of
+policy-relevant size and correctly flags none when none is injected.
 
 \textbf{Siting-confound decomposition.} To quantify how much of any
 apparent buffering is selection, we fit a ladder on the same panel: (1)
@@ -578,7 +573,7 @@ comparisons; across every pathway, it does not.
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{../../results/figures/fig_design_schematic.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{../../results/figures/fig_design_schematic_v2.png}}
 
 }
 
@@ -984,12 +979,12 @@ on Zenodo (DOI: 10.5281/zenodo.XXXXXXX). The pinned R environment
 (\texttt{renv.lock}) reproduces the package versions used. Reservoir
 storage records, the derived result tables, and matched-set metadata are
 included in the repository; the third-party input datasets are publicly
-available from their providers as cited: CHIRPS/CHIRTS (standardized
-drought indices), MODIS MOD16/MOD13/MOD17 (evapotranspiration and
-vegetation), MapBiomas Chile (land cover), the CR2 network (streamflow),
-SRTM (elevation), and the DGA reservoir and watershed registries. Every
-result in the manuscript corresponds to a named pipeline target, so the
-analyses can be regenerated with a single \texttt{targets::tar\_make()}.
+available from their providers as cited: CHIRPS/CHIRTS (SPEI-12 forcing
+and baseline aridity), MODIS MOD16 (evapotranspiration), MapBiomas Chile
+(land cover), the CR2 network (streamflow), SRTM (elevation), and the
+DGA reservoir and watershed registries. Every result in the manuscript
+corresponds to a named pipeline target, so the analyses can be
+regenerated with a single \texttt{targets::tar\_make()}.
 
 
 \bibliography{references.bib}

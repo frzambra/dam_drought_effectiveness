@@ -96,8 +96,8 @@ is openly available at <https://github.com/frzambra/dam_drought_effectiveness> a
 Zenodo (DOI: 10.5281/zenodo.XXXXXXX). The pinned R environment
 (`renv.lock`) reproduces the package versions used. Reservoir storage records, the derived result
 tables, and matched-set metadata are included in the repository; the third-party input datasets are
-publicly available from their providers as cited: CHIRPS/CHIRTS (standardized drought indices),
-MODIS MOD16/MOD13/MOD17 (evapotranspiration and vegetation), MapBiomas Chile (land cover), the CR2
+publicly available from their providers as cited: CHIRPS/CHIRTS (SPEI-12 forcing and baseline
+aridity), MODIS MOD16 (evapotranspiration), MapBiomas Chile (land cover), the CR2
 network (streamflow), SRTM (elevation), and the DGA reservoir and watershed registries. Every
 result in the manuscript corresponds to a named pipeline target, so the analyses can be regenerated
 with a single `targets::tar_make()`.
