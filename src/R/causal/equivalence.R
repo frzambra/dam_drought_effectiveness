@@ -99,23 +99,73 @@ build_equivalence_table <- function(ssi_panel_itt, ssi_panel_down,
 #'   (2) +unit & time FE (calendar-time-ish control, still unweighted)
 #'   (3) DESIGN  — entropy-balance weights + unit + time FE (the forcing-conditioned estimand)
 #' The shrinkage (1)->(3) is the siting confound; the residual at (3) is the regulation estimate.
+#' Optional rung (4) lets the SPEI->outcome baseline slope vary by climate region (`region_var`,
+#' e.g. Köppen main group), so treat:spei_c is identified only from WITHIN-region dammed-vs-control
+#' contrasts. If the apparent buffering is a between-region aridity confound, it collapses here even
+#' though rungs (1)-(3) leave it intact.
 #' @param panel a forcing panel with: outcome `yvar`, spei_c, treat, w, unit_id, time FE col `timevar`
-#' @return data.table(estimator, slope_gap, se)
-siting_decomposition <- function(panel, yvar = "ssi", timevar = "month_f") {
+#' @param region_var optional column (e.g. "kg_group") for the within-region rung; skipped if absent
+#' @return data.table(estimator, rung, slope_gap, se)
+siting_decomposition <- function(panel, yvar = "ssi", timevar = "month_f",
+                                 region_var = "kg_group") {
   d <- data.table::copy(data.table::as.data.table(panel))
   data.table::setnames(d, yvar, "y_")
+  # Time FE: monthly panels carry an intra-year season factor (month_f) on top of year; annual
+  # panels (e.g. the DiD outcomes) have only year. Include timevar only when it is present.
+  fe <- c("unit_id", if (!is.null(timevar) && timevar %in% names(d)) timevar, "year")
   f_naive <- stats::as.formula("y_ ~ spei_c * treat")
-  f_fe    <- stats::as.formula(sprintf("y_ ~ spei_c + treat:spei_c | unit_id + %s + year", timevar))
+  f_fe    <- stats::as.formula(paste0("y_ ~ spei_c + treat:spei_c | ", paste(fe, collapse = " + ")))
   m1 <- fixest::feols(f_naive, data = d, cluster = ~unit_id)
   m2 <- fixest::feols(f_fe, data = d, cluster = ~unit_id)
   m3 <- fixest::feols(f_fe, data = d, weights = ~w, cluster = ~unit_id)
-  grab <- function(m, lab) {
+  grab <- function(m, lab, rung) {
     ct <- as.data.frame(summary(m)$coeftable)
     r <- ct[grepl("spei", rownames(ct), ignore.case = TRUE) & grepl("treat", rownames(ct)), ,
             drop = FALSE]
-    data.table::data.table(estimator = lab, slope_gap = r[1, 1], se = r[1, 2])
+    data.table::data.table(estimator = lab, rung = rung, slope_gap = r[1, 1], se = r[1, 2])
   }
-  data.table::rbindlist(list(grab(m1, "naive (no match, no FE)"),
-                             grab(m2, "unit+time FE (unweighted)"),
-                             grab(m3, "design (ebal + FE)")))
+  out <- list(grab(m1, "naive (no match, no FE)", 1L),
+              grab(m2, "unit+time FE (unweighted)", 2L),
+              grab(m3, "design (ebal + FE)", 3L))
+  if (!is.null(region_var) && region_var %in% names(d) &&
+      data.table::uniqueN(d[[region_var]]) > 1L) {
+    f_reg <- stats::as.formula(paste0("y_ ~ spei_c + treat:spei_c + spei_c:", region_var,
+                                      " | ", paste(fe, collapse = " + ")))
+    m4 <- fixest::feols(f_reg, data = d, weights = ~w, cluster = ~unit_id)
+    out[[length(out) + 1L]] <- grab(m4, "design + within region", 4L)
+  }
+  data.table::rbindlist(out)
+}
+
+#' Assemble the siting-confound ladder across outcomes for the manuscript figure.
+#'
+#' Runs siting_decomposition() (naive -> +FE -> design -> +within-region) on the streamflow SSI
+#' transmission slope and the two DiD proxy outcomes, then appends the within-basin UPSTREAM PLACEBO
+#' (design estimator on unregulated above-dam gauges) as the decisive comparator for streamflow: if
+#' the residual attenuation were regulation it should vanish upstream, not persist. The design and
+#' placebo rows carry the randomization-inference p (the design's valid inference).
+#' @return data.table(outcome, estimator, rung, slope_gap, se, perm_p, placebo)
+build_siting_ladder <- function(ssi_panel_itt, did_panel_area, did_panel_orch,
+                                streamflow_summary, did_summary) {
+  lad <- function(panel, yv, outcome) {
+    r <- siting_decomposition(panel, yvar = yv); r[, outcome := outcome]; r[]
+  }
+  tab <- data.table::rbindlist(list(
+    lad(ssi_panel_itt,  "ssi", "Streamflow SSI (SPEI->SSI slope)"),
+    lad(did_panel_area, "y",   "Irrigated area (DiD)"),
+    lad(did_panel_orch, "y",   "Orchard ET (DiD)")))
+  tab[, `:=`(perm_p = NA_real_, placebo = FALSE)]
+
+  ss <- data.table::as.data.table(streamflow_summary)
+  ds <- data.table::as.data.table(did_summary)
+  # perm p on the DESIGN rung (rung 3), from each outcome's design-based inference
+  tab[outcome %like% "Streamflow" & rung == 3L, perm_p := ss[subset == "ITT", perm_p]]
+  tab[outcome %like% "Irrigated area" & rung == 3L, perm_p := ds[spec == "area_frac", p_perm]]
+  tab[outcome %like% "Orchard ET" & rung == 3L, perm_p := ds[spec == "log_orchard_ET", p_perm]]
+
+  up <- ss[subset == "upstream placebo"]
+  placebo_row <- data.table::data.table(
+    outcome = "Streamflow SSI (SPEI->SSI slope)", estimator = "upstream placebo (unregulated)",
+    rung = 5L, slope_gap = up$treat_spei_c, se = up$se, perm_p = up$perm_p, placebo = TRUE)
+  data.table::rbindlist(list(tab, placebo_row), use.names = TRUE)
 }

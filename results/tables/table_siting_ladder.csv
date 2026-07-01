@@ -1,0 +1,14 @@
+estimator,rung,slope_gap,se,outcome,perm_p,placebo
+"naive (no match, no FE)",1,-0.196636338137201,0.0899633270614882,Streamflow SSI (SPEI->SSI slope),,FALSE
+unit+time FE (unweighted),2,-0.164623609717564,0.0752571754266513,Streamflow SSI (SPEI->SSI slope),,FALSE
+design (ebal + FE),3,-0.182872978533266,0.0826730768957168,Streamflow SSI (SPEI->SSI slope),0.387806096951524,FALSE
+design + within region,4,-0.0502975392636679,0.0695360697858908,Streamflow SSI (SPEI->SSI slope),,FALSE
+"naive (no match, no FE)",1,0.000822881721599336,0.00301672505628859,Irrigated area (DiD),,FALSE
+unit+time FE (unweighted),2,0.00170733338280411,0.00223412258928882,Irrigated area (DiD),,FALSE
+design (ebal + FE),3,0.000749076303144505,0.00213522025064729,Irrigated area (DiD),0.913,FALSE
+design + within region,4,0.000818738008897126,0.00216425934128423,Irrigated area (DiD),,FALSE
+"naive (no match, no FE)",1,-0.017131995660904,0.0127698901132959,Orchard ET (DiD),,FALSE
+unit+time FE (unweighted),2,-0.0149990800459787,0.0127847247237518,Orchard ET (DiD),,FALSE
+design (ebal + FE),3,-0.0195544295579463,0.0128599482337123,Orchard ET (DiD),0.243,FALSE
+design + within region,4,-0.0199545468430861,0.0122057134787574,Orchard ET (DiD),,FALSE
+upstream placebo (unregulated),5,-0.201437997417675,0.0904367000189667,Streamflow SSI (SPEI->SSI slope),0.482758620689655,TRUE

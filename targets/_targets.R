@@ -431,7 +431,23 @@ list(
   tar_target(table_main_file, write_table(main_results_table, "table_main_results"),
              format = "file"),
 
-  # Fig 1: observed irrigated-area DiD — siting level gap + flat event-study (the clean dynamic null)
+  # Fig 1 (design): study-area / treatment-control map — matched sample on Chile's aridity gradient,
+  # controls sized by entropy-balancing weight, plus the within-basin up/down placebo geometry inset.
+  tar_target(fig_study_area_obj,
+             fig_study_area(matched_set, matched_subcuencas, subcuencas_dissolved, points,
+                            reservoir_units, streamflow_stations, streamflow_stations_raw)),
+  tar_target(fig_study_area_file,
+             save_fig(fig_study_area_obj, "fig_study_area", width = "double", height_mm = 150),
+             format = "file"),
+
+  # Fig 2 (design): covariate-balance love plot + common support — entropy balancing collapses the
+  # siting imbalance to ~0; the three pruned treated units are off-support high-Andes/cold basins.
+  tar_target(fig_balance_obj, fig_covariate_balance(matched_set, match_covariates)),
+  tar_target(fig_balance_file,
+             save_fig(fig_balance_obj, "fig_covariate_balance", width = "onehalf", height_mm = 150),
+             format = "file"),
+
+  # Fig 3 (was Fig 1): observed irrigated-area DiD — siting level gap + flat event-study (dynamic null)
   tar_target(fig_area_did_obj, fig_area_did(did_panel_area, es_area)),
   tar_target(fig_area_did_file,
              save_fig(fig_area_did_obj, "fig_area_did", width = "onehalf", height_mm = 120),
@@ -443,10 +459,39 @@ list(
              save_fig(fig_streamflow_obj, "fig_streamflow", width = "onehalf", height_mm = 130),
              format = "file"),
 
-  # Fig 2: convergent-null forest plot (standardized effect / SE across all methods)
+  # Fig 4: convergent-null forest — uniform estimate/SE axis, faceted by estimator regime, DiD rows
+  # annotated with randomization-inference p, whole-basin ET flagged confounded/excluded (open symbol).
   tar_target(fig_convergent_obj, fig_convergent_null(main_results_table)),
   tar_target(fig_convergent_file,
-             save_fig(fig_convergent_obj, "fig_convergent_null", width = "onehalf", height_mm = 85),
+             save_fig(fig_convergent_obj, "fig_convergent_null", width = "onehalf", height_mm = 100),
+             format = "file"),
+
+  # Fig 6 (identification): siting-confound decomposition ladder — the dammed-vs-control slope gap at
+  # naive -> +FE -> design -> +within-region, plus the upstream placebo. Shows the streamflow signal
+  # survives matching/FE but collapses within climate region and equals the unregulated placebo.
+  tar_target(siting_ladder,
+             build_siting_ladder(ssi_panel_itt, did_panel_area, did_panel_orch,
+                                 streamflow_summary, did_summary)),
+  tar_target(table_siting_ladder_file, write_table(siting_ladder, "table_siting_ladder"),
+             format = "file"),
+  tar_target(fig_ladder_obj, fig_decomposition_ladder(siting_ladder)),
+  tar_target(fig_ladder_file,
+             save_fig(fig_ladder_obj, "fig_decomposition_ladder", width = "onehalf", height_mm = 140),
+             format = "file"),
+
+  # Fig (forcing, Extended Data): national + treated-vs-control SPEI-12 over 2000-2024 — the sustained
+  # megadrought dose shared by dammed and control basins, motivating the forcing-conditioned estimand.
+  tar_target(fig_forcing_obj, fig_drought_forcing(spei12_monthly, matched_set)),
+  tar_target(fig_forcing_file,
+             save_fig(fig_forcing_obj, "fig_drought_forcing", width = "onehalf", height_mm = 120),
+             format = "file"),
+
+  # Fig (power, Extended Data): informative-null panel — (a) equivalence/MDE bounds on the streamflow
+  # outcomes vs the +-25%-baseline negligible region; (b) positive-control recovery of an injected
+  # buffering slope with randomization-inference detection. Converts "failed to reject" into limits.
+  tar_target(fig_informative_obj, fig_informative_null(equivalence_table, ssi_positive_ctrl)),
+  tar_target(fig_informative_file,
+             save_fig(fig_informative_obj, "fig_informative_null", width = "onehalf", height_mm = 115),
              format = "file"),
 
   # Fig 4: the binding constraint is inflow, not storage — the whole storage band shifts down
