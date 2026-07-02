@@ -5,34 +5,39 @@ streamflow-availability outcome, the operational effect of reservoirs on drought
 siting is matched out. Dammed basins do hold about 4.6 times more cropland than matched controls, but
 that gap is fixed across the record, with parallel pre-trends and no divergence through the
 megadrought. The evidence supports a single reading: reservoirs **mark** where water-dependent
-vulnerability already concentrated, in arid, already-irrigated basins, rather than **make** it. The
+vulnerability already concentrated, in arid, already-cultivated basins, rather than **make** it. The
 vulnerability signature is a property of siting, set before the drought and stable through it, not a
 dynamic consequence of regulation.
 
 This is a finding, not a failure of power, because a credible *cause* of the apparent effect is
-identified. Our result of no operational effect is not blindness but a refutation of a core policy
-assumption: if dams did what they are built to do, our design was powerful enough to detect it, as
-the positive controls demonstrate, so their failure to do so is itself informative and means
-policymakers must look elsewhere. The within-basin upstream/downstream placebo is the cleanest
-falsification: a genuine regulation effect must appear below the dam and be absent above it, and it is
-not. What remains, once the placebo and within-region conditioning are applied, is the aridity
-gradient itself. The methodological corollary is general and transferable: a naive
-dammed-versus-control contrast, or a calendar-time difference-in-differences, reads the large
-cross-sectional gaps (amplified during drought) as a reservoir effect, whereas conditioning on
-realized forcing and benchmarking against an unregulated within-basin reach makes the signal
-disappear. Reservoir-buffering studies that compare dammed against undammed basins, or pre- against
-post-construction levels, inherit the full siting confound
+identified: if dams did what they are built to do our design was powerful enough to detect it, as the
+positive controls demonstrate, so the null refutes a core policy assumption rather than reflecting
+blindness. The within-basin placebo is the cleanest falsification: a genuine regulation effect must
+appear below the dam and be absent above it, and it is not; what remains, once the placebo and
+within-region conditioning are applied, is the aridity gradient itself. The corollary is general and
+transferable: a naive dammed-versus-control or calendar-time contrast reads the large cross-sectional
+gaps as a reservoir effect, whereas conditioning on realized forcing and benchmarking against an
+unregulated within-basin reach makes the signal disappear, so studies comparing dammed against
+undammed basins or pre- against post-construction levels inherit the full siting confound
 [@lopezmoreno_dam_2009; @wu_non-linear_2017; @schilstra_effects_2024; @lee_drought_2026]; the upstream
 placebo applies to any regulated river with gauges above and below the structure.
 
-If reservoirs neither buffer nor amplify drought operationally, the change that matters under a
-multi-decadal dry spell is in the water available to store. The storage record is suggestive: the
-seasonal refill remains efficient and its amplitude unchanged, yet the whole storage band drifts
-downward, peak and trough declining in step at roughly 1.3 and 1.2 percentage points of capacity per
-year. A band that drops without narrowing points to a falling supply ceiling rather than a degraded
-buffer. This is a descriptive, control-free trend that cannot by itself separate declining inflow from
-rising demand [@condon_evapotranspiration_2020], but our most direct demand proxy weighs against the
-demand explanation, since irrigated area in dammed basins did not expand. Read against Chile's
+If reservoirs neither buffer nor amplify multi-year drought operationally, the change that matters
+under a multi-decadal dry spell is in the water available to store. The storage record is suggestive: the
+whole storage band drifts downward, peak and trough declining in step at roughly 1.3 and 1.2
+percentage points of capacity per year, while the seasonal amplitude shows no detectable trend
+(though its wide interval leaves a modest change in refill efficiency unresolved, so we do not claim
+the buffer is provably intact). A band that drops without clear narrowing points to a falling supply
+ceiling rather than a degraded buffer. This storage trend is descriptive
+[@condon_evapotranspiration_2020]; it is commensurate with the climate-driven supply reduction
+measured independently in the matched control basins, where unregulated streamflow fell about 2.9% per
+year over 2005–2020, a relative rate comparable to the storage decline. This comparison is
+correlative, however, not a naturalized-inflow or operational-release analysis, so we cannot rule out
+a contribution from evolving management practices or unrecorded upstream extractions; we therefore
+present the falling-supply reading as the most consistent interpretation rather than an identified
+cause. Our direct demand outcomes weigh the same way against a demand explanation: neither
+cropland area nor the allocation of consumptive water rights in dammed basins expanded differentially
+once siting is matched out. Read against Chile's
 documented transition from episodic drought toward structural aridification
 [@zambrano_drought_2025; @Vicente-Serrano2022; @garreaud_20102015_2017; @AlvarezGarreton2021] and the
 global pattern of reservoirs failing to refill and diminishing storage returns from new dams
@@ -40,15 +45,20 @@ global pattern of reservoirs failing to refill and diminishing storage returns f
 is shifting toward water supply rather than storage capacity or operation.
 
 These findings speak to three international debates. They are the drought-domain expression of the
-socio-hydrological *reservoir effect* and *supply-demand cycle*, whose practical force has been
-contested for want of quantification [@di_baldassarre_water_2018; @kellner_controversial_2021]: we
-provide a credibly identified test and find the protective function over-attributed to storage. They
-parallel the *efficiency paradox* in irrigation, in which measures that nominally save water expand
-consumptive use rather than reduce it [@grafton_paradox_2018]. And they align with the global evidence
-that the marginal returns of new dam construction are falling as reservoirs increasingly fail to
-refill [@li_diminishing_2023; @wang_reservoir_2024]. In each case the lesson is the same: adding
-supply-side infrastructure does not resolve a scarcity that is driven by demand or by a falling
-supply.
+socio-hydrological *reservoir effect* and *supply-demand cycle*, contested for want of quantification
+[@di_baldassarre_water_2018; @kellner_controversial_2021]: we provide a credibly identified test and
+find the protective function over-attributed to storage. One scope condition matters: because
+treatment is time-invariant during a continuous drought, we test the *spatial* imprint of these
+feedbacks, whether they have already produced a vulnerability gradient across basins, not the
+longitudinal, coevolutionary loop (post-dam abundance to demand growth to heightened exposure) the
+theory describes, which would need staggered commissioning and longer records to observe. The findings
+also parallel the *efficiency paradox* in irrigation, where nominal water savings expand consumptive
+use [@grafton_paradox_2018], and align with the falling marginal returns of new dams as reservoirs
+increasingly fail to refill [@li_diminishing_2023; @wang_reservoir_2024]. The common lesson, that
+supply-side infrastructure does not resolve a scarcity driven by demand or falling supply, is
+strongest on the supply side; the demand-side reading is conditioned on a governance regime like
+Chile's that cannot curtail rights during scarcity, and where allocation is state-managed and adaptive
+the paradox need not follow.
 
 The policy implication is direct and uncomfortable. Because Chile's 1981 Water Code makes water-use
 rights perpetual private property the state cannot readily curtail during drought, the reflexive
@@ -68,18 +78,36 @@ and longer records permit. The result is a bounded null, not a proven equivalenc
 the design excludes only *large* buffering (>46–58% of baseline transmission for streamflow), so the
 causal weight rests on the placebo (@sec-placebo), not on equivalence (@sec-bounding). The
 observed-area outcome captures total cropland, not irrigation status, so a compositional shift toward
-water-intensive perennials could raise consumptive use without enlarging area; and the 12-month
-aggregation targets annual-to-interannual transmission, not the sub-seasonal buffering reservoirs also
-provide, so our conclusions concern long-term vulnerability rather than short-term operation. Finally,
+water-intensive perennials could raise consumptive use without enlarging area, although the direct
+water-rights allocation, which would register such intensification as new claims, also shows no
+differential accrual once siting is matched out (Supplementary Fig. S6). Groundwater substitution is a
+related unobserved confounder: pumping that compensates for falling reservoir storage could sustain
+cropland and ET and so *mask* rather than reflect operational buffering; the groundwater water-rights
+series shows no differential accrual either, but realized pumping is unmeasured, so we cannot fully
+exclude it as a subsidy to the demand-side nulls. Inter-basin transfers, part of Chile's supply-side
+programme, are a further spillover pathway that our within-cuenca contamination rule does not capture;
+any treated-control pair linked by a transfer would violate spatial independence, though such linkage
+would tend to bias the matched contrast *toward* the null we report. On the timescale, the 12-month
+aggregation targets annual-to-interannual transmission, not the sub-seasonal (1–3 month) buffering
+that irrigation reservoirs are primarily built to provide and may well still deliver, so our
+conclusions concern long-term, multi-year vulnerability under structural aridification, not the
+short-term operational resilience that we neither test nor dispute. Finally,
 the operational finding, that buffering reflects siting not regulation, should hold wherever dam
 siting is non-random, but the demand-feedback and policy inferences are conditioned on Chile's
 unusually market-based, weakly adaptive governance; under state-managed allocation, operators able to
 curtail demand or re-time releases could in principle produce genuine buffering. A remaining
 possibility we cannot fully adjudicate is that damming leaves the magnitude of impact unchanged while
 recomposing its *dependence structure*, substituting a storage-to-outcome coupling for the
-meteorology-to-outcome one; resolving this needs reservoir-release and rule-curve records that set
-storage independently of contemporaneous inflow, and any such decoupling must still survive the
-upstream placebo.
+meteorology-to-outcome one. A concrete design would exploit **rule-curve deviations** as a
+quasi-experiment: operating rules set target storage as a function of season and antecedent state, so
+the residual between actual releases and the rule-prescribed release is a source of variation in
+delivered water that is orthogonal to contemporaneous inflow. Regressing downstream outcomes on that
+release residual (instrumented by rule-curve targets, with basin and year fixed effects) would
+identify a genuine storage-to-outcome coupling separately from the forcing-to-outcome coupling we
+estimate here; the data requirement is reservoir-release and rule-curve records, which exist
+operationally but are not yet public, and any decoupling so identified must still survive the upstream
+placebo. Assembling these release records, alongside longer streamflow series and water-rights
+transaction histories, is the priority for future work.
 
 Returning to the question that motivates the study, whether reservoirs create resilience or merely
 postpone vulnerability under prolonged drought, our evidence indicates that under aridification they
@@ -98,6 +126,6 @@ Zenodo (DOI: 10.5281/zenodo.XXXXXXX). The pinned R environment
 tables, and matched-set metadata are included in the repository; the third-party input datasets are
 publicly available from their providers as cited: CHIRPS/CHIRTS (SPEI-12 forcing and baseline
 aridity), MODIS MOD16 (evapotranspiration), MapBiomas Chile (land cover), the CR2
-network (streamflow), SRTM (elevation), and the DGA reservoir and watershed registries. Every
+network (streamflow), SRTM (elevation), and the DGA reservoir, watershed, and water-rights registries. Every
 result in the manuscript corresponds to a named pipeline target, so the analyses can be regenerated
 with a single `targets::tar_make()`.

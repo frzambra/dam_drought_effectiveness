@@ -1,6 +1,7 @@
 group,outcome,method,estimand,estimate,se,ci_lo,ci_hi,p,n_treated,n_control,verdict,z
-Cross-sectional matched ATT,Irrigated-area expansion,DR matched,ha km^-2 added,-0.686859187785917,0.892128278582897,-2.43543061380839,1.06171223823656,,21,244,null,-0.769910790045755
+Cross-sectional matched ATT,Cropland-area expansion,DR matched,ha km^-2 added,-0.686859187785917,0.892128278582897,-2.43543061380839,1.06171223823656,,21,244,null,-0.769910790045755
 Cross-sectional matched ATT,Reservoir ET buffering,DR matched,d log ET / d SPEI,-0.0138118714080654,0.0258890640544941,-0.0645544369548738,0.0369306941387431,,18,31,null,-0.533502152839231
-Forcing-interacted DiD (slope-gap),Irrigated area,treat:spei_c,differential deficit->impact slope,0.000749076303144505,0.00213522025064729,-0.00343595538812418,0.00493410799441319,0.913,,,null,0.10925529964619
+Cross-sectional matched ATT,Water-rights accrual,DR matched,rights / 100 km^2 added,20.0356066706722,8.17057886455952,4.02127209613551,36.0499412452088,0.516,21,195,null,0.649523595844325
+Forcing-interacted DiD (slope-gap),Cropland area,treat:spei_c,differential deficit->impact slope,0.000749076303144505,0.00213522025064729,-0.00343595538812418,0.00493410799441319,0.913,,,null,0.10925529964619
 Forcing-interacted DiD (slope-gap),Whole-basin ET,treat:spei_c,differential deficit->impact slope,0.0478955999660852,0.011408495594975,0.0255349485999343,0.0702562513322362,0.11,,,null,1.59819313992282
 Forcing-interacted DiD (slope-gap),Orchard ET,treat:spei_c,differential deficit->impact slope,-0.0195544295579463,0.0128599482337123,-0.0447599280960225,0.0056510689801299,0.243,,,null,-1.16752108107494

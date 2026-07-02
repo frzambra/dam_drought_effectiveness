@@ -6,8 +6,8 @@ We study continental Chile (≈18–44° S), a strong north–south aridity grad
 Mediterranean, and humid-temperate climates, over 2005–2024, the window in which reservoir
 storage, meteorological forcing, and satellite outcomes jointly exist.
 The design is a matched comparison of **dammed versus undammed sub-watersheds**, with reservoir
-presence treated as a basin-level intervention. Because 18 of 24 monitored reservoirs were
-commissioned before the storage record begins, treatment is effectively time-invariant over the
+presence treated as a basin-level intervention. Because the reservoirs in most treated basins (18 of
+the 24) were commissioned before the storage record begins, treatment is effectively time-invariant over the
 window and a staggered-adoption (commissioning) event study is infeasible; identification therefore
 rests on a matched cross-section combined with conditioning on meteorological forcing rather than
 on calendar time.
@@ -32,15 +32,16 @@ neighbouring subcuencas are carried as an identification caveat and checked at c
 
 ## Data
 
-**Reservoir storage and treatment.** Monthly storage for 26 monitored reservoirs (2005-01 to
-2026-04) with a per-reservoir capacity column (`max_level_hm3`); storage and capacity share units
+**Reservoir storage and treatment.** Monthly storage for 26 monitored reservoirs (the DGA record runs
+2005-01 to 2026-04; we analyse the complete calendar years 2005–2024) with a per-reservoir capacity
+column (`max_level_hm3`); storage and capacity share units
 (hm³), so percent-of-capacity (`100 × level / max_level_hm3`) is the cross-reservoir-comparable
 state variable. Static attributes (commissioning year, use, size class) come from the national dam
 registry.
 
 **Meteorological forcing.** The Standardized Precipitation-Evapotranspiration Index (SPEI) at a
 12-month accumulation, derived from CHIRPS precipitation and CHIRTS temperature and standardized on
-the 1991–2026 baseline [@Vicente-Serrano2010], is the primary exogenous dose; CHIRPS-derived
+the 1991–2020 climatological baseline [@Vicente-Serrano2010], is the primary exogenous dose; CHIRPS-derived
 standardized indices are validated for Chilean drought monitoring, including ENSO-modulated
 variability across the country [@Zambrano2017; @Meza2013; @Oertel2020]. We use the 12-month
 accumulation because it matches the
@@ -61,9 +62,19 @@ Standardized Streamflow Index at 12 months [SSI-12; @Vicente-Serrano2012c; @lema
 analogue of SPEI-12, used as the outcome in the within-basin placebo (below). Gauges are classified as upstream or downstream
 of each dam from an SRTM digital elevation model.
 
-**Ecological and land-use outcomes.** (i) annual irrigated/cropland area from MapBiomas Chile
+**Ecological and land-use outcomes.** (i) annual cropland area from MapBiomas Chile
 Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS MOD16 (8-day, ~500 m,
 2001–2024), for whole basins and for an orchard stratum delineated from the CIREN/ODEPA cadastre.
+
+**Water rights.** The DGA consolidated registry of water-use rights (*Derechos de Aprovechamiento de
+Aguas*), giving for each right its grant date, consumptive/non-consumptive type, surface/groundwater
+nature, use, allocated flow (harmonized to l/s), and UTM capture point. We assign consumptive rights
+to subcuencas by point-in-polygon and build a per-basin annual panel of the cumulative allocated-rights
+stock, our direct demand-side outcome. Because the registry contains severe volume errors (a single
+physically impossible entry can dominate a basin's total, e.g. a caudal exceeding 200,000 m³/s), the
+outlier-robust primary measure is rights *density* (count per 100 km²); a volume series in which each
+individual consumptive flow is winsorized at the 99.5th percentile of the consumptive-flow
+distribution gives the same result. Both are reported (Supplementary Fig. S6).
 
 **Matching covariates.** Baseline aridity (long-term mean annual P/PET over the 1991–2020 WMO
 normal), watershed area, mean elevation (SRTM), and Köppen–Geiger climate class, extracted per
@@ -82,13 +93,20 @@ The procedure retains **21 of 24 treated subcuencas** (three high-Andes units fa
 elevation common support) and achieves essentially perfect balance (standardized mean differences
 for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1), with an
 **effective control sample size ≈91** out of 244 in-window controls. Baseline aridity is a genuine
-confound (dammed basins are markedly more arid: median P/PET 0.26 vs 0.80) but is *not* used as a
-balance target, because hard-balancing it collapses the ESS from 91 to 19; instead the residual
-aridity imbalance (SMD ≈0.17, above the 0.1 target) is absorbed by doubly-robust regression
-adjustment. Because the matched set does not fully balance aridity, this adjustment is
-*load-bearing* rather than cosmetic, and the estimates can be sensitive to its functional form; we
-therefore stress-test the aridity-adjusted estimates with a quadratic aridity term and report the
-curvature-robust values where feasible (see Results). Robustness to the
+confound (dammed basins are markedly more arid: median P/PET 0.26 vs 0.80 unweighted) but is *not*
+used as a balance target, because hard-balancing it collapses the ESS from 91 to 19; instead the
+weighting reduces the aridity imbalance to a residual SMD ≈0.17 (still above the 0.1 target), which
+the doubly-robust outcome model absorbs. Because this residual is real, the outcome-model adjustment
+for aridity is *load-bearing* rather than cosmetic and extrapolates across a genuine regime gap: the
+reported cross-sectional ATTs use a **linear** log-aridity adjustment, adding a quadratic aridity
+term leaves the qualitative conclusions unchanged (archived robustness), and restricting to the
+aridity-overlap subset (all 21 treated basins and 158 of 244 controls fall inside it) leaves the
+streamflow transmission-slope gap essentially unchanged ($-0.17$ vs $-0.18$) while shrinking the
+water-rights ATT to a value that now straddles zero, so the parametric adjustment is not masking a
+true effect (Supplementary Table S6). Crucially, the study's
+decisive evidence, the within-basin upstream/downstream placebo, the within-region transmission-slope
+comparison, and randomization inference, does **not** use the outcome-model aridity adjustment at
+all, so the central nulls do not hinge on extrapolating across the aridity gap. Robustness to the
 matching method is assessed with coarsened exact matching (CEM) and 1:2 nearest-neighbour
 (Mahalanobis) matching on the identical common-support sample; entropy balancing and NN agree on all
 21 treated, while CEM additionally prunes the 4 most extreme large/high basins, so all
@@ -109,6 +127,15 @@ exactly the arid basins where reservoirs sit), the outcome for the DR machinery 
 **transmission slope**, the regression of an annual outcome (e.g. log evapotranspiration) on annual
 SPEI-12 over 2005–2024, a standardized, cross-basin drought-transmission elasticity. The vulnerability
 hypothesis predicts a *steeper* slope (more impact per unit deficit) in dammed basins.
+
+The two cross-sectional ATTs in Table 1 apply this machinery to (i) *cropland-area expansion*, the
+change in MapBiomas cropland area per basin over the window, and (ii) *reservoir ET buffering*, the
+per-basin transmission slope of log evapotranspiration on SPEI computed over **irrigated orchard
+cells** (MOD16 ET on the CIREN/ODEPA cadastre footprint), which measures directly whether
+consumptive water use over irrigated land responds more or less to deepening drought in dammed
+basins. A negative slope gap indicates buffering, a positive one induced-demand vulnerability; the
+outcome is null, so consumptive use per unit of irrigated land shows no differential change with the
+reservoir.
 
 **Forcing-interacted difference-in-differences.** On the observed area and ET panels we fit
 
@@ -135,7 +162,11 @@ discrete severity categories each ≈0.5 standardized units wide [@McKee1993; @V
 over the observed range of meteorological deficits a change of <25% in the deficit-to-impact slope
 (≈0.13 SSI units on the 0.53 baseline) alters the propagated streamflow-drought index by less than a
 single severity category, i.e. it cannot move a basin across an operational drought-severity
-threshold and is therefore marginal for drought management. We adopt ±25% as this deliberately
+threshold and is therefore marginal for drought management. We stress that 25% of the transmission
+slope can nonetheless correspond to a non-trivial absolute water volume in a large, high-demand basin;
+the margin is anchored to the operational drought-severity classification, not to volumetric
+negligibility, which is why we also report the threshold-free MDE and rest the causal weight of the
+null on the within-basin placebo rather than on the equivalence verdict. We adopt ±25% as this deliberately
 strict, pre-specified margin and, because the equivalence verdict is nonetheless sensitive to the
 bound, also report the threshold-free MDE so that readers may apply any margin they consider
 material. The qualitative conclusion (only large effects are excluded; no outcome is equivalent at
@@ -148,11 +179,18 @@ a known buffering slope is injected into the treated units and the full estimato
 inference are re-run, verifying that the design recovers an effect of policy-relevant size and
 correctly flags none when none is injected.
 
-**Siting-confound decomposition.** To quantify how much of any apparent buffering is selection, we
-fit a ladder on the same panel: (1) a naive pooled slope gap (no weights, no fixed effects, what a
-conventional dammed-vs-undammed study reports); (2) unit + time fixed effects, unweighted; (3) the
-design estimator (ebal weights + fixed effects). The shrinkage from (1) to (3) is the siting
-confound; the residual at (3) is the regulation estimate.
+**Siting-confound decomposition.** To locate where any apparent buffering comes from, we fit a ladder
+on the same panel: (1) a naive pooled slope gap (no weights, no fixed effects, what a conventional
+dammed-vs-undammed study reports); (2) unit + time fixed effects, unweighted; (3) the design estimator
+(ebal weights + fixed effects); (4) the design estimator with the baseline SPEI-to-outcome slope
+allowed to vary by Köppen region. It is important that these are distinct controls. The entropy
+balancing exact-matches *basin size and elevation* within Köppen main group; it does **not** balance
+the residual aridity gradient (which varies within B and C) nor impose a region-specific
+dose-response. The apparent buffering can therefore survive rungs (1) to (3), whose weighting leaves
+the within-region aridity gradient intact, and die only at rung (4), which lets each climate region
+have its own baseline transmission and so removes the between-region contrast that the matching does
+not. The collapse from (3) to (4) is the between-region aridity confound; the residual at (4) is the
+regulation estimate.
 
 **Within-basin upstream/downstream placebo.** The primary selection-versus-effect discriminator
 contrasts the SPEI-12→SSI-12 transmission slope at regulated **downstream** reaches against

@@ -137,6 +137,32 @@ siting_decomposition <- function(panel, yvar = "ssi", timevar = "month_f",
   data.table::rbindlist(out)
 }
 
+#' Aridity-overlap sensitivity: re-estimate the key results on the sub-sample of basins whose baseline
+#' log-aridity lies in the treated/control overlap band, to show the parametric aridity adjustment is
+#' not masking a true effect where common support is genuine. Reports the streamflow transmission slope
+#' gap and the water-rights expansion ATT on the full set vs the overlap subset.
+#' @return data.table(quantity, full, overlap, overlap_ci_lo, overlap_ci_hi, n_treated, n_control)
+aridity_overlap_sensitivity <- function(matched_set, ssi_panel_itt, wr_expansion) {
+  md <- data.table::as.data.table(matched_set$data)
+  lo <- max(md[treated == 1L, min(log_aridity)], md[treated == 0L, min(log_aridity)])
+  hi <- min(md[treated == 1L, max(log_aridity)], md[treated == 0L, max(log_aridity)])
+  ov <- md[log_aridity >= lo & log_aridity <= hi]
+  dp  <- data.table::as.data.table(ssi_panel_itt)
+  sl_full <- ssi_buffer_coef(fit_ssi_buffering(dp))
+  sl_ov   <- ssi_buffer_coef(fit_ssi_buffering(dp[unit_id %in% ov$unit_id]))
+  mso <- matched_set; mso$data <- ov
+  a <- data.table::as.data.table(
+    fit_wr_expansion_att(mso, data.table::as.data.table(wr_expansion)[unit_id %in% ov$unit_id]
+                         )$estimates)[estimator == "doubly_robust"]
+  af <- data.table::as.data.table(fit_wr_expansion_att(matched_set, wr_expansion)$estimates)[
+    estimator == "doubly_robust"]
+  data.table::data.table(
+    quantity = c("Streamflow SPEI->SSI slope gap", "Water-rights expansion ATT"),
+    full = c(sl_full, af$att), overlap = c(sl_ov, a$att),
+    overlap_ci_lo = c(NA_real_, a$ci_lo), overlap_ci_hi = c(NA_real_, a$ci_hi),
+    n_treated = ov[treated == 1L, .N], n_control = ov[treated == 0L, .N])
+}
+
 #' Assemble the siting-confound ladder across outcomes for the manuscript figure.
 #'
 #' Runs siting_decomposition() (naive -> +FE -> design -> +within-region) on the streamflow SSI

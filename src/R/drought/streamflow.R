@@ -8,6 +8,27 @@
 # SSI = per-calendar-month Gringorten normal-quantile transform of trailing-12-month mean flow.
 
 #' Gringorten normal-quantile transform of a vector (robust SSI standardization; handles skew/zeros).
+#' Climate-driven supply baseline: log-linear trend in annual mean streamflow (%/yr) among control
+#' (undammed) vs dammed gauges, the independent benchmark for the descriptive reservoir-storage
+#' decline (addresses the missing-control critique: is the storage decline commensurate with the
+#' supply reduction seen in unregulated flow?).
+#' @return data.table(group, trend_pct_yr, n_gauges)
+streamflow_supply_trend <- function(streamflow_monthly, streamflow_stations,
+                                    y0 = 2005L, y1 = 2020L, min_months = 8L) {
+  qm <- data.table::as.data.table(streamflow_monthly)
+  data.table::setnames(qm, "q_mon", "q", skip_absent = TRUE)
+  qm <- merge(qm, data.table::as.data.table(streamflow_stations)[, .(codigo, treat)], by = "codigo")
+  qa <- qm[year >= y0 & year <= y1 & is.finite(q) & q >= 0,
+           .(q = mean(q), nmo = .N), by = .(codigo, treat, year)][nmo >= min_months]
+  qa[, lq := log(q + 1e-3)]
+  data.table::rbindlist(lapply(c(0L, 1L), function(g) {
+    m <- fixest::feols(lq ~ year | codigo, data = qa[treat == g])
+    data.table::data.table(group = if (g == 0L) "control" else "dammed",
+                           trend_pct_yr = 100 * unname(stats::coef(m)["year"]),
+                           n_gauges = data.table::uniqueN(qa[treat == g]$codigo))
+  }))
+}
+
 .nqt <- function(x) {
   ok <- is.finite(x); out <- rep(NA_real_, length(x))
   n <- sum(ok); if (n < 5L) return(out)

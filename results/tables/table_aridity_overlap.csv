@@ -1,0 +1,3 @@
+quantity,full,overlap,overlap_ci_lo,overlap_ci_hi,n_treated,n_control
+Streamflow SPEI->SSI slope gap,-0.182872978533266,-0.173959435211057,,,21,158
+Water-rights expansion ATT,20.0356066706722,11.880106175762,-5.62193106788879,29.3821434194128,21,158

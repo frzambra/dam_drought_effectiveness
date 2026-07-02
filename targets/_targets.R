@@ -65,6 +65,17 @@ list(
   tar_target(cuencas_dissolved,    dissolve_watersheds(cuencas)),
   tar_target(subcuencas_dissolved, dissolve_watersheds(subcuencas)),
 
+  # --- water rights (DGA registry): demand-side allocation panel per subcuenca --------------------
+  # Direct measure of claimed consumptive water demand (l/s) for the induced-demand test (does damming
+  # accrue more consumptive rights than in matched controls?), complementing the irrigated-area and ET
+  # proxies. Read -> harmonize flow to l/s + parse grant year -> point-in-polygon assign to subcuencas
+  # (UTM per Huso/Datum) -> cumulative-stock + annual-increment allocation panel by source and use.
+  tar_target(water_rights_csv,
+             project_path("data/raw/water_rights/water_rights_chile.csv"), format = "file"),
+  tar_target(water_rights_raw,      read_water_rights(water_rights_csv)),
+  tar_target(water_rights_assigned, assign_water_rights_to_units(water_rights_raw, subcuencas_dissolved)),
+  tar_target(water_rights_panel,    build_water_rights_panel(water_rights_assigned)),
+
   # --- grain selection: climate covariate + cuenca-vs-subcuenca diagnostics ----------
   tar_target(koppen_path,
              project_path(cfg_sources$koppen_geiger$root,
@@ -424,10 +435,41 @@ list(
   tar_target(table_equivalence_file, write_table(equivalence_table, "table_equivalence"),
              format = "file"),
 
+  # === WATER-RIGHTS INDUCED-DEMAND TEST (DGA registry; the direct demand outcome) ================
+  # Does damming accrue more consumptive water rights than in matched controls? Rights-density (count
+  # per 100 km2) expansion ATT + event study, judged by randomization inference, with a within-region
+  # check. Naive analysis looks positive; it collapses under design-based inference (siting confound).
+  tar_target(wr_expansion,      wr_expansion_summary(water_rights_panel, matched_set$data)),
+  tar_target(wr_att,            fit_wr_expansion_att(matched_set, wr_expansion)),
+  tar_target(wr_demand_summary, build_wr_demand_summary(matched_set, wr_expansion)),
+  tar_target(wr_perm,          data.table::as.data.table(wr_demand_summary)[outcome %like% "Rights count", perm_p]),
+  tar_target(wr_did_panel,
+             build_did_panel(wr_intensity_panel(water_rights_panel, matched_set$data),
+                             forcing_subcuencas_full, matched_set, "n_km2")),
+  tar_target(es_wr,             fit_event_study(wr_did_panel)),
+  # Aridity-overlap sensitivity (reviewer): key results re-estimated on the aridity common-support subset
+  tar_target(aridity_overlap_tab, aridity_overlap_sensitivity(matched_set, ssi_panel_itt, wr_expansion)),
+  tar_target(table_aridity_overlap_file, write_table(aridity_overlap_tab, "table_aridity_overlap"),
+             format = "file"),
+  # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
+  tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
+  tar_target(fig_et_confound_file,
+             save_fig(fig_et_confound_obj, "fig_et_confound", width = "onehalf", height_mm = 120),
+             format = "file"),
+
+  tar_target(fig_water_rights_obj, fig_water_rights(es_wr, wr_demand_summary)),
+  tar_target(fig_water_rights_file,
+             save_fig(fig_water_rights_obj, "fig_water_rights", width = "onehalf", height_mm = 130),
+             format = "file"),
+  tar_target(table_wr_summary_file, write_table(wr_demand_summary, "table_water_rights"),
+             format = "file"),
+
   # === MANUSCRIPT FIGURES + TABLES (results/ via file targets; one message each) ===============
-  # Main results table: convergent H2 null across cross-sectional ATTs + forcing-interacted DiD.
+  # Main results table: convergent H2 null across cross-sectional ATTs, forcing-interacted DiD, and
+  # the direct water-rights demand test (all judged by randomization inference).
   tar_target(main_results_table,
-             build_main_results_table(att_irrig_area_expansion, att_et_buffering, did_summary)),
+             build_main_results_table(att_irrig_area_expansion, att_et_buffering, did_summary,
+                                      att_wr = wr_att, wr_perm = wr_perm)),
   tar_target(table_main_file, write_table(main_results_table, "table_main_results"),
              format = "file"),
 
@@ -504,6 +546,9 @@ list(
   # Fig 4: the binding constraint is inflow, not storage — the whole storage band shifts down
   # (annual peak & trough percent-of-capacity both decline) while seasonal amplitude stays flat,
   # a supply-side level shift rather than refill/buffer degradation. Built from storage_pct.
+  # Independent supply baseline for the descriptive storage decline: streamflow trend in control gauges
+  tar_target(streamflow_supply_trend_tab,
+             streamflow_supply_trend(streamflow_monthly, streamflow_stations)),
   tar_target(storage_band, storage_band_annual(storage_pct)),
   tar_target(storage_band_trends, fit_storage_band_trends(storage_band)),
   tar_target(table_storage_band_file, write_table(storage_band_trends, "table_storage_band"),

@@ -12,19 +12,25 @@
 #' @param did_summary did_summary (slope-gap table with p_perm)
 #' @return data.table(group, outcome, method, estimand, estimate, se, ci_lo, ci_hi, p, n_treated,
 #'                    n_control, verdict)
-build_main_results_table <- function(att_area, att_etbuf, did_summary) {
+build_main_results_table <- function(att_area, att_etbuf, did_summary,
+                                     att_wr = NULL, wr_perm = NA_real_) {
   drrow <- function(x) data.table::as.data.table(x$estimates)[estimator == "doubly_robust"]
   a <- drrow(att_area); b <- data.table::as.data.table(att_etbuf$att)
-  cs <- function(outcome, estimand, r) data.table::data.table(
+  cs <- function(outcome, estimand, r, p = NA_real_) data.table::data.table(
     group = "Cross-sectional matched ATT", outcome = outcome, method = "DR matched",
     estimand = estimand, estimate = r$att, se = r$se, ci_lo = r$ci_lo, ci_hi = r$ci_hi,
-    p = NA_real_, n_treated = r$n_treated, n_control = r$n_control)
+    p = p, n_treated = r$n_treated, n_control = r$n_control)
   rows <- list(
-    cs("Irrigated-area expansion", "ha km^-2 added", a),
+    cs("Cropland-area expansion", "ha km^-2 added", a),
     cs("Reservoir ET buffering",   "d log ET / d SPEI", b))
+  # Water-rights accrual (induced-demand test): a cross-sectional expansion ATT judged, like the DiD
+  # rows, by randomization inference (the analytic CI over-rejects at ~21 clusters).
+  if (!is.null(att_wr))
+    rows[[length(rows) + 1L]] <-
+      cs("Water-rights accrual", "rights / 100 km^2 added", drrow(att_wr), p = wr_perm)
 
   ds  <- data.table::as.data.table(did_summary)
-  lab <- c(area_frac = "Irrigated area", log_basin_ET = "Whole-basin ET",
+  lab <- c(area_frac = "Cropland area", log_basin_ET = "Whole-basin ET",
            log_orchard_ET = "Orchard ET")
   for (i in seq_len(nrow(ds))) {
     r <- ds[i]

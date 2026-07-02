@@ -20,14 +20,15 @@ abstract: |
   using statistical matching to compare each dammed basin against undammed basins that share its
   climate, size, and terrain, and asking whether the two respond differently to the same drought.
   Across every operational pathway, meteorological-to-streamflow drought transmission,
-  evapotranspiration, and irrigated-area change, the reservoir effect brackets zero once siting is
-  matched out. The cleanest test compares regulated reaches below each dam against physically
+  evapotranspiration, cropland-area change, and the direct allocation of consumptive water rights,
+  the reservoir effect brackets zero once siting is matched out. The cleanest test compares regulated reaches below each dam against physically
   unregulated reaches above it: the apparent buffering is just as strong upstream as downstream
   and disappears when basins are compared within the same climate, the signature of an aridity
   gradient rather than of regulation. Positive controls confirm the design would have detected a
-  real buffering effect had one existed. Meanwhile the seasonal refill stays efficient even as the
-  whole storage band drifts downward, indicating a falling water supply rather than a degraded
-  buffer. Reservoirs in Chile thus mark pre-existing, location-determined vulnerability rather
+  real buffering effect had one existed. These tests concern the annual-to-multiyear timescale of
+  structural drought, not the sub-seasonal buffering that reservoirs are also built to provide.
+  Meanwhile the whole storage band drifts downward while its seasonal refill amplitude shows no
+  detectable change, pointing to a falling water supply rather than a degraded buffer. Reservoirs in Chile thus mark pre-existing, location-determined vulnerability rather
   than create resilience. Under structural aridification, expanding storage is a supply-blind
   response to a supply problem; adaptation must shift toward managing demand, reallocating water,
   and recharging aquifers.

@@ -1,5 +1,103 @@
 # Manuscript figures. Each builds ONE message and is saved via save_fig() in a tar_target.
 
+#' FIGURE (ET confound demonstration): the positive whole-basin ET effect is a barren-land artifact.
+#' Event studies of the dammed-vs-control ET response for (a) WHOLE-BASIN ET, which shows strongly
+#' non-parallel pre-trends and an apparent post-drought divergence, and (b) ET restricted to VEGETATED
+#' irrigated (orchard) cells, i.e. with barren/salar pixels masked out, where the pre-trend failure and
+#' the positive effect both vanish. Masking the barren land removes the confound, confirming the
+#' exclusion of whole-basin ET is mechanistic, not a post-hoc drop of an inconvenient result.
+#' @param es_et,es_orch fit_event_study() on the whole-basin and orchard-cell ET DiD panels
+#' @param did_panel_et,did_panel_orch the corresponding panels (for the pre-trend test)
+fig_et_confound <- function(es_et, es_orch, did_panel_et, did_panel_orch, ref_year = 2009L) {
+  pal <- nw_pal(); cfg <- fig_cfg()
+  mk <- function(es, pan, lab) {
+    e <- extract_event_study(es, ref_year); e[, outcome := lab]
+    pp <- tryCatch(.diff_trend_p(data.table::as.data.table(pan)[year <= ref_year]),
+                   error = function(e) NA_real_)
+    list(e = e, pp = pp)
+  }
+  a <- mk(es_et, did_panel_et, "Whole-basin ET (all pixels)")
+  b <- mk(es_orch, did_panel_orch, "Vegetated cells only (barren masked)")
+  d <- data.table::rbindlist(list(a$e, b$e))
+  d[, outcome := factor(outcome, levels = c("Whole-basin ET (all pixels)",
+                                            "Vegetated cells only (barren masked)"))]
+  labs <- data.table::data.table(
+    outcome = factor(levels(d$outcome), levels = levels(d$outcome)),
+    lab = c(sprintf("pre-trend p = %.1g (fails)", a$pp),
+            sprintf("pre-trend p = %.2f (flat)", b$pp)))
+  xmax <- max(d$year)
+  ggplot2::ggplot(d, ggplot2::aes(year, coef)) +
+    ggplot2::annotate("rect", xmin = 2010, xmax = xmax, ymin = -Inf, ymax = Inf,
+                      fill = "grey85", alpha = 0.5) +
+    ggplot2::geom_hline(yintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.3) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = ci_lo, ymax = ci_hi), fill = pal[["treated"]],
+                         alpha = cfg$palette$ci_band_alpha) +
+    ggplot2::geom_line(colour = pal[["treated"]], linewidth = 0.5) +
+    ggplot2::geom_point(colour = pal[["treated"]], size = 0.7) +
+    ggplot2::geom_text(data = labs, ggplot2::aes(x = -Inf, y = Inf, label = lab),
+                       hjust = -0.05, vjust = 1.4, size = cfg$font$geom_text_size, colour = "grey30") +
+    ggplot2::facet_wrap(~outcome, ncol = 1, scales = "free_y") +
+    ggplot2::labs(x = NULL, y = "Dammed × year on log ET (ref. 2009)",
+                  title = "The positive whole-basin ET effect is a barren-land artifact",
+                  subtitle = "Masking barren pixels (vegetated cells only) removes the pre-trend failure and the effect") +
+    theme_nw() +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0),
+                   plot.subtitle = ggplot2::element_text(hjust = 0, size = cfg$font$base_size_pt),
+                   strip.text = ggplot2::element_text(size = cfg$font$base_size_pt, face = "bold"))
+}
+
+#' FIGURE (water-rights induced demand): the direct demand test converges on the same null and shows
+#' the naive-analysis trap. (a) Event study of consumptive water-rights DENSITY (dammed x year, ref
+#' 2009): the dammed-vs-control gap appears to widen through the megadrought, the naive induced-demand
+#' signal. (b) But the expansion ATT that looks positive nationally (analytic 95% CI excludes zero) is
+#' null under the design's randomization inference (p_perm annotated) and collapses within climate
+#' region, the same between-region siting confound seen for streamflow: no robust induced demand.
+#' @param es_wr fit_event_study() on the rights-density DiD panel
+#' @param wr_summary build_wr_demand_summary() output (National + within-region ATTs, perm p)
+fig_water_rights <- function(es_wr, wr_summary, ref_year = 2009L) {
+  pal <- nw_pal(); cfg <- fig_cfg()
+  es <- extract_event_study(es_wr, ref_year)
+  xmax <- max(es$year)
+  pa <- ggplot2::ggplot(es, ggplot2::aes(year, coef)) +
+    ggplot2::annotate("rect", xmin = 2010, xmax = xmax, ymin = -Inf, ymax = Inf,
+                      fill = "grey85", alpha = 0.5) +
+    ggplot2::geom_hline(yintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.3) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = ci_lo, ymax = ci_hi), fill = pal[["treated"]],
+                         alpha = cfg$palette$ci_band_alpha) +
+    ggplot2::geom_line(colour = pal[["treated"]], linewidth = 0.5) +
+    ggplot2::geom_point(colour = pal[["treated"]], size = 0.7) +
+    ggplot2::annotate("text", x = 2010, y = Inf, hjust = -0.05, vjust = 1.4,
+                      size = cfg$font$geom_text_size, colour = "grey30", label = "megadrought") +
+    ggplot2::labs(tag = "a", x = NULL, y = "Dammed × year on rights density\n(rights per 100 km2, ref. 2009)",
+                  subtitle = "Naive signal: dammed basins appear to accrue rights faster") +
+    theme_nw() +
+    ggplot2::theme(plot.subtitle = ggplot2::element_text(size = cfg$font$base_size_pt))
+
+  s <- data.table::as.data.table(wr_summary); s[, yy := "ATT"]
+  pb <- ggplot2::ggplot(s, ggplot2::aes(att, yy)) +
+    ggplot2::geom_vline(xintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.4) +
+    ggplot2::geom_segment(ggplot2::aes(x = null_lo, xend = null_hi, yend = yy),
+                          linewidth = 5, colour = "grey85") +               # permutation-null 95%
+    ggplot2::geom_errorbarh(ggplot2::aes(xmin = ci_lo, xmax = ci_hi), height = 0.10,
+                            colour = "grey30", linewidth = 0.5) +           # analytic 95% CI
+    ggplot2::geom_point(colour = pal[["treated"]], size = 1.9) +
+    ggplot2::geom_text(ggplot2::aes(label = sprintf("p[perm] == %.2f", perm_p)), parse = TRUE,
+                       vjust = -1.6, size = cfg$font$geom_text_size, colour = "grey30") +
+    ggplot2::facet_wrap(~outcome, ncol = 1, scales = "free_x") +
+    ggplot2::labs(tag = "b", y = NULL,
+                  x = "Expansion ATT, 2005-2024 (grey = permutation-null 95%; dark = analytic 95% CI)",
+                  subtitle = "The observed gap lies inside the null expected from siting alone: design-null") +
+    theme_nw() +
+    ggplot2::theme(axis.text.y = ggplot2::element_blank(), axis.ticks.y = ggplot2::element_blank(),
+                   strip.text = ggplot2::element_text(size = cfg$font$base_size_pt, face = "bold"),
+                   plot.subtitle = ggplot2::element_text(size = cfg$font$base_size_pt))
+
+  patchwork::wrap_plots(pa, pb, ncol = 1, heights = c(1, 0.85)) +
+    patchwork::plot_annotation(
+      title = "Water rights: no induced demand survives once siting is matched out",
+      theme = theme_nw())
+}
+
 #' FIGURE (concept): the two comparisons that separate the reservoir from its location. (a) The
 #' matched design: each dammed basin is compared only with undammed basins that share its climate,
 #' size and elevation, then both are exposed to the same drought and their impact compared. (b) The
@@ -668,8 +766,8 @@ fig_storage_band <- function(band_annual, band_trends) {
 
   patchwork::wrap_plots(pa, pb, ncol = 1, heights = c(1, 0.55)) +
     patchwork::plot_annotation(
-      title = "Storage declines while seasonal refill amplitude holds",
-      subtitle = "The whole band drifts down; peak-trough amplitude is statistically unchanged",
+      title = "Storage declines; a change in refill amplitude cannot be resolved",
+      subtitle = "The whole band drifts down; the peak-trough amplitude trend is inconclusive (wide interval)",
       theme = theme_nw())
 }
 
