@@ -192,6 +192,13 @@ main_results_table|stem|77ec02b8d9b203c1|5eded935a2160c38|b7f553aa6f83ae27|-1558
 table_main_file|stem|fc3357517ca074c5|e04d70da690d757d|5251cdb87b79b497|778989081|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_main_results.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_main_results.md|t20635.9543151196s|s2451b|2451|file|local|vector|||0.038||
 fig_convergent_obj|stem|5257e3c373cfd841|91c025deeb4a5f8f|5e4783590500ad89|-1649463070||t20635.9543293589s|s458009b|458009|rds|local|vector|||0.386|`geom_errorbarh()` was deprecated in ggplot2 4.0.0. ℹ Please use the `orientation` argument of `geom_errorbar()` instead.|
 fig_convergent_file|stem|777acb458ad15877|f2ae195d9b599e65|384023309668b048|-365076396|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_convergent_null.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_convergent_null.png|t20635.9543429634s|s152622b|152622|file|local|vector|||1.065||
+aridity_overlap_tab|stem|58ec9a2960a7fd3f|2eb2404a3ccb12e5|fb448597f3d811e1|2050087550||t20635.9655149108s|s354b|354|rds|local|vector|||0.327||
+fig_et_confound_obj|stem|cbade2eb87afa536|ae647a20ba341e0d|8d0e869538709f7b|488619676||t20635.9655298486s|s2026893b|2026893|rds|local|vector|||0.342||
+table_aridity_overlap_file|stem|8c7a251a570c7822|eca3cf12e31a87a3|6098f379112fd81b|-921155605|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_aridity_overlap.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_aridity_overlap.md|t20635.9655307476s|s521b|521|file|local|vector|||0.023||
+fig_et_confound_file|stem|2f1e8013b5e10440|c9b311d43c1a6070|9ea564994219ea5c|-1349902590|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_et_confound.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_et_confound.png|t20635.9655464945s|s233192b|233192|file|local|vector|||1.249|Removed 2 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 2 rows containing missing values or values outside the scale range (`geom_ribbon()`).|
+winsor_sensitivity_tab|stem|483019f253b93fdc|728e56e010ef4d06|413facce11bc1a95|1017100061||t20636.1442503145s|s441b|441|rds|local|vector|||114.986||
+table_winsor_sensitivity_file|stem|e413acd65112ea47|39cd9972e6d206b3|043cb065ee7bc642|-1303908483|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_winsor_sensitivity.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_winsor_sensitivity.md|t20636.1442513029s|s750b|750|file|local|vector|||0.04||
+nonparam_overlap_tab|stem|7d44dc22cecb7b2d|ca5b1f1c50f021c2|5e9027ffbd3ceb09|-576414301||t20636.145381407s|s540b|540|rds|local|vector|||97.583|The estimated weights do not balance the covariates, indicating the optimization arrived at a degenerate solution. Try decreasing the number of variables supplied to the optimization.|
 summarise_propagation|function|1fde42bd5efa84a4
 .match_summary|function|a9e74c340478033c
 common_support_trim|function|24a6eecf98c146f2
@@ -223,15 +230,21 @@ aridity_annual_paths|function|2504b80e69e2d25c
 flag_units|function|e4523c1c86561c71
 assign_stations_to_units|function|da34f55fc7434f34
 .nqt|function|7127ccc330fc1583
+.gc_dist|function|d018810812be5bd6
 extract_unit_index_annual|function|47de08c84f09bfa1
 forcing_monthly_paths|function|03bcc3440def5110
 combine_orchard_natural|function|026f24865c13a546
 koppen_legend|function|42ffab54a481f6e2
 .baseline_cover_fracs|function|54b40796f588712e
 overshoot_test|function|963f8e782fa01966
+.moran|function|3ad25dfd5a36fcd6
 list_rasters|function|5f98401d72e3b7a9
 .unit_cover_cells|function|54febd177a2dae9e
+.assemble_outcomes|function|cb155b436002db75
 extract_event_study|function|6023e97d58582543
+.overlap_band|function|a4bb90d678c64d5e
+.refit_ebal|function|d2294018ccd1e7f0
+.wo_att|function|a4d67784fac25972
 fit_aridity_placebo|function|f8f0ad03cf0c6492
 .threshold_na|function|7a39e3c5482edb63
 siting_decomposition|function|f484dcf311fc68c6
@@ -249,6 +262,7 @@ orchard_expansion_summary|function|ac7ab60de93f2221
 .year_et_sum|function|d7f0f62b42405a25
 ET_FILL_ABOVE|object|9ad0b176bfc1180e
 fit_triple_diff|function|6ca7dbb7a77f497f
+.knn_W|function|f9e8bfe4bd3aa6a4
 extract_unit_aridity|function|a49233def047bd48
 read_reservoir_levels|function|8a3c95c566289886
 .slope_gap_coef|function|56606958db742bcb
@@ -305,12 +319,15 @@ extract_unit_index_trend|function|a08c8017e6d06da4
 stratified_znpp_annual|function|a4603f4720a5b4cf
 build_raster_catalog|function|49250859291e554b
 extract_unit_et_total_annual|function|9b721f5aed710887
+.spatial_block_wr|function|19c70323505b8c10
+build_nonparam_overlap|function|b301986ebc25968b
 estimate_storage_threshold|function|1022573f58c432f5
 build_siting_ladder|function|7b3fc15739e5c073
 ssi_placebo_comparability|function|dc46cb963b4462e6
 fit_doubly_robust|function|e045e842a1185503
 .dr_row|function|65c63e19861d303b
 aggregate_et_annual|function|160b97353c7a4c05
+.moran_of|function|7a3cfbd127f1af46
 permutation_test_slope|function|403836cf079f8d80
 read_water_rights|function|58e714899d4d14d2
 build_treated_storage_panel|function|1e3a1ba3c9da1927
@@ -330,6 +347,7 @@ fit_forcing_conditioned_att|function|41007383279df423
 fit_area_expansion_att|function|827f01600968a8d2
 fit_orchard_et_att|function|c093eede44c143b4
 run_forcing_robustness|function|3c15d56d23553e67
+build_spatial_diagnostics|function|b139a70e998fe04b
 read_watersheds|function|1e876d68eb0ca4f0
 fig_cfg|function|6a00b02688c3122a
 aridity_overlap_sensitivity|function|1d01bb471a51147c
@@ -339,6 +357,7 @@ theme_nw|function|c89ae5a31100da60
 save_fig|function|6b333d474582dfee
 nw_labs|function|4c4dfc100b724c46
 build_wr_demand_summary|function|d6e2b3c03968e7c2
+build_winsor_sensitivity|function|2176c64a84608e5a
 fig_covariate_balance|function|0f6d0fb4872a554f
 fig_water_rights|function|a06f93106c43f92e
 fig_convergent_null|function|2ffcbd718e6fb90e
@@ -351,7 +370,6 @@ fig_et_confound|function|bc5980c24ea4e9cf
 fig_area_did|function|65d1d94779bf53e7
 fig_streamflow|function|a96e024be5e3fa56
 fig_drought_forcing|function|44511bb2009cf1f4
-aridity_overlap_tab|stem|58ec9a2960a7fd3f|2eb2404a3ccb12e5|fb448597f3d811e1|2050087550||t20635.9655149108s|s354b|354|rds|local|vector|||0.327||
-fig_et_confound_obj|stem|cbade2eb87afa536|ae647a20ba341e0d|8d0e869538709f7b|488619676||t20635.9655298486s|s2026893b|2026893|rds|local|vector|||0.342||
-table_aridity_overlap_file|stem|8c7a251a570c7822|eca3cf12e31a87a3|6098f379112fd81b|-921155605|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_aridity_overlap.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_aridity_overlap.md|t20635.9655307476s|s521b|521|file|local|vector|||0.023||
-fig_et_confound_file|stem|2f1e8013b5e10440|c9b311d43c1a6070|9ea564994219ea5c|-1349902590|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_et_confound.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_et_confound.png|t20635.9655464945s|s233192b|233192|file|local|vector|||1.249|Removed 2 rows containing missing values or values outside the scale range (`geom_ribbon()`).. Removed 2 rows containing missing values or values outside the scale range (`geom_ribbon()`).|
+spatial_diagnostics|stem|ac7feba24e0cd627|21a4d3bfbcbd0000|014dd1d7b86cfe53|138207081||t20636.1480947513s|s629b|629|rds|local|vector|||184.693|The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing `maxit`.. The optimization failed to converge in the alotted number of iterations. Try increasing|
+table_spatial_moran_file|stem|f51038c029633753|e0f30d948d1bfb08|6a928e5134cb551d|-1248644428|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_spatial_moran.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_spatial_moran.md|t20636.1480957319s|s505b|505|file|local|vector|||0.042||
+table_spatial_inference_file|stem|097b720a4da70e99|353a189e92708bf2|6a928e5134cb551d|321660137|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_spatial_inference.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_spatial_inference.md|t20636.1480964325s|s570b|570|file|local|vector|||0.01||

@@ -451,6 +451,26 @@ list(
   tar_target(aridity_overlap_tab, aridity_overlap_sensitivity(matched_set, ssi_panel_itt, wr_expansion)),
   tar_target(table_aridity_overlap_file, write_table(aridity_overlap_tab, "table_aridity_overlap"),
              format = "file"),
+  # Reviewer-3 robustness (2026-07-01): S7 fully non-parametric matching on the aridity-overlap
+  # subset for every outcome; S8 winsorization-threshold sensitivity of the water-rights volume null;
+  # S9 spatial-autocorrelation (Moran's I) + spatially-restricted (cuenca-block) inference. These
+  # only depend on already-built matched-set / outcome objects, so they add no raster work.
+  tar_target(nonparam_overlap_tab,
+             build_nonparam_overlap(matched_set, irrig_area_expansion, wr_expansion,
+                                    att_et_buffering)),
+  tar_target(table_nonparam_overlap_file,
+             write_table(nonparam_overlap_tab, "table_nonparam_overlap"), format = "file"),
+  tar_target(winsor_sensitivity_tab,
+             build_winsor_sensitivity(matched_set, water_rights_assigned)),
+  tar_target(table_winsor_sensitivity_file,
+             write_table(winsor_sensitivity_tab, "table_winsor_sensitivity"), format = "file"),
+  tar_target(spatial_diagnostics,
+             build_spatial_diagnostics(matched_set, irrig_area_expansion, wr_expansion,
+                                       att_et_buffering, nonparam_overlap_tab)),
+  tar_target(table_spatial_moran_file,
+             write_table(spatial_diagnostics$moran, "table_spatial_moran"), format = "file"),
+  tar_target(table_spatial_inference_file,
+             write_table(spatial_diagnostics$inference, "table_spatial_inference"), format = "file"),
   # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
   tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
   tar_target(fig_et_confound_file,

@@ -41,11 +41,14 @@ only when each climate region is allowed its own baseline transmission (Suppleme
 Table S4).
 Upstream and downstream reaches are not perfectly interchangeable, since upstream gauges sit higher
 and elevation predicts transmission among controls, but a bounding argument shows elevation cannot
-manufacture the result: the 0.54 km upstream-downstream elevation gap, scaled by the control
-elevation-transmission sensitivity ($-0.21$ per km), caps the maximum elevation-induced slope
-difference at about $0.11$, larger than and opposite in sign to the observed $-0.04$ upstream-minus-
-downstream difference, so even a full elevation adjustment leaves no downstream-specific buffering
-(Supplementary Table S2).
+manufacture a downstream-specific buffering effect large enough to matter. The 0.54 km
+upstream-downstream elevation gap, scaled by the control elevation-transmission sensitivity ($-0.21$
+per km), implies elevation alone would make the upstream slope about $0.11$ more buffered than
+downstream, the same sign as, and larger in magnitude than, the observed $-0.04$ upstream-minus-
+downstream difference. Elevation therefore already over-explains the entire observed gap; attributing
+all of it to elevation leaves a residual downstream-specific buffering of at most about $0.07$
+(roughly 13% of the $0.53$ baseline transmission slope), well inside the negligibility margin and far
+below the 46 to 58% of baseline the design can detect (Supplementary Table S2).
 
 ```{r}
 #| label: fig-streamflow
@@ -67,10 +70,15 @@ cropland-area expansion ($-0.69$ ha km^-2^, 95% CI $[-2.4, 1.1]$) and evapotrans
 ($p_{\text{perm}} = 0.91$) and orchard evapotranspiration ($p_{\text{perm}} = 0.24$). One outcome,
 whole-basin evapotranspiration, appears positive, but its pre-trends fail and it is confounded by
 residual aridity over barren land, so we flag it as uninterpretable rather than fold it silently into
-the nulls; at face value it points toward *vulnerability*, not buffering. Masking the barren pixels
-and re-estimating on vegetated (irrigated orchard) cells removes both the pre-trend failure
-($p$ from $3\times10^{-5}$ to $0.40$) and the positive effect ($+0.048$ to $-0.020$), confirming the
-confounding is mechanistic rather than a post-hoc exclusion (Supplementary Fig. S7).
+the nulls; at face value it points toward *vulnerability*, not buffering. Restricting
+evapotranspiration to vegetated (irrigated orchard) cells was an exploratory, post-hoc analysis
+prompted by that pre-trend failure, not a pre-specified outcome, so we read it as diagnostic of a
+mechanism rather than as an independent test: masking the barren pixels removes both the pre-trend
+failure ($p$ from $3\times10^{-5}$ to $0.40$) and the positive effect ($+0.048$ to $-0.020$),
+consistent with the whole-basin signal being barren-land aridity contamination rather than a reservoir
+effect (Supplementary Fig. S7). Because the orchard stratum was defined after inspecting the
+whole-basin result, we rest no claim on it and note the general risk that post-hoc outcome
+redefinition can favour a desired result (Discussion).
 
 This null is informative, not merely underpowered. With about 21 dammed clusters the design cannot
 claim exact equivalence to zero, but it rules out streamflow buffering larger than 46 to 58% of
@@ -113,14 +121,24 @@ neither expanded it nor changed how it responds to drought.
 
 The same holds for the most direct measure of demand. In the DGA registry of consumptive water
 rights, dammed basins do appear to accrue rights faster than controls through the megadrought, on both
-the outlier-robust count ($+20$ rights per 100 km²) and the winsorized volume, each with an analytic
-interval excluding zero (@fig-forest, @tbl-main). But this is the naive-analysis trap the design
-exists to catch: dammed basins are markedly more arid, arid basins carry denser water-rights activity,
-and this residual imbalance drives the gap, which does not survive randomization inference
-($p_{\text{perm}} = 0.52$ for counts, $0.31$ for volume), lying inside the null that random assignment
-within climate and aridity strata already produces (Supplementary Fig. S6). Even on water rights there
-is no induced demand attributable to the reservoir once siting is accounted for, though a conventional
-matched analysis would have concluded otherwise.
+the outlier-robust count ($+20$ rights per 100 km²; @fig-forest, @tbl-main) and the winsorized volume
+($+2.5$ l/s per km²; Supplementary Fig. S6), each with an analytic interval excluding zero. But this
+is the naive-analysis trap the design exists to catch: dammed basins are markedly more arid, arid
+basins carry denser water-rights activity, and this residual imbalance drives the gap. The count does
+not survive randomization inference ($p_{\text{perm}} = 0.52$), lying inside the null that random
+assignment within climate and aridity strata already produces (Supplementary Fig. S6), and it remains
+null under a fully non-parametric match restricted to the aridity-overlap subset
+($p_{\text{perm}} = 0.42$; Supplementary Table S7). The winsorized volume is more delicate. It is
+stable across winsorization thresholds (95th to 99.9th percentile; Supplementary Table S8), yet on the
+overlap subset its stratified-permutation p falls to $0.005$, apparently signalling an effect. That
+signal is an artefact of spatial dependence. Water-rights residuals are strongly spatially
+autocorrelated (Moran's $I = 0.39$, $p = 0.001$; Supplementary Table S9), which the unit-level
+stratified permutation does not preserve; under a spatially-restricted permutation that swaps
+treatment at the cuenca-block level the volume effect is no longer significant
+($p_{\text{perm}} = 0.077$) and its cuenca-clustered interval spans zero ($[-0.3, 4.1]$). Even on
+water rights, then, no induced demand is robustly attributable to the reservoir once siting and
+spatial structure are accounted for, though a conventional matched analysis, or a spatially-naive one,
+would have concluded otherwise.
 
 ```{r}
 #| label: fig-area

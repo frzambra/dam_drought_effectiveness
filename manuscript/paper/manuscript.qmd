@@ -29,9 +29,10 @@ abstract: |
   structural drought, not the sub-seasonal buffering that reservoirs are also built to provide.
   Meanwhile the whole storage band drifts downward while its seasonal refill amplitude shows no
   detectable change, pointing to a falling water supply rather than a degraded buffer. Reservoirs in Chile thus mark pre-existing, location-determined vulnerability rather
-  than create resilience. Under structural aridification, expanding storage is a supply-blind
-  response to a supply problem; adaptation must shift toward managing demand, reallocating water,
-  and recharging aquifers.
+  than create resilience against multi-year drought, even if they still perform the intra-annual
+  seasonal buffering they are primarily built for. Under structural aridification, expanding storage is
+  a supply-blind response to a supply problem; adaptation must shift toward managing demand,
+  reallocating water, and recharging aquifers.
 keywords:
   - reservoir effect
   - drought propagation

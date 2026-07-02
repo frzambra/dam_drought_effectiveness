@@ -215,10 +215,11 @@ are also built to provide. Meanwhile the whole storage band drifts
 downward while its seasonal refill amplitude shows no detectable change,
 pointing to a falling water supply rather than a degraded buffer.
 Reservoirs in Chile thus mark pre-existing, location-determined
-vulnerability rather than create resilience. Under structural
-aridification, expanding storage is a supply-blind response to a supply
-problem; adaptation must shift toward managing demand, reallocating
-water, and recharging aquifers.
+vulnerability rather than create resilience against multi-year drought,
+even if they still perform the intra-annual seasonal buffering they are
+primarily built for. Under structural aridification, expanding storage
+is a supply-blind response to a supply problem; adaptation must shift
+toward managing demand, reallocating water, and recharging aquifers.
 \end{abstract}
 
 
@@ -402,8 +403,11 @@ errors (a single physically impossible entry can dominate a basin's
 total, e.g.~a caudal exceeding 200,000 m³/s), the outlier-robust primary
 measure is rights \emph{density} (count per 100 km²); a volume series in
 which each individual consumptive flow is winsorized at the 99.5th
-percentile of the consumptive-flow distribution gives the same result.
-Both are reported (Supplementary Fig. S6).
+percentile of the consumptive-flow distribution gives the same result,
+and the volume null is insensitive to the winsorization threshold across
+the 95th, 99th, 99.5th and 99.9th percentiles (permutation \(p\) from
+0.39 to 0.21; Supplementary Table S8). Both are reported (Supplementary
+Fig. S6).
 
 \textbf{Matching covariates.} Baseline aridity (long-term mean annual
 P/PET over the 1991--2020 WMO normal), watershed area, mean elevation
@@ -443,8 +447,17 @@ aridity-overlap subset (all 21 treated basins and 158 of 244 controls
 fall inside it) leaves the streamflow transmission-slope gap essentially
 unchanged (\(-0.17\) vs \(-0.18\)) while shrinking the water-rights ATT
 to a value that now straddles zero, so the parametric adjustment is not
-masking a true effect (Supplementary Table S6). Crucially, the study's
-decisive evidence, the within-basin upstream/downstream placebo, the
+masking a true effect (Supplementary Table S6). To rule out that the
+nulls are artefacts of this parametric functional form, we additionally
+re-fit entropy balancing \emph{within} the aridity-overlap subset and
+estimate every cross-sectional outcome with the weighting-only
+estimator, which carries no outcome-model aridity term and so performs
+no extrapolation across the regime gap. On this fully non-parametric
+matching specification, cropland-area expansion, orchard-ET buffering
+and the water-rights count all remain null (Supplementary Table S7); the
+winsorized water-rights volume, which behaves differently here, is
+treated under spatial inference below. Crucially, the study's decisive
+evidence, the within-basin upstream/downstream placebo, the
 within-region transmission-slope comparison, and randomization
 inference, does \textbf{not} use the outcome-model aridity adjustment at
 all, so the central nulls do not hinge on extrapolating across the
@@ -517,15 +530,20 @@ effect on drought transmission, so we anchor the margin in the
 granularity of operational drought classification rather than choosing
 it arbitrarily. Standardized drought indices are managed in discrete
 severity categories each ≈0.5 standardized units wide
-\citep{McKee1993, Vicente-Serrano2010}; over the observed range of
-meteorological deficits a change of \textless25\% in the
-deficit-to-impact slope (≈0.13 SSI units on the 0.53 baseline) alters
-the propagated streamflow-drought index by less than a single severity
-category, i.e.~it cannot move a basin across an operational
-drought-severity threshold and is therefore marginal for drought
-management. We stress that 25\% of the transmission slope can
-nonetheless correspond to a non-trivial absolute water volume in a
-large, high-demand basin; the margin is anchored to the operational
+\citep{McKee1993, Vicente-Serrano2010}. Because the estimand is a slope,
+the absolute change it induces in the propagated index scales with the
+SPEI deficit, so the relevant test is at the most extreme drought
+actually observed. The largest SPEI-12 deficit in the panel is
+\(\approx-2.0\) (minimum \(-1.98\)), and 25\% of the baseline
+transmission slope is \(0.25\times0.585\approx0.146\) SSI per unit SPEI;
+the maximum absolute perturbation of the streamflow-drought index a 25\%
+slope alteration can produce is therefore \(0.146\times1.98\approx0.29\)
+SSI units, below the ≈0.5-unit width of a single severity category. A
+25\% slope change thus cannot move a basin across an operational
+drought-severity threshold even under the worst observed deficit, and is
+marginal for drought management. We stress that 25\% of the transmission
+slope can nonetheless correspond to a non-trivial absolute water volume
+in a large, high-demand basin; the margin is anchored to the operational
 drought-severity classification, not to volumetric negligibility, which
 is why we also report the threshold-free MDE and rest the causal weight
 of the null on the within-basin placebo rather than on the equivalence
@@ -588,10 +606,23 @@ errors over-reject, so the primary inference is \textbf{randomization
 inference}: the treatment label is permuted among units within Köppen ×
 aridity- tercile strata (≥999 permutations) and the observed statistic
 is compared against the resulting null distribution; cluster-robust
-confidence intervals are reported alongside for completeness. Parallel
-pre-trends are checked with a dynamic event study (dammed × year,
-reference 2009), and residual confounding is probed with an aridity
-placebo that relabels the most-arid control tercile as pseudo-treated.
+confidence intervals are reported alongside for completeness. Because
+hydrological and land-use outcomes can be spatially autocorrelated, we
+assess residual spatial dependence for each outcome with Moran's \(I\)
+(great-circle distances, five-nearest-neighbour row-standardized
+weights, tested by 999 residual permutations). Where it is present,
+notably the water-rights outcomes (\(I\approx0.4\) to \(0.6\),
+\(p=0.001\); Supplementary Table S9), the unit-level stratified
+permutation can be anti-conservative because it does not preserve
+spatial structure. We therefore re-run the affected outcomes with a
+spatially-restricted permutation that swaps treatment at the
+cuenca-block level, so co-located subcuencas move together, and with
+cuenca-block-clustered confidence intervals; this spatially-valid
+inference governs where the naive and spatial tests disagree
+(Supplementary Table S9). Parallel pre-trends are checked with a dynamic
+event study (dammed × year, reference 2009), and residual confounding is
+probed with an aridity placebo that relabels the most-arid control
+tercile as pseudo-treated.
 
 \subsection{Software and
 reproducibility}\label{software-and-reproducibility}
@@ -673,13 +704,18 @@ region is allowed its own baseline transmission (Supplementary Fig. S3
 and Table S4). Upstream and downstream reaches are not perfectly
 interchangeable, since upstream gauges sit higher and elevation predicts
 transmission among controls, but a bounding argument shows elevation
-cannot manufacture the result: the 0.54 km upstream-downstream elevation
-gap, scaled by the control elevation-transmission sensitivity (\(-0.21\)
-per km), caps the maximum elevation-induced slope difference at about
-\(0.11\), larger than and opposite in sign to the observed \(-0.04\)
-upstream-minus- downstream difference, so even a full elevation
-adjustment leaves no downstream-specific buffering (Supplementary Table
-S2).
+cannot manufacture a downstream-specific buffering effect large enough
+to matter. The 0.54 km upstream-downstream elevation gap, scaled by the
+control elevation-transmission sensitivity (\(-0.21\) per km), implies
+elevation alone would make the upstream slope about \(0.11\) more
+buffered than downstream, the same sign as, and larger in magnitude
+than, the observed \(-0.04\) upstream-minus- downstream difference.
+Elevation therefore already over-explains the entire observed gap;
+attributing all of it to elevation leaves a residual downstream-specific
+buffering of at most about \(0.07\) (roughly 13\% of the \(0.53\)
+baseline transmission slope), well inside the negligibility margin and
+far below the 46 to 58\% of baseline the design can detect
+(Supplementary Table S2).
 
 \begin{figure}
 
@@ -724,12 +760,18 @@ the forcing-conditioned slope gaps for cropland area
 evapotranspiration, appears positive, but its pre-trends fail and it is
 confounded by residual aridity over barren land, so we flag it as
 uninterpretable rather than fold it silently into the nulls; at face
-value it points toward \emph{vulnerability}, not buffering. Masking the
-barren pixels and re-estimating on vegetated (irrigated orchard) cells
-removes both the pre-trend failure (\(p\) from \(3\times10^{-5}\) to
-\(0.40\)) and the positive effect (\(+0.048\) to \(-0.020\)), confirming
-the confounding is mechanistic rather than a post-hoc exclusion
-(Supplementary Fig. S7).
+value it points toward \emph{vulnerability}, not buffering. Restricting
+evapotranspiration to vegetated (irrigated orchard) cells was an
+exploratory, post-hoc analysis prompted by that pre-trend failure, not a
+pre-specified outcome, so we read it as diagnostic of a mechanism rather
+than as an independent test: masking the barren pixels removes both the
+pre-trend failure (\(p\) from \(3\times10^{-5}\) to \(0.40\)) and the
+positive effect (\(+0.048\) to \(-0.020\)), consistent with the
+whole-basin signal being barren-land aridity contamination rather than a
+reservoir effect (Supplementary Fig. S7). Because the orchard stratum
+was defined after inspecting the whole-basin result, we rest no claim on
+it and note the general risk that post-hoc outcome redefinition can
+favour a desired result (Discussion).
 
 This null is informative, not merely underpowered. With about 21 dammed
 clusters the design cannot claim exact equivalence to zero, but it rules
@@ -850,18 +892,32 @@ was; they neither expanded it nor changed how it responds to drought.
 The same holds for the most direct measure of demand. In the DGA
 registry of consumptive water rights, dammed basins do appear to accrue
 rights faster than controls through the megadrought, on both the
-outlier-robust count (\(+20\) rights per 100 km²) and the winsorized
-volume, each with an analytic interval excluding zero
-(Figure~\ref{fig-forest}, Table~\ref{tbl-main}). But this is the
-naive-analysis trap the design exists to catch: dammed basins are
-markedly more arid, arid basins carry denser water-rights activity, and
-this residual imbalance drives the gap, which does not survive
-randomization inference (\(p_{\text{perm}} = 0.52\) for counts, \(0.31\)
-for volume), lying inside the null that random assignment within climate
-and aridity strata already produces (Supplementary Fig. S6). Even on
-water rights there is no induced demand attributable to the reservoir
-once siting is accounted for, though a conventional matched analysis
-would have concluded otherwise.
+outlier-robust count (\(+20\) rights per 100 km²;
+Figure~\ref{fig-forest}, Table~\ref{tbl-main}) and the winsorized volume
+(\(+2.5\) l/s per km²; Supplementary Fig. S6), each with an analytic
+interval excluding zero. But this is the naive-analysis trap the design
+exists to catch: dammed basins are markedly more arid, arid basins carry
+denser water-rights activity, and this residual imbalance drives the
+gap. The count does not survive randomization inference
+(\(p_{\text{perm}} = 0.52\)), lying inside the null that random
+assignment within climate and aridity strata already produces
+(Supplementary Fig. S6), and it remains null under a fully
+non-parametric match restricted to the aridity-overlap subset
+(\(p_{\text{perm}} = 0.42\); Supplementary Table S7). The winsorized
+volume is more delicate. It is stable across winsorization thresholds
+(95th to 99.9th percentile; Supplementary Table S8), yet on the overlap
+subset its stratified-permutation p falls to \(0.005\), apparently
+signalling an effect. That signal is an artefact of spatial dependence.
+Water-rights residuals are strongly spatially autocorrelated (Moran's
+\(I = 0.39\), \(p = 0.001\); Supplementary Table S9), which the
+unit-level stratified permutation does not preserve; under a
+spatially-restricted permutation that swaps treatment at the
+cuenca-block level the volume effect is no longer significant
+(\(p_{\text{perm}} = 0.077\)) and its cuenca-clustered interval spans
+zero (\([-0.3, 4.1]\)). Even on water rights, then, no induced demand is
+robustly attributable to the reservoir once siting and spatial structure
+are accounted for, though a conventional matched analysis, or a
+spatially-naive one, would have concluded otherwise.
 
 \begin{figure}
 
@@ -1034,8 +1090,18 @@ The policy implication is direct and uncomfortable. Because Chile's 1981
 Water Code makes water-use rights perpetual private property the state
 cannot readily curtail during drought, the reflexive response has been
 supply-side, a national programme of new dams and inter-basin transfers
-\citep{Barria2021, Garreaud2025, macpherson_evolving_2023}. For Chile
-and other regions facing structural aridification, our evidence
+\citep{Barria2021, Garreaud2025, macpherson_evolving_2023}. The 2022
+reform of the Water Code (Law 21.435) begins to soften this rigidity: it
+prioritizes water for human consumption, caps the duration of newly
+granted rights, and strengthens the state's authority to limit and
+reallocate abstraction during severe scarcity
+\citep{macpherson_evolving_2023}. Because the reform grandfathers the
+large stock of perpetual pre-2022 rights and postdates most of our study
+window, it does not affect our estimates, but it moves Chilean
+governance toward precisely the demand-side, adaptive allocation our
+results argue for; whether it curbs the demand expansion that a market
+regime invites is an important target for continued monitoring. For
+Chile and other regions facing structural aridification, our evidence
 indicates that building more storage is a supply-blind response to a
 supply problem: it cannot manufacture the water that aridification is
 removing, and the buffering benefit dams are built to provide is, on
@@ -1063,31 +1129,70 @@ substitution is a related unobserved confounder: pumping that
 compensates for falling reservoir storage could sustain cropland and ET
 and so \emph{mask} rather than reflect operational buffering; the
 groundwater water-rights series shows no differential accrual either,
-but realized pumping is unmeasured, so we cannot fully exclude it as a
-subsidy to the demand-side nulls. Inter-basin transfers, part of Chile's
-supply-side programme, are a further spillover pathway that our
-within-cuenca contamination rule does not capture; any treated-control
-pair linked by a transfer would violate spatial independence, though
-such linkage would tend to bias the matched contrast \emph{toward} the
-null we report. On the timescale, the 12-month aggregation targets
-annual-to-interannual transmission, not the sub-seasonal (1--3 month)
-buffering that irrigation reservoirs are primarily built to provide and
-may well still deliver, so our conclusions concern long-term, multi-year
-vulnerability under structural aridification, not the short-term
-operational resilience that we neither test nor dispute. Finally, the
-operational finding, that buffering reflects siting not regulation,
-should hold wherever dam siting is non-random, but the demand-feedback
-and policy inferences are conditioned on Chile's unusually market-based,
-weakly adaptive governance; under state-managed allocation, operators
-able to curtail demand or re-time releases could in principle produce
-genuine buffering. A remaining possibility we cannot fully adjudicate is
-that damming leaves the magnitude of impact unchanged while recomposing
-its \emph{dependence structure}, substituting a storage-to-outcome
-coupling for the meteorology-to-outcome one. A concrete design would
-exploit \textbf{rule-curve deviations} as a quasi-experiment: operating
-rules set target storage as a function of season and antecedent state,
-so the residual between actual releases and the rule-prescribed release
-is a source of variation in delivered water that is orthogonal to
+but realized pumping is unmeasured. Because dammed basins are markedly
+more arid, they may also draw their aquifers down differently from the
+matched controls through the megadrought, and the natural way to control
+for such differential depletion is satellite gravimetry (GRACE/GRACE-FO
+terrestrial-water-storage anomalies) or the DGA well-level network.
+GRACE's coarse footprint (\textasciitilde300 km) is larger than most of
+our subcuencas, so a basin-resolved gravimetric control is not yet
+feasible at this grain; assimilating downscaled storage products or well
+hydrographs to bound differential pumping between treated and control
+basins is a priority for future work, and until then we carry unmeasured
+groundwater as a subsidy that could support the demand-side nulls. The
+within-basin placebo carries its own residual confounders beyond the
+elevation gap we bound explicitly (Section~\ref{sec-placebo}): upstream
+reaches are steep, snow-dominated Andean headwaters whereas downstream
+reaches sit in flatter alluvial valleys, so differences in snowmelt
+storage and release, groundwater-surface-water exchange, and channel
+geomorphology could shape the upstream-versus-downstream transmission
+slope in ways elevation alone does not summarize. These differences
+would have to act \emph{differentially} between dammed basins and
+controls to manufacture the null, and they cut both ways (snowmelt
+storage, for instance, is itself a natural buffer that would tend to
+flatten the upstream slope and so \emph{mimic} rather than mask a
+reservoir effect), but we cannot fully exclude them and flag the
+upstream/downstream contrast as comparability-limited rather than a
+perfect natural experiment. Our evapotranspiration outcomes inherit a
+further product-level caveat: MOD16 infers ET from meteorology and
+vegetation indices and does not represent the anthropogenic water
+applications that decouple soil moisture from local precipitation, so it
+is known to underestimate ET over heavily irrigated land in arid
+settings, exactly the orchard cells we analyse. Such underestimation
+would most plausibly \emph{compress} the deficit-to-impact slope where
+irrigation sustains canopies through drought, biasing the orchard-ET
+transmission gap toward zero and so toward our null; a positive
+induced-demand signal masked by MOD16 cannot be ruled out and would need
+a water-balance or thermal ET product to resolve. The orchard stratum
+itself was defined post-hoc, after the whole-basin ET pre-trend failed,
+so we treat its null as a mechanistic diagnostic of barren-land
+contamination rather than a confirmatory test and place no independent
+weight on it, mindful that data-driven outcome redefinition can
+otherwise inflate the chance of a convenient result. Inter-basin
+transfers, part of Chile's supply-side programme, are a further
+spillover pathway that our within-cuenca contamination rule does not
+capture; any treated-control pair linked by a transfer would violate
+spatial independence, though such linkage would tend to bias the matched
+contrast \emph{toward} the null we report. On the timescale, the
+12-month aggregation targets annual-to-interannual transmission, not the
+sub-seasonal (1--3 month) buffering that irrigation reservoirs are
+primarily built to provide and may well still deliver, so our
+conclusions concern long-term, multi-year vulnerability under structural
+aridification, not the short-term operational resilience that we neither
+test nor dispute. Finally, the operational finding, that buffering
+reflects siting not regulation, should hold wherever dam siting is
+non-random, but the demand-feedback and policy inferences are
+conditioned on Chile's unusually market-based, weakly adaptive
+governance; under state-managed allocation, operators able to curtail
+demand or re-time releases could in principle produce genuine buffering.
+A remaining possibility we cannot fully adjudicate is that damming
+leaves the magnitude of impact unchanged while recomposing its
+\emph{dependence structure}, substituting a storage-to-outcome coupling
+for the meteorology-to-outcome one. A concrete design would exploit
+\textbf{rule-curve deviations} as a quasi-experiment: operating rules
+set target storage as a function of season and antecedent state, so the
+residual between actual releases and the rule-prescribed release is a
+source of variation in delivered water that is orthogonal to
 contemporaneous inflow. Regressing downstream outcomes on that release
 residual (instrumented by rule-curve targets, with basin and year fixed
 effects) would identify a genuine storage-to-outcome coupling separately
@@ -1100,10 +1205,15 @@ histories, is the priority for future work.
 
 Returning to the question that motivates the study, whether reservoirs
 create resilience or merely postpone vulnerability under prolonged
-drought, our evidence indicates that under aridification they do neither
-operationally: storage neither buffers nor amplifies the drought signal
-beyond what siting already implies, while the water available to store
-steadily declines. Resilience to a falling supply ceiling will come not
+drought, our evidence indicates that at the multi-year timescale of
+structural aridification they do neither operationally: over
+annual-to-interannual accumulations storage neither buffers nor
+amplifies the drought signal beyond what siting already implies, while
+the water available to store steadily declines. This verdict concerns
+the multi-year horizon our design resolves and does not contest the
+intra-annual, seasonal buffering that irrigation reservoirs are
+primarily built to provide, which our 12-month accumulation is not
+designed to detect. Resilience to a falling supply ceiling will come not
 from more impoundments but from confronting demand and allocation, the
 harder and unavoidable adaptation.
 

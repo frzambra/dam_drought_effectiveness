@@ -74,7 +74,9 @@ stock, our direct demand-side outcome. Because the registry contains severe volu
 physically impossible entry can dominate a basin's total, e.g. a caudal exceeding 200,000 m³/s), the
 outlier-robust primary measure is rights *density* (count per 100 km²); a volume series in which each
 individual consumptive flow is winsorized at the 99.5th percentile of the consumptive-flow
-distribution gives the same result. Both are reported (Supplementary Fig. S6).
+distribution gives the same result, and the volume null is insensitive to the winsorization threshold
+across the 95th, 99th, 99.5th and 99.9th percentiles (permutation $p$ from 0.39 to 0.21;
+Supplementary Table S8). Both are reported (Supplementary Fig. S6).
 
 **Matching covariates.** Baseline aridity (long-term mean annual P/PET over the 1991–2020 WMO
 normal), watershed area, mean elevation (SRTM), and Köppen–Geiger climate class, extracted per
@@ -103,7 +105,13 @@ term leaves the qualitative conclusions unchanged (archived robustness), and res
 aridity-overlap subset (all 21 treated basins and 158 of 244 controls fall inside it) leaves the
 streamflow transmission-slope gap essentially unchanged ($-0.17$ vs $-0.18$) while shrinking the
 water-rights ATT to a value that now straddles zero, so the parametric adjustment is not masking a
-true effect (Supplementary Table S6). Crucially, the study's
+true effect (Supplementary Table S6). To rule out that the nulls are artefacts of this parametric
+functional form, we additionally re-fit entropy balancing *within* the aridity-overlap subset and
+estimate every cross-sectional outcome with the weighting-only estimator, which carries no
+outcome-model aridity term and so performs no extrapolation across the regime gap. On this fully
+non-parametric matching specification, cropland-area expansion, orchard-ET buffering and the
+water-rights count all remain null (Supplementary Table S7); the winsorized water-rights volume, which
+behaves differently here, is treated under spatial inference below. Crucially, the study's
 decisive evidence, the within-basin upstream/downstream placebo, the within-region transmission-slope
 comparison, and randomization inference, does **not** use the outcome-model aridity adjustment at
 all, so the central nulls do not hinge on extrapolating across the aridity gap. Robustness to the
@@ -158,11 +166,15 @@ within a negligible region of ±25% of the baseline (untreated) transmission slo
 of an established hydrological or operational standard defining a "negligible" reservoir effect on
 drought transmission, so we anchor the margin in the granularity of operational drought
 classification rather than choosing it arbitrarily. Standardized drought indices are managed in
-discrete severity categories each ≈0.5 standardized units wide [@McKee1993; @Vicente-Serrano2010];
-over the observed range of meteorological deficits a change of <25% in the deficit-to-impact slope
-(≈0.13 SSI units on the 0.53 baseline) alters the propagated streamflow-drought index by less than a
-single severity category, i.e. it cannot move a basin across an operational drought-severity
-threshold and is therefore marginal for drought management. We stress that 25% of the transmission
+discrete severity categories each ≈0.5 standardized units wide [@McKee1993; @Vicente-Serrano2010].
+Because the estimand is a slope, the absolute change it induces in the propagated index scales with
+the SPEI deficit, so the relevant test is at the most extreme drought actually observed. The largest
+SPEI-12 deficit in the panel is $\approx-2.0$ (minimum $-1.98$), and 25% of the baseline transmission
+slope is $0.25\times0.585\approx0.146$ SSI per unit SPEI; the maximum absolute perturbation of the
+streamflow-drought index a 25% slope alteration can produce is therefore $0.146\times1.98\approx0.29$
+SSI units, below the ≈0.5-unit width of a single severity category. A 25% slope change thus cannot
+move a basin across an operational drought-severity threshold even under the worst observed deficit,
+and is marginal for drought management. We stress that 25% of the transmission
 slope can nonetheless correspond to a non-trivial absolute water volume in a large, high-demand basin;
 the margin is anchored to the operational drought-severity classification, not to volumetric
 negligibility, which is why we also report the threshold-free MDE and rest the causal weight of the
@@ -210,7 +222,16 @@ difference is measured rather than assumed.
 With only ~21 treated clusters, cluster-robust standard errors over-reject, so the primary inference
 is **randomization inference**: the treatment label is permuted among units within Köppen × aridity-
 tercile strata (≥999 permutations) and the observed statistic is compared against the resulting null
-distribution; cluster-robust confidence intervals are reported alongside for completeness. Parallel
+distribution; cluster-robust confidence intervals are reported alongside for completeness. Because
+hydrological and land-use outcomes can be spatially autocorrelated, we assess residual spatial
+dependence for each outcome with Moran's $I$ (great-circle distances, five-nearest-neighbour
+row-standardized weights, tested by 999 residual permutations). Where it is present, notably the
+water-rights outcomes ($I\approx0.4$ to $0.6$, $p=0.001$; Supplementary Table S9), the unit-level
+stratified permutation can be anti-conservative because it does not preserve spatial structure. We
+therefore re-run the affected outcomes with a spatially-restricted permutation that swaps treatment at
+the cuenca-block level, so co-located subcuencas move together, and with cuenca-block-clustered
+confidence intervals; this spatially-valid inference governs where the naive and spatial tests
+disagree (Supplementary Table S9). Parallel
 pre-trends are checked with a dynamic event study (dammed × year, reference 2009), and residual
 confounding is probed with an aridity placebo that relabels the most-arid control tercile as
 pseudo-treated.

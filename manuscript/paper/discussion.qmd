@@ -63,7 +63,14 @@ the paradox need not follow.
 The policy implication is direct and uncomfortable. Because Chile's 1981 Water Code makes water-use
 rights perpetual private property the state cannot readily curtail during drought, the reflexive
 response has been supply-side, a national programme of new dams and inter-basin transfers
-[@Barria2021; @Garreaud2025; @macpherson_evolving_2023]. For Chile and other regions facing structural
+[@Barria2021; @Garreaud2025; @macpherson_evolving_2023]. The 2022 reform of the Water Code (Law
+21.435) begins to soften this rigidity: it prioritizes water for human consumption, caps the duration
+of newly granted rights, and strengthens the state's authority to limit and reallocate abstraction
+during severe scarcity [@macpherson_evolving_2023]. Because the reform grandfathers the large stock of
+perpetual pre-2022 rights and postdates most of our study window, it does not affect our estimates,
+but it moves Chilean governance toward precisely the demand-side, adaptive allocation our results
+argue for; whether it curbs the demand expansion that a market regime invites is an important target
+for continued monitoring. For Chile and other regions facing structural
 aridification, our evidence indicates that building more storage is a supply-blind response to a
 supply problem: it cannot manufacture the water that aridification is removing, and the buffering
 benefit dams are built to provide is, on this evidence, a property of where they sit rather than of
@@ -83,8 +90,34 @@ water-rights allocation, which would register such intensification as new claims
 differential accrual once siting is matched out (Supplementary Fig. S6). Groundwater substitution is a
 related unobserved confounder: pumping that compensates for falling reservoir storage could sustain
 cropland and ET and so *mask* rather than reflect operational buffering; the groundwater water-rights
-series shows no differential accrual either, but realized pumping is unmeasured, so we cannot fully
-exclude it as a subsidy to the demand-side nulls. Inter-basin transfers, part of Chile's supply-side
+series shows no differential accrual either, but realized pumping is unmeasured. Because dammed basins
+are markedly more arid, they may also draw their aquifers down differently from the matched controls
+through the megadrought, and the natural way to control for such differential depletion is satellite
+gravimetry (GRACE/GRACE-FO terrestrial-water-storage anomalies) or the DGA well-level network. GRACE's
+coarse footprint (~300 km) is larger than most of our subcuencas, so a basin-resolved gravimetric
+control is not yet feasible at this grain; assimilating downscaled storage products or well
+hydrographs to bound differential pumping between treated and control basins is a priority for future
+work, and until then we carry unmeasured groundwater as a subsidy that could support the demand-side
+nulls. The within-basin placebo carries its own residual confounders beyond the elevation gap we
+bound explicitly (@sec-placebo): upstream reaches are steep, snow-dominated Andean headwaters whereas
+downstream reaches sit in flatter alluvial valleys, so differences in snowmelt storage and release,
+groundwater-surface-water exchange, and channel geomorphology could shape the upstream-versus-downstream
+transmission slope in ways elevation alone does not summarize. These differences would have to act
+*differentially* between dammed basins and controls to manufacture the null, and they cut both ways
+(snowmelt storage, for instance, is itself a natural buffer that would tend to flatten the upstream
+slope and so *mimic* rather than mask a reservoir effect), but we cannot fully exclude them and flag
+the upstream/downstream contrast as comparability-limited rather than a perfect natural experiment.
+Our evapotranspiration outcomes inherit a further product-level caveat: MOD16 infers ET from
+meteorology and vegetation indices and does not represent the anthropogenic water applications that
+decouple soil moisture from local precipitation, so it is known to underestimate ET over heavily
+irrigated land in arid settings, exactly the orchard cells we analyse. Such underestimation would most
+plausibly *compress* the deficit-to-impact slope where irrigation sustains canopies through drought,
+biasing the orchard-ET transmission gap toward zero and so toward our null; a positive induced-demand
+signal masked by MOD16 cannot be ruled out and would need a water-balance or thermal ET product to
+resolve. The orchard stratum itself was defined post-hoc, after the whole-basin ET pre-trend failed,
+so we treat its null as a mechanistic diagnostic of barren-land contamination rather than a
+confirmatory test and place no independent weight on it, mindful that data-driven outcome redefinition
+can otherwise inflate the chance of a convenient result. Inter-basin transfers, part of Chile's supply-side
 programme, are a further spillover pathway that our within-cuenca contamination rule does not capture;
 any treated-control pair linked by a transfer would violate spatial independence, though such linkage
 would tend to bias the matched contrast *toward* the null we report. On the timescale, the 12-month
@@ -110,11 +143,14 @@ placebo. Assembling these release records, alongside longer streamflow series an
 transaction histories, is the priority for future work.
 
 Returning to the question that motivates the study, whether reservoirs create resilience or merely
-postpone vulnerability under prolonged drought, our evidence indicates that under aridification they
-do neither operationally: storage neither buffers nor amplifies the drought signal beyond what siting
-already implies, while the water available to store steadily declines. Resilience to a falling supply
-ceiling will come not from more impoundments but from confronting demand and allocation, the harder
-and unavoidable adaptation.
+postpone vulnerability under prolonged drought, our evidence indicates that at the multi-year timescale
+of structural aridification they do neither operationally: over annual-to-interannual accumulations
+storage neither buffers nor amplifies the drought signal beyond what siting already implies, while the
+water available to store steadily declines. This verdict concerns the multi-year horizon our design
+resolves and does not contest the intra-annual, seasonal buffering that irrigation reservoirs are
+primarily built to provide, which our 12-month accumulation is not designed to detect. Resilience to a
+falling supply ceiling will come not from more impoundments but from confronting demand and
+allocation, the harder and unavoidable adaptation.
 
 # Data and code availability
 
