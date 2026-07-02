@@ -420,6 +420,13 @@ the 95th, 99th, 99.5th and 99.9th percentiles (permutation \(p\) from
 0.39 to 0.21; Supplementary Table S8). Both are reported (Supplementary
 Fig. S6).
 
+\textbf{Snow water equivalent.} ERA5-Land monthly snow-water-equivalent
+(0.1°, 2000--2026), reduced to a per-gauge climatology (long-term mean
+and mean annual-peak SWE) to bound the snowmelt confound in the
+upstream/downstream placebo (Supplementary Table S12): we test whether
+snow predicts the transmission slope among control gauges and whether
+the up/down snowpack gap can account for the observed slope difference.
+
 \textbf{Groundwater levels.} DGA well hydrographs of depth to water (216
 wells, 2000--2021; a Hampel filter removes measurement spikes), assigned
 to subcuencas by point-in-polygon from well coordinates. Each well's
@@ -1175,56 +1182,76 @@ availability, and over-allocated basins are formally closed to new
 grants (declared \emph{zonas de prohibición} or \emph{áreas de
 restricción} for groundwater), so a null in new-rights accrual could in
 principle reflect administrative saturation of already-committed basins
-rather than an absence of demand growth. This is precisely why we read
-the registry alongside the physical demand outcomes, cropland area and
-evapotranspiration, which do not depend on the granting process; that
-all three agree makes administrative closure an unlikely sole
-explanation for the demand-side null. Groundwater substitution is a
-related confounder: pumping that compensates for falling reservoir
-storage could sustain cropland and ET and so \emph{mask} rather than
-reflect operational buffering. This matters because central Chile's
-aquifers were drawn down substantially, and largely unsustainably,
-through the megadrought \citep{Taucare2024}, and dammed basins, being
-more arid, might rely on groundwater differently from the matched
-controls. We bound the confound directly with the DGA well hydrograph
-network: for the 26 matched basins with wells (13 dammed, 13 control,
-213 wells) we compare the megadrought (2010--2021, the well record's
-span) trend in depth to water. Both groups' water tables fall at similar
-rates, and the differential drawdown between dammed and control basins
-is indistinguishable from zero (outlier-robust median rate 0.10 versus
-0.08 m yr\textsuperscript{-1} in dammed and control; aridity-adjusted
-ATT \(+0.03\) m yr\textsuperscript{-1}, 95\% CI \([-0.24, 0.29]\);
-\(p_{\text{perm}} = 0.68\); residuals carry no spatial autocorrelation,
-Moran's \(I = -0.07\); Supplementary Table S10). Dammed basins thus show
-none of the faster groundwater depletion the substitution scenario
-requires, so hidden pumping is unlikely to be propping up the
-demand-side nulls; the consumptive groundwater water-rights series shows
-no differential accrual either. Well coverage is partial and levels only
-proxy realized pumping, so a modest subsidy cannot be excluded, but the
-bound is now empirical rather than assumed. The within-basin placebo
-carries its own residual confounders beyond the elevation gap we bound
-explicitly (Section~\ref{sec-placebo}): upstream reaches are steep,
-snow-dominated Andean headwaters, where snowpack is itself declining
-under warming \citep{saavedra_changes_2018, huning_global_2020}, whereas
-downstream reaches sit in flatter alluvial valleys, so differences in
-snowmelt storage and release, which reshape drought propagation and
-recovery in snow-fed catchments \citep{gotte_hydrological_2024},
-groundwater-surface-water exchange, and channel geomorphology could
-shape the upstream-versus-downstream transmission slope in ways
-elevation alone does not summarize. These differences would have to act
-\emph{differentially} between dammed basins and controls to manufacture
-the null, and they cut both ways (snowmelt storage, for instance, is
-itself a natural buffer that would tend to flatten the upstream slope
-and so \emph{mimic} rather than mask a reservoir effect), but we cannot
-fully exclude them and flag the upstream/downstream contrast as
-comparability-limited rather than a perfect natural experiment. Our
-evapotranspiration outcomes inherit a further product-level caveat:
-MOD16 infers ET from meteorology and vegetation indices and does not
-represent the anthropogenic water applications that decouple soil
-moisture from local precipitation, so it is known to underestimate ET
-over heavily irrigated land in arid settings, exactly the orchard cells
-we analyse. Such underestimation would most plausibly \emph{compress}
-the deficit-to-impact slope where irrigation sustains canopies through
+rather than an absence of demand growth. In practice the registry was
+far from closed over our window: new consumptive rights continued to be
+granted every year through the megadrought (roughly 2,500 to 7,400 per
+year across about 190 basins), so our result is a null in the
+\emph{differential} accrual between dammed and control basins, not the
+absence of accrual that wholesale administrative closure would produce.
+We further read the registry alongside the physical demand outcomes,
+cropland area and evapotranspiration, which do not depend on the
+granting process; that all three agree makes administrative closure an
+unlikely sole explanation for the demand-side null. Groundwater
+substitution is a related confounder: pumping that compensates for
+falling reservoir storage could sustain cropland and ET and so
+\emph{mask} rather than reflect operational buffering. This matters
+because central Chile's aquifers were drawn down substantially, and
+largely unsustainably, through the megadrought \citep{Taucare2024}, and
+dammed basins, being more arid, might rely on groundwater differently
+from the matched controls. We bound the confound directly with the DGA
+well hydrograph network: for the 26 matched basins with wells (13
+dammed, 13 control, 213 wells) we compare the megadrought (2010--2021,
+the well record's span) trend in depth to water. Both groups' water
+tables fall at similar rates, and the differential drawdown between
+dammed and control basins is indistinguishable from zero (outlier-robust
+median rate 0.10 versus 0.08 m yr\textsuperscript{-1} in dammed and
+control; aridity-adjusted ATT \(+0.03\) m yr\textsuperscript{-1}, 95\%
+CI \([-0.24, 0.29]\); \(p_{\text{perm}} = 0.68\); residuals carry no
+spatial autocorrelation, Moran's \(I = -0.07\); Supplementary Table
+S10). Dammed basins thus show none of the faster groundwater depletion
+the substitution scenario requires, so hidden pumping is unlikely to be
+propping up the demand-side nulls; the consumptive groundwater
+water-rights series shows no differential accrual either. Well coverage
+is partial and levels only proxy realized pumping, so a modest subsidy
+cannot be excluded, but the bound is now empirical rather than assumed.
+The within-basin placebo could in principle be confounded beyond the
+elevation gap we already bound (Section~\ref{sec-placebo}), and the
+concern is a serious one in this setting: the region's Andean rivers run
+a strongly nival regime in which snowmelt is the main runoff source
+\citep{ayala_snowmelt_2023}, this cryospheric buffering is larger the
+higher the river outlet so snow-fed headwaters differ systematically
+from lower reaches \citep{ayala_glaciers_2025}, and the megadrought
+itself sharply cut this supply, with snowmelt across the largest
+Southern Andes glaciers falling about 32\% over 2010--2019 under a
+roughly 36\% precipitation deficit amid elevation-dependent warming of
+the snow-dominated Andes
+\citep{ayala_glaciers_2025, kim_andes_2025, saavedra_changes_2018, huning_global_2020}.
+Upstream reaches are thus steeper, snow-dominated headwaters and
+downstream reaches flatter alluvial valleys, so snowmelt storage and
+release, which reshape drought propagation in snow-fed catchments
+\citep{gotte_hydrological_2024}, could shape the up- versus downstream
+transmission slope independently of regulation. We test this directly
+with ERA5-Land snow-water-equivalent. The upstream-downstream difference
+in per-gauge peak snowpack is small (0.068 versus 0.040 m water
+equivalent); snow does not predict the transmission slope among undammed
+control gauges (≈0 per m water equivalent, \(p = 1.0\), and \(p = 0.81\)
+net of elevation, so the gradient that matters is elevation, which we
+already bound, not snow); and the implied bound on any snow-induced
+up-minus-down slope difference is ≈0.00 against an observed \(-0.03\).
+Decisively, the upstream lower-transmission (apparent buffering) pattern
+is as strong in snow-free basins (upstream 0.57 versus downstream 0.61)
+as in snowy ones (0.57 versus 0.59): were snowmelt producing it, it
+would vanish where there is no snow (Supplementary Table S12). Channel
+geomorphology and groundwater-surface-water exchange between the zones
+remain as smaller, unquantified residual differences, but the dominant
+snowmelt concern is empirically excluded. Our evapotranspiration
+outcomes inherit a further product-level caveat: MOD16 infers ET from
+meteorology and vegetation indices and does not represent the
+anthropogenic water applications that decouple soil moisture from local
+precipitation, so it is known to underestimate ET over heavily irrigated
+land in arid settings, exactly the orchard cells we analyse. Such
+underestimation would most plausibly \emph{compress} the
+deficit-to-impact slope where irrigation sustains canopies through
 drought, biasing the orchard-ET transmission gap toward zero and so
 toward our null; a positive induced-demand signal masked by MOD16 cannot
 be ruled out and would need a water-balance or thermal ET product to
@@ -1235,19 +1262,24 @@ and place no independent weight on it, mindful that data-driven outcome
 redefinition can otherwise inflate the chance of a convenient result.
 Inter-basin transfers, a cornerstone of Chile's supply-side programme,
 are a further spillover pathway that our within-cuenca contamination
-rule does not capture. Most engineered conveyance in the study region is
-intra-cuenca irrigation canal networks, which that rule already removes;
-genuine inter-cuenca transfers are comparatively few and documented (for
-example the Laja system in the south and the Paloma reservoir complex in
-the semi-arid Norte Chico), and to our knowledge none links one of the
-21 matched treated basins to a specific control in its matched set. The
-direction of the resulting bias is favourable in any case: a transfer
-moving water from a dammed basin to a control would raise the control's
-availability and so \emph{shrink} the estimated gap, biasing the
-contrast toward the null we report rather than away from it. A precise
-bound would require an explicit transfer-network model, which we flag
-for future work; if a treated-control pair were coupled, the coupling
-would work against, not for, a detectable reservoir effect.
+rule does not capture. The 21 treated basins and their effective
+controls occupy entirely distinct cuencas (14 treated versus 70 control
+cuencas, none shared), so no matched pair shares a river network and any
+coupling would require an inter-cuenca transfer specifically joining a
+treated cuenca to one of its matched controls. Most engineered
+conveyance in the study region is intra-cuenca irrigation canal
+networks, which the contamination rule already removes; genuine
+inter-cuenca transfers are comparatively few and documented (for example
+the Laja system in the south and the Paloma reservoir complex in the
+semi-arid Norte Chico), and to our knowledge none links one of the
+treated cuencas to a matched control cuenca. The direction of the
+resulting bias is favourable in any case: a transfer moving water from a
+dammed basin to a control would raise the control's availability and so
+\emph{shrink} the estimated gap, biasing the contrast toward the null we
+report rather than away from it. A precise bound would require an
+explicit transfer-network model, which we flag for future work; if a
+treated-control pair were coupled, the coupling would work against, not
+for, a detectable reservoir effect.
 
 Reservoir operating rules also vary by primary use, and hydropower
 reservoirs, unlike irrigation ones, are not managed to buffer
@@ -1318,11 +1350,11 @@ storage records, the derived result tables, and matched-set metadata are
 included in the repository; the third-party input datasets are publicly
 available from their providers as cited: CHIRPS/CHIRTS (SPEI-12 forcing
 and baseline aridity), MODIS MOD16 (evapotranspiration), MapBiomas Chile
-(land cover), the CR2 network (streamflow), SRTM (elevation), and the
-DGA reservoir, watershed, water-rights, and well-hydrograph registries.
-Every result in the manuscript corresponds to a named pipeline target,
-so the analyses can be regenerated with a single
-\texttt{targets::tar\_make()}.
+(land cover), the CR2 network (streamflow), ERA5-Land (snow water
+equivalent), SRTM (elevation), and the DGA reservoir, watershed,
+water-rights, and well-hydrograph registries. Every result in the
+manuscript corresponds to a named pipeline target, so the analyses can
+be regenerated with a single \texttt{targets::tar\_make()}.
 
 
 \bibliography{references.bib}

@@ -84,6 +84,12 @@ distribution gives the same result, and the volume null is insensitive to the wi
 across the 95th, 99th, 99.5th and 99.9th percentiles (permutation $p$ from 0.39 to 0.21;
 Supplementary Table S8). Both are reported (Supplementary Fig. S6).
 
+**Snow water equivalent.** ERA5-Land monthly snow-water-equivalent (0.1°, 2000–2026), reduced to a
+per-gauge climatology (long-term mean and mean annual-peak SWE) to bound the snowmelt confound in the
+upstream/downstream placebo (Supplementary Table S12): we test whether snow predicts the
+transmission slope among control gauges and whether the up/down snowpack gap can account for the
+observed slope difference.
+
 **Groundwater levels.** DGA well hydrographs of depth to water (216 wells, 2000–2021; a Hampel filter
 removes measurement spikes), assigned to subcuencas by point-in-polygon from well coordinates. Each
 well's megadrought (2010–2021) depletion rate is the OLS slope of depth to water on time

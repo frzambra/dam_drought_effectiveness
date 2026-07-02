@@ -428,6 +428,16 @@ list(
              ssi_placebo_comparability(streamflow_stations, ssi12, ssi_panel_itt)),
   tar_target(table_placebo_check_file, write_table(ssi_placebo_check, "table_placebo_check"),
              format = "file"),
+  # Snowmelt-confound bound for the up/down placebo (reviewer 2026-07-02): per-gauge ERA5-Land SWE
+  # climatology -> does snow drive transmission? bound the up/down snow-induced slope difference.
+  tar_target(swe_nc, cfg_sources$snow$file, format = "file"),
+  tar_target(swe_clim, aggregate_swe_climatology(swe_nc, project_path("data/interim/snow/swe_chile_clim.tif"),
+                                                 cfg_sources$snow$window),
+             format = "file"),
+  tar_target(snow_placebo_check,
+             build_snow_placebo_check(swe_clim, streamflow_stations, ssi12, ssi_panel_itt, cfg_sources)),
+  tar_target(table_snow_placebo_file, write_table(snow_placebo_check, "table_snow_placebo"),
+             format = "file"),
   # #6 POSITIVE CONTROL: inject a known buffering slope into treated downstream units, confirm the
   # estimator recovers it and that randomization inference rejects once the effect exceeds the MDE.
   tar_target(ssi_positive_ctrl, ssi_positive_control(ssi_panel_down)),
@@ -490,6 +500,12 @@ list(
                                      ssi_panel_itt, ssi_panel_up)),
   tar_target(table_use_heterogeneity_file,
              write_table(use_heterogeneity$summary, "table_use_heterogeneity"), format = "file"),
+  # Descriptive checks for the inter-basin-transfer (SUTVA) and administrative-demand limitations
+  # (reviewer 2026-07-02, comments 5 & 6): treated/control cuenca disjointness + ongoing rights accrual.
+  tar_target(spillover_demand_checks,
+             build_spillover_demand_checks(matched_set, subcuencas, water_rights_panel)),
+  tar_target(table_spillover_demand_file,
+             write_table(spillover_demand_checks, "table_spillover_demand"), format = "file"),
   # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
   tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
   tar_target(fig_et_confound_file,

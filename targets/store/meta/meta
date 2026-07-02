@@ -104,18 +104,7 @@ h1_gpd|stem|1d154ff8a4bec768|e8867cc44e6c535f|f70b6a0cad555bc9|1232552225||t2063
 h1_tar|stem|011c02a4708ddd15|ffc06945a78dbd07|1ad5f5106a05602e|-135209399||t20632.7183819296s|s1566494b|1566494|rds|local|vector|||0.813||
 h1_tail_contrast|stem|58399b4497c54c8f|3bd935cde3eda4a4|9a10ec71dbc4eeb1|258385656||t20632.7183834533s|s127b|127|rds|local|vector|||0.001||
 h1_overshoot|stem|b24608631b388152|9a73a408858aa45c|8118bb189bf53435|2000277359||t20632.7183919613s|s140b|140|rds|local|vector|||0.634||
-sources_yml|stem|6d1f47156b520aaf|4eae6a03df0b442c|488b4a6a07596008|839153539|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/config/data_sources.yml|t20632.775052987s|s25676b|25676|file|local|vector|||9.543||
-cfg_sources|stem|8ffd475e81c52c5b|68717b2433825977|2056cd7f3c103569|673512938||t20632.7903668404s|s7387b|7387|rds|local|vector|||0.011||
-aridity_paths|stem|1d1973a782d80b5b|18f4c6a715bfe671|086d6ab97dae797e|-1525564961||t20632.7903673648s|s277b|277|rds|local|vector|||0.001||
-subcuencas|stem|efd21f8b4fa6d7eb|391f4f3a64a9386e|2620f7c472fc62bb|-80653007||t20632.7903739594s|s3886655b|3886655|rds|local|vector|||0.158|subcuencas: 22 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
-spei12_stack|stem|8125ef3b8097b713|450914056bc62623|81b57db8e29b854c|-2127503166||t20632.7903745919s|s2012b|2012|rds|local|vector|||0.018||
-cuencas|stem|dd6df23972448fd0|d34132a0742e9736|e04f1deba9f68215|2094047216||t20632.7903795194s|s2980985b|2980985|rds|local|vector|||0.106|cuencas: 38 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
-kg_legend|stem|c2a410638d6644ce|b7c44f1819f99dd4|b60dc1ff358f4b24|-1282790615||t20632.7903796819s|s218b|218|rds|local|vector|||0||
-koppen_path|stem|d2c87df38e94540b|34106dc9bbed22d1|e224df30eefe687c|-1445837198|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/data/raw/climate_koppen_geiger/1991_2020/koppen_geiger_0p00833333.tif|t20383.1599074074s|s12494241b|12494241|file|local|vector|||0.001||
-streamflow_stations_raw|stem|f4cecd3f69fe3bcc|eaeed5a9ffca653b|ac2f394aa8d14043|1737671731||t20632.7905597335s|s36689b|36689|rds|local|vector|||0.007||
-dam_elev|stem|eca032b956e022d0|234e0504592fae72|ea8c42417b63956c|421568727||t20632.790560671s|s354b|354|rds|local|vector|||0.058||
 streamflow_stations|stem|2fe5013e857450ee|22d7ca2bb73386d3|1726af351ad47484|-334900954||t20632.7905661918s|s1770b|1770|rds|local|vector|||0.436||
-streamflow_monthly|stem|58fb71197689da46|69b26a6c167648fe|aec2dcdae6c5e2da|-522376994||t20632.79062162s|s474554b|474554|rds|local|vector|||4.722||
 ssi12|stem|c27924cd81d57a6e|16a3959b767de56f|d9ee124aa0d4a20b|1724108031||t20632.7906240039s|s29821b|29821|rds|local|vector|||0.167||
 ssi_panel_up|stem|fd774fb323423bd1|31bb21d7624ffdb0|f743a6eda4844db7|1077157159||t20632.7906254935s|s184000b|184000|rds|local|vector|||0.052||
 ssi_panel_down|stem|9511cb77f5449329|472920f56a173707|f743a6eda4844db7|-531511724||t20632.7906264923s|s185657b|185657|rds|local|vector|||0.026||
@@ -142,7 +131,6 @@ et_stack|stem|156ee8f97440d62a|4727f182ac11cf63|c2a86281bc371529|403140998||t206
 orchard_root|stem|88eca0204e9973f6|03e101df1745b07d|470a4a7bd7bbf1fe|533976010||t20635.5424372929s|s119b|119|rds|local|vector|||0.001||
 spei_stack_24|stem|346a997e193a3818|89d670b3e8872431|81b57db8e29b854c|1499396123||t20635.5424380767s|s1672b|1672|rds|local|vector|||0.024||
 znpp_stack_full|stem|5df076e1cb6b7b90|267a32411781414c|052f04180b67e365|1111793053||t20635.5424390622s|s330b|330|rds|local|vector|||0.016||
-dem_path|stem|829a7b28485b766b|8765e659048c15e1|470a4a7bd7bbf1fe|-146511287|/media/francisco/Respaldo_frzambra/data/DEM/Chile_DEM_SRTM_3s.tif|t20628.8229116758s|s570835147b|570835147|file|local|vector|||0||
 zc6_stack|stem|4063b82334b5211c|cd76505ad213896a|af960a6d9d643cb5|1764415839||t20635.5425461099s|s1939b|1939|rds|local|vector|||0.023||
 spei_stack|stem|d433804102a97ff9|eee5051e03a1444a|81b57db8e29b854c|753229460||t20635.5425465104s|s1673b|1673|rds|local|vector|||0.002||
 spei3_stack|stem|49ab0bdc389ec6a9|c5373d95c6ecdced|81b57db8e29b854c|927980110||t20635.5425467581s|s1971b|1971|rds|local|vector|||0.004||
@@ -208,6 +196,24 @@ gw_levels|stem|7dac65871d2be9f2|c87db3b26d609428|d3ed5ce8b9ec50ed|211470957||t20
 gw_wells|stem|989680c3e7e3481c|959500e0bae166a3|61134ca5d97396d6|-397195673||t20636.5875213924s|s4669b|4669|rds|local|vector|||0.653||
 gw_substitution_summary|stem|9dd1b518767e9635|16019ffd301d898a|f3a1486898f71128|2093273895||t20636.5875711848s|s504b|504|rds|local|vector|||4.263||
 table_gw_substitution_file|stem|593eecf78f716015|c68617f0cf0fc347|223c9cc5f9755b84|-922741560|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_gw_substitution.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_gw_substitution.md|t20636.5875717399s|s998b|998|file|local|vector|||0.02||
+use_heterogeneity|stem|b21bc4893906be7a|a2fc9d671f9be56e|b77f458e5b582227|-845194846||t20636.5952866618s|s738b|738|rds|local|vector|||32.377||
+table_use_heterogeneity_file|stem|4b7508377791b6c0|42137165814a8255|3707bf867cd538ae|-1191519065|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_use_heterogeneity.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_use_heterogeneity.md|t20636.5952969613s|s674b|674|file|local|vector|||0.047||
+sources_yml|stem|9c5d78321ab5334a|4eae6a03df0b442c|488b4a6a07596008|839153539|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/config/data_sources.yml|t20636.6267457099s|s26171b|26171|file|local|vector|||10.245||
+cfg_sources|stem|49fa205e53286945|68717b2433825977|5e7d6309dfcf74ab|673512938||t20636.6271139719s|s7614b|7614|rds|local|vector|||0.018||
+koppen_path|stem|d2c87df38e94540b|34106dc9bbed22d1|68dff9d6298a1a24|-1445837198|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/data/raw/climate_koppen_geiger/1991_2020/koppen_geiger_0p00833333.tif|t20383.1599074074s|s12494241b|12494241|file|local|vector|||0.001||
+dem_path|stem|829a7b28485b766b|8765e659048c15e1|93d02c42e14c3394|-146511287|/media/francisco/Respaldo_frzambra/data/DEM/Chile_DEM_SRTM_3s.tif|t20628.8229116758s|s570835147b|570835147|file|local|vector|||0||
+kg_legend|stem|c2a410638d6644ce|b7c44f1819f99dd4|7981dfc41509c669|-1282790615||t20636.6272910611s|s218b|218|rds|local|vector|||0.001||
+subcuencas|stem|efd21f8b4fa6d7eb|391f4f3a64a9386e|4310176e6c36b546|-80653007||t20636.6273010096s|s3886655b|3886655|rds|local|vector|||0.286|subcuencas: 22 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
+swe_nc|stem|e749d1dce90b327a|9f23503b2bbfcbbb|93d02c42e14c3394|1166997982|/media/francisco/Respaldo_frzambra/data/ERA5-Land/NETCDF/world/monthly/snow_water_depth_equivalent/ERA5-Land_SWE_monthly_2000_2026.nc|t20636.6178061301s|s529035645b|529035645|file|local|vector|||0||
+streamflow_stations_raw|stem|f4cecd3f69fe3bcc|eaeed5a9ffca653b|197ffe0b85dfaf98|1737671731||t20636.6274614754s|s36689b|36689|rds|local|vector|||0.007||
+spei12_stack|stem|8125ef3b8097b713|450914056bc62623|8bda2750474e15ce|-2127503166||t20636.6274640334s|s2012b|2012|rds|local|vector|||0.205||
+cuencas|stem|dd6df23972448fd0|d34132a0742e9736|0a6b270c0888c13d|2094047216||t20636.6274697048s|s2980985b|2980985|rds|local|vector|||0.128|cuencas: 38 duplicate unit_id values; dissolve_watersheds() merges them to one feature per unit before zonal extraction.|
+aridity_paths|stem|1d1973a782d80b5b|18f4c6a715bfe671|ba09d463bcb3b5c5|-1525564961||t20636.6274717881s|s277b|277|rds|local|vector|||0.164||
+swe_clim|stem|4c97d6e044691583|1b02d68d01b4d1ec|8134005ba6a06e05|450648832|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/data/interim/snow/swe_chile_clim.tif|t20636.6277764424s|s237754b|237754|file|local|vector|||26.353||
+dam_elev|stem|eca032b956e022d0|234e0504592fae72|9d81f7b682ae0dec|421568727||t20636.6277829279s|s354b|354|rds|local|vector|||0.458||
+streamflow_monthly|stem|58fb71197689da46|69b26a6c167648fe|cba0bbad8cbe2f54|-522376994||t20636.6278453228s|s474554b|474554|rds|local|vector|||5.315||
+snow_placebo_check|stem|578cd31501bc13c0|19b39e8c3a794121|1538fc86a86cabba|-336562380||t20636.6278493296s|s538b|538|rds|local|vector|||0.308||
+table_snow_placebo_file|stem|0c0302e0126047c0|ea1c1d49b31a4a6f|e4b7caf9ac765740|512601598|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_snow_placebo.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_snow_placebo.md|t20636.6278499871s|s1314b|1314|file|local|vector|||0.037||
 .refit_ebal|function|d2294018ccd1e7f0
 .pick_inset_unit|function|abbdb175ea970ce2
 assemble_analysis_panel|function|470af3c21599657c
@@ -265,6 +271,7 @@ extract_unit_forcing_annual|function|79cee0b3f02b8553
 mod16_8day_paths|function|2a9b9304c826d9e8
 fit_storage_tar|function|078a36555374e712
 orchard_area_panel|function|c6c5af4a53e3b521
+build_spillover_demand_checks|function|bc25ff86df1fa6c1
 .gc_dist|function|d018810812be5bd6
 assign_gw_wells|function|12211011a6966ea8
 fit_triple_diff|function|6ca7dbb7a77f497f
@@ -281,7 +288,9 @@ build_severity_panel|function|39f5cbc39d5a86ac
 root|object|58cb1a94cb00a10b
 .match_summary|function|a9e74c340478033c
 .knn_W|function|f9e8bfe4bd3aa6a4
+gauge_coords|function|abf9ddf85a05f98f
 build_did_panel|function|735735e7b7f3f4b2
+aggregate_swe_climatology|function|220ed4862fd64766
 extract_unit_terrain|function|65c2ced0838bf377
 fit_aridity_placebo|function|f8f0ad03cf0c6492
 overshoot_test|function|963f8e782fa01966
@@ -342,6 +351,7 @@ assign_reservoirs_both_levels|function|eabdf20333b27022
 read_orchards_latest|function|9804308fa41ab331
 build_treated_storage_panel|function|1e3a1ba3c9da1927
 fit_robustness_matches|function|e17b6103a6bcdbf8
+build_snow_placebo_check|function|2c7c9e2fa7d71c10
 fit_gw_depletion_att|function|0202fe4877a47084
 .moran_of|function|7a3cfbd127f1af46
 extract_unit_index_trend|function|a08c8017e6d06da4
@@ -387,5 +397,5 @@ fig_design_schematic|function|da8b12b866706751
 fig_streamflow|function|a96e024be5e3fa56
 fig_area_did|function|65d1d94779bf53e7
 fig_drought_forcing|function|44511bb2009cf1f4
-use_heterogeneity|stem|b21bc4893906be7a|a2fc9d671f9be56e|b77f458e5b582227|-845194846||t20636.5952866618s|s738b|738|rds|local|vector|||32.377||
-table_use_heterogeneity_file|stem|4b7508377791b6c0|42137165814a8255|3707bf867cd538ae|-1191519065|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_use_heterogeneity.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_use_heterogeneity.md|t20636.5952969613s|s674b|674|file|local|vector|||0.047||
+spillover_demand_checks|stem|0b08df85752ed19c|b5b07f6e36d65e49|f0b4718c337853bf|-242966849||t20636.6417521993s|s459b|459|rds|local|vector|||0.085||
+table_spillover_demand_file|stem|9f352fa7bf50b33d|de322fcee4167f2e|61b975cbc9b5cec5|-896086154|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_spillover_demand.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_spillover_demand.md|t20636.641753573s|s1000b|1000|file|local|vector|||0.05||

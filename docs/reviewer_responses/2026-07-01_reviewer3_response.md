@@ -73,12 +73,21 @@ randomization inference at any threshold (permutation p from 0.39 to 0.21). The 
 null is not an artefact of the winsorization choice.
 
 **8. Snowmelt and geomorphological confounders in the within-basin placebo.**
-Discussed. We now note that upstream reaches are steep, snow-dominated Andean headwaters whereas
-downstream reaches sit in flatter alluvial valleys, so snowmelt storage/release, groundwater-surface-water
-exchange, and channel geomorphology could shape the up/down transmission slope beyond the elevation gap
-we bound. These would have to act differentially between dammed and control basins to manufacture the
-null, and snowmelt storage is itself a natural buffer that would *mimic* rather than mask a reservoir
-effect; we flag the contrast as comparability-limited rather than a perfect natural experiment.
+Now tested empirically, not just discussed (Supplementary Table S12; `src/R/drought/snow_placebo.R`).
+Using a per-gauge ERA5-Land snow-water-equivalent climatology: the upstream-downstream peak-snowpack
+gap is small (0.068 vs 0.040 m w.e.); snow does not predict the SPEI-to-SSI transmission slope among
+undammed control gauges (approx 0 per m w.e., p = 1.0; p = 0.81 net of elevation, so the gradient that
+matters is elevation, which we already bound, not snow); the implied bound on any snow-induced
+up-minus-down slope difference is approx 0.00 against an observed -0.03; and decisively the upstream
+apparent-buffering pattern is as strong in snow-free basins (upstream 0.57 vs downstream 0.61) as in
+snowy ones (0.57 vs 0.59), so snowmelt cannot be producing it. We also ground the premise in the
+Chile-specific snow-hydrology literature so the concern is taken seriously before it is dismissed: the
+Andean regime is nival with snowmelt the main runoff source (Ayala et al. 2023, HESS), the buffering
+scales with river-outlet elevation so headwaters differ from lower reaches (Ayala et al. 2025, Comm.
+Earth Environ.), and the megadrought cut Southern-Andes snowmelt ~32% under a ~36% precipitation
+deficit amid elevation-dependent warming (Ayala et al. 2025; Kim et al. 2025, Environ. Res. Commun.).
+Channel geomorphology and groundwater-surface-water exchange remain as smaller unquantified residuals,
+but the dominant snowmelt concern is empirically excluded.
 
 **9. MOD16 limitations in irrigated arid regions.**
 Discussed. MOD16 infers ET from meteorology and vegetation indices and does not represent anthropogenic

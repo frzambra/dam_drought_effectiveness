@@ -460,3 +460,13 @@ streamflow:
 # - Sibling CHIRPS-CHIRTS datasets NOT used by default: top-level SPI/SPEI/EDDI on a
 #   1998-2024 baseline, ET0/ (reference ET0, 1981-2026). The 1981-2026/aridity_index/ is
 #   now registered above (annual + monthly). Register the others explicitly if needed.
+
+snow:
+  description: >
+    ERA5-Land monthly snow-water-equivalent (snow depth in m of water equivalent, var 'sd'),
+    global 0.1deg, 2000-01 to 2026-05. Used only to bound the snowmelt confound in the
+    upstream/downstream streamflow placebo (per-gauge snow climatology).
+  file: /media/francisco/Respaldo_frzambra/data/ERA5-Land/NETCDF/world/monthly/snow_water_depth_equivalent/ERA5-Land_SWE_monthly_2000_2026.nc
+  var: sd
+  swe_units: m of water equivalent
+  window: [283, 295, -56, -17]

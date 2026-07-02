@@ -1,0 +1,6 @@
+metric,value,detail
+treated cuencas,14,distinct DGA cuencas holding >=1 treated subcuenca
+effective-control cuencas,70,distinct DGA cuencas holding >=1 effective (w>0) control
+cuencas shared by a matched pair,0,contamination rule removes same-cuenca controls => no matched pair shares a river network
+new consumptive rights per megadrought year,4687,range 2539-7352 over 2010-2021; registry not closed
+basins granted new rights per year,194,of 265 matched basins
