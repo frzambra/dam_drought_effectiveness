@@ -1,0 +1,4 @@
+quantity,all_slope,all_perm_p,irrig_slope,irrig_perm_p,n_treat_all,n_treat_irrig
+Treated-basin use composition,,,,,21,18
+Streamflow slope gap (ITT),-0.182872978533266,0.388,-0.192191039430923,0.432,17,16
+Streamflow slope gap (upstream placebo),-0.201437997417675,0.482,-0.220781182347116,0.456,15,14

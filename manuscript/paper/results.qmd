@@ -89,10 +89,10 @@ design would therefore have detected a large operational effect had one existed.
 
 ```{r}
 #| label: tbl-main
-#| tbl-cap: "Reservoir-effect estimates across estimators. Cross-sectional doubly-robust matched ATTs (including the water-rights induced-demand test) and forcing-interacted DiD slope gaps (treat:SPEI). The DiD rows and water-rights accrual are judged by randomization-inference p-values (p), the design's primary inference at ~21 clusters; cluster-robust CIs are shown for completeness and over-reject here. A positive estimate would indicate induced-demand vulnerability; a negative one, operational buffering. *Whole-basin ET fails its event-study pre-trend test (p approximately 1e-10): its cluster-robust CI excludes zero but the panel is confounded by barren-land aridity, so it is labelled confounded and excluded from the equivalence bounds (Supplementary Table S1)."
+#| tbl-cap: "Reservoir-effect estimates across estimators. Cross-sectional doubly-robust matched ATTs (including the water-rights induced-demand test) and forcing-interacted DiD slope gaps (treat:SPEI). The DiD rows and water-rights accrual are judged by randomization-inference p-values (p), the design's primary inference at ~21 clusters; cluster-robust CIs are shown for completeness and over-reject here. A positive estimate would indicate induced-demand vulnerability; a negative one, operational buffering. *Whole-basin ET fails its event-study pre-trend test (differential pre-2010 trend p approximately 3e-5): its cluster-robust CI excludes zero but the panel is confounded by barren-land aridity, so it is labelled confounded and excluded from the equivalence bounds (Supplementary Table S1)."
 #| echo: false
 tab <- data.table::fread("../../results/tables/table_main_results.csv")
-# Whole-basin ET fails its event-study pre-trends (p~1e-10): the cluster CI excludes zero but the
+# Whole-basin ET fails its event-study pre-trends (differential pre-2010 trend p~3e-5): cluster CI excludes zero but the
 # panel is confounded (barren-land aridity), so it is neither a clean null nor an interpretable
 # effect. Label it honestly rather than "null" (the source verdict is permutation-judged).
 tab[outcome == "Whole-basin ET", verdict := "confounded*"]

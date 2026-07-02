@@ -76,6 +76,12 @@ list(
   tar_target(water_rights_assigned, assign_water_rights_to_units(water_rights_raw, subcuencas_dissolved)),
   tar_target(water_rights_panel,    build_water_rights_panel(water_rights_assigned)),
 
+  # --- groundwater wells (DGA hydrographs): bound the groundwater-substitution confound -----------
+  tar_target(gw_levels_rds,  project_path("data/raw/groundwater/data_GWL_corregida.rds"), format = "file"),
+  tar_target(gw_coords_rds,  project_path("data/raw/groundwater/data_wells_coordenadas.rds"), format = "file"),
+  tar_target(gw_levels,      read_gw_levels(gw_levels_rds)),
+  tar_target(gw_wells,       assign_gw_wells(gw_coords_rds, subcuencas_dissolved)),
+
   # --- grain selection: climate covariate + cuenca-vs-subcuenca diagnostics ----------
   tar_target(koppen_path,
              project_path(cfg_sources$koppen_geiger$root,
@@ -471,6 +477,19 @@ list(
              write_table(spatial_diagnostics$moran, "table_spatial_moran"), format = "file"),
   tar_target(table_spatial_inference_file,
              write_table(spatial_diagnostics$inference, "table_spatial_inference"), format = "file"),
+  # Groundwater-substitution bound (reviewer 2026-07-02): differential well-drawdown ATT between
+  # dammed and matched-control basins, outlier-robust median (primary) + mean, with RI and Moran's I.
+  tar_target(gw_substitution_summary,
+             build_gw_substitution_summary(matched_set, gw_levels, gw_wells)),
+  tar_target(table_gw_substitution_file,
+             write_table(gw_substitution_summary, "table_gw_substitution"), format = "file"),
+  # Reservoir-use heterogeneity (reviewer 2026-07-02): headline streamflow slope gap on all treated
+  # vs the irrigation-only subset (hydropower/potable basins dropped), + use composition.
+  tar_target(use_heterogeneity,
+             build_use_heterogeneity(matched_set, points, reservoir_units,
+                                     ssi_panel_itt, ssi_panel_up)),
+  tar_target(table_use_heterogeneity_file,
+             write_table(use_heterogeneity$summary, "table_use_heterogeneity"), format = "file"),
   # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
   tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
   tar_target(fig_et_confound_file,

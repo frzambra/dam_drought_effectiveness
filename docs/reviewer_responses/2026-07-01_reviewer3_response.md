@@ -8,14 +8,18 @@ responses follow; manuscript changes are quoted where relevant.
 
 ---
 
-**1. Uncontrolled groundwater substitution (GRACE / well data).**
-We agree groundwater pumping is an unobserved subsidy that could sustain cropland and ET and so mask,
-not reflect, operational buffering, and that differential depletion between arid dammed basins and
-controls is plausible. We strengthened the Discussion to name the concrete controls (GRACE/GRACE-FO
-terrestrial-water-storage anomalies; the DGA well network) and to explain why a basin-resolved
-gravimetric control is not yet feasible at our grain: the GRACE footprint (~300 km) is larger than
-most subcuencas. We flag downscaled storage products / well hydrographs as the priority to bound
-differential pumping, and note our groundwater water-rights series shows no differential accrual. We
+**1. Uncontrolled groundwater substitution (well hydrograph test).**
+We now test this confound directly with the DGA well hydrograph network (Supplementary Table S10),
+rather than only flagging it. Wells are assigned to subcuencas by point-in-polygon; for each we take
+the megadrought (2010-2021) trend in depth to water (m/yr, positive = falling table) and aggregate to
+the basin by the outlier-robust median. Across the 26 matched basins with wells (13 dammed, 13
+control, 213 wells), dammed and control water tables fall at similar rates (0.10 vs 0.08 m/yr) and the
+differential is indistinguishable from zero (aridity-adjusted ATT +0.03 m/yr, 95% CI [-0.24, 0.29];
+p_perm = 0.68). The depletion residuals show no spatial autocorrelation (Moran's I = -0.07), so the
+stratified permutation is valid here. Dammed basins therefore show none of the faster drawdown a
+substitution confound requires, bounding it empirically; the consumptive groundwater water-rights
+series shows no differential accrual either. We note the partial coverage and that levels only proxy
+pumping. (This addresses comment 1 of both the 2026-07-01 and 2026-07-02 review rounds.) We
 now carry unmeasured groundwater explicitly as a subsidy that could support the demand-side nulls.
 
 **2. Baseline aridity confounding; request for a fully non-parametric spec on the overlap subset.**

@@ -1,8 +1,9 @@
 # Introduction
 
-As the world dries, governments instinctively build more dams. Reservoirs are the dominant
-structural response to drought, and in the short term they work: more storage raises water
-availability and lowers the frequency, severity and duration of shortage
+As the world dries under warming that is intensifying drought across many regions
+[@Trenberth2014; @diffenbaugh_anthropogenic_2015], governments instinctively build more dams.
+Reservoirs are the dominant structural response to drought, and in the short term they work: more
+storage raises water availability and lowers the frequency, severity and duration of shortage
 [@di_baldassarre_water_2018]. Yet a socio-hydrological view warns that the same infrastructure can
 be self-defeating over a dam's planning horizon. Greater supply invites agricultural, urban and
 industrial expansion, so demand grows to meet and then exceed each new increment of storage (the
@@ -28,7 +29,9 @@ supply it.
 
 Chile is an acute testbed. Since 2010 its central regions have endured a *megadrought*, an
 uninterrupted run of dry years now shading into structural aridification as precipitation falls and
-atmospheric evaporative demand rises [@garreaud_20102015_2017; @Garreaud2025; @zambrano_drought_2025].
+atmospheric evaporative demand rises, a drying with a documented anthropogenic component
+[@garreaud_20102015_2017; @Garreaud2025; @zambrano_drought_2025; @Boisier2018;
+@vicenteserrano_unraveling_2019].
 Because the 1981 Water Code makes water-use rights perpetual private property that the state cannot
 readily curtail during scarcity, the policy reflex has been supply-side: a national programme of new
 dams and inter-basin transfers, alongside market incentives that concentrated water in high-value,
