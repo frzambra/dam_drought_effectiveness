@@ -564,6 +564,20 @@ list(
                                  forcing_subcuencas_full, matched_set)),
   tar_target(table_metric_checks_file,
              write_table(metric_checks_tab, "table_metric_checks"), format = "file"),
+  # Geomorphological (alluvial) confound check on the placebo (round 6, comment 1): direct local-
+  # relief metric from SRTM, on the differential estimand.
+  tar_target(dem_tif, cfg_sources$dem$path, format = "file"),
+  tar_target(geomorph_check_tab,
+             build_geomorph_check(dem_tif, streamflow_stations, ssi12,
+                                  ssi_panel_up, ssi_panel_down, cfg_sources)),
+  tar_target(table_geomorph_file,
+             write_table(geomorph_check_tab, "table_geomorph"), format = "file"),
+  # Carryover-capacity context (round 6, comment 5): capacity / annual flow + pre-2010 trough.
+  tar_target(carryover_tab,
+             build_carryover_check(levels_long, reservoir_units, streamflow_monthly,
+                                   streamflow_stations, storage_band)),
+  tar_target(table_carryover_file,
+             write_table(carryover_tab, "table_carryover"), format = "file"),
   # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
   tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
   tar_target(fig_et_confound_file,
@@ -610,7 +624,9 @@ list(
              format = "file"),
 
   # Fig 3 (was Fig 1): observed irrigated-area DiD — siting level gap + flat event-study (dynamic null)
-  tar_target(fig_area_did_obj, fig_area_did(did_panel_area, es_area)),
+  tar_target(es_area_envelope, es_permutation_envelope(did_panel_area)),
+  tar_target(fig_area_did_obj, fig_area_did(did_panel_area, es_area,
+                                            es_envelope = es_area_envelope)),
   tar_target(fig_area_did_file,
              save_fig(fig_area_did_obj, "fig_area_did", width = "onehalf", height_mm = 120),
              format = "file"),

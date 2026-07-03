@@ -353,32 +353,35 @@ line flattens too, the cause must be the aridity of the location, not
 the reservoir. The national slope gap of \(-0.18\) accordingly collapses
 to about \(-0.05\) once dammed and control basins are compared within
 the same climate region, and in the high-supply south, where buffering
-should be easiest to see, the upstream and downstream gaps are
-statistically identical (\(-0.036\) versus \(-0.034\)). None survives
-randomization inference (\(p_{\text{perm}} = 0.39\)). The apparent
-buffering is therefore the between-region aridity gradient, the
-signature of a siting confound, not regulation; a decomposition confirms
-the signal survives matching and fixed effects and dies only when each
-climate region is allowed its own baseline transmission (Supplementary
-Fig. S3 and Table S4). Hard-balancing aridity gives the same verdict
-without parametric adjustment: with log-aridity fully balanced
-(effective control sample 19), the apparent buffering vanishes
-(intent-to-treat \(-0.02\), upstream \(-0.05\), permutation
-\(p > 0.85\); Supplementary Table S17), exactly what a siting confound
-predicts. Nor is the null a standardization artifact: SSI is normalized
-per gauge, which would divide out dam-induced variance compression, but
-on log flow, a volumetric semi-elasticity, the gaps stay null
-(downstream \(+0.04\), upstream \(+0.10\), permutation \(p \geq 0.42\))
-and downstream relative variability is uncompressed (\(p = 0.43\);
-Supplementary Table S19). Upstream gauges sit higher and elevation
+should be easiest, the upstream and downstream gaps are identical
+(\(-0.036\) versus \(-0.034\)). None survives randomization inference
+(\(p_{\text{perm}} = 0.39\)). The apparent buffering is therefore the
+between-region aridity gradient, the signature of a siting confound, not
+regulation; a decomposition confirms the signal survives matching and
+fixed effects and dies only when each climate region is allowed its own
+baseline transmission (Supplementary Fig. S3 and Table S4).
+Hard-balancing aridity gives the same verdict without parametric
+adjustment: with log-aridity fully balanced (effective control sample
+19), the apparent buffering vanishes (intent-to-treat \(-0.02\),
+upstream \(-0.05\), permutation \(p > 0.85\); Supplementary Table S17),
+exactly what a siting confound predicts. Nor is the null a
+standardization artifact: SSI is normalized per gauge, which would
+divide out dam-induced variance compression, but on log flow, a
+volumetric semi-elasticity, the gaps stay null (downstream \(+0.04\),
+upstream \(+0.10\), permutation \(p \geq 0.42\)) and downstream relative
+variability is uncompressed (\(p = 0.43\); Supplementary Table S19). A
+direct geomorphic metric agrees: local relief, separating bedrock from
+alluvial reaches, does not predict control transmission, leaves the
+placebo unchanged, and shows no buffering among alluvial units
+(Supplementary Table S22). Upstream gauges sit higher and elevation
 predicts transmission among controls, but elevation cannot manufacture a
 downstream-specific effect. The 0.54 km up/down elevation gap times the
 control sensitivity (\(-0.21\) per km) already over-explains the
 observed \(-0.04\) difference, leaving a residual downstream-specific
 buffering of at most about \(0.07\) (13\% of the \(0.53\)
-downstream-panel baseline; the intent-to-treat baseline used for the
-equivalence margin is \(0.585\)), well below the 46 to 59\% of baseline
-the design can detect (Supplementary Table S2).
+downstream-panel baseline; the equivalence margin uses the \(0.585\)
+intent-to-treat baseline), well below the 46 to 59\% detectable
+(Supplementary Table S2).
 
 \begin{figure}
 
@@ -418,14 +421,15 @@ forcing-conditioned slope gap (\(p_{\text{perm}} = 0.91\)). The
 evapotranspiration pathway is relegated to the Supplementary
 Information: whole-basin ET is confounded by barren-land aridity with
 failed pre-trends, and the post-hoc orchard stratum relies on MOD16,
-whose bias toward zero over irrigated land disqualifies its null
-(Supplementary Table S21 and Fig. S7).
+whose documented bias toward zero over irrigated land, a product
+property identified independently of our results, disqualifies its null;
+post-hoc elements are flagged there (Supplementary Table S21, Fig. S7).
 
 The null is informative but its power is concentrated in the streamflow
 pathway. With about 21 dammed clusters the design cannot claim exact
-equivalence to zero but rules out streamflow buffering larger than 46 to
-59\% of baseline, and a positive control confirms it: injected buffering
-is recovered one-to-one and detected beyond that threshold (Methods;
+equivalence to zero but rules out buffering above 46 to 59\% of
+baseline, and a positive control confirms it: injected buffering is
+recovered one-to-one and detected beyond that threshold (Methods;
 Supplementary Fig. S2 and Tables S1, S3). The cropland design is far
 weaker, with a minimum detectable effect orders of magnitude above
 baseline (Supplementary Table S2), so its null corroborates the
@@ -503,14 +507,14 @@ record, with trajectories evolving in parallel through the megadrought.
 A dynamic event study confirms it: the differential trend is flat before
 2010 (cluster-robust \(p = 0.65\), permutation \(p = 0.72\)) and does
 not diverge afterwards (\(p = 0.81\); Figure~\ref{fig-area}, panel b).
-The pre-trend test has limited power: it detects only divergence
+The pre-trend test has limited power, detecting only divergence
 accumulating to about half the control cropland level by 2009 (the
-observed trend is a seventh of that), so parallel trends exclude large
-divergence while smaller pre-existing divergence remains possible
-(Supplementary Table S14). The null is metric-invariant: on log cropland
-share the slope gap is likewise permutation-null (\(p = 0.37\);
-Supplementary Table S20). Reservoirs mark where cropland already was;
-they neither expanded it nor changed its drought response.
+observed trend is a seventh of that): parallel trends exclude large
+divergence, smaller divergence remains possible (Supplementary Table
+S14). The null is metric-invariant: on log cropland share the slope gap
+is likewise permutation-null (\(p = 0.37\); Supplementary Table S20).
+Reservoirs mark where cropland already was; they neither expanded it nor
+changed its drought response.
 
 The same holds for the most direct demand measure. In the Chilean Water
 Directorate (DGA) registry of consumptive water rights, dammed basins
@@ -524,20 +528,19 @@ and this imbalance drives the gap. The count does not survive
 randomization inference (\(p_{\text{perm}} = 0.52\); Supplementary Fig.
 S6) and remains null under a fully non-parametric match on the
 aridity-overlap subset (\(p_{\text{perm}} = 0.42\); Supplementary Table
-S7). The winsorized volume is more delicate: stable across winsorization
-thresholds and physically validated (Supplementary Table S8), its
-overlap-subset permutation p falls to \(0.005\), but water-rights
-residuals are spatially autocorrelated (Moran's \(I = 0.39\);
-Supplementary Table S9), and under the governing cuenca-block
-permutation it is not significant (\(p_{\text{perm}} = 0.077\)), its
-cuenca-clustered interval spanning zero (\([-0.3, 4.1]\)). The raw,
-uncapped volumes ranked give the same verdict: median volume per right
-is nearly identical across groups, and the design rank contrast, immune
-to caudal errors and caps, is null under cuenca-block permutation
-(\(p = 0.15\); Supplementary Table S18). Even on water rights, then, no
-induced demand is robustly attributable to the reservoir once siting and
-spatial structure are accounted for; a conventional matched analysis
-would have concluded otherwise.
+S7). The winsorized volume is more delicate: stable across thresholds
+and physically validated (Supplementary Table S8), its overlap-subset
+permutation p falls to \(0.005\), but the residuals are spatially
+autocorrelated (Supplementary Table S9) and under the governing
+cuenca-block permutation it is not significant
+(\(p_{\text{perm}} = 0.077\), cuenca-clustered interval
+\([-0.3, 4.1]\)). Raw, uncapped volumes ranked give the same verdict:
+median volume per right is nearly identical across groups and the design
+rank contrast is null under cuenca-block permutation (\(p = 0.15\);
+Supplementary Table S18). Even on water rights, then, no induced demand
+is robustly attributable to the reservoir once siting and spatial
+structure are accounted for; a conventional matched analysis would have
+concluded otherwise.
 
 \begin{figure}
 
@@ -554,12 +557,16 @@ class 18) with 95\% bands (weighted mean +/- 1.96 SE across basins); the
 y-axis is anchored at zero. Dammed basins hold \textasciitilde4.6x more
 cropland (11.1\% vs 2.4\% of basin area) but the trajectories evolve in
 parallel. (b) Dynamic event study (dammed x year, reference 2009): the
-shaded band is the 95\% confidence interval (coefficient +/- 1.96
-cluster-robust SE). The differential pre-trend is flat (pre-2010
-trend-slope cluster-robust p = 0.65, permutation p = 0.72) and does not
-diverge afterwards (post p = 0.81); a linear trend-slope test is used
-because the joint event-study Wald over-rejects at \textasciitilde21
-treated clusters. The 2010-2024 megadrought is shaded in both panels.}
+grey band is the 95\% randomization-inference null envelope (2.5th to
+97.5th percentile of the dammed x year coefficients under treatment
+permutation within Köppen x aridity strata); coefficients inside the
+band are indistinguishable from no divergence, and cluster-robust
+intervals are omitted as anti-conservative at \textasciitilde21 treated
+clusters. The differential pre-trend is flat (pre-2010 trend-slope
+cluster-robust p = 0.65, permutation p = 0.72) and does not diverge
+afterwards (post p = 0.81); a linear trend-slope test is used because
+the joint event-study Wald over-rejects at \textasciitilde21 treated
+clusters. The 2010-2024 megadrought is shaded in both panels.}
 
 \end{figure}%
 
@@ -577,10 +584,9 @@ yr\textsuperscript{-1}, \(p = 0.91\); Supplementary Table S5). That
 amplitude interval is wide: the data cannot determine whether refill
 amplitude, the buffering capacity, has degraded, and we draw no
 conclusion about it; what the band shows unambiguously is the decline of
-both peak and trough. The linear slope is a summary rate: the decline is
-a level shift at the megadrought onset, peak averaging 87\% of capacity
-before 2010 and 67\% after (trough 40\% to 25\%), the amplitude shift
-again indistinguishable from zero (Supplementary Table S5). That decline
+both peak and trough. The decline is a level shift at the megadrought
+onset rather than a secular line (peak 87\% of capacity before 2010,
+67\% after; trough 40\% to 25\%; Supplementary Table S5). That decline
 is commensurate with the supply reduction measured independently in the
 matched controls: unregulated control streamflow fell about 2.9\% per
 year over 2005--2020 (dammed 3.4\%), a primary estimate from our gauge
@@ -624,18 +630,17 @@ group.}
 
 \section{Discussion}\label{discussion}
 
-Across a matched national design and multiple independent estimators,
-the operational effect of reservoirs on drought brackets zero once
-siting is matched out. Dammed basins hold about 4.6 times more cropland
-than matched controls, but that gap is fixed across the record, with
-parallel pre-trends and no megadrought divergence. One reading fits:
-reservoirs mark where water-dependent vulnerability already
-concentrated, in arid, cultivated basins, rather than make it. This is a
-finding, not a failure of power: the apparent effect has an identified
-cause, and the positive control shows the design detects buffering. The
-placebo is the cleanest falsification: a regulation effect must appear
-below the dam and be absent above it, and it is not; what remains is the
-aridity gradient.
+Across a matched national design and multiple estimators, the
+operational effect of reservoirs on drought brackets zero once siting is
+matched out. Dammed basins hold about 4.6 times more cropland than
+matched controls, but that gap is fixed across the record, with parallel
+pre-trends and no megadrought divergence. One reading fits: reservoirs
+mark where water-dependent vulnerability already concentrated rather
+than make it. This is a finding, not a failure of power: the apparent
+effect has an identified cause, and the positive control shows the
+design detects buffering. The placebo is the cleanest falsification: a
+regulation effect must appear below the dam and be absent above it, and
+it is not; what remains is the aridity gradient.
 
 The corollary is transferable: dammed-versus-undammed or before-after
 contrasts inherit the full siting confound
@@ -643,20 +648,20 @@ contrasts inherit the full siting confound
 The upstream placebo ports to regulated rivers with gauges above and
 below a dam, most directly to short, steep catchments like Chile's; in
 large low-gradient basins, longer transit, floodplain storage and
-transmission losses would blur the up/down contrast, and porting it
-there would need routing-corrected lags, naturalized-flow
-counterfactuals, or synthetic gauges built from unregulated tributaries.
+transmission losses would blur the contrast, and porting it would need
+routing-corrected lags, naturalized-flow counterfactuals, or synthetic
+gauges from unregulated tributaries.
 
 If reservoirs neither buffer nor amplify multi-year drought
-operationally, what matters under a multi-decadal dry spell is the water
-available to store. The storage band steps down at the megadrought
-onset, peak and trough together, while the amplitude trend is too
-imprecise to determine whether buffering capacity degraded. The powered
-result is the level decline, the expected mass-balance outcome of
-persistent inflow deficits; descriptive and confounded with management
-change, it supports no causal attribution but is commensurate with the
-independent decline in unregulated control streamflow. Read against
-Chile's structural aridification
+operationally, what matters is the water available to store. The storage
+band steps down at the megadrought onset, peak and trough together,
+while the amplitude trend is too imprecise to determine whether
+buffering capacity degraded. The powered result is the level decline,
+the expected mass-balance outcome of persistent inflow deficits;
+descriptive and confounded with management change, it supports no causal
+attribution but is commensurate with the independent decline in
+unregulated control streamflow. Read against Chile's structural
+aridification
 \citep{zambrano_drought_2025, garreaud_20102015_2017, AlvarezGarreton2021}
 and the global pattern of reservoirs failing to refill
 \citep{wang_reservoir_2024, li_diminishing_2023}, the binding constraint
@@ -671,28 +676,26 @@ imprint of these feedbacks, not the longitudinal loop: the 4.6-fold
 cropland gap could be the equilibrated legacy of demand induced at
 construction, before our record, so the null scopes to the megadrought
 era rather than ruling out historical induced demand, testable only with
-staggered commissioning. The window also observes only the scarcity
-phase of the cycle, when expansion is constrained; the expansion phase
-unfolds under perceived abundance, before our record, so the null bounds
-drought-era expansion, not the cycle as a whole. Within that scope the
-nulls refine the theory: the supply-demand cycle leaves no operational
+staggered commissioning; and it observes only the scarcity phase,
+expansion unfolding under perceived abundance before our record, so the
+null bounds drought-era expansion, not the cycle as a whole. Within
+scope the nulls refine the theory: the cycle leaves no operational
 imprint during drought, so its mechanisms likely act through siting and
 construction rather than operation, a distinction current models omit.
 How far the demand-side null travels depends on governance: the siting
 lesson holds wherever dams are placed non-randomly, but prior
 appropriation, with forfeiture of unused rights, may amplify induced
-demand and adaptive state allocation can curtail it, so the reservoir
-effect is governance-mediated, not universal. Whether the demand null is
-general or the mark of a fully allocated market at a hard supply ceiling
-we cannot adjudicate: rights kept accruing in dammed basins, arguing
-against a binding ceiling, though unallocated systems could express
-induced demand ours cannot.
+demand and adaptive state allocation can curtail it:
+governance-mediated, not universal. Whether the null is general or the
+mark of a fully allocated market at a hard ceiling we cannot adjudicate:
+rights kept accruing in dammed basins, though unallocated systems could
+express induced demand ours cannot.
 
 Chile's 1981 Water Code makes water-use rights perpetual private
 property, so the reflexive response has been supply-side, new dams and
 inter-basin transfers \citep{Barria2021, Garreaud2025}; the 2022 reform
 moves toward the adaptive allocation our results argue for
-\citep{macpherson_evolving_2023}, though it postdates our window. Under
+\citep{macpherson_evolving_2023} but postdates our window. Under
 structural aridification, building more storage is a supply-blind
 response to a supply problem: the buffering dams provide is a property
 of where they sit, not of what they do \citep{ho_future_2017}.
@@ -700,46 +703,50 @@ Adaptation must shift toward demand management, reallocation and managed
 aquifer recharge \citep{grafton_paradox_2018, scanlon_global_2023}.
 
 Several limitations bound these conclusions, each quantified in the
-Supplementary Information. The result is a bounded null, not a proven
-equivalence: the design excludes streamflow buffering above 46 to 59\%
-of baseline, demand-side outcomes are far less powered and the cropland
-pre-trend test is power-limited (Supplementary Tables S2 and S14), so
-the causal weight rests on the placebo, with the demand nulls
-corroborating; all survive the hard-balanced match (Supplementary Table
-S17). Cropland area and the registry miss intensification, thirstier
-crops or deeper irrigation within an unchanged footprint and entitlement
-stock; a consumption-grade test awaits thermal ET or crop-transition
-maps. Groundwater substitution is bounded, dammed and control water
-tables fall at indistinguishable rates across 213 DGA wells despite the
-region's severe drawdown \citep{Taucare2024}, though monitored wells
-need not sample the orchard footprints or strata where pumping
-concentrates; unmonitored drawdown could thus sustain a historically
-reservoir-induced footprint, a pathway the basin bound cannot close
-(Supplementary Table S10). The snowmelt confound in the placebo, acute
-in these snow-fed Andean basins
+Supplementary Information. The result is a bounded null: the design
+excludes streamflow buffering above 46 to 59\% of baseline, demand-side
+outcomes are far less powered and the pre-trend test power-limited
+(Supplementary Tables S2, S14), so causal weight rests on the placebo,
+demand nulls corroborating; all survive the hard-balanced match
+(Supplementary Table S17). Cropland area and the registry miss
+intensification within an unchanged footprint and entitlement stock;
+central Chile's documented shift toward thirsty export fruit
+\citep{reade_malagueno_libre_2024} is exactly such a transition,
+invisible to both metrics; a consumption-grade test awaits thermal ET or
+crop-transition maps. Groundwater substitution is bounded, dammed and
+control water tables falling at indistinguishable rates across 213 DGA
+wells despite severe regional drawdown \citep{Taucare2024}; monitored
+wells need not sample the orchard footprints where pumping concentrates,
+so unmonitored drawdown could sustain a historically reservoir-induced
+footprint (Supplementary Table S10). The snowmelt confound, acute in
+these snow-fed Andean basins
 \citep{ayala_glaciers_2025, gotte_hydrological_2024}, is tested on the
-differential estimand itself: the up/down equivalence survives a
-forcing-by-snowpack adjustment, persists among low-snow units, does not
-strengthen in high-snow years, and shows no early-late divergence
-(Supplementary Table S12). Elevation is only a proxy for the
-longitudinal profile: downstream reaches differ in channel morphology,
-floodplain width, alluvial exchange and transmission losses; a residual
-geomorphological contrast beyond the elevation bound cannot be excluded.
-Administrative closure cannot force the demand null, treated basins
-entered the drought with higher allocated stock yet accrued rights 2.7
-times faster, and the parallel control cropland trajectory contradicts
-collapse prevention (Supplementary Table S15). No matched pair shares a
-watershed; transfers out of dammed basins would shrink the gap, and
-imports would mimic downstream-specific buffering, which is absent
-(Supplementary Table S15); the irrigation-only restriction leaves the
-result unchanged (Supplementary Table S11). MOD16's bias toward the null
-excludes the ET pathway from evidence (Results; Supplementary Table
-S21); the demand conclusion rests on cropland and the registry, with a
-thermal ET sensitivity (Landsat or ECOSTRESS class) as future work.
-Finally, the 12-month accumulation targets multi-year vulnerability, not
-the sub-seasonal buffering reservoirs also provide, which we neither
-test nor dispute. Two extensions can test what our window cannot: a
-staggered event study of cropland around historical commissioning,
+differential estimand: the equivalence survives a forcing-by-snowpack
+adjustment, persists among low-snow units, does not strengthen in
+high-snow years, and shows no early-late divergence (Supplementary Table
+S12). A direct local-relief metric separating bedrock canyons from
+alluvial valleys leaves the placebo unchanged and shows no buffering in
+alluvial units (Supplementary Table S22), though 2.5 km relief cannot
+resolve aquifer storage itself, a residual caveat. Administrative
+closure cannot force the demand null: treated basins entered the drought
+with higher allocated stock yet accrued rights 2.7 times faster, and
+parallel control cropland contradicts collapse prevention (Supplementary
+Table S15). No matched pair shares a watershed; outbound transfers would
+shrink the gap and imports would mimic downstream-specific buffering,
+which is absent (Supplementary Table S15); irrigation-only restriction
+leaves the result unchanged (Supplementary Table S11). MOD16's bias
+toward the null excludes the ET pathway from evidence (Results;
+Supplementary Table S21); the demand conclusion rests on cropland and
+the registry, with a thermal ET sensitivity (Landsat or ECOSTRESS class)
+as future work. Finally, the 12-month accumulation targets multi-year
+vulnerability, not the sub-seasonal buffering reservoirs also provide,
+which we neither test nor dispute. The fleet is partly seasonal by
+design, the median treated reservoir storing 0.3 years of downstream
+flow, yet seven of 17 hold at least half a year, four exceed a year, and
+none empties seasonally (trough 39\% of capacity; Supplementary Table
+S23): carryover was physically available, so its absence in outcomes is
+not a design tautology. Two extensions can test what our window cannot:
+a staggered event study of cropland around historical commissioning,
 feasible with the Landsat archive and agricultural censuses, would probe
 construction-phase induced demand; a rule-curve quasi-experiment on
 release records, once public, would isolate operation.
@@ -748,10 +755,10 @@ Returning to the motivating question, at the multi-year timescale of
 structural aridification reservoirs neither create resilience nor
 postpone vulnerability operationally: storage neither buffers nor
 amplifies the drought signal beyond what siting implies, while the water
-available to store declines. These nulls are bounds, not zeros; effects
-inside them can be volumetrically material for managers (Supplementary
-Table S16). Resilience to a falling supply ceiling will come from
-confronting demand and allocation, not from more impoundments.
+available to store declines. The nulls are bounds, not zeros; effects
+inside them can be volumetrically material (Supplementary Table S16).
+Resilience to a falling supply ceiling will come from confronting demand
+and allocation, not more impoundments.
 
 \section{Methods}\label{methods}
 
@@ -950,62 +957,69 @@ other across the Andes--Patagonia span, and substituting SRTM elevation
 raised the effective control sample size from ≈9 to ≈91 while balancing
 latitude for free.
 
-The procedure retains 21 of 24 treated sub-watershed (three high-Andes
-units fall outside local elevation common support) and achieves
-essentially perfect balance (standardized mean differences for log(area)
-and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1), with
-an effective control sample size ≈91 out of 244 in-window controls. The
-244 in-window controls are the subset of the 398 clean controls that
-survives the common-support trim shared by every matching estimator: a
-control must lie in a Köppen main group containing a treated unit and
-within 250 m of that group's treated elevation range, and groups with
-fewer than ten such controls are dropped, so 154 clean controls fall
-outside this support and never enter the matching pool. Baseline aridity
-is a genuine confound (dammed basins are markedly more arid: median
-P/PET 0.26 vs 0.80 unweighted) but is \emph{not} used as a balance
-target, because hard-balancing it collapses the ESS from 91 to 19;
-instead the weighting reduces the aridity imbalance to a residual SMD
-≈0.17 (still above the 0.1 target), which the doubly-robust outcome
-model absorbs. We nonetheless report the strict hard-balanced fit
-(entropy balancing targeting log-aridity as well, SMD 0.000, ESS ≈19) as
-a primary sensitivity: with no parametric extrapolation across the
-regime gap at all, the streamflow, cropland, and water-rights results
-remain null, and even the \emph{apparent} buffering vanishes, the direct
-signature of an aridity confound rather than a reservoir effect
-(Supplementary Table S17). The parametric log-aridity adjustment is
-itself validated among undammed controls: their baseline SPEI-to-SSI
-slope varies smoothly and monotonically across aridity terciles (0.65
-arid, 0.70 mid, 0.74 humid), with no regime break for a linear
-adjustment to misfit (Supplementary Table S20). Because this residual is
-real, the outcome-model adjustment for aridity is \emph{load-bearing}
-rather than cosmetic and extrapolates across a genuine regime gap: the
-reported cross-sectional ATTs use a \textbf{linear} log-aridity
-adjustment, adding a quadratic aridity term leaves the qualitative
-conclusions unchanged (archived robustness), and restricting to the
-aridity-overlap subset (all 21 treated basins and 158 of 244 controls
-fall inside it) leaves the streamflow transmission-slope gap essentially
-unchanged (\(-0.17\) vs \(-0.18\)) while shrinking the water-rights ATT
-to a value that now straddles zero, so the parametric adjustment is not
-masking a true effect (Supplementary Table S6). To rule out that the
-nulls are artefacts of this parametric functional form, we additionally
-re-fit entropy balancing \emph{within} the aridity-overlap subset and
-estimate every cross-sectional outcome with the weighting-only
-estimator, which carries no outcome-model aridity term and so performs
-no extrapolation across the regime gap. On this fully non-parametric
-matching specification, cropland-area expansion, orchard-ET buffering
-and the water-rights count all remain null (Supplementary Table S7); the
-winsorized water-rights volume, which behaves differently here, is
-treated under spatial inference below. Crucially, the study's decisive
-evidence, the within-basin upstream/downstream placebo, the
-within-region transmission-slope comparison, and randomization
-inference, does \textbf{not} use the outcome-model aridity adjustment at
-all, so the central nulls do not hinge on extrapolating across the
-aridity gap. Robustness to the matching method is assessed with
-coarsened exact matching (CEM) and 1:2 nearest-neighbour (Mahalanobis)
-matching on the identical common-support sample; entropy balancing and
-NN agree on all 21 treated, while CEM additionally prunes the 4 most
-extreme large/high basins, so all treatment effects are reported with
-and without those units.
+Entropy balancing is a calibration estimator: given the weights,
+covariate balance is exact by construction and requires no independence
+assumption across units, so spatially autocorrelated covariates affect
+inference rather than balance, and inference is handled at the outcome
+stage with watershed-block permutation and clustered intervals
+(Supplementary Table S9); the exact matching within Köppen main group is
+itself a coarse spatial blocking, and latitude, though untargeted,
+balances as a by-product (Supplementary Fig. S5). The procedure retains
+21 of 24 treated sub-watersheds (three high-Andes units fall outside
+local elevation common support) and achieves essentially perfect balance
+(standardized mean differences for log(area) and elevation fall from
+1.18 / 0.37 to ≈0.000, variance ratios ≈1), with an effective control
+sample size ≈91 out of 244 in-window controls. The 244 in-window
+controls are the subset of the 398 clean controls that survives the
+common-support trim shared by every matching estimator: a control must
+lie in a Köppen main group containing a treated unit and within 250 m of
+that group's treated elevation range, and groups with fewer than ten
+such controls are dropped, so 154 clean controls fall outside this
+support and never enter the matching pool. Baseline aridity is a genuine
+confound (dammed basins are markedly more arid: median P/PET 0.26 vs
+0.80 unweighted) but is \emph{not} used as a balance target, because
+hard-balancing it collapses the ESS from 91 to 19; instead the weighting
+reduces the aridity imbalance to a residual SMD ≈0.17 (still above the
+0.1 target), which the doubly-robust outcome model absorbs. We
+nonetheless report the strict hard-balanced fit (entropy balancing
+targeting log-aridity as well, SMD 0.000, ESS ≈19) as a primary
+sensitivity: with no parametric extrapolation across the regime gap at
+all, the streamflow, cropland, and water-rights results remain null, and
+even the \emph{apparent} buffering vanishes, the direct signature of an
+aridity confound rather than a reservoir effect (Supplementary Table
+S17). The parametric log-aridity adjustment is itself validated among
+undammed controls: their baseline SPEI-to-SSI slope varies smoothly and
+monotonically across aridity terciles (0.65 arid, 0.70 mid, 0.74 humid),
+with no regime break for a linear adjustment to misfit (Supplementary
+Table S20). Because this residual is real, the outcome-model adjustment
+for aridity is \emph{load-bearing} rather than cosmetic and extrapolates
+across a genuine regime gap: the reported cross-sectional ATTs use a
+\textbf{linear} log-aridity adjustment, adding a quadratic aridity term
+leaves the qualitative conclusions unchanged (archived robustness), and
+restricting to the aridity-overlap subset (all 21 treated basins and 158
+of 244 controls fall inside it) leaves the streamflow transmission-slope
+gap essentially unchanged (\(-0.17\) vs \(-0.18\)) while shrinking the
+water-rights ATT to a value that now straddles zero, so the parametric
+adjustment is not masking a true effect (Supplementary Table S6). To
+rule out that the nulls are artefacts of this parametric functional
+form, we additionally re-fit entropy balancing \emph{within} the
+aridity-overlap subset and estimate every cross-sectional outcome with
+the weighting-only estimator, which carries no outcome-model aridity
+term and so performs no extrapolation across the regime gap. On this
+fully non-parametric matching specification, cropland-area expansion,
+orchard-ET buffering and the water-rights count all remain null
+(Supplementary Table S7); the winsorized water-rights volume, which
+behaves differently here, is treated under spatial inference below.
+Crucially, the study's decisive evidence, the within-basin
+upstream/downstream placebo, the within-region transmission-slope
+comparison, and randomization inference, does \textbf{not} use the
+outcome-model aridity adjustment at all, so the central nulls do not
+hinge on extrapolating across the aridity gap. Robustness to the
+matching method is assessed with coarsened exact matching (CEM) and 1:2
+nearest-neighbour (Mahalanobis) matching on the identical common-support
+sample; entropy balancing and NN agree on all 21 treated, while CEM
+additionally prunes the 4 most extreme large/high basins, so all
+treatment effects are reported with and without those units.
 
 \subsection{Causal estimands and
 estimators}\label{causal-estimands-and-estimators}

@@ -665,7 +665,7 @@ group_year_means <- function(did_panel, ycol = "y") {
 #' post-megadrought divergence). The clean dynamic null at the heart of the H2 result.
 #' @param did_panel_area build_did_panel() output for area_frac
 #' @param es_area        fit_event_study() model on the area panel
-fig_area_did <- function(did_panel_area, es_area, ref_year = 2009L) {
+fig_area_did <- function(did_panel_area, es_area, ref_year = 2009L, es_envelope = NULL) {
   pal <- nw_pal(); labs <- nw_labs(); cfg <- fig_cfg()
   d <- data.table::as.data.table(did_panel_area)
   xmax <- max(d$year)
@@ -694,11 +694,19 @@ fig_area_did <- function(did_panel_area, es_area, ref_year = 2009L) {
   pre_p  <- tryCatch(.diff_trend_p(d[year <= ref_year]), error = function(e) NA_real_)
   post_p <- tryCatch(.diff_trend_p(d[year >  ref_year]), error = function(e) NA_real_)
   es <- extract_event_study(es_area, ref_year)
+  # Uncertainty band: the randomization-inference null envelope when supplied (cluster-robust SEs
+  # over-reject at ~21 treated clusters, R3 round 6 c4); otherwise the cluster-robust CI.
+  band <- if (!is.null(es_envelope))
+    ggplot2::geom_ribbon(data = es_envelope,
+                         ggplot2::aes(year, ymin = 100 * lo, ymax = 100 * hi),
+                         inherit.aes = FALSE, fill = "grey70", alpha = 0.5)
+  else
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = 100 * ci_lo, ymax = 100 * ci_hi),
+                         fill = pal[["treated"]], alpha = cfg$palette$ci_band_alpha)
   pb <- ggplot2::ggplot(es, ggplot2::aes(year, 100 * coef)) +
     mega() +
     ggplot2::geom_hline(yintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.3) +
-    ggplot2::geom_ribbon(ggplot2::aes(ymin = 100 * ci_lo, ymax = 100 * ci_hi),
-                         fill = pal[["treated"]], alpha = cfg$palette$ci_band_alpha) +
+    band +
     ggplot2::geom_line(colour = pal[["treated"]], linewidth = 0.5) +
     ggplot2::geom_point(colour = pal[["treated"]], size = 0.7) +
     ggplot2::annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1.3,

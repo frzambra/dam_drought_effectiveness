@@ -1,0 +1,4 @@
+quantity,value,detail
+reservoir capacity / mean annual downstream flow (median ratio),0.29,"IQR [0.15, 0.73]; n = 17 reservoirs with a gauged downstream unit; downstream flow is regulated, so ratios are approximate"
+reservoirs with carryover ratio >= 0.5,7,of 17; 4 have ratio >= 1 (storage exceeding a full year of flow)
+pre-2010 mean annual storage trough (fraction of capacity),0.39,"seasonal drawdown does not empty the reservoirs; storage persists across years, so carryover buffering was physically available"

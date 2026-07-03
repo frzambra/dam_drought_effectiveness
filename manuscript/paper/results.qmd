@@ -30,8 +30,8 @@ at the unregulated *upstream* reaches of the same basins (differential slope $-0
 $-0.16$ downstream; @fig-streamflow, panel b). Because the upstream line flattens too, the cause
 must be the aridity of the location, not the reservoir. The national slope gap of $-0.18$
 accordingly collapses to about $-0.05$ once dammed and control basins are compared within the same
-climate region, and in the high-supply south, where buffering should be easiest to see, the upstream
-and downstream gaps are statistically identical ($-0.036$ versus $-0.034$). None survives
+climate region, and in the high-supply south, where buffering should be easiest, the upstream
+and downstream gaps are identical ($-0.036$ versus $-0.034$). None survives
 randomization inference ($p_{\text{perm}} = 0.39$). The apparent buffering is therefore the
 between-region aridity gradient, the signature of a siting confound, not
 regulation; a decomposition confirms the signal survives matching and fixed effects
@@ -44,13 +44,16 @@ exactly what a siting confound predicts. Nor is the null a standardization artif
 normalized per gauge, which would divide out dam-induced variance compression, but on log flow, a
 volumetric semi-elasticity, the gaps stay null
 (downstream $+0.04$, upstream $+0.10$, permutation $p \geq 0.42$) and downstream relative
-variability is uncompressed ($p = 0.43$; Supplementary Table S19).
+variability is uncompressed ($p = 0.43$; Supplementary Table S19). A direct geomorphic metric
+agrees: local relief, separating bedrock from alluvial reaches, does not predict control
+transmission, leaves the placebo unchanged, and shows no buffering among alluvial units
+(Supplementary Table S22).
 Upstream gauges sit higher and elevation predicts transmission among controls, but elevation
 cannot manufacture a downstream-specific effect. The 0.54 km up/down elevation gap times the control
 sensitivity ($-0.21$ per km) already over-explains the observed $-0.04$ difference, leaving a
 residual downstream-specific buffering of at most about $0.07$ (13% of the $0.53$ downstream-panel
-baseline; the intent-to-treat baseline used for the equivalence margin is $0.585$), well below the
-46 to 59% of baseline the design can detect (Supplementary Table S2).
+baseline; the equivalence margin uses the $0.585$ intent-to-treat baseline), well below the
+46 to 59% detectable (Supplementary Table S2).
 
 ```{r}
 #| label: fig-streamflow
@@ -69,12 +72,13 @@ cross-sectional
 cropland-area expansion ($-0.69$ ha km^-2^, 95% CI $[-2.4, 1.1]$) and its forcing-conditioned slope
 gap ($p_{\text{perm}} = 0.91$). The evapotranspiration pathway is relegated to the Supplementary
 Information: whole-basin ET is confounded by barren-land aridity with failed pre-trends, and the
-post-hoc orchard stratum relies on MOD16, whose bias toward zero over irrigated land disqualifies
-its null (Supplementary Table S21 and Fig. S7).
+post-hoc orchard stratum relies on MOD16, whose documented bias toward zero over irrigated land,
+a product property identified independently of our results, disqualifies
+its null; post-hoc elements are flagged there (Supplementary Table S21, Fig. S7).
 
 The null is informative but its power is concentrated in the streamflow
 pathway. With about 21 dammed clusters the design cannot claim exact equivalence to zero but rules
-out streamflow buffering larger than 46 to 59% of baseline, and a positive control confirms it:
+out buffering above 46 to 59% of baseline, and a positive control confirms it:
 injected buffering is recovered one-to-one and detected beyond that
 threshold (Methods; Supplementary Fig. S2 and Tables S1, S3). The cropland design is far weaker,
 with a minimum detectable effect orders of magnitude above baseline (Supplementary Table S2), so
@@ -113,10 +117,9 @@ This gap is a *siting* signature, stable across the 2000–2024 record, with
 trajectories evolving in parallel through the megadrought. A dynamic event study
 confirms it: the differential trend is flat before 2010 (cluster-robust $p = 0.65$, permutation
 $p = 0.72$) and does not diverge afterwards ($p = 0.81$; @fig-area, panel b). The pre-trend test
-has limited power: it detects only divergence accumulating to about half the control cropland level
-by 2009 (the observed trend is a seventh of that), so parallel trends exclude large divergence
-while smaller pre-existing divergence remains possible
-(Supplementary Table S14). The null is metric-invariant: on log cropland share the slope gap is
+has limited power, detecting only divergence accumulating to about half the control cropland level
+by 2009 (the observed trend is a seventh of that): parallel trends exclude large divergence,
+smaller divergence remains possible (Supplementary Table S14). The null is metric-invariant: on log cropland share the slope gap is
 likewise permutation-null ($p = 0.37$; Supplementary Table S20).
 Reservoirs mark where cropland already was; they
 neither expanded it nor changed its drought response.
@@ -130,14 +133,11 @@ basins carry denser water-rights activity, and this imbalance drives the gap. Th
 not survive randomization inference ($p_{\text{perm}} = 0.52$; Supplementary Fig. S6) and remains
 null under a fully non-parametric match on the aridity-overlap subset
 ($p_{\text{perm}} = 0.42$; Supplementary Table S7). The winsorized volume is more delicate: stable
-across winsorization thresholds and physically validated (Supplementary Table S8), its
-overlap-subset permutation p falls to
-$0.005$, but water-rights residuals are spatially autocorrelated (Moran's $I = 0.39$; Supplementary
-Table S9), and under the governing cuenca-block permutation it is not significant
-($p_{\text{perm}} = 0.077$), its cuenca-clustered
-interval spanning zero ($[-0.3, 4.1]$). The raw, uncapped volumes ranked give the same verdict:
-median volume per right is nearly identical across groups, and the design
-rank contrast, immune to caudal errors and caps, is null under cuenca-block permutation
+across thresholds and physically validated (Supplementary Table S8), its overlap-subset
+permutation p falls to $0.005$, but the residuals are spatially autocorrelated (Supplementary
+Table S9) and under the governing cuenca-block permutation it is not significant
+($p_{\text{perm}} = 0.077$, cuenca-clustered interval $[-0.3, 4.1]$). Raw, uncapped volumes ranked give the same verdict: median volume per right is nearly identical
+across groups and the design rank contrast is null under cuenca-block permutation
 ($p = 0.15$; Supplementary Table S18). Even on
 water rights, then, no induced demand is robustly attributable to the reservoir once siting and
 spatial structure are accounted for; a conventional matched analysis would have
@@ -145,7 +145,7 @@ concluded otherwise.
 
 ```{r}
 #| label: fig-area
-#| fig-cap: "Observed cropland-area dynamics in dammed versus matched-control basins (21 dammed, 244 controls). (a) Entropy-balancing-weighted mean cropland area (% of basin, MapBiomas class 18) with 95% bands (weighted mean +/- 1.96 SE across basins); the y-axis is anchored at zero. Dammed basins hold ~4.6x more cropland (11.1% vs 2.4% of basin area) but the trajectories evolve in parallel. (b) Dynamic event study (dammed x year, reference 2009): the shaded band is the 95% confidence interval (coefficient +/- 1.96 cluster-robust SE). The differential pre-trend is flat (pre-2010 trend-slope cluster-robust p = 0.65, permutation p = 0.72) and does not diverge afterwards (post p = 0.81); a linear trend-slope test is used because the joint event-study Wald over-rejects at ~21 treated clusters. The 2010-2024 megadrought is shaded in both panels."
+#| fig-cap: "Observed cropland-area dynamics in dammed versus matched-control basins (21 dammed, 244 controls). (a) Entropy-balancing-weighted mean cropland area (% of basin, MapBiomas class 18) with 95% bands (weighted mean +/- 1.96 SE across basins); the y-axis is anchored at zero. Dammed basins hold ~4.6x more cropland (11.1% vs 2.4% of basin area) but the trajectories evolve in parallel. (b) Dynamic event study (dammed x year, reference 2009): the grey band is the 95% randomization-inference null envelope (2.5th to 97.5th percentile of the dammed x year coefficients under treatment permutation within Köppen x aridity strata); coefficients inside the band are indistinguishable from no divergence, and cluster-robust intervals are omitted as anti-conservative at ~21 treated clusters. The differential pre-trend is flat (pre-2010 trend-slope cluster-robust p = 0.65, permutation p = 0.72) and does not diverge afterwards (post p = 0.81); a linear trend-slope test is used because the joint event-study Wald over-rejects at ~21 treated clusters. The 2010-2024 megadrought is shaded in both panels."
 #| echo: false
 knitr::include_graphics("../../results/figures/fig_area_did.png")
 ```
@@ -159,10 +159,8 @@ downward in step: peak storage falls by 1.3 percentage points of capacity per ye
 amplitude shows no detectable trend ($-0.06$ pp yr^-1^, $p = 0.91$; Supplementary Table S5). That
 amplitude interval is wide: the data cannot determine whether refill amplitude, the buffering
 capacity, has degraded, and we draw no conclusion about it; what the band shows unambiguously is the
-decline of both peak and trough. The linear slope is a summary rate: the decline is a level shift
-at the megadrought onset, peak
-averaging 87% of capacity before 2010 and 67% after (trough 40% to 25%), the amplitude shift
-again indistinguishable from zero (Supplementary Table S5). That decline is commensurate
+decline of both peak and trough. The decline is a level shift at the megadrought onset rather than a secular line (peak 87% of
+capacity before 2010, 67% after; trough 40% to 25%; Supplementary Table S5). That decline is commensurate
 with the supply reduction measured independently in the matched controls: unregulated
 control streamflow fell about 2.9% per year over 2005–2020 (dammed 3.4%), a primary estimate
 from our gauge panel consistent with documented megadrought runoff deficits

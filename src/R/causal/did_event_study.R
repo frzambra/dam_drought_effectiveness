@@ -134,3 +134,29 @@ did_slope_summary <- function(model, label, perm = NULL) {
     n_obs = stats::nobs(model))
   out[]
 }
+
+#' Randomization-inference null envelope for the event-study coefficients (2026-07-03 round 6,
+#' comment 4): cluster-robust CIs over-reject at ~21 treated clusters, so the honest visual
+#' uncertainty is the 2.5-97.5 percentile band of the dammed x year coefficients under treatment
+#' permutation within Köppen x aridity strata. Feeds fig_area_did panel b.
+#' @return data.table(year, lo, hi)
+es_permutation_envelope <- function(did_panel, ref_year = 2009L, n_perm = 499L, seed = 1L) {
+  d <- data.table::as.data.table(did_panel)
+  u <- unique(d[, .(unit_id, treat, kg_group, aridity_mean)])
+  qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+  u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+  base <- d[, !c("treat"), with = FALSE]
+  grab <- function(m) {
+    cf <- stats::coef(m); cf <- cf[grepl("treat", names(cf))]
+    data.table::data.table(year = as.integer(gsub("\\D", "", names(cf))), coef = unname(cf))
+  }
+  set.seed(seed)
+  perms <- data.table::rbindlist(lapply(seq_len(n_perm), function(b) {
+    up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+    dp <- merge(base, up[, .(unit_id, treat)], by = "unit_id")
+    m <- tryCatch(fit_event_study(dp, ref_year), error = function(e) NULL)
+    if (is.null(m)) return(NULL)
+    grab(m)
+  }))
+  perms[, .(lo = stats::quantile(coef, 0.025), hi = stats::quantile(coef, 0.975)), by = year]
+}

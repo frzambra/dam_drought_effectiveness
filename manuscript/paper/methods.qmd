@@ -135,7 +135,13 @@ latitude is deliberate: latitude and the climate class fight each other across t
 span, and substituting SRTM elevation raised the effective control sample size from ≈9 to ≈91 while
 balancing latitude for free.
 
-The procedure retains 21 of 24 treated sub-watershed (three high-Andes units fall outside local
+Entropy balancing is a calibration estimator: given the weights, covariate balance is exact by
+construction and requires no independence assumption across units, so spatially autocorrelated
+covariates affect inference rather than balance, and inference is handled at the outcome stage
+with watershed-block permutation and clustered intervals (Supplementary Table S9); the exact
+matching within Köppen main group is itself a coarse spatial blocking, and latitude, though
+untargeted, balances as a by-product (Supplementary Fig. S5).
+The procedure retains 21 of 24 treated sub-watersheds (three high-Andes units fall outside local
 elevation common support) and achieves essentially perfect balance (standardized mean differences
 for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1), with an
 effective control sample size ≈91 out of 244 in-window controls. The 244 in-window controls are
