@@ -31,7 +31,10 @@ sub-watershed that lies within a watershed containing a reservoir is flagged as 
 shares the regulated main stem and is not a clean counterfactual) and removed (45 units),
 leaving 398 clean controls. This contamination rule defuses the most direct
 downstream-spillover (SUTVA: Stable Unit Treatment Value Assumption) violation; residual adjacency and shared-aquifer spillovers between
-neighbouring sub-watershed are carried as an identification caveat and checked at watershed grain.
+neighbouring sub-watersheds are carried as an identification caveat and addressed with
+watershed-level checks: where spatial dependence is present, inference is re-run with
+watershed-block permutation and watershed-clustered intervals (Supplementary Table S9), and no
+matched treated-control pair shares a watershed (Supplementary Table S15).
 
 ## Data
 
@@ -64,6 +67,12 @@ treatment clock.
 Standardized Streamflow Index at 12 months [SSI-12; @Vicente-Serrano2012c; @lema_technical_2025], the regulated-flow
 analogue of SPEI-12 and the index in which meteorological deficits are re-expressed as hydrological
 drought [@VanLoon2015], used as the outcome in the within-basin placebo (below). Gauges are classified as upstream or downstream of each dam from an SRTM digital elevation model.
+Because SSI standardizes each gauge on its own, for regulated gauges post-dam, flow distribution,
+the transmission slope tests distribution-relative propagation and would divide out any dam-induced
+variance compression; we therefore re-estimate every buffering model and the placebo on log
+12-month mean flow, a volumetric semi-elasticity (percent of flow per SPEI unit) that no per-gauge
+normalization can compress, and test the compression premise itself, the deseasonalized relative
+flow variability by gauge class (Supplementary Table S19).
 
 **Ecological and land-use outcomes.** (i) annual cropland area from MapBiomas Chile (https://chile.mapbiomas.org/)
 Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS MOD16 (8-day, ~500 m,
@@ -80,7 +89,12 @@ outlier-robust primary measure is rights *density* (count per 100 km²); a volum
 individual consumptive flow is winsorized at the 99.5th percentile of the consumptive-flow
 distribution gives the same result, and the volume null is insensitive to the winsorization threshold
 across the 95th, 99th, 99.5th and 99.9th percentiles (permutation $p$ from 0.39 to 0.21;
-Supplementary Table S8). Both are reported (Supplementary Fig. S6).
+Supplementary Table S8). Both are reported (Supplementary Fig. S6). Because volumes are extremely
+concentrated (the largest 1% of raw entries, dominated by the data errors, hold 99.7% of registry
+volume), we additionally report rank-based tests on the raw, uncapped volumes: the per-right volume
+distribution in dammed versus control basins, and a design rank contrast (ebal-weighted mean-rank
+difference) under both unit-level and cuenca-block permutation, so no cap or outlier can drive the
+volume conclusion (Supplementary Table S18).
 
 **Snow water equivalent.** ERA5-Land monthly snow-water-equivalent (SWE, 0.1°, 2000–2026), reduced to
 per-gauge and per-sub-watershed peak-SWE climatologies plus annual peak-SWE anomalies, to test the
@@ -100,7 +114,10 @@ well's megadrought (2010–2021) depletion rate is the OLS slope of depth to wat
 outlier-robust median. These bound the groundwater-substitution confound as a matched
 dammed-versus-control Average Treatment Effect on the Treated (ATT) on the depletion rate (Supplementary Table S10).
 
-**Matching covariates.** Baseline aridity (long-term mean annual precipitation divided by atmospheric evaporative demand P/AED over the 1991–2020 World Meteorological Organization normal), watershed area, mean elevation (SRTM), and Köppen–Geiger climate class, extracted per sub-watershed by zonal statistics. Because the 1991–2020 normal overlaps eleven megadrought years, baseline aridity could in principle absorb post-treatment variation; we verify the window is
+**Matching covariates.** Baseline aridity (long-term mean annual precipitation divided by potential
+evapotranspiration, P/PET, over the 1991–2020 World Meteorological Organization normal; PET is the
+atmospheric evaporative demand and P/PET is used throughout), watershed area, mean elevation (SRTM),
+and Köppen–Geiger climate class, extracted per sub-watershed by zonal statistics. Because the 1991–2020 normal overlaps eleven megadrought years, baseline aridity could in principle absorb post-treatment variation; we verify the window is
 innocuous. Unit aridity recomputed on the strictly pre-drought 1991–2009 window is essentially
 identical to the full-window covariate (Pearson $r = 0.998$, Spearman $\rho = 0.999$ across the 265
 matched units, and 99% of units keep the same aridity tercile used for the permutation strata), and
@@ -129,7 +146,14 @@ that group's treated elevation range, and groups with fewer than ten such contro
 confound (dammed basins are markedly more arid: median P/PET 0.26 vs 0.80 unweighted) but is *not*
 used as a balance target, because hard-balancing it collapses the ESS from 91 to 19; instead the
 weighting reduces the aridity imbalance to a residual SMD ≈0.17 (still above the 0.1 target), which
-the doubly-robust outcome model absorbs. Because this residual is real, the outcome-model adjustment
+the doubly-robust outcome model absorbs. We nonetheless report the strict hard-balanced fit
+(entropy balancing targeting log-aridity as well, SMD 0.000, ESS ≈19) as a primary sensitivity:
+with no parametric extrapolation across the regime gap at all, the streamflow, cropland, and
+water-rights results remain null, and even the *apparent* buffering vanishes, the direct signature
+of an aridity confound rather than a reservoir effect (Supplementary Table S17). The parametric
+log-aridity adjustment is itself validated among undammed controls: their baseline SPEI-to-SSI
+slope varies smoothly and monotonically across aridity terciles (0.65 arid, 0.70 mid, 0.74 humid),
+with no regime break for a linear adjustment to misfit (Supplementary Table S20). Because this residual is real, the outcome-model adjustment
 for aridity is *load-bearing* rather than cosmetic and extrapolates across a genuine regime gap: the
 reported cross-sectional ATTs use a **linear** log-aridity adjustment, adding a quadratic aridity
 term leaves the qualitative conclusions unchanged (archived robustness), and restricting to the
@@ -167,18 +191,16 @@ exactly the arid basins where reservoirs sit), the outcome for the DR machinery 
 SPEI-12 over 2005–2024, a standardized, cross-basin drought-transmission elasticity. The vulnerability
 hypothesis predicts a *steeper* slope (more impact per unit deficit) in dammed basins.
 
-The two cross-sectional ATTs in Table 1 share the doubly-robust matched machinery but differ in
-outcome transform, and only the second is a transmission slope. (i) *Cropland-area expansion* is a
-level-change outcome, the change in MapBiomas cropland area per basin over the window (ha km^-2^
-added, as Table 1 states); its protection against differential megadrought exposure comes from the
-forcing-interacted difference-in-differences below, not from the slope transform. (ii) *Reservoir ET
-buffering* applies the transmission-slope machinery: the per-basin slope of log evapotranspiration
-on SPEI computed over **irrigated orchard
-cells** (MOD16 ET on the CIREN/ODEPA cadastre footprint), which measures directly whether
-consumptive water use over irrigated land responds more or less to deepening drought in dammed
-basins. A negative slope gap indicates buffering, a positive one induced-demand vulnerability; the
-outcome is null, so consumptive use per unit of irrigated land shows no differential change with the
-reservoir.
+Table 1 carries two cross-sectional matched ATTs, both level-change outcomes rather than
+transmission slopes: (i) *cropland-area expansion*, the change in MapBiomas cropland area per basin
+over the window (ha km^-2^ added, as Table 1 states), whose protection against differential
+megadrought exposure comes from the forcing-interacted difference-in-differences below; and (ii)
+*water-rights accrual*, described under Water rights above. A third cross-sectional outcome,
+*reservoir ET buffering*, applies the transmission-slope machinery to log evapotranspiration on
+SPEI over **irrigated orchard cells** (MOD16 ET on the CIREN/ODEPA cadastre footprint); because
+MOD16 underestimates ET over irrigated land, biasing that slope gap toward zero, the ET outcomes
+are reported with caveats in the Supplementary Information (Table S21) and carry no evidential
+weight.
 
 **Forcing-interacted difference-in-differences.** On the observed area and ET panels we fit
 
@@ -227,10 +249,15 @@ material. The qualitative conclusion (only large effects are excluded; no outcom
 detectable effect (at 80% power, two-sided $\alpha=0.05$) and the equivalence interval are built
 from the **standard deviation of the permutation-null distribution**, not the analytic standard
 error, since cluster-robust SEs over-reject at ~21 clusters (archived analysis code). To
-confirm the null is informative rather than underpowered, we additionally run a **positive control**:
-a known buffering slope is injected into the treated units and the full estimator and randomization
-inference are re-run, verifying that the design recovers an effect of policy-relevant size and
-correctly flags none when none is injected.
+confirm the null is informative rather than underpowered, we additionally run a **positive control**.
+For each $\beta \in \{0, -0.15, -0.30, -0.45\}$ we set $\text{SSI}^{*}_{it} = \text{SSI}_{it} +
+\beta \times \text{treat}_i \times \text{SPEI}^{c}_{it}$, an additive perturbation on the
+standardized scale that injects a known buffering slope of magnitude $\beta$ into treated units
+while leaving control observations and the panel's error structure untouched, then re-fit the full
+estimator and randomization inference on each perturbed panel (Supplementary Fig. S2 and Table S3).
+$\beta = 0$ reproduces the observed null exactly, recovery is one-to-one in $\beta$, and detection
+is required once $|\beta|$ exceeds the MDE, verifying that the design recovers an effect of
+policy-relevant size and correctly flags none when none is injected.
 
 **Siting-confound decomposition.** To locate where any apparent buffering comes from, we fit a ladder
 on the same panel: (1) a naive pooled slope gap (no weights, no fixed effects, what a conventional
@@ -256,7 +283,10 @@ also split by Köppen region to test whether a regulation effect emerges in the 
 Because upstream gauges sit at higher elevations than downstream gauges, we test the placebo's
 comparability assumption directly: we quantify the elevation gap and regress the per-gauge
 transmission slope on elevation among undammed control gauges, so that any elevation-driven regime
-difference is measured rather than assumed.
+difference is measured rather than assumed. The linearity of that sensitivity is checked across the
+~2000 m snowline with a piecewise fit among controls (no detectable break, interaction $p = 0.25$;
+Supplementary Table S20), and the snow regime itself is tested directly on the placebo estimand
+(Supplementary Table S12).
 
 ## Inference
 

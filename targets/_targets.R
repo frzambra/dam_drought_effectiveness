@@ -530,6 +530,40 @@ list(
              equivalence_volume_context(streamflow_monthly, streamflow_stations, ssi12)),
   tar_target(table_margin_volume_file,
              write_table(margin_volume_tab, "table_margin_volume"), format = "file"),
+  # Hard-balanced (aridity-targeted) sensitivity, ESS ~19 (reviewer round 3, comment 1).
+  tar_target(matched_set_hard, fit_matched_set_hard(match_covariates)),
+  tar_target(hard_balance_check,
+             build_hard_balance_check(matched_set_hard, ssi12, streamflow_stations,
+                                      spei12_monthly, irrig_area_panel,
+                                      forcing_subcuencas_full, water_rights_panel)),
+  tar_target(table_hard_balance_file,
+             write_table(hard_balance_check, "table_hard_balance"), format = "file"),
+  # Pre/post-2010 storage level shift (reviewer round 3, comment 3).
+  tar_target(storage_period_tab, storage_period_comparison(storage_band)),
+  tar_target(table_storage_period_file,
+             write_table(storage_period_tab, "table_storage_period"), format = "file"),
+  # Physical validation of the winsorization cap (reviewer round 3, comment 5).
+  tar_target(winsor_physical_tab,
+             winsor_physical_check(water_rights_assigned, streamflow_monthly, streamflow_stations)),
+  tar_target(table_winsor_physical_file,
+             write_table(winsor_physical_tab, "table_winsor_physical"), format = "file"),
+  # Rank-based checks on raw, unwinsorized volumes (reviewer round 4, comment 1).
+  tar_target(wr_rank_tab, wr_rank_check(water_rights_assigned, matched_set)),
+  tar_target(table_wr_rank_file, write_table(wr_rank_tab, "table_wr_rank"), format = "file"),
+  # Volumetric-scale streamflow checks (reviewer round 5 "fatal flaw"): log-flow semi-elasticity
+  # buffering + placebo (not variance-normalized) and the variance-compression premise itself.
+  tar_target(volumetric_check_tab,
+             build_volumetric_check(streamflow_monthly, streamflow_stations,
+                                    spei12_monthly, matched_set)),
+  tar_target(table_volumetric_file,
+             write_table(volumetric_check_tab, "table_volumetric"), format = "file"),
+  # Metric / functional-form checks (round 5, comments 1, 3, 4): control transmission by aridity
+  # tercile, snowline piecewise elevation sensitivity, relative (log) cropland DiD.
+  tar_target(metric_checks_tab,
+             build_metric_checks(ssi_panel_itt, streamflow_stations, ssi12, irrig_area_panel,
+                                 forcing_subcuencas_full, matched_set)),
+  tar_target(table_metric_checks_file,
+             write_table(metric_checks_tab, "table_metric_checks"), format = "file"),
   # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
   tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
   tar_target(fig_et_confound_file,

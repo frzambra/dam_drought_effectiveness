@@ -1,0 +1,6 @@
+| quantity | value | detail |
+|---|---|---|
+| log-flow semi-elasticity gap, ITT (treat x SPEI) | 0.0743 | SE 0.0720, perm p = 0.562; baseline d log Q / d SPEI 0.139 (% flow per SPEI unit) |
+| log-flow semi-elasticity gap, downstream (treat x SPEI) | 0.0401 | SE 0.0855, perm p = 0.782; baseline d log Q / d SPEI 0.099 (% flow per SPEI unit) |
+| log-flow semi-elasticity gap, upstream placebo (treat x SPEI) | 0.0952 | SE 0.0682, perm p = 0.422; baseline d log Q / d SPEI 0.168 (% flow per SPEI unit) |
+| deseasonalized log-flow SD by gauge class (relative variability) | 0.827 | downstream 0.827 (n=61) vs upstream 0.902 (n=35) vs control 0.579 (n=121); up-down Wilcoxon p = 0.43 |

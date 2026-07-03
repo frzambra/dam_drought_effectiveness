@@ -1,0 +1,5 @@
+| quantity | value | detail |
+|---|---|---|
+| control baseline SPEI->SSI slope by aridity tercile (arid / mid / humid) | 0.647 | mid 0.699, humid 0.743; smooth monotone variation, no regime break |
+| control elevation sensitivity of transmission, below vs above the ~2000 m snowline | -0.078 | above 0.212 per km; interaction p = 0.25 (n=84 control gauges) |
+| relative cropland expansion: forcing-DiD slope gap on log cropland share | 0.0473 | SE 0.046, perm p = 0.369 (140 units with nonzero cropland); metric-invariant null |

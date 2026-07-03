@@ -1,0 +1,7 @@
+| quantity | value | detail |
+|---|---|---|
+| volume per right, raw (median l/s): dammed vs control |    2 | control 1.8; Wilcoxon rank-sum p = 0.00 (n = 77,287 rights) |
+| raw volume added 2005-2024, uncapped (median l/s per km2): dammed vs control | 2.31 | control 0.17; naive Wilcoxon p = 0.00 (265 basins) reproduces the siting gap the design removes |
+| design rank contrast on raw volume (mean-rank difference, ebal-weighted) | 84.7 | unit-level stratified permutation p = 0.001, anti-conservative under the spatial autocorrelation of Supp Table S9 |
+| design rank contrast under spatially-restricted (cuenca-block) permutation | 84.7 | cuenca-block permutation p = 0.145 (1999 perms), the governing inference for water-rights outcomes; rank scale immune to caudal errors and caps |
+| share of total raw volume held by the largest 1% of rights | 0.997 | raw registry (data errors included); why the level analysis winsorizes |

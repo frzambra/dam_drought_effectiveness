@@ -784,7 +784,10 @@ fig_convergent_null <- function(results_table) {
   pal <- nw_pal(); cfg <- fig_cfg()
   d <- data.table::as.data.table(results_table)[is.finite(estimate) & is.finite(se) & se > 0]
   d[, z := estimate / se]                                    # uniform Wald z across ALL rows
-  d[, conf := outcome == "Whole-basin ET"]                   # confounded / excluded (see Table 1)
+  # ET rows are relegated to the SI (R3 round 5, comment 9): whole-basin ET is barren-land
+  # confounded; the orchard rows rely on MOD16, whose bias toward the null disqualifies them.
+  d[, conf := outcome %in% c("Whole-basin ET", "Orchard ET", "Reservoir ET buffering")]
+  d <- d[conf == FALSE]
   d[, gfac := factor(group, levels = c("Cross-sectional matched ATT",
                                         "Forcing-interacted DiD (slope-gap)"))]
   data.table::setorder(d, gfac, z)
@@ -801,7 +804,10 @@ fig_convergent_null <- function(results_table) {
     ggplot2::geom_text(data = d[!is.na(p)],
                        ggplot2::aes(label = sprintf("p[perm] == %.2f", p)), parse = TRUE,
                        vjust = -1, size = cfg$font$geom_text_size, colour = "grey30") +
-    ggplot2::geom_text(data = d[conf == TRUE], ggplot2::aes(label = "confounded (excluded)"),
+    ggplot2::geom_text(data = d[conf == TRUE],
+                       ggplot2::aes(label = data.table::fifelse(outcome == "Whole-basin ET",
+                                                                "confounded (excluded)",
+                                                                "product-limited (excluded)")),
                        vjust = 2.2, size = cfg$font$geom_text_size, colour = "grey30") +
     ggplot2::scale_shape_manual(values = c(`FALSE` = 21, `TRUE` = 21), guide = "none") +
     ggplot2::scale_fill_manual(values = c(`FALSE` = pal[["treated"]], `TRUE` = "white"),

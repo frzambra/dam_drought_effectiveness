@@ -116,3 +116,20 @@ fit_matched_set <- function(cov, min_controls = 10L, elev_buffer_m = 250) {
     dropped  = dropped[]
   )
 }
+
+#' Hard-balanced sensitivity fit (Reviewer 3 round 3, comment 1): entropy balancing that ALSO
+#' targets log baseline aridity (with log area + elevation, within Köppen group). This removes the
+#' residual aridity imbalance entirely, so no outcome-model extrapolation across the regime gap is
+#' needed, at the cost of collapsing the effective control sample (~19). Used only as a sensitivity;
+#' the primary design deliberately leaves aridity to the doubly-robust outcome model (see above).
+#' @return list(data, weightit, ess) — `data` carries column `w`
+fit_matched_set_hard <- function(cov, min_controls = 10L, elev_buffer_m = 250) {
+  ts  <- common_support_trim(cov, min_controls, elev_buffer_m)
+  cov <- ts$cov
+  W <- WeightIt::weightit(
+    treated ~ log_area + elev_mean + log_aridity,
+    data = as.data.frame(cov), method = "ebal", estimand = "ATT",
+    by = ~kg_group, maxit = 10000)
+  cov[, w := W$weights]
+  list(data = cov[], weightit = W, ess = summary(W)$effective.sample.size)
+}

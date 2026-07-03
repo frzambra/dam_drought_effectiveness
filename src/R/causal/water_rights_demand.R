@@ -71,3 +71,73 @@ build_wr_demand_summary <- function(matched_set, wr_expansion, n_perm = 999L) {
   data.table::rbindlist(list(one("add_per_km2", "Rights count (per 100 km²)"),
                              one("add_lsw_per_km2", "Allocated volume (winsorized, l/s per km²)")))
 }
+
+#' Non-parametric (rank-based) checks on RAW, unwinsorized volumes (Reviewer 3 round 4, comment 1).
+#' (a) Does volume PER RIGHT differ systematically between dammed and control basins? (b) Does the
+#' raw megadrought volume expansion per km2 differ under a rank test that no outlier, cap, or
+#' monotone data error can distort? Ranks are invariant to the extreme caudal entries, so this
+#' complements the winsorized ATT without discarding large rights. Also reports how concentrated
+#' the raw volume distribution is (share held by the largest 1% of rights).
+#' @return data.table(quantity, value, detail)
+wr_rank_check <- function(rights_assigned, matched_set, y0 = 2005L, y1 = 2024L) {
+  ms <- data.table::as.data.table(matched_set$data)[, .(unit_id, treated, area_km2)]
+  r  <- merge(data.table::as.data.table(rights_assigned)[consumptive == TRUE & is.finite(flow_ls)],
+              ms, by = "unit_id")
+  w1  <- stats::wilcox.test(flow_ls ~ treated, data = r)
+  med <- r[, .(m = stats::median(flow_ls)), by = treated]
+  top <- r[, sum(sort(flow_ls, decreasing = TRUE)[seq_len(ceiling(.N / 100))]) / sum(flow_ls)]
+  b <- r[year >= y0 & year <= y1, .(raw_add = sum(flow_ls)), by = unit_id]
+  b <- merge(ms, b, by = "unit_id", all.x = TRUE)
+  b[is.na(raw_add), raw_add := 0][, raw_km2 := raw_add / area_km2]
+  w2   <- stats::wilcox.test(raw_km2 ~ treated, data = b)
+  bmed <- b[, .(m = stats::median(raw_km2)), by = treated]
+
+  # Design-based rank test: the naive Wilcoxon reproduces the siting gap; the estimand of interest
+  # is the DESIGN contrast on ranks (ebal-weighted mean-rank difference, stratified permutation),
+  # outlier-immune without any cap.
+  msd <- data.table::as.data.table(matched_set$data)[, .(unit_id, w, kg_group, aridity_mean)]
+  bd  <- merge(b, msd, by = "unit_id")
+  bd[, rrank := data.table::frank(raw_km2)]
+  gap <- function(d) d[treated == 1L, mean(rrank)] - d[treated == 0L, sum(w * rrank) / sum(w)]
+  obs <- gap(bd)
+  qs <- stats::quantile(bd$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+  bd[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+  set.seed(1)
+  perm <- vapply(seq_len(1999L), function(i) {
+    dp <- data.table::copy(bd)[, treated := sample(treated), by = stratum]; gap(dp)
+  }, numeric(1))
+  p_perm <- (1 + sum(abs(perm) >= abs(obs))) / (1 + length(perm))
+
+  # Water-rights outcomes are strongly spatially autocorrelated (Supp Table S9), so the unit-level
+  # permutation is anti-conservative; the governing inference swaps treatment at the cuenca-block
+  # level, exactly as for the winsorized volume (.spatial_block_wr).
+  bd[, block := substr(unit_id, 1L, 2L)]
+  blk <- unique(bd[, .(btreat = as.integer(any(treated == 1L))), by = .(block, kg_group)])
+  set.seed(1)
+  perm_b <- vapply(seq_len(1999L), function(i) {
+    bp <- data.table::copy(blk)[, btreat := sample(btreat), by = kg_group]
+    dd <- merge(data.table::copy(bd)[, !"treated"], bp[, .(block, treated = btreat)], by = "block")
+    gap(dd)
+  }, numeric(1))
+  p_block <- (1 + sum(abs(perm_b) >= abs(obs), na.rm = TRUE)) / (1 + sum(!is.na(perm_b)))
+
+  data.table::data.table(
+    quantity = c("volume per right, raw (median l/s): dammed vs control",
+                 sprintf("raw volume added %d-%d, uncapped (median l/s per km2): dammed vs control",
+                         y0, y1),
+                 "design rank contrast on raw volume (mean-rank difference, ebal-weighted)",
+                 "design rank contrast under spatially-restricted (cuenca-block) permutation",
+                 "share of total raw volume held by the largest 1% of rights"),
+    value  = c(round(med[treated == 1L, m], 1), round(bmed[treated == 1L, m], 2),
+               round(obs, 1), round(obs, 1), round(top, 3)),
+    detail = c(sprintf("control %.1f; Wilcoxon rank-sum p = %.2f (n = %s rights)",
+                       med[treated == 0L, m], w1$p.value,
+                       format(nrow(r), big.mark = ",")),
+               sprintf("control %.2f; naive Wilcoxon p = %.2f (%d basins) reproduces the siting gap the design removes",
+                       bmed[treated == 0L, m], w2$p.value, nrow(b)),
+               sprintf("unit-level stratified permutation p = %.3f, anti-conservative under the spatial autocorrelation of Supp Table S9",
+                       p_perm),
+               sprintf("cuenca-block permutation p = %.3f (1999 perms), the governing inference for water-rights outcomes; rank scale immune to caudal errors and caps",
+                       p_block),
+               "raw registry (data errors included); why the level analysis winsorizes"))
+}

@@ -41,3 +41,25 @@ fit_storage_band_trends <- function(band_annual) {
   }
   data.table::rbindlist(lapply(c("peak", "trough", "amplitude"), one))
 }
+
+#' Pre/post-megadrought period comparison of the storage band (Reviewer 3 round 3, comment 3):
+#' the 2005-2024 linear slope is a summary rate, not a claim of secular linearity, so characterize
+#' the band as a level shift at the 2010 megadrought onset: within-reservoir mean peak / trough /
+#' amplitude before vs after, with reservoir FE and clustered SEs.
+#' @return data.table(component, pre_mean, post_mean, shift, se, ci_lo, ci_hi, p)
+storage_period_comparison <- function(band_annual, split_year = 2010L) {
+  d <- data.table::as.data.table(band_annual)
+  d[, post := as.integer(year >= split_year)]
+  one <- function(comp) {
+    m  <- fixest::feols(stats::as.formula(sprintf("%s ~ post | ID_DGA", comp)),
+                        data = d, cluster = ~ID_DGA)
+    ct <- as.data.frame(summary(m)$coeftable)["post", ]
+    data.table::data.table(component = comp,
+                           pre_mean  = round(d[post == 0L, mean(get(comp))], 3),
+                           post_mean = round(d[post == 1L, mean(get(comp))], 3),
+                           shift = ct[[1]], se = ct[[2]],
+                           ci_lo = ct[[1]] - 1.96 * ct[[2]],
+                           ci_hi = ct[[1]] + 1.96 * ct[[2]], p = ct[[4]])
+  }
+  data.table::rbindlist(lapply(c("peak", "trough", "amplitude"), one))
+}

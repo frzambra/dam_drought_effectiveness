@@ -123,3 +123,34 @@ build_water_rights_panel <- function(rights, years = 1990:2024, winsor = 0.995) 
            cum_n_irr = cumsum(new_n_irr)), by = unit_id]
   p[year %in% years][]
 }
+
+#' Physical validation of the winsorization cap (Reviewer 3 round 3, comment 5): are the retained
+#' (capped) individual consumptive flows physically plausible? For every gauged basin, compare the
+#' largest retained right against the basin's maximum observed monthly mean streamflow (a physical
+#' ceiling on abstraction); report the cap itself in flow units. A right exceeding the river's
+#' maximum observed flow would be physically impossible; the check shows how many survive the cap.
+#' @return data.table(quantity, value, detail)
+winsor_physical_check <- function(rights_assigned, streamflow_monthly, stations_units,
+                                  winsor = 0.995) {
+  r <- data.table::as.data.table(rights_assigned)[consumptive == TRUE & is.finite(flow_ls)]
+  cap <- stats::quantile(r$flow_ls, winsor, names = FALSE)
+  r[, fl := pmin(flow_ls, cap)]
+  su <- unique(data.table::as.data.table(stations_units)[, .(codigo, unit_id)])
+  q  <- merge(data.table::as.data.table(streamflow_monthly), su, by = "codigo")
+  qmax <- q[, .(qmax_ls = 1000 * max(q_mon, na.rm = TRUE)), by = unit_id]  # m3/s -> l/s
+  rb  <- r[, .(max_right_ls = max(fl)), by = unit_id]
+  cmp <- merge(rb, qmax, by = "unit_id")
+  ok  <- cmp$max_right_ls <= cmp$qmax_ls
+  rat <- cmp$max_right_ls / cmp$qmax_ls
+  data.table::data.table(
+    quantity = c("winsorization cap (99.5th pct of consumptive flows)",
+                 "gauged basins where the largest retained right <= max observed monthly flow",
+                 "median ratio: largest retained right / max observed flow"),
+    value  = c(round(cap), sum(ok), round(stats::median(rat), 3)),
+    detail = c(sprintf("l/s (= %.1f m3/s); uncapped registry maximum %.3g l/s", cap / 1000,
+                       max(r$flow_ls)),
+               sprintf("of %d gauged basins (%.0f%%)", nrow(cmp), 100 * mean(ok)),
+               sprintf("IQR [%.3f, %.3f]", stats::quantile(rat, .25, names = FALSE),
+                       stats::quantile(rat, .75, names = FALSE)))
+  )
+}
