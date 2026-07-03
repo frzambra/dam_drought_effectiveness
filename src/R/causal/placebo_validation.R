@@ -55,7 +55,7 @@ ssi_placebo_comparability <- function(stations_units, ssi12, ssi_panel) {
     data.table::data.table(
       quantity = "control transmission slope vs elevation (per +1000 m)",
       value = round(ct[["Estimate"]], 3),
-      detail = sprintf("p = %.2f (n=%d control gauges); ~0 => elevation does not drive transmission",
+      detail = sprintf("p = %.2f (n=%d control gauges); elevation predicts transmission, so the up/down gap is bounded with this sensitivity rather than assumed away",
                        ct[["Pr(>|t|)"]], nrow(ctrl)))))
 }
 

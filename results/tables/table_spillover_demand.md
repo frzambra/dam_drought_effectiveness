@@ -5,3 +5,7 @@
 | cuencas shared by a matched pair |    0 | contamination rule removes same-cuenca controls => no matched pair shares a river network |
 | new consumptive rights per megadrought year | 4.69e+03 | range 2539-7352 over 2010-2021; registry not closed |
 | basins granted new rights per year |  194 | of 265 matched basins |
+| pre-drought (2009) rights stock, treated (per 100 km2, weighted) | 15.5 | control 6.2; higher stock over lower renewable supply => treated utilization at least as high |
+| pre-drought (2009) winsorized volume stock, treated (l/s per km2, weighted) | 1.84 | control 0.65 |
+| megadrought accrual rate, treated (rights per 100 km2 per yr, weighted) | 1.72 | control 0.63; treated accrual not slower => no differential administrative closure |
+| treated basins with zero new rights over the megadrought (share) |    0 | control share 0.29 |

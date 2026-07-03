@@ -93,6 +93,74 @@ build_equivalence_table <- function(ssi_panel_itt, ssi_panel_down,
     one("orchard ET (DiD)",            did_panel_orch, fit_forcing_did,   .gap_coef)))
 }
 
+#' Pre-trend MDE (Reviewer 3, 2026-07-02 comment 5). The flat pre-2010 differential cropland trend
+#' (p = 0.65) is only informative if the design could have detected a divergent pre-trend, so we
+#' hold it to the same standard as the headline nulls: the MDE built from the permutation-null SD
+#' of the pre-window treat:year slope, reported per year and cumulated over the pre-window as a
+#' share of the control cropland level.
+#' @param did_panel build_did_panel() output for area_frac
+#' @return data.table(quantity, value, detail)
+build_pretrend_mde <- function(did_panel, ref_year = 2009L, n_perm = 1000L) {
+  d <- data.table::as.data.table(did_panel)[year <= ref_year]
+  fitfun <- function(p) fixest::feols(y ~ treat:year | unit_id + year, data = p, weights = ~w,
+                                      nthreads = 1)
+  cfun <- function(m) {
+    cf <- stats::coef(m); hit <- names(cf)[grepl("treat", names(cf)) & grepl("year", names(cf))]
+    if (length(hit) != 1L) return(NA_real_); unname(cf[hit])
+  }
+  obs <- cfun(fitfun(d))
+  nd  <- perm_null_dist(d, fitfun, coeffun = cfun, n_perm = n_perm)
+  s   <- stats::sd(nd, na.rm = TRUE)
+  mde <- (stats::qnorm(0.975) + stats::qnorm(0.8)) * s
+  p_perm <- (1 + sum(abs(nd) >= abs(obs), na.rm = TRUE)) / (1 + sum(!is.na(nd)))
+  yrs <- diff(range(d$year))
+  ctrl_lvl <- d[treat == 0L, stats::weighted.mean(y, w)]
+  data.table::rbindlist(list(
+    data.table::data.table(
+      quantity = "pre-2010 differential cropland trend (treat:year, basin fraction per yr)",
+      value = signif(obs, 3),
+      detail = sprintf("perm p = %.2f (%d perms); window %d-%d", p_perm, sum(!is.na(nd)),
+                       min(d$year), ref_year)),
+    data.table::data.table(
+      quantity = "pre-trend MDE (80% power, alpha = 0.05, basin fraction per yr)",
+      value = signif(mde, 3),
+      detail = sprintf("permutation-null SD %.2g", s)),
+    data.table::data.table(
+      quantity = "cumulative detectable pre-2010 divergence (% of control cropland level)",
+      value = round(100 * mde * yrs / ctrl_lvl, 1),
+      detail = sprintf("MDE x %d yr against control weighted mean fraction %.4f", yrs, ctrl_lvl))))
+}
+
+#' Physical-volume context for the +-25% equivalence margin (Reviewer 3 round 2, comment 4).
+#' The margin's maximal SSI perturbation (0.25 x 0.585 x 1.98 ~ 0.29 SSI units at the worst observed
+#' deficit) is translated into streamflow volume per treated DOWNSTREAM gauge: the within-gauge
+#' linear sensitivity of the 12-month rolling mean flow to its SSI (m3/s per SSI unit) x delta_ssi,
+#' expressed in hm3 over a 12-month season and as % of mean annual flow. The linear sensitivity is
+#' an average, not a dry-tail, mapping; the flow-SSI curve flattens in the dry tail, so these
+#' volumes OVERSTATE the worst-drought case (conservative for the reviewer's concern).
+#' @return data.table(quantity, value, detail)
+equivalence_volume_context <- function(streamflow_monthly, stations_units, ssi12,
+                                       delta_ssi = 0.29, accum = 12L) {
+  su <- data.table::as.data.table(stations_units)[treat == 1L & regulated == "down"]
+  d  <- data.table::as.data.table(streamflow_monthly)
+  data.table::setorder(d, codigo, year, month)
+  d[, roll := data.table::frollmean(q_mon, accum, align = "right"), by = codigo]
+  m <- merge(d, data.table::as.data.table(ssi12), by = c("codigo", "year", "month"))
+  m <- m[codigo %in% su$codigo & is.finite(roll) & is.finite(ssi)]
+  per <- m[, .(sens = stats::coef(stats::lm(roll ~ ssi))[2L], qbar = mean(roll)), by = codigo]
+  per <- per[is.finite(sens) & sens > 0]
+  per[, `:=`(vol_hm3 = sens * delta_ssi * 31.536,          # m3/s sustained one year -> hm3
+             pct = 100 * sens * delta_ssi / qbar)]
+  qt <- function(x, p) stats::quantile(x, p, names = FALSE)
+  data.table::data.table(
+    quantity = c("equivalence-margin volume, treated downstream gauges (hm3 per 12-month season)",
+                 "equivalence-margin volume as % of mean annual flow"),
+    value  = c(round(stats::median(per$vol_hm3), 1), round(stats::median(per$pct), 1)),
+    detail = c(sprintf("median across %d gauges; IQR [%.1f, %.1f]; flow-SSI sensitivity x %.2f SSI x 31.5; linear (average) sensitivity overstates the dry-tail volume",
+                       nrow(per), qt(per$vol_hm3, .25), qt(per$vol_hm3, .75), delta_ssi),
+               sprintf("IQR [%.1f, %.1f]%%", qt(per$pct, .25), qt(per$pct, .75))))
+}
+
 #' SITING-CONFOUND DECOMPOSITION (#5): how much of the apparent dammed-vs-control buffering is
 #' siting/aridity vs a regulation effect? Fits a ladder of estimators on the same panel:
 #'   (1) NAIVE   — pooled OLS slope gap, no weights, no FE (what a dammed-vs-undammed study reports)

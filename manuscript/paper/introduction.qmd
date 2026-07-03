@@ -1,8 +1,6 @@
-# Introduction
-
 As the world dries under warming that is intensifying drought across many regions
 [@Trenberth2014; @diffenbaugh_anthropogenic_2015], governments instinctively build more dams.
-Reservoirs are the dominant structural response to drought, and in the short term they work: more
+Reservoirs are the dominant structural response to drought, and in the short term they work, more
 storage raises water availability and lowers the frequency, severity and duration of shortage
 [@di_baldassarre_water_2018]. Yet a socio-hydrological view warns that the same infrastructure can
 be self-defeating over a dam's planning horizon. Greater supply invites agricultural, urban and
@@ -16,7 +14,7 @@ outpaced storage for decades, the storage returns of new dams are diminishing wo
 provide, remains debated [@kellner_controversial_2021].
 
 The obstacle is that the reservoir effect for drought has been described far more than it has been
-measured. Reservoirs are not sited at random: they are built where irrigation demand and aridity
+measured. Reservoirs are not sited at random, they are built where irrigation demand and aridity
 already concentrate, so dammed basins differ systematically from undammed ones before any drought
 strikes. The short-term hydrological benefit is documented, as regulation shortens downstream
 hydrological drought and lengthens the lag from meteorological drought
@@ -33,9 +31,9 @@ atmospheric evaporative demand rises, a drying with a documented anthropogenic c
 [@garreaud_20102015_2017; @Garreaud2025; @zambrano_drought_2025; @Boisier2018;
 @vicenteserrano_unraveling_2019].
 Because the 1981 Water Code makes water-use rights perpetual private property that the state cannot
-readily curtail during scarcity, the policy reflex has been supply-side: a national programme of new
-dams and inter-basin transfers, alongside market incentives that concentrated water in high-value,
-water-demanding export crops [@Barria2021; @reade_malagueno_libre_2024]. Chile thus exhibits, in
+readily curtail, the policy reflex has been supply-side: new
+dams and inter-basin transfers, alongside market incentives that concentrated water in high-value
+export crops [@Barria2021; @reade_malagueno_libre_2024]. Chile thus exhibits, in
 compressed form, every ingredient of the reservoir effect: an extreme and persistent forcing, a
 supply-side response, and demand expansion under weak adaptive feedback.
 

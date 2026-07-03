@@ -13,26 +13,19 @@ author:
     attributes:
       corresponding: true
 abstract: |
-  Expanding reservoir storage is the reflexive response to intensifying drought. Yet whether
-  dams build resilience or merely mark where vulnerability already concentrates has remained
-  untested under sustained drying, for want of a credible counterfactual. Here we treat reservoir
-  presence as a basin-level intervention across central Chile during its ongoing megadrought,
-  using statistical matching to compare each dammed basin against undammed basins that share its
-  climate, size, and terrain, and asking whether the two respond differently to the same drought.
-  Across every operational pathway, meteorological-to-streamflow drought transmission,
-  evapotranspiration, cropland-area change, and the direct allocation of consumptive water rights,
-  the reservoir effect brackets zero once siting is matched out. The cleanest test compares regulated reaches below each dam against physically
-  unregulated reaches above it: the apparent buffering is just as strong upstream as downstream
-  and disappears when basins are compared within the same climate, the signature of an aridity
-  gradient rather than of regulation. Positive controls confirm the design would have detected a
-  real buffering effect had one existed. These tests concern the annual-to-multiyear timescale of
-  structural drought, not the sub-seasonal buffering that reservoirs are also built to provide.
-  Meanwhile the whole storage band drifts downward while its seasonal refill amplitude shows no
-  detectable change, pointing to a falling water supply rather than a degraded buffer. Reservoirs in Chile thus mark pre-existing, location-determined vulnerability rather
-  than create resilience against multi-year drought, even if they still perform the intra-annual
-  seasonal buffering they are primarily built for. Under structural aridification, expanding storage is
-  a supply-blind response to a supply problem; adaptation must shift toward managing demand,
-  reallocating water, and recharging aquifers.
+  Expanding reservoir storage is the reflexive response to intensifying drought, yet whether dams
+  build resilience or merely mark where vulnerability already concentrates has remained untested
+  for want of a credible counterfactual. We treat reservoir presence as a basin-level
+  intervention in Chile's ongoing megadrought, comparing how matched dammed and
+  undammed basins respond to the same meteorological deficit. Across streamflow drought
+  transmission, cropland change, and consumptive water rights, the reservoir
+  effect brackets zero once siting is matched out. The cleanest test compares regulated reaches
+  below each dam with unregulated reaches above: the apparent buffering is as strong
+  upstream as downstream, the signature of aridity, not regulation, and a positive control
+  confirms the design would have detected a real effect. Meanwhile the storage band drifts
+  downward, indicating a falling supply. At the multi-year timescale reservoirs mark vulnerability
+  established before our record and added none through the megadrought; adaptation must shift
+  toward managing demand.
 keywords:
   - reservoir effect
   - drought propagation
@@ -42,14 +35,14 @@ keywords:
   - Chile
 date: last-modified
 bibliography: references.bib
-number-sections: true
+number-sections: false
 format:
   elsevier-pdf:
     keep-tex: true
     journal:
       name: "Nature Water"
       model: 3p
-      cite-style: authoryear
+      cite-style: super
     classoption: ["review", "number", "sort,compress"]
     header-includes:
       - \usepackage{setspace}
@@ -64,8 +57,8 @@ execute:
 
 {{< include introduction.qmd >}}
 
-{{< include methods.qmd >}}
-
 {{< include results.qmd >}}
 
 {{< include discussion.qmd >}}
+
+{{< include methods.qmd >}}

@@ -1,8 +1,15 @@
 | quantity | value | detail |
 |---|---|---|
-| upstream gauges peak SWE (m w.e.) | 0.068 | mean transmission 0.565 (n=28) |
-| downstream gauges peak SWE (m w.e.) | 0.04 | mean transmission 0.599 (n=40) |
-| control transmission slope vs peak SWE (per m w.e.) |    0 | p = 1.00 (n=82 controls); net of elevation p = 0.81 => snow does not drive transmission |
-| bound: snow-induced up-down slope difference |    0 | SWE gap 0.028 m x sensitivity; observed up-down slope diff -0.033 |
-| snow-free basins: up vs down transmission | 0.568 | down 0.605 (n_up=6, n_down=20); upstream buffering persists without snow |
-| snowy basins: up vs down transmission | 0.565 | down 0.592 (n_up=22, n_down=20) |
+| upstream placebo: treat x SPEI, unadjusted | -0.201 | SE 0.0904, p = 0.030; 15 treated / 44 control units |
+| upstream placebo: treat x SPEI, snow-adjusted (spei x peak-SWE z) | -0.166 | SE 0.0899, p = 0.070; snow term 0.0922 (SE 0.0360, p = 0.013) |
+| upstream placebo: treat x SPEI, low-snow units (below-median peak SWE) | -0.0829 | SE 0.0791, p = 0.304; 3 treated / 26 control units; peak SWE 0.0000-0.0012 m w.e. |
+| upstream placebo: treat x SPEI, early vs late period | -0.321 | early (<=2010) -0.3207 (SE 0.1180, p = 0.009); late (>2010) -0.2654 (SE 0.1795, p = 0.145); period change (treat x SPEI x late) 0.1034 (SE 0.1394, p = 0.461) |
+| upstream placebo: treat x SPEI x annual-SWE anomaly (snow-year modulation) | -0.0313 | SE 0.0472, p = 0.510; base spei x snow-year 0.0521 (SE 0.0374, p = 0.169) |
+| downstream: treat x SPEI, unadjusted | -0.165 | SE 0.0851, p = 0.058; 15 treated / 44 control units |
+| downstream: treat x SPEI, snow-adjusted (spei x peak-SWE z) | -0.141 | SE 0.0921, p = 0.131; snow term 0.0296 (SE 0.0262, p = 0.264) |
+| downstream: treat x SPEI, low-snow units (below-median peak SWE) | -0.0808 | SE 0.1207, p = 0.509; 6 treated / 23 control units; peak SWE 0.0000-0.0005 m w.e. |
+| downstream: treat x SPEI, early vs late period | -0.206 | early (<=2010) -0.2060 (SE 0.1276, p = 0.112); late (>2010) -0.3216 (SE 0.1851, p = 0.088); period change (treat x SPEI x late) -0.1047 (SE 0.1611, p = 0.518) |
+| downstream: treat x SPEI x annual-SWE anomaly (snow-year modulation) | -0.103 | SE 0.0809, p = 0.207; base spei x snow-year 0.0345 (SE 0.0328, p = 0.297) |
+| gauges: up vs down peak SWE (m w.e., ERA5-Land) | 0.0682 | down 0.0482 (gap 0.0200 m = 0.13 SD); n_up=28, n_down=32 |
+| control gauges: transmission slope per SD peak SWE |    0 | SE 0.0282, 95% CI [-0.0553, 0.0553], p = 0.999 (n=82); net of elevation p = 0.808 |
+| conservative bound: snow-induced up-down slope difference | 0.0072 | SWE gap 0.13 SD x CI-upper |sensitivity| 0.0553; observed differential gap -0.04 |

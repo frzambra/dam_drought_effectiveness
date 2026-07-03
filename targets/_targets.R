@@ -428,14 +428,17 @@ list(
              ssi_placebo_comparability(streamflow_stations, ssi12, ssi_panel_itt)),
   tar_target(table_placebo_check_file, write_table(ssi_placebo_check, "table_placebo_check"),
              format = "file"),
-  # Snowmelt-confound bound for the up/down placebo (reviewer 2026-07-02): per-gauge ERA5-Land SWE
-  # climatology -> does snow drive transmission? bound the up/down snow-induced slope difference.
+  # Snowmelt-confound bound for the up/down placebo (reviewer 2026-07-02, reworked after the
+  # internal NW review): test on the DIFFERENTIAL estimand (treat:spei_c of the up/down panels) —
+  # snow-adjusted refit, low-snow subsample, early/late stationarity, snow-year modulation — plus
+  # standardized gauge-level sensitivity rows.
   tar_target(swe_nc, cfg_sources$snow$file, format = "file"),
   tar_target(swe_clim, aggregate_swe_climatology(swe_nc, project_path("data/interim/snow/swe_chile_clim.tif"),
                                                  cfg_sources$snow$window),
              format = "file"),
   tar_target(snow_placebo_check,
-             build_snow_placebo_check(swe_clim, streamflow_stations, ssi12, ssi_panel_itt, cfg_sources)),
+             build_snow_placebo_check(swe_clim, streamflow_stations, ssi12,
+                                      ssi_panel_up, ssi_panel_down, cfg_sources)),
   tar_target(table_snow_placebo_file, write_table(snow_placebo_check, "table_snow_placebo"),
              format = "file"),
   # #6 POSITIVE CONTROL: inject a known buffering slope into treated downstream units, confirm the
@@ -500,12 +503,33 @@ list(
                                      ssi_panel_itt, ssi_panel_up)),
   tar_target(table_use_heterogeneity_file,
              write_table(use_heterogeneity$summary, "table_use_heterogeneity"), format = "file"),
-  # Descriptive checks for the inter-basin-transfer (SUTVA) and administrative-demand limitations
-  # (reviewer 2026-07-02, comments 5 & 6): treated/control cuenca disjointness + ongoing rights accrual.
+  # Inter-basin-transfer (SUTVA) + administrative-demand checks (reviewer 2026-07-02, comments 2 & 9),
+  # extended per the internal NW review: cuenca disjointness, aggregate registry openness, PLUS the
+  # differential pre-drought stock density and megadrought accrual (treated vs control closure test).
   tar_target(spillover_demand_checks,
              build_spillover_demand_checks(matched_set, subcuencas, water_rights_panel)),
   tar_target(table_spillover_demand_file,
              write_table(spillover_demand_checks, "table_spillover_demand"), format = "file"),
+  # Pre-drought aridity-window sensitivity (reviewer 2026-07-02, comment 6): the 1991-2020 matching
+  # baseline overlaps 11 megadrought years -> recompute on 1991-2009 / 2010-2020 and show design
+  # invariance + no treated-vs-control differential P/PET change during the drought.
+  tar_target(aridity_paths_pre,  { sources_yml; aridity_annual_paths(cfg_sources, years = 1991:2009) }),
+  tar_target(aridity_paths_post, { sources_yml; aridity_annual_paths(cfg_sources, years = 2010:2020) }),
+  tar_target(aridity_window_tab,
+             aridity_window_sensitivity(matched_set, subcuencas_dissolved,
+                                        aridity_paths_pre, aridity_paths_post)),
+  tar_target(table_aridity_window_file,
+             write_table(aridity_window_tab, "table_aridity_window"), format = "file"),
+  # Pre-trend MDE (reviewer 2026-07-02, comment 5): hold the flat pre-2010 cropland trend to the
+  # same equivalence/MDE standard as the headline nulls.
+  tar_target(pretrend_mde_tab, build_pretrend_mde(did_panel_area)),
+  tar_target(table_pretrend_mde_file,
+             write_table(pretrend_mde_tab, "table_pretrend_mde"), format = "file"),
+  # Physical-volume translation of the +-25% equivalence margin (reviewer round 2, comment 4).
+  tar_target(margin_volume_tab,
+             equivalence_volume_context(streamflow_monthly, streamflow_stations, ssi12)),
+  tar_target(table_margin_volume_file,
+             write_table(margin_volume_tab, "table_margin_volume"), format = "file"),
   # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
   tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
   tar_target(fig_et_confound_file,

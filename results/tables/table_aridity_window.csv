@@ -1,0 +1,5 @@
+quantity,value,detail
+"unit aridity, pre-drought (1991-2009) vs full (1991-2020) window: Pearson r",0.9982,Spearman rho 0.9993 (n=265 matched units)
+aridity-tercile agreement between windows (permutation strata),0.992,share of matched units assigned the same tercile
+"median P/PET, treated: pre-drought vs full window",0.273,"full 0.227; control pre 0.798, full 0.680"
+"megadrought change in P/PET (2010-2020 minus 1991-2009), treated minus control",-0.0441,"SE 0.0265, p = 0.10 (ebal-weighted); small against the ~0.5 treated-control aridity gap"
