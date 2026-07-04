@@ -235,6 +235,14 @@ metric_checks_tab|stem|88cc19523c30e784|fd9a6372559dcd3c|5fb65423f23717ec|-12188
 table_metric_checks_file|stem|5a600226f350b540|db1e6461b8d7a230|9cbff676f2db11b0|-1254953341|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_metric_checks.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_metric_checks.md|t20637.5550567195s|s1018b|1018|file|local|vector|||0.01||
 fig_convergent_obj|stem|030f73915aaf3d47|91c025deeb4a5f8f|124de705a8ab063a|-1649463070||t20637.5578454204s|s465939b|465939|rds|local|vector|||0.404|`geom_errorbarh()` was deprecated in ggplot2 4.0.0. ℹ Please use the `orientation` argument of `geom_errorbar()` instead.|
 fig_convergent_file|stem|f6736481bf2a59ab|f2ae195d9b599e65|d760f70f106da404|-365076396|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_convergent_null.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_convergent_null.png|t20637.5578627132s|s118366b|118366|file|local|vector|||1.363||
+dem_tif|stem|829a7b28485b766b|8765e659048c15e1|93d02c42e14c3394|-1435068170|/media/francisco/Respaldo_frzambra/data/DEM/Chile_DEM_SRTM_3s.tif|t20628.8229116758s|s570835147b|570835147|file|local|vector|||0.001||
+es_area_envelope|stem|fb7e973c3d01a67a|f3c7a622f68b984a|34b78cb41c93eb76|1847861268||t20637.7223709287s|s647b|647|rds|local|vector|||53.027||
+carryover_tab|stem|8578f5dbae39b120|7b05b4315643da4c|bd327e43f170d2ee|-1520680832||t20637.7223726171s|s501b|501|rds|local|vector|||0.064||
+fig_area_did_obj|stem|c1b26b84496a6403|97941acb72506859|7788cc9ad232fe72|519455241||t20637.7223880242s|s2823233b|2823233|rds|local|vector|||0.552||
+table_carryover_file|stem|13eba6685c5a829a|6599f83a9016867f|b51c95b361a531c6|1185320928|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_carryover.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_carryover.md|t20637.7223885256s|s1077b|1077|file|local|vector|||0.02||
+fig_area_did_file|stem|9ee6c03457a79a1c|bb939b40bbfa2092|6a3b4951c633e656|-585748355|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_area_did.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_area_did.png|t20637.7224168227s|s186723b|186723|file|local|vector|||2.056||
+geomorph_check_tab|stem|82c1763d47636040|2e92ee9c39f82de6|8ca3cf39b27e4622|442988752||t20637.7224475535s|s652b|652|rds|local|vector|||2.617||
+table_geomorph_file|stem|cab3a29c7c44371d|000b560fbd4ece5d|113fb1d019380fe6|729604410|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_geomorph.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_geomorph.md|t20637.7224476933s|s1951b|1951|file|local|vector|||0.001||
 combine_orchard_natural|function|026f24865c13a546
 .overlap_band|function|a4bb90d678c64d5e
 .refit_ebal|function|d2294018ccd1e7f0
@@ -243,6 +251,7 @@ combine_orchard_natural|function|026f24865c13a546
 .diff_trend_p|function|04ea2c94aa72665f
 extract_event_study|function|6023e97d58582543
 reservoir_commission_years|function|2518dd852f8ea1e9
+.phase_fit|function|12dd8608ea8dfc1a
 .baseline_slope|function|9dea87e0dc6c8f7e
 .gap_coef|function|f498915d8cd3110d
 equivalence_summary|function|91c29e17eb326792
@@ -355,13 +364,14 @@ fit_triple_diff|function|6ca7dbb7a77f497f
 fit_period_slopes|function|b7a687120b5a9bb7
 assign_water_rights_to_units|function|48a826d80799e982
 mirror_et_local|function|11605999b95a78c0
-read_gw_levels|function|b3ada0d30825bdae
 winsor_physical_check|function|c6b7c37708292353
+read_gw_levels|function|b3ada0d30825bdae
 assign_gw_wells|function|12211011a6966ea8
 storage_period_comparison|function|2e1b956d1fd0e2cf
 read_reservoir_points|function|6cc1fb941ec6e521
 .spatial_block_wr|function|19c70323505b8c10
 build_nonparam_overlap|function|b301986ebc25968b
+phase_split_rows|function|833c9280beae1f38
 perm_null_dist|function|88c59defd6623fcb
 permute_ssi_buffer|function|de238fada2d6ca98
 ssi_placebo_comparability|function|1a4c80f0117ebf4f
@@ -392,6 +402,7 @@ estimate_storage_threshold|function|1022573f58c432f5
 build_snow_placebo_check|function|4d7ce2ac7764c47c
 extract_unit_index_trend|function|a08c8017e6d06da4
 compare_grains|function|477fc1328f935f80
+build_phase_split_check|function|2d306332c50b2f24
 build_equivalence_table|function|457e4201e2fd6dd6
 build_volumetric_check|function|8a8838afb9667e72
 build_pretrend_mde|function|a1f038f9647d93a5
@@ -428,6 +439,7 @@ fig_et_confound|function|bc5980c24ea4e9cf
 fig_water_rights|function|a06f93106c43f92e
 fig_design_schematic|function|da8b12b866706751
 fig_covariate_balance|function|0f6d0fb4872a554f
+fig_aridity_overlap|function|4f62c3582b97b0ac
 fig_study_area|function|27cd10c9e39e1bc6
 fig_informative_null|function|0c25bf8678aeb9d6
 fig_storage_band|function|d38d8b6b7b00837a
@@ -436,11 +448,7 @@ fig_decomposition_ladder|function|28df90195b68be7c
 fig_streamflow|function|a96e024be5e3fa56
 fig_area_did|function|045e0b4b6c62bb96
 fig_drought_forcing|function|44511bb2009cf1f4
-dem_tif|stem|829a7b28485b766b|8765e659048c15e1|93d02c42e14c3394|-1435068170|/media/francisco/Respaldo_frzambra/data/DEM/Chile_DEM_SRTM_3s.tif|t20628.8229116758s|s570835147b|570835147|file|local|vector|||0.001||
-es_area_envelope|stem|fb7e973c3d01a67a|f3c7a622f68b984a|34b78cb41c93eb76|1847861268||t20637.7223709287s|s647b|647|rds|local|vector|||53.027||
-carryover_tab|stem|8578f5dbae39b120|7b05b4315643da4c|bd327e43f170d2ee|-1520680832||t20637.7223726171s|s501b|501|rds|local|vector|||0.064||
-fig_area_did_obj|stem|c1b26b84496a6403|97941acb72506859|7788cc9ad232fe72|519455241||t20637.7223880242s|s2823233b|2823233|rds|local|vector|||0.552||
-table_carryover_file|stem|13eba6685c5a829a|6599f83a9016867f|b51c95b361a531c6|1185320928|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_carryover.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_carryover.md|t20637.7223885256s|s1077b|1077|file|local|vector|||0.02||
-fig_area_did_file|stem|9ee6c03457a79a1c|bb939b40bbfa2092|6a3b4951c633e656|-585748355|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_area_did.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_area_did.png|t20637.7224168227s|s186723b|186723|file|local|vector|||2.056||
-geomorph_check_tab|stem|82c1763d47636040|2e92ee9c39f82de6|8ca3cf39b27e4622|442988752||t20637.7224475535s|s652b|652|rds|local|vector|||2.617||
-table_geomorph_file|stem|cab3a29c7c44371d|000b560fbd4ece5d|113fb1d019380fe6|729604410|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_geomorph.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_geomorph.md|t20637.7224476933s|s1951b|1951|file|local|vector|||0.001||
+fig_aridity_overlap_obj|stem|8dd488f3963a40ad|9e63c2e2ac501c0c|8087adc0dc343903|1958714881||t20637.8695396149s|s725667b|725667|rds|local|vector|||0.29|Selecting bandwidth not using 'weights'|
+fig_aridity_overlap_file|stem|1859f61d20cca185|4574e0964bdbe245|1cad271bfa572ebe|1900768429|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_aridity_overlap.pdf*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/figures/fig_aridity_overlap.png|t20637.869558658s|s213111b|213111|file|local|vector|||1.518||
+phase_split_check|stem|3a4da9881ebeccf9|470f8f22cb4f1b84|b47e3307e6115eff|-1765536760||t20637.8695708391s|s588b|588|rds|local|vector|||0.968||
+table_phase_split_file|stem|802d2ee5b70a8811|403485305e9fd3ac|ad96ffe4dab318b5|1841680560|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_phase_split.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_phase_split.md|t20637.8695711795s|s2499b|2499|file|local|vector|||0.019||

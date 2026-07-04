@@ -2,19 +2,18 @@ As warming intensifies drought across many regions
 [@Trenberth2014; @diffenbaugh_anthropogenic_2015], governments instinctively build more dams.
 Reservoirs are the dominant structural response to drought, and in the short term they work: more
 storage raises availability and lowers the frequency, severity and duration of shortage
-[@di_baldassarre_water_2018]. Yet a socio-hydrological view warns that the same infrastructure can
-be self-defeating over a dam's planning horizon. Greater supply invites expansion, so demand grows
+[@di_baldassarre_water_2018]. Yet a socio-hydrological view warns the same infrastructure can be
+self-defeating over a dam's planning horizon. Greater supply invites expansion, so demand grows
 to meet and then exceed each increment of storage (the
 supply-demand cycle); and prolonged reliance on stored abundance erodes the incentive to
 adapt, magnifying the damage when a drought finally outlasts the reservoir
 (the reservoir effect) [@di_baldassarre_water_2018]. Consistent with this, global demand has
-outpaced storage for decades, the returns of new dams are diminishing
+outpaced storage for decades, returns of new dams are diminishing
 [@li_diminishing_2023], and most reservoirs now fail to refill
 [@wang_reservoir_2024]. Whether these feedbacks dominate, or are outweighed by the protection dams
 provide, remains debated [@kellner_controversial_2021].
 
-The obstacle is that the reservoir effect for drought has been described far more than it has been
-measured. Reservoirs are built where irrigation demand and aridity
+The obstacle is that the reservoir effect for drought has been described far more than measured. Reservoirs are built where irrigation demand and aridity
 already concentrate, so dammed basins differ systematically from undammed ones before any drought
 strikes. The short-term hydrological benefit is documented
 [@wu_non-linear_2017; @wu_impacts_2018], though regulation can also redistribute scarcity in space
@@ -32,15 +31,19 @@ anthropogenic component
 Because the 1981 Water Code makes water-use rights perpetual private property that the state cannot
 readily curtail, the policy reflex has been supply-side: new
 dams and inter-basin transfers, alongside market incentives that concentrated water in high-value
-export crops [@Barria2021; @reade_malagueno_libre_2024]. Chile thus exhibits every ingredient of
+export crops [@Barria2021; @reade_malagueno_libre_2024; @rivera_legal_2016]. In the snow-fed basins
+of central Chile this demand already outruns supply in roughly three years of every ten
+[@webb_water_2021]. Chile thus exhibits every ingredient of
 the reservoir effect: extreme persistent forcing, a
-supply-side response, and demand expansion under weak adaptive feedback.
+supply-side response, and demand expansion under weak adaptive feedback, with most central Chilean
+farmers meeting a decade of drought through short-term agronomic cutbacks rather than durable
+adaptation [@jordan_adaptation_2025].
 
 Here we ask whether reservoirs build resilience or merely mark vulnerability under
 prolonged drought. We treat the presence of a major reservoir as a basin-level intervention and
 construct the missing counterfactual in two steps. First, we compare each dammed basin only against
 undammed basins sharing its climate and landscape, conditioning on the drought actually
-experienced, asking whether comparable basins convert the same deficit into different impacts. Second, within each dammed basin we compare regulated reaches below
+experienced. Second, within each dammed basin we compare regulated reaches below
 the dam against physically unregulated reaches above it, which share climate, geology and siting but
 not the reservoir. Throughout, outcomes are evaluated at annual to multi-year accumulations, the
 timescale of structural drought, not of seasonal operation. Together these turn the reservoir-effect hypothesis into a

@@ -441,6 +441,13 @@ list(
                                       ssi_panel_up, ssi_panel_down, cfg_sources)),
   tar_target(table_snow_placebo_file, write_table(snow_placebo_check, "table_snow_placebo"),
              format = "file"),
+  # Early/late megadrought phase split (reviewer round 7, comment 1): does the placebo hold at
+  # drought onset (2010-2014), before storage depletion could wash out early buffering? Per-phase
+  # treat:spei_c for the three subsets plus the treat:spei_c:late shift on the pooled panel.
+  tar_target(phase_split_check,
+             build_phase_split_check(ssi_panel_itt, ssi_panel_down, ssi_panel_up)),
+  tar_target(table_phase_split_file, write_table(phase_split_check, "table_phase_split"),
+             format = "file"),
   # #6 POSITIVE CONTROL: inject a known buffering slope into treated downstream units, confirm the
   # estimator recovers it and that randomization inference rejects once the effect exceeds the MDE.
   tar_target(ssi_positive_ctrl, ssi_positive_control(ssi_panel_down)),
@@ -621,6 +628,13 @@ list(
   tar_target(fig_balance_obj, fig_covariate_balance(matched_set, match_covariates)),
   tar_target(fig_balance_file,
              save_fig(fig_balance_obj, "fig_covariate_balance", width = "onehalf", height_mm = 150),
+             format = "file"),
+
+  # Supp fig: non-parametric aridity common-support/overlap check (reviewer round 7, comment 2) —
+  # shows the doubly-robust aridity adjustment interpolates inside the control support.
+  tar_target(fig_aridity_overlap_obj, fig_aridity_overlap(matched_set)),
+  tar_target(fig_aridity_overlap_file,
+             save_fig(fig_aridity_overlap_obj, "fig_aridity_overlap", width = "onehalf", height_mm = 95),
              format = "file"),
 
   # Fig 3 (was Fig 1): observed irrigated-area DiD — siting level gap + flat event-study (dynamic null)

@@ -63,10 +63,11 @@ short-term (1–3 month) operational buffering, which reservoirs are documented 
 than on levels) is how we break the collinearity between the 2010-onset megadrought and the
 treatment clock.
 
-**Hydrological drought.** Daily streamflow from the CR2 network (2000–2020) is aggregated to the
+**Hydrological drought.** Daily streamflow from the DGA network (2000–2020), gathered by the CR2 (Center for Climate and Resilience Research, https://cr2.cl) is aggregated to the
 Standardized Streamflow Index at 12 months [SSI-12; @Vicente-Serrano2012c; @lema_technical_2025], the regulated-flow
 analogue of SPEI-12 and the index in which meteorological deficits are re-expressed as hydrological
-drought [@VanLoon2015], used as the outcome in the within-basin placebo (below). Gauges are classified as upstream or downstream of each dam from an SRTM digital elevation model.
+drought, a propagation that reservoir operation is known to modify by lengthening and attenuating the
+transmitted signal [@VanLoon2015; @wang_propagation_2016], used as the outcome in the within-basin placebo (below). Gauges are classified as upstream or downstream of each dam from an SRTM digital elevation model.
 Because SSI standardizes each gauge on its own, for regulated gauges post-dam, flow distribution,
 the transmission slope tests distribution-relative propagation and would divide out any dam-induced
 variance compression; we therefore re-estimate every buffering model and the placebo on log
@@ -76,7 +77,7 @@ flow variability by gauge class (Supplementary Table S19).
 
 **Ecological and land-use outcomes.** (i) annual cropland area from MapBiomas Chile (https://chile.mapbiomas.org/)
 Collection 2 (30 m, 1999–2024); (ii) actual evapotranspiration from MODIS MOD16 (8-day, ~500 m,
-2001–2024), for whole basins and for an orchard stratum delineated from the CIREN/ODEPA cadastre (https://icet.odepa.gob.cl/). Satellite vegetation and evapotranspiration signals track drought-driven losses of agricultural
+2001–2024), for whole basins and for an orchard stratum delineated from the *Centro de Información de Recursos Naturales* (CIREN) and *Oficina de Estudios y Políticas Agrarias* (ODEPA) cadastre (https://icet.odepa.gob.cl/). Satellite vegetation and evapotranspiration signals track drought-driven losses of agricultural
 productivity in Chile closely enough to serve as impact outcomes [@Zambrano2018].
 
 **Water rights.** The DGA consolidated registry of water-use rights (*Derechos de Aprovechamiento de
@@ -132,7 +133,7 @@ We estimate the average treatment effect on the treated (ATT) using **entropy ba
 (`WeightIt`, `method = "ebal"`) exact-matched within Köppen main group, balancing **log(area)** and
 **mean elevation** (see the archived analysis repository). Balancing on size and elevation rather than
 latitude is deliberate: latitude and the climate class fight each other across the Andes–Patagonia
-span, and substituting SRTM elevation raised the effective control sample size from ≈9 to ≈91 while
+span, and substituting SRTM elevation raised the effective control sample size (ESS) from ≈9 to ≈91 while
 balancing latitude for free.
 
 Entropy balancing is a calibration estimator: given the weights, covariate balance is exact by
@@ -143,8 +144,8 @@ matching within Köppen main group is itself a coarse spatial blocking, and lati
 untargeted, balances as a by-product (Supplementary Fig. S5).
 The procedure retains 21 of 24 treated sub-watersheds (three high-Andes units fall outside local
 elevation common support) and achieves essentially perfect balance (standardized mean differences
-for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1), with an
-effective control sample size ≈91 out of 244 in-window controls. The 244 in-window controls are
+(SMD) for log(area) and elevation fall from 1.18 / 0.37 to ≈0.000, variance ratios ≈1), with an
+ESS ≈91 out of 244 in-window controls. The 244 in-window controls are
 the subset of the 398 clean controls that survives the common-support trim shared by every matching
 estimator: a control must lie in a Köppen main group containing a treated unit and within 250 m of
 that group's treated elevation range, and groups with fewer than ten such controls are dropped, so
@@ -156,11 +157,17 @@ the doubly-robust outcome model absorbs. We nonetheless report the strict hard-b
 (entropy balancing targeting log-aridity as well, SMD 0.000, ESS ≈19) as a primary sensitivity:
 with no parametric extrapolation across the regime gap at all, the streamflow, cropland, and
 water-rights results remain null, and even the *apparent* buffering vanishes, the direct signature
-of an aridity confound rather than a reservoir effect (Supplementary Table S17). The parametric
+of an aridity confound rather than a reservoir effect (Supplementary Table S17). At ESS ≈19 the
+hard-balanced fit is underpowered as a stand-alone estimator; its evidential value is agreement
+with the powered primary, not independent power. The parametric
 log-aridity adjustment is itself validated among undammed controls: their baseline SPEI-to-SSI
 slope varies smoothly and monotonically across aridity terciles (0.65 arid, 0.70 mid, 0.74 humid),
 with no regime break for a linear adjustment to misfit (Supplementary Table S20). Because this residual is real, the outcome-model adjustment
-for aridity is *load-bearing* rather than cosmetic and extrapolates across a genuine regime gap: the
+for aridity is *load-bearing* rather than cosmetic; the gap it bridges is one of distributional
+density, not of support: all 21 dammed basins lie inside the control aridity range and inside the
+control 5th to 95th percentile band, and the control density is strictly positive across the
+treated support, so the adjustment interpolates within overlap rather than extrapolating beyond it
+(Supplementary Fig. S8). Accordingly, the
 reported cross-sectional ATTs use a **linear** log-aridity adjustment, adding a quadratic aridity
 term leaves the qualitative conclusions unchanged (archived robustness), and restricting to the
 aridity-overlap subset (all 21 treated basins and 158 of 244 controls fall inside it) leaves the
@@ -185,7 +192,7 @@ treatment effects are reported with and without those units.
 
 **Doubly-robust matched ATT.** Each outcome is estimated three ways on the same sample, comprising
 weighting-only (ebal-weighted difference in means), regression-only (covariate-adjusted
-g-computation), and the headline **doubly-robust** estimator (ebal weights *and* an outcome model
+g-computation), and the headline **doubly-robust (DR)** estimator (ebal weights *and* an outcome model
 in log(area), elevation, and log(aridity)), so functional-form sensitivity is visible. Continuous
 covariates are centred at the treated mean so the treatment coefficient reads as the ATT; standard
 errors are HC3-robust (ebal weights treated as fixed, the standard mildly anti-conservative
@@ -222,7 +229,7 @@ deficit-to-impact slope between dammed and matched-control basins, robust to the
 siting-in-arid-central-Chile confound, which biases levels far more than slopes. The vulnerability
 hypothesis predicts $\beta > 0$.
 
-**Equivalence testing and minimum detectable effect.** Because the headline results are nulls, we
+**Equivalence testing and minimum detectable effect (MDE).** Because the headline results are nulls, we
 move beyond failure-to-reject and bound the operational effect. For each null we report a two
 one-sided test (TOST): the effect is declared equivalent to zero if its 90% confidence interval lies
 within a negligible region of ±25% of the baseline (untreated) transmission slope. We are not aware
@@ -242,7 +249,7 @@ move a basin across an operational drought-severity threshold even under the wor
 and is marginal for drought management. We stress that 25% of the transmission
 slope nonetheless corresponds to a non-trivial absolute water volume: translating the maximal margin
 perturbation (0.29 SSI units) through each treated downstream gauge's flow-to-SSI sensitivity gives
-a median of roughly 58 hm³ over a 12-month season (IQR 16 to 137 hm³ across the 40 gauges, about 11%
+a median of roughly 58 hm³ over a 12-month season (interquartile range, IQR: 16 to 137 hm³ across the 40 gauges, about 11%
 of mean annual flow; the linear sensitivity overstates the dry-tail volume, so these are upper-end
 figures; Supplementary Table S16). A volume of this order is genuinely material for local water
 management, so the margin is anchored to the operational drought-severity classification, not to
@@ -292,7 +299,11 @@ transmission slope on elevation among undammed control gauges, so that any eleva
 difference is measured rather than assumed. The linearity of that sensitivity is checked across the
 ~2000 m snowline with a piecewise fit among controls (no detectable break, interaction $p = 0.25$;
 Supplementary Table S20), and the snow regime itself is tested directly on the placebo estimand
-(Supplementary Table S12).
+(Supplementary Table S12). To exclude that the pooled 2005–2024 slope averages an early-phase
+buffering (storage intact) into a late-phase failure (storage depleted), the buffering and placebo
+models are re-fit separately on the early (2010–2014) and late (2015–2024) megadrought phases, and
+the early-to-late change is tested as a treat × SPEI × phase interaction on the pooled megadrought
+panel (year fixed effects absorb the phase level; Supplementary Table S24).
 
 ## Inference
 

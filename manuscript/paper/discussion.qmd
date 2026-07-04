@@ -3,29 +3,29 @@
 Across a matched national design and multiple estimators, the operational effect of
 reservoirs on drought brackets zero once siting is matched out. Dammed basins hold about 4.6
 times more cropland than matched controls, but that gap is fixed across the record, with parallel
-pre-trends and no megadrought divergence. One reading fits:
+pre-trends and no detected megadrought divergence. One reading fits:
 reservoirs mark where water-dependent vulnerability already concentrated rather than make it. This is a finding, not a failure of power: the apparent effect has an
-identified cause, and the positive control shows the design detects buffering. The placebo is the cleanest
-falsification: a regulation effect must appear below the dam and be absent above it, and it is not;
-what remains is the aridity gradient.
+identified cause and the positive control shows the design detects buffering. The placebo is the cleanest
+falsification: a regulation effect must appear only below the dam; it does not, and what remains
+is the aridity gradient.
 
 The corollary is transferable: dammed-versus-undammed or before-after contrasts inherit the
 full siting confound
 [@lopezmoreno_dam_2009; @wu_non-linear_2017; @schilstra_effects_2024; @lee_drought_2026]. The
 upstream placebo ports to regulated rivers with gauges above and below a dam, most directly to
-short, steep catchments like Chile's; in large low-gradient basins, longer transit,
-floodplain storage and transmission losses would blur the contrast, and porting it
-would need routing-corrected lags, naturalized-flow counterfactuals, or synthetic gauges from
-unregulated tributaries.
+short, steep catchments like Chile's; in large low-gradient basins,
+floodplain storage and transmission losses would blur the contrast; porting it would need
+routing-corrected lags or naturalized-flow counterfactuals.
 
 If reservoirs neither buffer nor amplify multi-year drought operationally, what matters
 is the water available to store. The storage band steps down at the
 megadrought onset, peak and trough together, while the amplitude trend is too imprecise to
 determine whether buffering capacity degraded. The powered result is the level decline, the expected mass-balance outcome of persistent
 inflow deficits; descriptive and confounded with management change, it supports no causal
-attribution but is commensurate with the independent decline in unregulated control
-streamflow. Read against Chile's structural aridification
-[@zambrano_drought_2025; @garreaud_20102015_2017; @AlvarezGarreton2021] and the global pattern of
+attribution but matches the independent decline in unregulated control streamflow. Read against Chile's structural aridification
+[@zambrano_drought_2025; @garreaud_20102015_2017; @AlvarezGarreton2021], accelerating Andean warming
+and snow loss now cutting into the snow-fed streamflow these basins depend on [@kim_andes_2025], and
+the global pattern of
 reservoirs failing to refill
 [@wang_reservoir_2024; @li_diminishing_2023], the binding constraint is shifting toward supply.
 
@@ -34,18 +34,18 @@ These findings give the contested socio-hydrological *reservoir effect* and *sup
 identified test, and find the protective function over-attributed to storage. Because treatment is
 time-invariant, we test the spatial imprint of these feedbacks, not the
 longitudinal loop: the 4.6-fold cropland gap could be the equilibrated legacy of
-demand induced at construction, before our record, so the null scopes to the megadrought era rather
-than ruling out historical induced demand, testable only with staggered
-commissioning; and it observes only the scarcity phase, expansion unfolding under perceived
-abundance before our record, so the null bounds drought-era expansion, not the cycle as a whole. Within scope the
+demand induced at construction, so the null scopes to the megadrought era, not historical induced
+demand, testable only with staggered commissioning; and it observes only the scarcity phase,
+expansion unfolding under perceived abundance before our record, so it bounds drought-era
+expansion, not the cycle as a whole. Within scope the
 nulls refine the theory: the cycle
 leaves no operational imprint during drought, so its mechanisms likely act through siting and
 construction rather than operation, a distinction current
 models omit. How far the demand-side null
-travels depends on governance: the siting lesson holds wherever dams are placed non-randomly,
-but prior appropriation, with forfeiture of unused rights, may amplify induced demand and
-adaptive state allocation can curtail it: governance-mediated, not universal. Whether the null is general or the mark of a fully allocated
-market at a hard ceiling we cannot adjudicate: rights kept accruing in dammed basins, though
+travels depends on governance: the siting lesson holds wherever dams are placed non-randomly;
+prior appropriation, which forfeits unused rights, may amplify induced demand while adaptive
+allocation curtails it. Whether the null is general or the mark of a fully allocated
+market we cannot adjudicate: rights kept accruing in dammed basins, though
 unallocated systems could express induced demand ours cannot.
 
 Chile's 1981 Water Code makes water-use rights perpetual private
@@ -56,43 +56,51 @@ toward the adaptive allocation our results argue for
 structural aridification, building more storage is a supply-blind
 response to a supply problem: the buffering dams provide is a property of where they sit, not of
 what they do [@ho_future_2017]. Adaptation must shift toward demand management,
-reallocation and managed aquifer recharge [@grafton_paradox_2018; @scanlon_global_2023].
+reallocation and managed aquifer recharge [@grafton_paradox_2018; @scanlon_global_2023;
+@rivera-vidal_managed_2025].
 
 Several limitations bound these conclusions, each quantified in the Supplementary
 Information. The result is a bounded null: the design excludes streamflow buffering above 46 to 59% of
 baseline, demand-side outcomes are far less powered and the pre-trend test power-limited
 (Supplementary Tables S2, S14), so causal weight rests on the placebo, demand nulls corroborating;
-all survive the hard-balanced match (Supplementary Table S17). Cropland area and the registry miss intensification within an unchanged footprint and entitlement
-stock; central Chile's documented shift toward thirsty export fruit
-[@reade_malagueno_libre_2024] is exactly such a transition, invisible to both metrics; a
+all survive the hard-balanced match (Supplementary Table S17). The registry measures paper rights, not wet water: Chilean basins are widely over-allocated and
+granted rights can sit unused or hoarded [@Barria2021; @reade_malagueno_libre_2024], so under
+drought, when physical availability binds, the accrual we test is an entitlement response that
+non-use could dampen; cropland is the physical check. Both metrics also miss intensification
+within an unchanged footprint; central Chile's documented shift toward thirsty export fruit
+[@reade_malagueno_libre_2024] is exactly such a transition, invisible to both; a
 consumption-grade test awaits thermal ET or crop-transition maps.
 Groundwater substitution is bounded, dammed and control water tables falling at indistinguishable
 rates across 213 DGA wells despite severe regional drawdown [@Taucare2024]; monitored wells need
 not sample the orchard footprints where pumping concentrates, so unmonitored drawdown could
-sustain a historically reservoir-induced footprint (Supplementary Table S10). The snowmelt confound, acute in
-these snow-fed Andean basins [@ayala_glaciers_2025;
-@gotte_hydrological_2024], is tested on the differential estimand: the equivalence
-survives a forcing-by-snowpack adjustment, persists among low-snow units, does not strengthen in
-high-snow years, and shows no early-late divergence (Supplementary Table S12). A direct local-relief metric separating bedrock canyons from alluvial valleys leaves the placebo
+sustain a historically reservoir-induced footprint (Supplementary Table S10). In that reading the
+reservoir effect is not absent but displaced to the aquifer, a construction-era legacy persisting
+on a pool the design cannot see; the well bound and flat cropland trajectories argue against
+substitution at scale but do not close the pathway. The snowmelt confound, acute in
+these snow-fed Andean basins [@ayala_glaciers_2025; @gotte_hydrological_2024], is tested on the
+differential estimand and excluded across four specifications (Supplementary Table S12). A direct local-relief metric separating bedrock canyons from alluvial valleys leaves the placebo
 unchanged and shows no buffering in alluvial units (Supplementary Table S22), though 2.5 km relief
-cannot resolve aquifer storage itself, a residual caveat. Administrative closure cannot force the demand null: treated basins entered the drought with
+cannot resolve aquifer storage itself, a residual caveat. The placebo also spans land-cover and
+abstraction contrasts, downstream valleys more cultivated, upstream reaches carrying unrecorded
+diversions; gauge fixed effects absorb these level differences, and drought-intensified upstream
+abstraction would steepen upstream transmission, working against the observed upstream attenuation, not
+producing it. Administrative closure cannot force the demand null: treated basins entered the drought with
 higher allocated stock yet accrued rights 2.7 times faster, and parallel control cropland
 contradicts collapse prevention (Supplementary Table S15). No matched pair shares a watershed; outbound transfers would shrink the
 gap and imports would mimic downstream-specific buffering, which is absent (Supplementary Table
 S15); irrigation-only restriction leaves the result unchanged (Supplementary Table S11). MOD16's bias toward the null excludes the ET pathway from evidence
-(Results; Supplementary Table S21); the demand conclusion rests on cropland and the registry, with
-a thermal ET sensitivity (Landsat or ECOSTRESS class) as future work. Finally, the 12-month accumulation targets multi-year
+(Supplementary Table S21); the demand conclusion rests on cropland and the registry, with thermal
+ET as future work. Finally, the 12-month accumulation targets multi-year
 vulnerability, not the sub-seasonal buffering reservoirs also provide, which we neither
 test nor dispute. The fleet is partly seasonal by design, the median
 treated reservoir storing 0.3 years of downstream flow, yet seven of 17 hold at least half a year,
-four exceed a year, and none empties seasonally (trough 39% of capacity; Supplementary Table S23):
-carryover was physically available, so its absence in outcomes is not a design tautology. Two extensions can test what our window cannot: a staggered event study of
-cropland around historical commissioning, feasible with the Landsat archive and agricultural
-censuses, would probe construction-phase induced demand; a
-rule-curve quasi-experiment on release records, once public, would isolate operation.
+four exceed a year, and none empties seasonally (Supplementary Table S23):
+carryover was physically available, so its absence in outcomes is not a design tautology. Two extensions can test what our window cannot: a staggered event study of cropland around
+historical commissioning would probe construction-phase induced demand; a rule-curve
+quasi-experiment on release records, once public, would isolate operation.
 
-Returning to the motivating question, at the multi-year timescale of structural aridification
-reservoirs neither create resilience nor postpone vulnerability operationally: storage neither
+At the multi-year timescale of structural aridification, then, reservoirs neither create
+resilience nor postpone vulnerability operationally: storage neither
 buffers nor amplifies the drought signal beyond what siting implies, while the water available to
 store declines. The nulls are bounds, not zeros; effects inside them can be volumetrically material
 (Supplementary Table S16). Resilience to a falling supply ceiling will come from confronting

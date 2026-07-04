@@ -833,3 +833,59 @@ fig_convergent_null <- function(results_table) {
                    strip.background = ggplot2::element_blank(),
                    panel.spacing = ggplot2::unit(4, "mm"))
 }
+
+#' FIGURE (supp, common support): non-parametric overlap of baseline aridity (Reviewer 3 round 7,
+#' comment 2). Treated basins are systematically more arid than controls (residual SMD 0.17 after
+#' balancing), and the primary estimator adjusts this parametrically; this plot shows whether that
+#' adjustment interpolates inside common support or extrapolates beyond it. Densities of log P/PET
+#' for control basins (unweighted and entropy-weighted) versus dammed basins, with per-basin rug
+#' marks; annotations report the share of treated units inside the control range and inside the
+#' control 5th-95th percentile band.
+#' @param matched_set fit_matched_set() output; data carries treated, w, log_aridity
+fig_aridity_overlap <- function(matched_set) {
+  pal <- nw_pal(); cfg <- fig_cfg()
+  d <- data.table::as.data.table(matched_set$data)[is.finite(log_aridity)]
+  ctl <- d[treated == 0L]; trt <- d[treated == 1L]
+
+  rng   <- range(ctl$log_aridity)
+  q0595 <- stats::quantile(ctl$log_aridity, c(0.05, 0.95))
+  in_rng <- mean(trt$log_aridity >= rng[1] & trt$log_aridity <= rng[2])
+  in_q   <- mean(trt$log_aridity >= q0595[1] & trt$log_aridity <= q0595[2])
+
+  dens <- function(x, w = NULL) {
+    dd <- if (is.null(w)) stats::density(x) else stats::density(x, weights = w / sum(w))
+    data.table::data.table(x = dd$x, y = dd$y)
+  }
+  dc  <- dens(ctl$log_aridity)
+  dcw <- dens(ctl$log_aridity, ctl$w)
+  dt_ <- dens(trt$log_aridity)
+
+  ggplot2::ggplot() +
+    ggplot2::annotate("rect", xmin = q0595[1], xmax = q0595[2], ymin = -Inf, ymax = Inf,
+                      fill = "grey92") +
+    ggplot2::geom_area(data = dc, ggplot2::aes(x, y, fill = "Control (unweighted)"),
+                       alpha = 0.35, colour = NA) +
+    ggplot2::geom_line(data = dcw, ggplot2::aes(x, y, colour = "Control (entropy-weighted)"),
+                       linetype = "22", linewidth = 0.6) +
+    ggplot2::geom_line(data = dt_, ggplot2::aes(x, y, colour = "Dammed"), linewidth = 0.7) +
+    ggplot2::geom_rug(data = ctl, ggplot2::aes(log_aridity), sides = "b",
+                      colour = cfg$palette$neutral, alpha = 0.5, length = ggplot2::unit(2, "mm")) +
+    ggplot2::geom_rug(data = trt, ggplot2::aes(log_aridity), sides = "t",
+                      colour = pal[["treated"]], length = ggplot2::unit(2.5, "mm")) +
+    ggplot2::scale_fill_manual(values = c("Control (unweighted)" = cfg$palette$neutral),
+                               name = NULL) +
+    ggplot2::scale_colour_manual(values = c("Control (entropy-weighted)" = "grey25",
+                                            "Dammed" = pal[["treated"]]), name = NULL) +
+    ggplot2::annotate("text", x = -Inf, y = Inf, hjust = -0.05, vjust = 1.4,
+                      size = cfg$font$geom_text_size, colour = "grey20",
+                      label = sprintf(
+                        "treated inside control range: %d/%d (%.0f%%)\ninside control 5th-95th pctl (shaded): %.0f%%",
+                        sum(trt$log_aridity >= rng[1] & trt$log_aridity <= rng[2]),
+                        nrow(trt), 100 * in_rng, 100 * in_q)) +
+    ggplot2::labs(title = "Baseline aridity: dammed basins lie inside the control support",
+                  subtitle = "densities of log P/PET; rugs mark individual basins (top, dammed; bottom, control)",
+                  x = "Baseline aridity, log(P/PET)", y = "Density") +
+    theme_nw() +
+    ggplot2::theme(legend.position = "bottom",
+                   plot.subtitle = ggplot2::element_text(size = fig_cfg()$font$base_size_pt))
+}
