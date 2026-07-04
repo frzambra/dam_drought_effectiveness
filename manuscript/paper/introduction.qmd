@@ -47,4 +47,6 @@ experienced. Second, within each dammed basin we compare regulated reaches below
 the dam against physically unregulated reaches above it, which share climate, geology and siting but
 not the reservoir. Throughout, outcomes are evaluated at annual to multi-year accumulations, the
 timescale of structural drought, not of seasonal operation. Together these turn the reservoir-effect hypothesis into a
-falsifiable, causally framed test in the setting where it matters most.
+falsifiable, causally framed test in the setting where it matters most. The answer travels: drying
+Mediterranean-climate regions from western North America to Iberia and Australia face the same
+choice between more storage and demand reform [@overpeck_climate_2020; @ho_future_2017].

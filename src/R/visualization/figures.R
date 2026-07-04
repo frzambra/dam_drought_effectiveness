@@ -586,6 +586,20 @@ fig_streamflow <- function(sf_summary, ssi_panel_down) {
   d[, sbin := cut(spei, unique(brk), include.lowest = TRUE)]
   binned <- d[, .(spei = stats::weighted.mean(spei, w), ssi = stats::weighted.mean(ssi, w)),
               by = .(grp, sbin)][!is.na(sbin)]
+  # direct line-end labels (replace the legend): the flatter dammed slope IS the apparent buffering,
+  # so say so on the plot itself rather than leaving the reading to the caption (DeepSeek review S5)
+  fits <- d[is.finite(spei) & is.finite(ssi), {
+    m <- stats::lm(ssi ~ spei, weights = w)
+    xr <- max(spei)
+    .(x = xr, y = stats::coef(m)[[1]] + stats::coef(m)[[2]] * xr)
+  }, by = grp]
+  fits[, `:=`(lab = data.table::fifelse(grp == "treated",
+                                        "dammed: flatter slope,\nthe apparent buffering",
+                                        "matched control"),
+              vj = data.table::fifelse(grp == "treated", 0.5, -0.6))]
+  # drop the dammed label into the empty lower-right region, clear of the fit line and the
+  # binned points that sit on it (the control label rides just above its line end)
+  fits[grp == "treated", y := y - 0.85]
   pa <- ggplot2::ggplot(d, ggplot2::aes(spei, ssi, colour = grp)) +
     ggplot2::annotate("rect", xmin = -Inf, xmax = -1, ymin = -Inf, ymax = Inf,
                       fill = "grey85", alpha = 0.5) +
@@ -593,7 +607,9 @@ fig_streamflow <- function(sf_summary, ssi_panel_down) {
                       size = cfg$font$geom_text_size, colour = "grey30", label = "drought (SPEI < -1)") +
     ggplot2::geom_smooth(ggplot2::aes(weight = w), method = "lm", se = TRUE, linewidth = 0.5) +
     ggplot2::geom_point(data = binned, size = 0.9) +
-    ggplot2::scale_colour_manual(values = pal, labels = labs) +
+    ggplot2::geom_text(data = fits, ggplot2::aes(x, y, label = lab, vjust = vj), hjust = 1,
+                       size = cfg$font$geom_text_size, lineheight = 0.9, show.legend = FALSE) +
+    ggplot2::scale_colour_manual(values = pal, labels = labs, guide = "none") +
     ggplot2::labs(tag = "a", x = "Meteorological drought  SPEI-12", y = "Streamflow drought  SSI-12",
                   subtitle = "Downstream gauges; points are decile-binned weighted means") +
     theme_nw() +
@@ -601,8 +617,13 @@ fig_streamflow <- function(sf_summary, ssi_panel_down) {
 
   s <- data.table::as.data.table(sf_summary)
   s[, `:=`(lo = treat_spei_c - 1.96 * se, hi = treat_spei_c + 1.96 * se)]
-  s[, subset := factor(subset, levels = c("upstream placebo", "downstream", "ITT"))]
   s[, placebo := subset == "upstream placebo"]
+  # self-explanatory tick labels: each row says what it is physically, so a non-specialist can read
+  # the placebo logic off the panel without the caption (DeepSeek review S5)
+  s[, subset := factor(subset, levels = c("upstream placebo", "downstream", "ITT"),
+                       labels = c("upstream placebo\n(above dam, unregulated)",
+                                  "downstream\n(below dam, regulated)",
+                                  "intent-to-treat\n(up- and downstream)"))]
   pb <- ggplot2::ggplot(s, ggplot2::aes(treat_spei_c, subset)) +
     ggplot2::geom_vline(xintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.4) +
     ggplot2::geom_errorbarh(ggplot2::aes(xmin = lo, xmax = hi), height = 0.16,
@@ -612,8 +633,10 @@ fig_streamflow <- function(sf_summary, ssi_panel_down) {
                        vjust = -1, size = cfg$font$geom_text_size, colour = "grey30") +
     ggplot2::scale_colour_manual(values = c(`FALSE` = pal[["treated"]], `TRUE` = cfg$palette$neutral),
                                  guide = "none") +
-    ggplot2::labs(tag = "b", x = "Dammed × SPEI slope gap (treat:SPEI; <0 = buffering)", y = NULL) +
-    theme_nw()
+    ggplot2::labs(tag = "b", x = "Dammed × SPEI slope gap (treat:SPEI; <0 = buffering)", y = NULL,
+                  subtitle = "A dam effect must appear only below the dam") +
+    theme_nw() +
+    ggplot2::theme(plot.subtitle = ggplot2::element_text(size = cfg$font$base_size_pt))
 
   patchwork::wrap_plots(pa, pb, ncol = 1, heights = c(1, 0.8)) +
     patchwork::plot_annotation(
@@ -675,11 +698,25 @@ fig_area_did <- function(did_panel_area, es_area, ref_year = 2009L, es_envelope 
 
   # panel a: weighted mean trajectory with an honest 95% band, y-axis anchored at 0
   traj <- group_year_means(did_panel_area, "y")
+  # the headline siting gap (~4.5x, 10.8% vs 2.4%), drawn on the plot as a bracket so the level
+  # difference reads at a glance rather than only from the caption (DeepSeek review S5)
+  gapm <- traj[, .(m = mean(m)), by = group]
+  mT <- gapm[group == "treated", m]; mC <- gapm[group == "control", m]
+  yr0 <- min(traj$year) + 1L
+  aT <- traj[group == "treated" & year == yr0, m]
+  aC <- traj[group == "control" & year == yr0, m]
   pa <- ggplot2::ggplot(traj, ggplot2::aes(year, 100 * m, colour = group, fill = group)) +
     mega() +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = 100 * (m - 1.96 * se), ymax = 100 * (m + 1.96 * se)),
                          colour = NA, alpha = cfg$palette$ci_band_alpha) +
     ggplot2::geom_line(linewidth = 0.5) + ggplot2::geom_point(size = 0.7) +
+    ggplot2::annotate("segment", x = yr0, xend = yr0, y = 100 * aC, yend = 100 * aT,
+                      arrow = grid::arrow(ends = "both", length = grid::unit(1.6, "mm")),
+                      colour = "grey30", linewidth = 0.35) +
+    ggplot2::annotate("text", x = yr0 + 0.6, y = 100 * (aC + aT) / 2, hjust = 0,
+                      size = cfg$font$geom_text_size, colour = "grey30", lineheight = 0.9,
+                      label = sprintf("siting gap ~%.1fx (%.1f%% vs %.1f%%),\nin place before the megadrought",
+                                      mT / mC, 100 * mT, 100 * mC)) +
     ggplot2::scale_colour_manual(values = pal, labels = labs) +
     ggplot2::scale_fill_manual(values = pal, labels = labs) +
     ggplot2::scale_y_continuous(limits = c(0, NA)) +
@@ -740,6 +777,9 @@ fig_storage_band <- function(band_annual, band_trends) {
               amp_m = stats::median(amplitude)), by = year]
   data.table::setorder(by, year); yl <- max(by$year)
 
+  # concept bracket: the peak-trough span IS the seasonal refill, i.e. the buffering capacity,
+  # so draw it once explicitly instead of leaving the reading to the caption (DeepSeek review S5)
+  yr1 <- min(by$year) + 1L
   pa <- ggplot2::ggplot(by, ggplot2::aes(year)) +
     ggplot2::geom_hline(yintercept = 100, linetype = "dotted", colour = cfg$palette$neutral,
                         linewidth = 0.3) +
@@ -751,6 +791,13 @@ fig_storage_band <- function(band_annual, band_trends) {
     ggplot2::geom_line(ggplot2::aes(y = 100 * trough_m), colour = pal[["control"]], linewidth = 0.5) +
     ggplot2::geom_line(ggplot2::aes(y = 100 * amp_m), colour = "grey45", linewidth = 0.5,
                        linetype = "longdash") +
+    ggplot2::annotate("segment", x = yr1, xend = yr1,
+                      y = 100 * by[year == yr1, trough_m], yend = 100 * by[year == yr1, peak_m],
+                      arrow = grid::arrow(ends = "both", length = grid::unit(1.6, "mm")),
+                      colour = "grey45", linewidth = 0.35) +
+    ggplot2::annotate("text", x = yr1 + 0.4, y = 100 * by[year == yr1, (trough_m + peak_m) / 2],
+                      hjust = 0, size = cfg$font$geom_text_size, colour = "grey45", lineheight = 0.9,
+                      label = "seasonal refill\n(the buffering capacity)") +
     ggplot2::annotate("text", x = yl, y = 100 * by[year == yl, peak_m], label = "peak",
                       hjust = 1, vjust = -0.7, size = cfg$font$geom_text_size, colour = pal[["treated"]]) +
     ggplot2::annotate("text", x = yl, y = 100 * by[year == yl, trough_m], label = "trough",
@@ -763,7 +810,11 @@ fig_storage_band <- function(band_annual, band_trends) {
     theme_nw()
 
   tr <- data.table::as.data.table(band_trends)
-  tr[, component := factor(component, levels = c("amplitude", "trough", "peak"))]
+  # physically meaningful row labels so panel b reads without the caption (DeepSeek review S5)
+  tr[, component := factor(component, levels = c("amplitude", "trough", "peak"),
+                           labels = c("amplitude\n(refill capacity)",
+                                      "trough\n(end of dry season)",
+                                      "peak\n(end of wet refill)"))]
   pb <- ggplot2::ggplot(tr, ggplot2::aes(100 * slope, component)) +
     ggplot2::geom_vline(xintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.4) +
     ggplot2::geom_errorbarh(ggplot2::aes(xmin = 100 * ci_lo, xmax = 100 * ci_hi), height = 0.16,
@@ -802,6 +853,13 @@ fig_convergent_null <- function(results_table) {
   d[, label := factor(outcome, levels = unique(outcome))]
 
   ggplot2::ggplot(d, ggplot2::aes(z, label)) +
+    # shaded no-effect region: makes "what counts as a meaningful effect" visible on the plot
+    # itself rather than only in the axis label (DeepSeek review S5)
+    ggplot2::annotate("rect", xmin = -1.96, xmax = 1.96, ymin = -Inf, ymax = Inf,
+                      fill = "grey92") +
+    ggplot2::annotate("text", x = 0, y = -Inf, vjust = -0.4,
+                      size = cfg$font$geom_text_size, colour = "grey45",
+                      label = "no detectable effect") +
     ggplot2::geom_vline(xintercept = c(-1.96, 1.96), linetype = "dotted",
                         colour = cfg$palette$neutral, linewidth = 0.3) +
     ggplot2::geom_vline(xintercept = 0, colour = cfg$palette$zero_line, linewidth = 0.4) +
@@ -812,6 +870,12 @@ fig_convergent_null <- function(results_table) {
     ggplot2::geom_text(data = d[!is.na(p)],
                        ggplot2::aes(label = sprintf("p[perm] == %.2f", p)), parse = TRUE,
                        vjust = -1, size = cfg$font$geom_text_size, colour = "grey30") +
+    # the one row outside the band by its naive SE: say on the plot why it is still a null
+    # (aridity-siting imbalance; the permutation p governs), not only in the caption
+    ggplot2::geom_text(data = d[outcome == "Water-rights accrual"],
+                       ggplot2::aes(label = "outside the band by naive SE only:\nnull under design inference (siting imbalance)"),
+                       vjust = 1.6, hjust = 0.7, size = cfg$font$geom_text_size,
+                       colour = "grey30", lineheight = 0.9) +
     ggplot2::geom_text(data = d[conf == TRUE],
                        ggplot2::aes(label = data.table::fifelse(outcome == "Whole-basin ET",
                                                                 "confounded (excluded)",

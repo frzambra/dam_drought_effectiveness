@@ -30,7 +30,8 @@ $-0.16$ downstream; @fig-streamflow, panel b). The national slope gap of $-0.18$
 accordingly collapses to about $-0.05$ once dammed and control basins are compared within the same
 climate region, and in the high-supply south, where buffering should be easiest, the upstream
 and downstream gaps are identical ($-0.036$ versus $-0.034$). None survives
-randomization inference ($p_{\text{perm}} = 0.39$). Nor is the pooled slope hiding early buffering:
+randomization inference, which asks how often reshuffling the dammed label among comparable basins
+produces a gap this large by chance ($p_{\text{perm}} = 0.39$). Nor is the pooled slope hiding early buffering:
 at drought onset (2010–2014, storage near-full) the upstream and downstream gaps are identical
 ($-0.43$ both), and the later weakening is sharpest in the unregulated placebo itself, forcing,
 not depletion (Supplementary Table S24). The apparent buffering is therefore the
@@ -39,10 +40,10 @@ regulation; a decomposition confirms the signal dies only
 when each climate region has its own baseline transmission (Supplementary Fig. S3 and Table S4). Hard-balancing aridity gives the same verdict without parametric adjustment: with
 log-aridity fully balanced (effective control sample 19), the apparent buffering vanishes
 (intent-to-treat $-0.02$, upstream $-0.05$, permutation $p > 0.85$; Supplementary Table S17),
-exactly what a siting confound predicts; the parametric adjustment it replaces interpolates
+exactly what a siting confound predicts. The parametric adjustment it replaces interpolates
 within support, every dammed basin inside the control aridity range (Supplementary Fig. S8). Nor is the null a standardization artifact: SSI is
-normalized per gauge, which would divide out dam-induced variance compression, but on log flow, a
-volumetric semi-elasticity, the gaps stay null
+normalized per gauge, which would divide out dam-induced variance compression, but on log flow
+the gaps stay null
 (downstream $+0.04$, upstream $+0.10$, permutation $p \geq 0.42$) and downstream relative
 variability is uncompressed ($p = 0.43$; Supplementary Table S19). A direct geomorphic metric
 agrees: local relief, separating bedrock from alluvial reaches, does not predict control
@@ -51,9 +52,8 @@ transmission, leaves the placebo unchanged, and shows no buffering among alluvia
 Upstream gauges sit higher, but the 0.54 km up/down elevation gap times the control transmission
 sensitivity ($-0.21$ per km) already over-explains the observed $-0.04$ difference and cannot
 manufacture a downstream-specific effect, leaving a
-residual downstream-specific buffering of at most about $0.07$ (13% of the $0.53$ downstream baseline;
-the equivalence margin uses the $0.585$ intent-to-treat baseline), well below the
-46 to 59% detectable (Supplementary Table S2).
+residual downstream-specific buffering of at most about $0.07$ (13% of the $0.53$ downstream
+baseline), well below the 46 to 59% detectable (Supplementary Table S2).
 
 ```{r}
 #| label: fig-streamflow
@@ -112,7 +112,7 @@ knitr::include_graphics("../../results/figures/fig_convergent_null.png")
 ## Reservoirs mark prior vulnerability; no megadrought divergence is detected
 
 Dammed basins carry the vulnerability reservoirs are blamed for concentrating: about
-4.6 times more cropland than matched controls (11.1% versus 2.4% of basin area; @fig-area, panel a).
+4.5 times more cropland than matched controls (10.8% versus 2.4% of basin area; @fig-area, panel a).
 This gap is a *siting* signature, stable across the 2000–2024 record. A dynamic event study
 finds the differential trend flat before 2010 (cluster-robust $p = 0.65$, permutation
 $p = 0.72$) with no post-2010 divergence detected ($p = 0.81$; @fig-area, panel b).
@@ -143,7 +143,7 @@ spatial structure are accounted for.
 
 ```{r}
 #| label: fig-area
-#| fig-cap: "Observed cropland-area dynamics in dammed versus matched-control basins (21 dammed, 244 controls). (a) Entropy-balancing-weighted mean cropland area (% of basin, MapBiomas class 18) with 95% bands (weighted mean +/- 1.96 SE across basins); the y-axis is anchored at zero. Dammed basins hold ~4.6x more cropland (11.1% vs 2.4% of basin area) but the trajectories evolve in parallel. (b) Dynamic event study (dammed x year, reference 2009): the grey band is the 95% randomization-inference null envelope (2.5th to 97.5th percentile of the dammed x year coefficients under treatment permutation within Köppen x aridity strata); coefficients inside the band are indistinguishable from no divergence, and cluster-robust intervals are omitted as anti-conservative at ~21 treated clusters. The differential pre-trend is flat (pre-2010 trend-slope cluster-robust p = 0.65, permutation p = 0.72) and no post-2010 divergence is detected (post p = 0.81); a linear trend-slope test is used because the joint event-study Wald over-rejects at ~21 treated clusters. The null envelope widens after 2015, reflecting declining power in the later panel, so the flat post-2015 trajectory is a bounded null: divergence smaller than the envelope cannot be ruled out. The 2010-2024 megadrought is shaded in both panels."
+#| fig-cap: "Observed cropland-area dynamics in dammed versus matched-control basins (21 dammed, 244 controls). (a) Entropy-balancing-weighted mean cropland area (% of basin, MapBiomas class 18) with 95% bands (weighted mean +/- 1.96 SE across basins); the y-axis is anchored at zero. Dammed basins hold ~4.5x more cropland (10.8% vs 2.4% of basin area) but the trajectories evolve in parallel. (b) Dynamic event study (dammed x year, reference 2009): the grey band is the 95% randomization-inference null envelope (2.5th to 97.5th percentile of the dammed x year coefficients under treatment permutation within Köppen x aridity strata); coefficients inside the band are indistinguishable from no divergence, and cluster-robust intervals are omitted as anti-conservative at ~21 treated clusters. The differential pre-trend is flat (pre-2010 trend-slope cluster-robust p = 0.65, permutation p = 0.72) and no post-2010 divergence is detected (post p = 0.81); a linear trend-slope test is used because the joint event-study Wald over-rejects at ~21 treated clusters. The null envelope widens after 2015, reflecting declining power in the later panel, so the flat post-2015 trajectory is a bounded null: divergence smaller than the envelope cannot be ruled out. The 2010-2024 megadrought is shaded in both panels."
 #| echo: false
 knitr::include_graphics("../../results/figures/fig_area_did.png")
 ```

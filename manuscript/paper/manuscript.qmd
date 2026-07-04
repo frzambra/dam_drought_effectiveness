@@ -3,9 +3,9 @@ title: "Dams mark multi-year drought vulnerability rather than buffer it in Chil
 author:
   - name: Francisco Zambrano Bigiarini
     affiliations:
-      - name: Universidad de Las Américas
+      - name: Facultad de Medicina Veterinaria y Agronomía, Chile, Universidad de Las Américas
         id: 1
-        department: Facultad de Medicina Veterinaria y Agronomía
+        #department: 
         #address: Camino La Pirámide 5750
         city: Santiago
         country: Chile

@@ -1,7 +1,7 @@
 # Discussion
 
 Across a matched national design and multiple estimators, the operational effect of
-reservoirs on drought brackets zero once siting is matched out. Dammed basins hold about 4.6
+reservoirs on drought brackets zero once siting is matched out. Dammed basins hold about 4.5
 times more cropland than matched controls, but that gap is fixed across the record, with parallel
 pre-trends and no detected megadrought divergence. One reading fits:
 reservoirs mark where water-dependent vulnerability already concentrated rather than make it. This is a finding, not a failure of power: the apparent effect has an
@@ -33,10 +33,10 @@ These findings give the contested socio-hydrological *reservoir effect* and *sup
 [@di_baldassarre_water_2018; @kellner_controversial_2021] a credibly
 identified test, and find the protective function over-attributed to storage. Because treatment is
 time-invariant, we test the spatial imprint of these feedbacks, not the
-longitudinal loop: the 4.6-fold cropland gap could be the equilibrated legacy of
-demand induced at construction, so the null scopes to the megadrought era, not historical induced
-demand, testable only with staggered commissioning; and it observes only the scarcity phase,
-expansion unfolding under perceived abundance before our record, so it bounds drought-era
+longitudinal loop. The 4.5-fold cropland gap could be the equilibrated legacy of
+demand induced at construction, so our null covers the megadrought era; historical induced demand
+is testable only with staggered commissioning. And the record opens in the scarcity phase, after
+any expansion under perceived abundance, so it bounds drought-era
 expansion, not the cycle as a whole. Within scope the
 nulls refine the theory: the cycle
 leaves no operational imprint during drought, so its mechanisms likely act through siting and
@@ -45,8 +45,8 @@ models omit. How far the demand-side null
 travels depends on governance: the siting lesson holds wherever dams are placed non-randomly;
 prior appropriation, which forfeits unused rights, may amplify induced demand while adaptive
 allocation curtails it. Whether the null is general or the mark of a fully allocated
-market we cannot adjudicate: rights kept accruing in dammed basins, though
-unallocated systems could express induced demand ours cannot.
+market we cannot adjudicate: rights kept accruing in dammed basins, but systems with water still
+unallocated could express an induced demand that ours cannot.
 
 Chile's 1981 Water Code makes water-use rights perpetual private
 property, so the reflexive response has been supply-side, new dams and
@@ -78,9 +78,9 @@ reservoir effect is not absent but displaced to the aquifer, a construction-era 
 on a pool the design cannot see; the well bound and flat cropland trajectories argue against
 substitution at scale but do not close the pathway. The snowmelt confound, acute in
 these snow-fed Andean basins [@ayala_glaciers_2025; @gotte_hydrological_2024], is tested on the
-differential estimand and excluded across four specifications (Supplementary Table S12). A direct local-relief metric separating bedrock canyons from alluvial valleys leaves the placebo
-unchanged and shows no buffering in alluvial units (Supplementary Table S22), though 2.5 km relief
-cannot resolve aquifer storage itself, a residual caveat. The placebo also spans land-cover and
+differential estimand and excluded across four specifications (Supplementary Table S12). The
+geomorphic check leaves the placebo unchanged, though 2.5 km relief cannot resolve aquifer
+storage itself, a residual caveat (Supplementary Table S22). The placebo also spans land-cover and
 abstraction contrasts, downstream valleys more cultivated, upstream reaches carrying unrecorded
 diversions; gauge fixed effects absorb these level differences, and drought-intensified upstream
 abstraction would steepen upstream transmission, working against the observed upstream attenuation, not
