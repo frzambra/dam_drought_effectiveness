@@ -61,7 +61,7 @@ as used by the pipeline.
 ## Citation
 
 If you use this code or data, please cite the archived version on Zenodo
-(DOI: to be added on publication) and the associated manuscript.
+(DOI: https://doi.org/10.5281/zenodo.21052149) and the associated manuscript.
 
 ## License
 
