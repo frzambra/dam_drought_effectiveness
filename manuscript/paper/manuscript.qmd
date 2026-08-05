@@ -1,5 +1,5 @@
 ---
-title: "Dams mark multi-year drought vulnerability rather than buffer it in Chile's megadrought"
+title: "The upstream placebo: reservoir siting, not regulation, explains apparent drought buffering during Chile's megadrought"
 author:
   - name: Francisco Zambrano Bigiarini
     affiliations:
@@ -13,20 +13,25 @@ author:
     attributes:
       corresponding: true
 abstract: |
-  Expanding reservoir storage is the reflexive response to intensifying drought, yet whether dams
-  build resilience or merely mark existing vulnerability has remained untested
-  for want of a credible counterfactual. We treat reservoir presence as a basin-level
-  intervention in Chile's megadrought, comparing how matched dammed and
-  undammed basins respond to the same deficit at annual to multi-year
-  accumulations rather than seasonal operation. Across streamflow drought
-  transmission, cropland change, and consumptive water rights, the reservoir
-  effect brackets zero once siting is matched out. The cleanest test compares reaches
-  below each dam with unregulated reaches above: the apparent buffering is as strong
-  upstream as downstream, the signature of aridity, not regulation. The storage band
-  drifts downward, mirroring the independent decline in unregulated streamflow. Reservoirs mark
-  vulnerability established before our record; through the megadrought we detect neither added
-  demand nor buffering, within bounds that admit volumetrically material effects. Adaptation
-  must shift toward managing demand.
+  Much of what the hydrological literature attributes to reservoir drought buffering may be a
+  measurable siting confound. We treat reservoir presence as a basin-level intervention in Chile's
+  megadrought and separate siting from operation with an upstream/downstream placebo: regulated
+  reaches below each dam are compared against unregulated reaches above, which share climate,
+  geology, and selection history but not the reservoir. Across the streamflow pathway the apparent
+  buffering is as strong upstream as downstream (differential slopes $-0.20$ versus $-0.16$,
+  randomization-inference $p = 0.39$), the signature of aridity, not regulation. A hard-balanced
+  match forcing aridity to be identical across groups (standardized mean difference 0.000) makes
+  even the apparent buffering vanish entirely (intent-to-treat $-0.02$, $p > 0.85$). The streamflow
+  null is well powered, excluding operational buffering above 46 to 59% of baseline, and a positive
+  control confirms that the design recovers injected effects one to one. Dammed basins hold 4.5
+  times more cropland than matched controls, a siting legacy stable across the 2000 to 2024 record
+  with no detected megadrought divergence. The storage band drifts downward in step with the
+  independent decline in unregulated streamflow. Demand-side outcomes, cropland expansion, water
+  rights accrual, and evapotranspiration, are consistent with no operational effect but
+  underpowered as stand-alone tests. Through the megadrought we detect no operational buffering
+  and no megadrought-era demand expansion beyond the siting legacy. The upstream placebo is a
+  portable method for regulated rivers with gauges above and below dams. Adaptation must shift
+  toward managing demand.
 keywords:
   - reservoir effect
   - drought propagation
@@ -38,13 +43,11 @@ date: last-modified
 bibliography: references.bib
 number-sections: false
 format:
-  elsevier-pdf:
+  pdf:
     keep-tex: true
-    journal:
-      name: "Nature Water"
-      model: 3p
-      cite-style: super
-    classoption: ["review", "number", "sort,compress"]
+    cite-style: author-year
+    classoption: ["12pt"]
+    linestretch: 2
     header-includes:
       - \usepackage{setspace}
       - \doublespacing
@@ -55,6 +58,15 @@ execute:
   echo: false
   warning: false
 ---
+
+```{r setup, include=FALSE}
+# Ensure renv library is on the search path when Quarto renders
+# The working directory during rendering is the directory containing this .qmd file
+# The project root (with renv/) is two levels up
+renv_activate <- file.path(knitr::current_input(dir = TRUE), "..", "..", "renv", "activate.R")
+if (file.exists(renv_activate)) source(renv_activate)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
 
 {{< include introduction.qmd >}}
 

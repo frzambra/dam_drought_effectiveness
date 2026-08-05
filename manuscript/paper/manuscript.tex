@@ -5,11 +5,10 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-  review,
-  number,
-  sort,compress,
-  super,
-  3p]{elsarticle}
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod,
+  12pt]{scrartcl}
 \usepackage{xcolor}
 \usepackage{amsmath,amssymb}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
@@ -33,6 +32,7 @@
   \usepackage[]{microtype}
   \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\usepackage{setspace}
 \makeatletter
 \@ifundefined{KOMAClassName}{% if non-KOMA class
   \IfFileExists{parskip.sty}{%
@@ -95,6 +95,39 @@
 \makeatother
 
 
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
 
@@ -106,8 +139,6 @@
 
 
  
-\usepackage[]{natbib}
-\bibliographystyle{elsarticle-num}
 
 
 \usepackage{booktabs}
@@ -118,12 +149,14 @@
 \usepackage{float}
 \usepackage{colortbl}
 \usepackage{pdflscape}
-\usepackage{tabu}
+\usepackage{tabularx}
+\usepackage{xltabular}
 \usepackage{threeparttable}
 \usepackage{threeparttablex}
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\KOMAoption{captions}{tableheading}
 \usepackage{setspace}
 \doublespacing
 \usepackage{lineno}
@@ -170,12 +203,11 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-\journal{Nature Water}
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Dams mark multi-year drought vulnerability rather than buffer it in Chile's megadrought},
+  pdftitle={The upstream placebo: reservoir siting, not regulation, explains apparent drought buffering during Chile's megadrought},
   pdfauthor={Francisco Zambrano Bigiarini},
   pdfkeywords={reservoir effect, drought
 propagation, socio-hydrology, causal inference, megadrought, Chile},
@@ -187,121 +219,114 @@ propagation, socio-hydrology, causal inference, megadrought, Chile},
   pdfcreator={LaTeX via pandoc}}
 
 
-\setlength{\parindent}{6pt}
+\title{The upstream placebo: reservoir siting, not regulation, explains
+apparent drought buffering during Chile's megadrought}
+\author{Francisco Zambrano Bigiarini}
+\date{2026-08-04}
 \begin{document}
-
-\begin{frontmatter}
-\title{Dams mark multi-year drought vulnerability rather than buffer it
-in Chile's megadrought}
-\author[1]{Francisco Zambrano Bigiarini%
-\corref{cor1}%
-}
- \ead{frzambra@gmail.com} 
-
-\affiliation[1]{organization={Facultad de Medicina Veterinaria y
-Agronomía, Chile, Universidad de Las
-Américas},city={Santiago},country={Chile},countrysep={,},postcodesep={}}
-
-\cortext[cor1]{Corresponding author}
-
-        
+\maketitle
 \begin{abstract}
-Expanding reservoir storage is the reflexive response to intensifying
-drought, yet whether dams build resilience or merely mark existing
-vulnerability has remained untested for want of a credible
-counterfactual. We treat reservoir presence as a basin-level
-intervention in Chile's megadrought, comparing how matched dammed and
-undammed basins respond to the same deficit at annual to multi-year
-accumulations rather than seasonal operation. Across streamflow drought
-transmission, cropland change, and consumptive water rights, the
-reservoir effect brackets zero once siting is matched out. The cleanest
-test compares reaches below each dam with unregulated reaches above: the
-apparent buffering is as strong upstream as downstream, the signature of
-aridity, not regulation. The storage band drifts downward, mirroring the
-independent decline in unregulated streamflow. Reservoirs mark
-vulnerability established before our record; through the megadrought we
-detect neither added demand nor buffering, within bounds that admit
-volumetrically material effects. Adaptation must shift toward managing
-demand.
+Much of what the hydrological literature attributes to reservoir drought
+buffering may be a measurable siting confound. We treat reservoir
+presence as a basin-level intervention in Chile's megadrought and
+separate siting from operation with an upstream/downstream placebo:
+regulated reaches below each dam are compared against unregulated
+reaches above, which share climate, geology, and selection history but
+not the reservoir. Across the streamflow pathway the apparent buffering
+is as strong upstream as downstream (differential slopes \(-0.20\)
+versus \(-0.16\), randomization-inference \(p = 0.39\)), the signature
+of aridity, not regulation. A hard-balanced match forcing aridity to be
+identical across groups (standardized mean difference 0.000) makes even
+the apparent buffering vanish entirely (intent-to-treat \(-0.02\),
+\(p > 0.85\)). The streamflow null is well powered, excluding
+operational buffering above 46 to 59\% of baseline, and a positive
+control confirms that the design recovers injected effects one to one.
+Dammed basins hold 4.5 times more cropland than matched controls, a
+siting legacy stable across the 2000 to 2024 record with no detected
+megadrought divergence. The storage band drifts downward in step with
+the independent decline in unregulated streamflow. Demand-side outcomes,
+cropland expansion, water rights accrual, and evapotranspiration, are
+consistent with no operational effect but underpowered as stand-alone
+tests. Through the megadrought we detect no operational buffering and no
+megadrought-era demand expansion beyond the siting legacy. The upstream
+placebo is a portable method for regulated rivers with gauges above and
+below dams. Adaptation must shift toward managing demand.
 \end{abstract}
 
 
+\setstretch{2}
+\section{Introduction}\label{introduction}
 
+A persistent obstacle separates what we think reservoirs do during
+drought from what they actually do: dams are built where water is
+already scarce, so dammed basins differ systematically from undammed
+ones before any drought strikes. The short-term hydrological benefit of
+storage is documented (Wu et al. 2017, 2018), but whether reservoirs
+buffer multi-year drought, or whether the apparent buffering is a
+statistical shadow of where dams sit, has remained untested for want of
+a credible counterfactual (Di Baldassarre et al. 2018). The distinction
+matters. If buffering is real, expanding storage is a rational
+adaptation to intensifying drought. If it is siting, then the reflexive
+global response, more dams, invests in the wrong mechanism.
 
-
-\begin{keyword}
-    reservoir effect \sep drought
-propagation \sep socio-hydrology \sep causal
-inference \sep megadrought \sep 
-    Chile
-\end{keyword}
-\end{frontmatter}
-    
-
-As warming intensifies drought across many regions
-\citep{Trenberth2014, diffenbaugh_anthropogenic_2015}, governments
-instinctively build more dams. Reservoirs are the dominant structural
-response to drought, and in the short term they work: more storage
-raises availability and lowers the frequency, severity and duration of
-shortage \citep{di_baldassarre_water_2018}. Yet a socio-hydrological
-view warns the same infrastructure can be self-defeating over a dam's
-planning horizon. Greater supply invites expansion, so demand grows to
-meet and then exceed each increment of storage (the supply-demand
-cycle); and prolonged reliance on stored abundance erodes the incentive
-to adapt, magnifying the damage when a drought finally outlasts the
-reservoir (the reservoir effect) \citep{di_baldassarre_water_2018}.
+The reservoir-effect hypothesis (Di Baldassarre et al. 2018) formalizes
+the concern: greater supply invites expansion, so demand grows to meet
+and then exceed each increment of storage (the supply-demand cycle), and
+prolonged reliance on stored abundance erodes the incentive to adapt,
+magnifying the damage when drought finally outlasts the reservoir.
 Consistent with this, global demand has outpaced storage for decades,
-returns of new dams are diminishing \citep{li_diminishing_2023}, and
-most reservoirs now fail to refill \citep{wang_reservoir_2024}. Whether
-these feedbacks dominate, or are outweighed by the protection dams
-provide, remains debated \citep{kellner_controversial_2021}.
+returns of new dams are diminishing (Li et al. 2023), and most
+reservoirs now fail to refill (Z. Wang et al. 2024). Whether these
+feedbacks dominate, or are outweighed by the protection dams provide,
+remains debated (Kellner 2021). But the empirical literature has a
+structural weakness: dammed-versus-undammed or before-after comparisons
+cannot separate a reservoir effect from the siting decision, because
+reservoirs concentrate where irrigation demand and aridity already
+concentrate.
 
-The obstacle is that the reservoir effect for drought has been described
-far more than measured. Reservoirs are built where irrigation demand and
-aridity already concentrate, so dammed basins differ systematically from
-undammed ones before any drought strikes. The short-term hydrological
-benefit is documented \citep{wu_non-linear_2017, wu_impacts_2018},
-though regulation can also redistribute scarcity in space and time
-\citep{lopezmoreno_dam_2009}. But the long-term demand side is far less
-constrained, and separating a reservoir effect from siting requires a
-defensible counterfactual, what a drought's impact \emph{would have
-been} had the reservoir not been built
-\citep{di_baldassarre_water_2018}; prior dammed-versus-undammed and
-before-after comparisons cannot supply it.
+We address this with a within-basin falsification test. If a dam buffers
+drought, streamflow transmission from meteorological to hydrological
+drought should flatten only below the dam, where regulation operates. If
+it flattens equally at the unregulated upstream reaches of the same
+basins, the attenuation is siting, not regulation. This
+upstream/downstream placebo is the paper's central identification
+strategy. We complement it with a matched cross-basin comparison that
+conditions each dammed basin against hydroclimatically comparable
+undammed basins, and we evaluate both against the drought each basin
+actually experienced rather than against calendar time, breaking the
+collinearity between the megadrought onset and the treatment clock.
 
 Chile is an acute testbed. Since 2010 its central regions have endured a
 \emph{megadrought}, an uninterrupted run of dry years shading into
-structural aridification, a drying with a documented anthropogenic
-component
-\citep{garreaud_20102015_2017, Garreaud2025, zambrano_drought_2025, Boisier2018, vicenteserrano_unraveling_2019}.
-Because the 1981 Water Code makes water-use rights perpetual private
-property that the state cannot readily curtail, the policy reflex has
-been supply-side: new dams and inter-basin transfers, alongside market
-incentives that concentrated water in high-value export crops
-\citep{Barria2021, reade_malagueno_libre_2024, rivera_legal_2016}. In
-the snow-fed basins of central Chile this demand already outruns supply
-in roughly three years of every ten \citep{webb_water_2021}. Chile thus
-exhibits every ingredient of the reservoir effect: extreme persistent
-forcing, a supply-side response, and demand expansion under weak
-adaptive feedback, with most central Chilean farmers meeting a decade of
-drought through short-term agronomic cutbacks rather than durable
-adaptation \citep{jordan_adaptation_2025}.
+structural aridification with a documented anthropogenic component (R.
+D. Garreaud et al. 2017; R. Garreaud et al. 2025; Zambrano et al. 2025;
+Boisier et al. 2018; Vicente‐Serrano et al. 2019). The 1981 Water Code
+makes water-use rights perpetual private property that the state cannot
+readily curtail, so the policy reflex has been supply-side: new dams and
+inter-basin transfers, alongside market incentives that concentrated
+water in high-value export crops (Barría et al. 2021; Reade Malagueño
+and D'Odorico 2024; Rivera et al. 2016). In the snow-fed basins of
+central Chile demand already outruns supply in roughly three years of
+every ten (Webb et al. 2021). Chile thus exhibits every ingredient of
+the reservoir effect: extreme persistent forcing, a supply-side
+response, and demand expansion under weak adaptive feedback, making it a
+most-likely case for detecting a reservoir effect if one operates. At
+the same time, its short, steep Andean catchments, with streamflow
+gauges above and below major dams, provide the physical setup the
+upstream placebo requires, a configuration present across the world's
+regulated mountain rivers from the Sierra Nevada to the European Alps to
+the African Rift.
 
-Here we ask whether reservoirs build resilience or merely mark
-vulnerability under prolonged drought. We treat the presence of a major
-reservoir as a basin-level intervention and construct the missing
-counterfactual in two steps. First, we compare each dammed basin only
-against undammed basins sharing its climate and landscape, conditioning
-on the drought actually experienced. Second, within each dammed basin we
-compare regulated reaches below the dam against physically unregulated
-reaches above it, which share climate, geology and siting but not the
-reservoir. Throughout, outcomes are evaluated at annual to multi-year
-accumulations, the timescale of structural drought, not of seasonal
-operation. Together these turn the reservoir-effect hypothesis into a
-falsifiable, causally framed test in the setting where it matters most.
-The answer travels: drying Mediterranean-climate regions from western
-North America to Iberia and Australia face the same choice between more
-storage and demand reform \citep{overpeck_climate_2020, ho_future_2017}.
+We apply this design across four outcome pathways: streamflow drought
+transmission, cropland area change, consumptive water-rights accrual,
+and evapotranspiration. Throughout, outcomes are evaluated at annual to
+multi-year accumulations, the timescale of structural drought, not of
+seasonal operation. We find that across the streamflow pathway the
+apparent buffering is a siting confound, that the upstream placebo
+identifies it, and that the operational effect of reservoirs on drought
+brackets zero once siting is matched out. The upstream placebo is a
+portable method: wherever rivers have gauges above and below dams, the
+same falsification test can separate siting from effect.
 
 \section{Results}\label{results}
 
@@ -383,18 +408,24 @@ agrees: local relief, separating bedrock from alluvial reaches, does not
 predict control transmission, leaves the placebo unchanged, and shows no
 buffering among alluvial units (Supplementary Table S22). Upstream
 gauges sit higher, but the 0.54 km up/down elevation gap times the
-control transmission sensitivity (\(-0.21\) per km) already
-over-explains the observed \(-0.04\) difference and cannot manufacture a
-downstream-specific effect, leaving a residual downstream-specific
-buffering of at most about \(0.07\) (13\% of the \(0.53\) downstream
-baseline), well below the 46 to 59\% detectable (Supplementary Table
-S2).
+control transmission sensitivity (\(-0.21\) per km, \(p < 0.001\) across
+\(n = 84\) control gauges) already over-explains the observed \(-0.04\)
+difference and cannot manufacture a downstream-specific effect, leaving
+a residual downstream-specific buffering of at most about \(0.07\) (13\%
+of the \(0.53\) downstream baseline), well below the 46 to 59\%
+detectable. A piecewise fit around the Andean snowline
+(\textasciitilde2000 m) finds no break in this elevation sensitivity
+(\(p = 0.25\); Supplementary Table S20), supporting the linear
+extrapolation. The placebo's identification therefore does not hinge on
+an untested elevation assumption: the confound is quantified, its
+magnitude is measured, and it cannot produce the downstream-specific
+buffering a genuine reservoir effect requires (Supplementary Table S2).
 
 \begin{figure}
 
 \centering{
 
-\includegraphics[width=6.3in,height=\textheight,keepaspectratio]{../../results/figures/fig_streamflow.png}
+\pandocbounded{\includegraphics[keepaspectratio]{../../results/figures/fig_streamflow.png}}
 
 }
 
@@ -437,10 +468,15 @@ pathway. With about 21 dammed clusters the design cannot claim exact
 equivalence to zero but rules out buffering above 46 to 59\% of
 baseline, and a positive control confirms it: injected buffering is
 recovered one-to-one and detected beyond that threshold (Methods;
-Supplementary Fig. S2 and Tables S1, S3). The cropland design is far
-weaker, with a minimum detectable effect orders of magnitude above
-baseline (Supplementary Table S2), so its null corroborates the
-streamflow result rather than bounding its pathway.
+Supplementary Fig. S2 and Tables S1, S3). Of the remaining pathways,
+only the streamflow null excludes material effects at operationally
+relevant magnitudes. The cropland and evapotranspiration designs are far
+weaker, with minimum detectable effects orders of magnitude above
+baseline (7,330\% and 237\% of baseline, respectively; Supplementary
+Table S2); their nulls corroborate rather than independently establish
+the absence of an effect. The water-rights count is comfortably null
+under all inference frameworks (\(p_{\text{perm}} \geq 0.42\)), while
+the winsorized volume is a more nuanced result discussed below.
 
 \begingroup\fontsize{6}{8}\selectfont
 
@@ -478,7 +514,7 @@ Forcing-interacted DiD (slope-gap) & Cropland area & differential deficit->impac
 
 \centering{
 
-\includegraphics[width=6.3in,height=\textheight,keepaspectratio]{../../results/figures/fig_convergent_null.png}
+\pandocbounded{\includegraphics[keepaspectratio]{../../results/figures/fig_convergent_null.png}}
 
 }
 
@@ -544,15 +580,25 @@ cuenca-block permutation it is not significant
 (\(p_{\text{perm}} = 0.077\), cuenca-clustered interval
 \([-0.3, 4.1]\)). Ranked raw, uncapped volumes give the same verdict:
 the design rank contrast is null under cuenca-block permutation
-(\(p = 0.15\); Supplementary Table S18). Even on water rights, no
-induced demand is robustly attributable to the reservoir once siting and
-spatial structure are accounted for.
+(\(p = 0.15\); Supplementary Table S18). The water-rights evidence is
+therefore not uniformly null: the count is cleanly so under all
+frameworks, the ranked raw volumes are null under spatial inference, and
+the winsorized volume sits closer to the boundary, with a unit-level
+signal (\(p = 0.005\)) that the spatial structure partially explains but
+does not fully erase (cuenca-block \(p = 0.077\)). The gap between naive
+and spatial inference flags the spatial concentration of large
+consumptive rights in dammed cuencas, a pattern the design can bound but
+whose attribution to siting versus reservoir-induced demand it cannot
+fully resolve at this spatial grain. No induced demand is robustly
+attributable to the reservoir once siting and spatial structure are
+accounted for, but the volume signal warrants further investigation with
+parcel-level consumption data.
 
 \begin{figure}
 
 \centering{
 
-\includegraphics[width=6.3in,height=\textheight,keepaspectratio]{../../results/figures/fig_area_did.png}
+\pandocbounded{\includegraphics[keepaspectratio]{../../results/figures/fig_area_did.png}}
 
 }
 
@@ -583,12 +629,14 @@ panels.}
 \subsection{Storage falls; a change in refill amplitude cannot be
 resolved}\label{storage-falls-a-change-in-refill-amplitude-cannot-be-resolved}
 
-If reservoirs neither buffer nor amplify drought, what matters is how
-much water there is to store (Figure~\ref{fig-storage}). Over 2005--2024
-the storage band drifts downward in step: peak storage falls by 1.3
-percentage points of capacity per year (\(p = 0.013\)) and the trough
-almost identically (\(1.2\) pp yr\textsuperscript{-1}, \(p < 10^{-4}\)),
-while the seasonal amplitude shows no detectable trend (\(-0.06\) pp
+If the streamflow pathway excludes material operational buffering and
+the demand-side pathways are consistent with no amplification at their
+respective detection limits, what matters is how much water there is to
+store (Figure~\ref{fig-storage}). Over 2005--2024 the storage band
+drifts downward in step: peak storage falls by 1.3 percentage points of
+capacity per year (\(p = 0.013\)) and the trough almost identically
+(\(1.2\) pp yr\textsuperscript{-1}, \(p < 10^{-4}\)), while the seasonal
+amplitude shows no detectable trend (\(-0.06\) pp
 yr\textsuperscript{-1}, \(p = 0.91\); Supplementary Table S5). That
 amplitude interval is wide: whether refill amplitude, the buffering
 capacity, has degraded cannot be determined, and we draw no conclusion
@@ -598,21 +646,21 @@ trough 40\% to 25\%; Supplementary Table S5). That decline is
 commensurate with the supply reduction measured independently in the
 matched controls: unregulated control streamflow fell about 2.9\% per
 year over 2005--2020 (dammed 3.4\%), consistent with documented
-megadrought runoff deficits
-\citep{garreaud_20102015_2017, AlvarezGarreton2021} and comparable to
-the \textasciitilde1.4\% per year decline in peak storage. Storage is a
-mass balance, so the band alone cannot separate falling inflows from
-sustained releases; the supply reading rests on that independent
-streamflow decline. Our direct demand outcomes point the same way:
-neither cropland area nor water-rights allocation shows expansion
-(Figure~\ref{fig-area}, Table~\ref{tbl-main}; Supplementary Fig. S6)
-\citep{li_diminishing_2023, wang_reservoir_2024}.
+megadrought runoff deficits (R. D. Garreaud et al. 2017;
+Alvarez-Garreton et al. 2021) and comparable to the \textasciitilde1.4\%
+per year decline in peak storage. Storage is a mass balance, so the band
+alone cannot separate falling inflows from sustained releases; the
+supply reading rests on that independent streamflow decline. Our direct
+demand outcomes point the same way: neither cropland area nor
+water-rights allocation shows expansion (Figure~\ref{fig-area},
+Table~\ref{tbl-main}; Supplementary Fig. S6) (Li et al. 2023; Z. Wang et
+al. 2024).
 
 \begin{figure}
 
 \centering{
 
-\includegraphics[width=6.3in,height=\textheight,keepaspectratio]{../../results/figures/fig_storage_band.png}
+\pandocbounded{\includegraphics[keepaspectratio]{../../results/figures/fig_storage_band.png}}
 
 }
 
@@ -637,76 +685,89 @@ group.}
 
 \section{Discussion}\label{discussion}
 
-Across a matched national design and multiple estimators, the
-operational effect of reservoirs on drought brackets zero once siting is
-matched out. Dammed basins hold about 4.5 times more cropland than
-matched controls, but that gap is fixed across the record, with parallel
-pre-trends and no detected megadrought divergence. One reading fits:
-reservoirs mark where water-dependent vulnerability already concentrated
-rather than make it. This is a finding, not a failure of power: the
-apparent effect has an identified cause and the positive control shows
-the design detects buffering. The placebo is the cleanest falsification:
-a regulation effect must appear only below the dam; it does not, and
-what remains is the aridity gradient.
+Across a matched national design, multiple estimators, and a
+within-basin falsification test, the apparent drought buffering
+attributed to reservoirs is a measurable siting confound. The upstream
+placebo is the decisive evidence: a regulation effect must appear only
+below the dam; it does not, and what remains is the aridity gradient.
+Dammed basins hold about 4.5 times more cropland than matched controls,
+but that gap is fixed across the record, with parallel pre-trends and no
+detected megadrought divergence. One reading fits: reservoirs mark where
+water-dependent vulnerability already concentrated rather than make it.
+This is a finding, not a failure of power: the apparent effect has an
+identified cause and the positive control shows the design detects
+buffering when it is present.
 
 The corollary is transferable: dammed-versus-undammed or before-after
-contrasts inherit the full siting confound
-\citep{lopezmoreno_dam_2009, wu_non-linear_2017, schilstra_effects_2024, lee_drought_2026}.
-The upstream placebo ports to regulated rivers with gauges above and
-below a dam, most directly to short, steep catchments like Chile's; in
-large low-gradient basins, floodplain storage and transmission losses
-would blur the contrast; porting it would need routing-corrected lags or
+contrasts inherit the full siting confound (López‐Moreno et al. 2009; Wu
+et al. 2017; Schilstra et al. 2024; Lee, Kang, and Kim 2026). The
+upstream placebo ports to regulated rivers with gauges above and below a
+dam, most directly to short, steep catchments like Chile's; in large
+low-gradient basins, floodplain storage and transmission losses would
+blur the contrast; porting it would need routing-corrected lags or
 naturalized-flow counterfactuals.
 
-If reservoirs neither buffer nor amplify multi-year drought
-operationally, what matters is the water available to store. The storage
-band steps down at the megadrought onset, peak and trough together,
-while the amplitude trend is too imprecise to determine whether
-buffering capacity degraded. The powered result is the level decline,
-the expected mass-balance outcome of persistent inflow deficits;
-descriptive and confounded with management change, it supports no causal
-attribution but matches the independent decline in unregulated control
-streamflow. Read against Chile's structural aridification
-\citep{zambrano_drought_2025, garreaud_20102015_2017, AlvarezGarreton2021},
-accelerating Andean warming and snow loss now cutting into the snow-fed
-streamflow these basins depend on \citep{kim_andes_2025}, and the global
-pattern of reservoirs failing to refill
-\citep{wang_reservoir_2024, li_diminishing_2023}, the binding constraint
-is shifting toward supply.
+If the streamflow pathway excludes material operational buffering at
+multi-year scale and the demand-side outcomes are consistent with no
+amplification at their respective detection limits, what matters is the
+water available to store. The storage band steps down at the megadrought
+onset, peak and trough together, while the amplitude trend is too
+imprecise to determine whether buffering capacity degraded. The powered
+result is the level decline, the expected mass-balance outcome of
+persistent inflow deficits; descriptive and confounded with management
+change, it supports no causal attribution but matches the independent
+decline in unregulated control streamflow. Read against Chile's
+structural aridification (Zambrano et al. 2025; R. D. Garreaud et al.
+2017; Alvarez-Garreton et al. 2021), accelerating Andean warming and
+snow loss now cutting into the snow-fed streamflow these basins depend
+on (Kim, Rajaram, and Lakshmi 2025), and the global pattern of
+reservoirs failing to refill (Z. Wang et al. 2024; Li et al. 2023), the
+binding constraint is shifting toward supply.
 
 These findings give the contested socio-hydrological \emph{reservoir
-effect} and \emph{supply-demand cycle}
-\citep{di_baldassarre_water_2018, kellner_controversial_2021} a credibly
-identified test, and find the protective function over-attributed to
-storage. Because treatment is time-invariant, we test the spatial
-imprint of these feedbacks, not the longitudinal loop. The 4.5-fold
-cropland gap could be the equilibrated legacy of demand induced at
-construction, so our null covers the megadrought era; historical induced
-demand is testable only with staggered commissioning. And the record
-opens in the scarcity phase, after any expansion under perceived
-abundance, so it bounds drought-era expansion, not the cycle as a whole.
-Within scope the nulls refine the theory: the cycle leaves no
-operational imprint during drought, so its mechanisms likely act through
-siting and construction rather than operation, a distinction current
-models omit. How far the demand-side null travels depends on governance:
-the siting lesson holds wherever dams are placed non-randomly; prior
-appropriation, which forfeits unused rights, may amplify induced demand
-while adaptive allocation curtails it. Whether the null is general or
-the mark of a fully allocated market we cannot adjudicate: rights kept
-accruing in dammed basins, but systems with water still unallocated
-could express an induced demand that ours cannot.
+effect} and \emph{supply-demand cycle} (Di Baldassarre et al. 2018;
+Kellner 2021) a credibly identified test, and find the protective
+function over-attributed to storage. Because treatment is
+time-invariant, we test the spatial imprint of these feedbacks, not the
+longitudinal loop. The 4.5-fold cropland gap could be the equilibrated
+legacy of demand induced at construction, so our null covers the
+megadrought era; historical induced demand is testable only with
+staggered commissioning. And the record opens in the scarcity phase,
+after any expansion under perceived abundance, so it bounds drought-era
+expansion, not the cycle as a whole. Within scope the nulls refine the
+theory: the cycle leaves no operational imprint during drought, so its
+mechanisms likely act through siting and construction rather than
+operation, a distinction current models omit. How far the demand-side
+null travels depends on governance: the siting lesson holds wherever
+dams are placed non-randomly; prior appropriation, which forfeits unused
+rights, may amplify induced demand while adaptive allocation curtails
+it. Whether the null is general or the mark of a fully allocated market
+we cannot adjudicate: rights kept accruing in dammed basins, but systems
+with water still unallocated could express an induced demand that ours
+cannot. The upstream placebo itself ports more broadly. Short, steep
+catchments with gauges above and below dams are common across the
+world's regulated mountain rivers: the California Coast Ranges and
+Sierra Nevada, the Spanish Sierra Nevada and Pyrenees, the Italian
+Apennines and Alps, the African Rift, and the Andean cordillera beyond
+Chile. In large low-gradient basins, the Murray-Darling, the Colorado
+below Lake Mead, or the Indus plains, floodplain storage and
+transmission losses would blur the above/below contrast and
+routing-corrected lags or naturalized-flow counterfactuals would be
+needed. The placebo method is therefore not universal, but its scope
+conditions are explicit and its required data, paired gauges above and
+below dams, exist across much of the world's irrigated mountain-front
+hydrology.
 
 Chile's 1981 Water Code makes water-use rights perpetual private
 property, so the reflexive response has been supply-side, new dams and
-inter-basin transfers \citep{Barria2021, Garreaud2025}; the 2022 reform
-moves toward the adaptive allocation our results argue for
-\citep{macpherson_evolving_2023} but postdates our window. Under
-structural aridification, building more storage is a supply-blind
-response to a supply problem: the buffering dams provide is a property
-of where they sit, not of what they do \citep{ho_future_2017}.
-Adaptation must shift toward demand management, reallocation and managed
-aquifer recharge
-\citep{grafton_paradox_2018, scanlon_global_2023, rivera-vidal_managed_2025}.
+inter-basin transfers (Barría et al. 2021; R. Garreaud et al. 2025); the
+2022 reform moves toward the adaptive allocation our results argue for
+(Macpherson et al. 2023) but postdates our window. Under structural
+aridification, building more storage is a supply-blind response to a
+supply problem: the buffering dams provide is a property of where they
+sit, not of what they do (Ho et al. 2017). Adaptation must shift toward
+demand management, reallocation and managed aquifer recharge (Grafton et
+al. 2018; Scanlon et al. 2023; Rivera-Vidal et al. 2025).
 
 Several limitations bound these conclusions, each quantified in the
 Supplementary Information. The result is a bounded null: the design
@@ -716,16 +777,16 @@ outcomes are far less powered and the pre-trend test power-limited
 demand nulls corroborating; all survive the hard-balanced match
 (Supplementary Table S17). The registry measures paper rights, not wet
 water: Chilean basins are widely over-allocated and granted rights can
-sit unused or hoarded \citep{Barria2021, reade_malagueno_libre_2024}, so
-under drought, when physical availability binds, the accrual we test is
-an entitlement response that non-use could dampen; cropland is the
-physical check. Both metrics also miss intensification within an
+sit unused or hoarded (Barría et al. 2021; Reade Malagueño and D'Odorico
+2024), so under drought, when physical availability binds, the accrual
+we test is an entitlement response that non-use could dampen; cropland
+is the physical check. Both metrics also miss intensification within an
 unchanged footprint; central Chile's documented shift toward thirsty
-export fruit \citep{reade_malagueno_libre_2024} is exactly such a
+export fruit (Reade Malagueño and D'Odorico 2024) is exactly such a
 transition, invisible to both; a consumption-grade test awaits thermal
 ET or crop-transition maps. Groundwater substitution is bounded, dammed
 and control water tables falling at indistinguishable rates across 213
-DGA wells despite severe regional drawdown \citep{Taucare2024};
+DGA wells despite severe regional drawdown (Taucare et al. 2024);
 monitored wells need not sample the orchard footprints where pumping
 concentrates, so unmonitored drawdown could sustain a historically
 reservoir-induced footprint (Supplementary Table S10). In that reading
@@ -733,13 +794,12 @@ the reservoir effect is not absent but displaced to the aquifer, a
 construction-era legacy persisting on a pool the design cannot see; the
 well bound and flat cropland trajectories argue against substitution at
 scale but do not close the pathway. The snowmelt confound, acute in
-these snow-fed Andean basins
-\citep{ayala_glaciers_2025, gotte_hydrological_2024}, is tested on the
-differential estimand and excluded across four specifications
-(Supplementary Table S12). The geomorphic check leaves the placebo
-unchanged, though 2.5 km relief cannot resolve aquifer storage itself, a
-residual caveat (Supplementary Table S22). The placebo also spans
-land-cover and abstraction contrasts, downstream valleys more
+these snow-fed Andean basins (Ayala et al. 2025; Götte and Brunner
+2024), is tested on the differential estimand and excluded across four
+specifications (Supplementary Table S12). The geomorphic check leaves
+the placebo unchanged, though 2.5 km relief cannot resolve aquifer
+storage itself, a residual caveat (Supplementary Table S22). The placebo
+also spans land-cover and abstraction contrasts, downstream valleys more
 cultivated, upstream reaches carrying unrecorded diversions; gauge fixed
 effects absorb these level differences, and drought-intensified upstream
 abstraction would steepen upstream transmission, working against the
@@ -766,14 +826,24 @@ would probe construction-phase induced demand; a rule-curve
 quasi-experiment on release records, once public, would isolate
 operation.
 
-At the multi-year timescale of structural aridification, then,
-reservoirs neither create resilience nor postpone vulnerability
-operationally: storage neither buffers nor amplifies the drought signal
-beyond what siting implies, while the water available to store declines.
-The nulls are bounds, not zeros; effects inside them can be
-volumetrically material (Supplementary Table S16). Resilience to a
-falling supply ceiling will come from confronting demand and allocation,
-not more impoundments.
+At the multi-year timescale of structural aridification, then, the
+design detects neither operational buffering nor megadrought-era demand
+expansion beyond the siting legacy: the apparent buffering is a
+statistical shadow of where dams sit, not of what they do, while the
+water available to store declines. The nulls are bounds, not zeros;
+effects inside them can be volumetrically material (Supplementary Table
+S16). But under structural aridification with no operational buffering
+at the multi-year scale, building more storage is a supply-blind
+response to a supply problem. Chile is currently evaluating at least 26
+new reservoir sites to expand storage, while its agricultural water
+demand continues to grow under perpetual private water rights that the
+2022 Water Code reform only begins to address (Macpherson et al. 2023).
+The alternative is not theoretical: demand reallocation through active
+water markets, irrigation efficiency, managed aquifer recharge, and crop
+transitions toward lower water footprints are available now and do not
+depend on rainfall (Grafton et al. 2018; Scanlon et al. 2023;
+Rivera-Vidal et al. 2025). Resilience to a falling supply ceiling will
+come from confronting demand and allocation, not from more impoundments.
 
 \section{Methods}\label{methods}
 
@@ -797,7 +867,7 @@ outcomes \emph{conditional on the covariates that govern where
 reservoirs are sited}, that is, whether dammed basins respond to the
 same drought forcing differently from hydroclimatically comparable
 undammed basins. This isolates reservoir \emph{operation} from reservoir
-\emph{siting} \citep{di_baldassarre_water_2018}.
+\emph{siting} (Di Baldassarre et al. 2018).
 
 \subsection{Spatial units and treatment
 assignment}\label{spatial-units-and-treatment-assignment}
@@ -808,15 +878,20 @@ reservoirs sit in Chile's largest main-stem basins, and the finer grain
 supplies far more controls inside the treated size range (detailed in
 the archived analysis repository). A sub-watershed is treated if it
 contains ≥1 of the 26 monitored reservoirs by point-in-polygon
-assignment, giving 24 treated units. The reservoirs are predominantly
-irrigation (20 of 26; three hydropower, two potable supply, one mixed),
-so the treated set is dominated by the use type built to buffer
-agricultural drought, and the headline streamflow result is unchanged
-when restricted to irrigation-only treated basins (Supplementary Table
-S11). An untreated sub-watershed that lies within a watershed containing
-a reservoir is flagged as contaminated (it shares the regulated main
-stem and is not a clean counterfactual) and removed (45 units), leaving
-398 clean controls. This contamination rule defuses the most direct
+assignment, giving 24 treated units (two reservoirs share a
+sub-watershed). After entropy balancing, three high-Andes treated units
+fall outside local elevation common support, leaving 21 treated basins
+in all analyses; the progression from 26 reservoirs to 24 treated
+sub-watersheds to 21 retained treated units is fixed across every
+estimator and table. The reservoirs are predominantly irrigation (20 of
+26; three hydropower, two potable supply, one mixed), so the treated set
+is dominated by the use type built to buffer agricultural drought, and
+the headline streamflow result is unchanged when restricted to
+irrigation-only treated basins (Supplementary Table S11). An untreated
+sub-watershed that lies within a watershed containing a reservoir is
+flagged as contaminated (it shares the regulated main stem and is not a
+clean counterfactual) and removed (45 units), leaving 398 clean
+controls. This contamination rule defuses the most direct
 downstream-spillover (SUTVA: Stable Unit Treatment Value Assumption)
 violation; residual adjacency and shared-aquifer spillovers between
 neighbouring sub-watersheds are carried as an identification caveat and
@@ -842,45 +917,45 @@ Precipitation-Evapotranspiration Index (SPEI) at a 12-month
 accumulation, derived from Climate Hazards Center InfraRed Precipitation
 version 3 (CHIRPS) and Climate Hazards Center InfraRed Temperature with
 Stations (CHIRTS) and standardized on the 1991--2020 climatological
-baseline \citep{Vicente-Serrano2010}, is the primary exogenous dose;
-CHIRPS-derived standardized indices are validated for Chilean drought
-monitoring, including ENSO-modulated variability across the country
-\citep{Zambrano2017, Meza2013, Oertel2020}. We use the 12-month
-accumulation because it matches the annual, snowmelt-fed hydrological
-cycle of central Chile (winter precipitation stored as snow and released
-through the growing season) and so captures the inter-seasonal carryover
-that irrigation reservoirs are built to bridge, at the scale at which
-multi-year vulnerability (rather than sub-seasonal operation) is
-expressed. The treatment estimates are insensitive to this choice: re-
-estimating the forcing-conditioned effect with 6- and 24-month
-accumulations leaves it materially unchanged (archived analysis code).
-By construction the 12-month window does not resolve short-term (1--3
-month) operational buffering, which reservoirs are documented to provide
-\citep{wu_non-linear_2017, wu_impacts_2018} and which we flag as a
-boundary of our conclusions (Discussion). Conditioning on forcing
-(estimating effects on the deficit-to-impact \emph{slope} rather than on
-levels) is how we break the collinearity between the 2010-onset
-megadrought and the treatment clock.
+baseline (Sergio M. Vicente-Serrano, Beguería, and López-Moreno 2010),
+is the primary exogenous dose; CHIRPS-derived standardized indices are
+validated for Chilean drought monitoring, including ENSO-modulated
+variability across the country (Zambrano et al. 2017; Meza 2013; Oertel,
+Meza, and Gironás 2020). We use the 12-month accumulation because it
+matches the annual, snowmelt-fed hydrological cycle of central Chile
+(winter precipitation stored as snow and released through the growing
+season) and so captures the inter-seasonal carryover that irrigation
+reservoirs are built to bridge, at the scale at which multi-year
+vulnerability (rather than sub-seasonal operation) is expressed. The
+treatment estimates are insensitive to this choice: re- estimating the
+forcing-conditioned effect with 6- and 24-month accumulations leaves it
+materially unchanged (archived analysis code). By construction the
+12-month window does not resolve short-term (1--3 month) operational
+buffering, which reservoirs are documented to provide (Wu et al. 2017,
+2018) and which we flag as a boundary of our conclusions (Discussion).
+Conditioning on forcing (estimating effects on the deficit-to-impact
+\emph{slope} rather than on levels) is how we break the collinearity
+between the 2010-onset megadrought and the treatment clock.
 
 \textbf{Hydrological drought.} Daily streamflow from the DGA network
 (2000--2020), gathered by the CR2 (Center for Climate and Resilience
 Research, https://cr2.cl) is aggregated to the Standardized Streamflow
-Index at 12 months {[}SSI-12; \citep{Vicente-Serrano2012c};
-\citep{lema_technical_2025}{]}, the regulated-flow analogue of SPEI-12
-and the index in which meteorological deficits are re-expressed as
-hydrological drought, a propagation that reservoir operation is known to
-modify by lengthening and attenuating the transmitted signal
-\citep{VanLoon2015, wang_propagation_2016}, used as the outcome in the
-within-basin placebo (below). Gauges are classified as upstream or
-downstream of each dam from an SRTM digital elevation model. Because SSI
-standardizes each gauge on its own, for regulated gauges post-dam, flow
-distribution, the transmission slope tests distribution-relative
-propagation and would divide out any dam-induced variance compression;
-we therefore re-estimate every buffering model and the placebo on log
-12-month mean flow, a volumetric semi-elasticity (percent of flow per
-SPEI unit) that no per-gauge normalization can compress, and test the
-compression premise itself, the deseasonalized relative flow variability
-by gauge class (Supplementary Table S19).
+Index at 12 months {[}SSI-12; Sergio M. Vicente-Serrano et al. (2012);
+Lema et al. (2025){]}, the regulated-flow analogue of SPEI-12 and the
+index in which meteorological deficits are re-expressed as hydrological
+drought, a propagation that reservoir operation is known to modify by
+lengthening and attenuating the transmitted signal (Van Loon 2015; W.
+Wang et al. 2016), used as the outcome in the within-basin placebo
+(below). Gauges are classified as upstream or downstream of each dam
+from an SRTM digital elevation model. Because SSI standardizes each
+gauge on its own, for regulated gauges post-dam, flow distribution, the
+transmission slope tests distribution-relative propagation and would
+divide out any dam-induced variance compression; we therefore
+re-estimate every buffering model and the placebo on log 12-month mean
+flow, a volumetric semi-elasticity (percent of flow per SPEI unit) that
+no per-gauge normalization can compress, and test the compression
+premise itself, the deseasonalized relative flow variability by gauge
+class (Supplementary Table S19).
 
 \textbf{Ecological and land-use outcomes.} (i) annual cropland area from
 MapBiomas Chile (https://chile.mapbiomas.org/) Collection 2 (30 m,
@@ -891,7 +966,7 @@ Naturales} (CIREN) and \emph{Oficina de Estudios y Políticas Agrarias}
 (ODEPA) cadastre (https://icet.odepa.gob.cl/). Satellite vegetation and
 evapotranspiration signals track drought-driven losses of agricultural
 productivity in Chile closely enough to serve as impact outcomes
-\citep{Zambrano2018}.
+(Zambrano et al. 2018).
 
 \textbf{Water rights.} The DGA consolidated registry of water-use rights
 (\emph{Derechos de Aprovechamiento de Aguas}), giving for each right its
@@ -926,11 +1001,17 @@ forcing-by-snowpack adjustment, within the low-snow half of units
 (below-median peak SWE), across early and late halves of the panel, and
 with a snow-year interaction that asks whether the apparent buffering
 strengthens in high-snow years. ERA5-Land underestimates absolute Andean
-snowpack, the same class of product caveat we apply to MOD16
-evapotranspiration, so all snow terms enter standardized, which is
-insensitive to multiplicative bias; gauge-level sensitivity checks among
-undammed controls are likewise reported per standard deviation of peak
-SWE.
+snowpack, a product limitation analogous to the MOD16 ET bias we
+disqualify elsewhere. Both biases can attenuate estimated effects. The
+difference in treatment is substantive rather than asymmetric: MOD16's
+underestimation is land-cover-dependent (concentrated over irrigated
+land) and potentially non-multiplicative, biasing the orchard-ET slope
+gap toward zero in a way standardization cannot remove, so we exclude
+those outcomes from evidence. ERA5-Land's snow bias is predominantly
+multiplicative and land-cover-independent, so standardization, which is
+insensitive to multiplicative bias, removes it; all snow terms therefore
+enter standardized, and gauge-level sensitivity checks among undammed
+controls are reported per standard deviation of peak SWE.
 
 \textbf{Groundwater levels.} DGA well hydrographs of depth to water
 (2000--2021; 216 wells carry usable hydrographs nationally, of which 213
@@ -1111,44 +1192,44 @@ established hydrological or operational standard defining a
 the margin in the granularity of operational drought classification
 rather than choosing it arbitrarily. Standardized drought indices are
 managed in discrete severity categories each ≈0.5 standardized units
-wide \citep{McKee1993, Vicente-Serrano2010}. Because the estimand is a
-slope, the absolute change it induces in the propagated index scales
-with the SPEI deficit, so the relevant test is at the most extreme
-drought actually observed. The largest SPEI-12 deficit in the panel is
-\(\approx-2.0\) (minimum \(-1.98\)), and 25\% of the baseline
-transmission slope is \(0.25\times0.585\approx0.146\) SSI per unit SPEI
-(0.585 is the untreated baseline of the intent-to-treat panel; the
-downstream-gauge panel baseline is 0.531, and both appear in
-Supplementary Table S2); the maximum absolute perturbation of the
-streamflow-drought index a 25\% slope alteration can produce is
-therefore \(0.146\times1.98\approx0.29\) SSI units, below the ≈0.5-unit
-width of a single severity category. A 25\% slope change thus cannot
-move a basin across an operational drought-severity threshold even under
-the worst observed deficit, and is marginal for drought management. We
-stress that 25\% of the transmission slope nonetheless corresponds to a
-non-trivial absolute water volume: translating the maximal margin
-perturbation (0.29 SSI units) through each treated downstream gauge's
-flow-to-SSI sensitivity gives a median of roughly 58 hm³ over a 12-month
-season (interquartile range, IQR: 16 to 137 hm³ across the 40 gauges,
-about 11\% of mean annual flow; the linear sensitivity overstates the
-dry-tail volume, so these are upper-end figures; Supplementary Table
-S16). A volume of this order is genuinely material for local water
-management, so the margin is anchored to the operational
-drought-severity classification, not to volumetric negligibility, and
-the causal weight of the null rests on the within-basin placebo rather
-than on the equivalence verdict. We adopt ±25\% as this deliberately
-strict, pre-specified margin and, because the equivalence verdict is
-nonetheless sensitive to the bound, also report the threshold-free MDE
-so that readers may apply any margin they consider material. The
-qualitative conclusion (only large effects are excluded; no outcome is
-equivalent at ±25\%) does not depend on the exact margin. The minimum
-detectable effect (at 80\% power, two-sided \(\alpha=0.05\)) and the
-equivalence interval are built from the \emph{standard deviation of the
-permutation-null distribution}, not the analytic standard error, since
-cluster-robust SEs over-reject at \textasciitilde21 clusters (archived
-analysis code). To confirm the null is informative rather than
-underpowered, we additionally run a positive control. For each
-\(\beta \in \{0, -0.15, -0.30, -0.45\}\) we set
+wide (McKee, Doesken, and Kleist 1993; Sergio M. Vicente-Serrano,
+Beguería, and López-Moreno 2010). Because the estimand is a slope, the
+absolute change it induces in the propagated index scales with the SPEI
+deficit, so the relevant test is at the most extreme drought actually
+observed. The largest SPEI-12 deficit in the panel is \(\approx-2.0\)
+(minimum \(-1.98\)), and 25\% of the baseline transmission slope is
+\(0.25\times0.585\approx0.146\) SSI per unit SPEI (0.585 is the
+untreated baseline of the intent-to-treat panel; the downstream-gauge
+panel baseline is 0.531, and both appear in Supplementary Table S2); the
+maximum absolute perturbation of the streamflow-drought index a 25\%
+slope alteration can produce is therefore \(0.146\times1.98\approx0.29\)
+SSI units, below the ≈0.5-unit width of a single severity category. A
+25\% slope change thus cannot move a basin across an operational
+drought-severity threshold even under the worst observed deficit, and is
+marginal for drought management. We stress that 25\% of the transmission
+slope nonetheless corresponds to a non-trivial absolute water volume:
+translating the maximal margin perturbation (0.29 SSI units) through
+each treated downstream gauge's flow-to-SSI sensitivity gives a median
+of roughly 58 hm³ over a 12-month season (interquartile range, IQR: 16
+to 137 hm³ across the 40 gauges, about 11\% of mean annual flow; the
+linear sensitivity overstates the dry-tail volume, so these are
+upper-end figures; Supplementary Table S16). A volume of this order is
+genuinely material for local water management, so the margin is anchored
+to the operational drought-severity classification, not to volumetric
+negligibility, and the causal weight of the null rests on the
+within-basin placebo rather than on the equivalence verdict. We adopt
+±25\% as this deliberately strict, pre-specified margin and, because the
+equivalence verdict is nonetheless sensitive to the bound, also report
+the threshold-free MDE so that readers may apply any margin they
+consider material. The qualitative conclusion (only large effects are
+excluded; no outcome is equivalent at ±25\%) does not depend on the
+exact margin. The minimum detectable effect (at 80\% power, two-sided
+\(\alpha=0.05\)) and the equivalence interval are built from the
+\emph{standard deviation of the permutation-null distribution}, not the
+analytic standard error, since cluster-robust SEs over-reject at
+\textasciitilde21 clusters (archived analysis code). To confirm the null
+is informative rather than underpowered, we additionally run a positive
+control. For each \(\beta \in \{0, -0.15, -0.30, -0.45\}\) we set
 \(\text{SSI}^{*}_{it} = \text{SSI}_{it} +
 \beta \times \text{treat}_i \times \text{SPEI}^{c}_{it}\), an additive
 perturbation on the standardized scale that injects a known buffering
@@ -1242,7 +1323,9 @@ diagnostics, \texttt{fixest} for fixed-effects regression,
 \texttt{sf}/\texttt{terra}/\texttt{exactextractr} for the spatial
 extractions, and \texttt{renv} for package pinning. Every result in the
 manuscript corresponds to a named pipeline target; no figure or table is
-produced by hand.
+produced by hand. The complete R session information and package
+versions are archived alongside the pipeline output and reproducible via
+\texttt{renv::restore()}.
 
 \section{Data and code availability}\label{data-and-code-availability}
 
@@ -1263,8 +1346,272 @@ water-rights, and well-hydrograph registries. Every result in the
 manuscript corresponds to a named pipeline target, so the analyses can
 be regenerated with a single \texttt{targets::tar\_make()}.
 
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-AlvarezGarreton2021}
+Alvarez-Garreton, Camila, Juan Pablo Boisier, René Garreaud, Jan
+Seibert, and Marc Vis. 2021. {``Progressive Water Deficits During
+Multiyear Droughts in Basins with Long Hydrological Memory in
+{Chile}.''} \emph{Hydrology and Earth System Sciences} 25 (1): 429--46.
+\url{https://doi.org/10.5194/hess-25-429-2021}.
 
-\bibliography{references.bib}
+\bibitem[\citeproctext]{ref-ayala_glaciers_2025}
+Ayala, Álvaro, Eduardo Muñoz-Castro, Daniel Farinotti, David
+Farías-Barahona, Pablo A. Mendoza, Shelley MacDonell, James McPhee,
+Ximena Vargas, and Francesca Pellicciotti. 2025. {``Less Water from
+Glaciers During Future Megadroughts in the {Southern} {Andes}.''}
+\emph{Communications Earth \& Environment}.
+\url{https://doi.org/10.1038/s43247-025-02845-6}.
+
+\bibitem[\citeproctext]{ref-Barria2021}
+Barría, Pilar, Ignacio Barría Sandoval, Carlos Guzman, Cristián
+Chadwick, Camila Alvarez-Garreton, Raúl Díaz-Vasconcellos, Anahí
+Ocampo-Melgar, and Rodrigo Fuster. 2021. {``Water Allocation Under
+Climate Change.''} \emph{Elementa: Science of the Anthropocene} 9 (1):
+00131. \url{https://doi.org/10.1525/elementa.2020.00131}.
+
+\bibitem[\citeproctext]{ref-Boisier2018}
+Boisier, Juan P., Camila Alvarez-Garreton, Raúl R. Cordero, Alessandro
+Damiani, Laura Gallardo, René D. Garreaud, Fabrice Lambert, Cinthya
+Ramallo, Maisa Rojas, and Roberto Rondanelli. 2018. {``Anthropogenic
+Drying in Central-Southern {Chile} Evidenced by Long-Term Observations
+and Climate Model Simulations.''} \emph{Elementa} 6 (1): 74.
+\url{https://doi.org/10.1525/elementa.328}.
+
+\bibitem[\citeproctext]{ref-di_baldassarre_water_2018}
+Di Baldassarre, Giuliano, Niko Wanders, Amir AghaKouchak, Linda Kuil,
+Sally Rangecroft, Ted I. E. Veldkamp, Margaret Garcia, Pieter R. Van
+Oel, Korbinian Breinl, and Anne F. Van Loon. 2018. {``Water Shortages
+Worsened by Reservoir Effects.''} \emph{Nature Sustainability} 1 (11):
+617--22. \url{https://doi.org/10.1038/s41893-018-0159-0}.
+
+\bibitem[\citeproctext]{ref-garreaud_20102015_2017}
+Garreaud, René D., Camila Alvarez-Garreton, Jonathan Barichivich, Juan
+Pablo Boisier, Duncan Christie, Mauricio Galleguillos, Carlos LeQuesne,
+James McPhee, and Mauricio Zambrano-Bigiarini. 2017. {``The 2010--2015
+Megadrought in Central {Chile}: Impacts on Regional Hydroclimate and
+Vegetation.''} \emph{Hydrology and Earth System Sciences} 21 (12):
+6307--27. \url{https://doi.org/10.5194/hess-21-6307-2017}.
+
+\bibitem[\citeproctext]{ref-Garreaud2025}
+Garreaud, René, Juan Pablo Boisier, Camila Álvarez-Garreton, Duncan
+Christie, Tomás Carrasco-Escaff, Iván Vergara, Roberto O. Chávez, et al.
+2025. {``Hyperdroughts in Central {Chile}: {Drivers}, {Impacts} and
+{Projections}.''} Hydrometeorology/Instruments; observation techniques.
+\url{https://doi.org/10.5194/egusphere-2025-517}.
+
+\bibitem[\citeproctext]{ref-gotte_hydrological_2024}
+Götte, Jonas, and Manuela I. Brunner. 2024. {``Hydrological
+{Drought}‐{To}‐{Flood} {Transitions} {Across} {Different}
+{Hydroclimates} in the {United} {States}.''} \emph{Water Resources
+Research} 60 (7): e2023WR036504.
+\url{https://doi.org/10.1029/2023WR036504}.
+
+\bibitem[\citeproctext]{ref-grafton_paradox_2018}
+Grafton, R. Q., J. Williams, C. J. Perry, F. Molle, C. Ringler, P.
+Steduto, B. Udall, et al. 2018. {``The Paradox of Irrigation
+Efficiency.''} \emph{Science} 361 (6404): 748--50.
+\url{https://doi.org/10.1126/science.aat9314}.
+
+\bibitem[\citeproctext]{ref-ho_future_2017}
+Ho, Michelle, Upmanu Lall, Maura Allaire, Naresh Devineni, Hyun Han
+Kwon, Indrani Pal, David Raff, and David Wegner. 2017. {``The Future
+Role of Dams in the {United} {States} of {America}.''} \emph{Water
+Resources Research} 53 (2): 982--98.
+\url{https://doi.org/10.1002/2016WR019905}.
+
+\bibitem[\citeproctext]{ref-kellner_controversial_2021}
+Kellner, Elke. 2021. {``The Controversial Debate on the Role of Water
+Reservoirs in Reducing Water Scarcity.''} \emph{WIREs Water} 8 (3):
+e1514. \url{https://doi.org/10.1002/wat2.1514}.
+
+\bibitem[\citeproctext]{ref-kim_andes_2025}
+Kim, Kyung Y., Harihar Rajaram, and Venkataraman Lakshmi. 2025.
+{``Observing Decreasing Snow Cover and Increasing Surface Temperature
+Across the {Andes} with Remotely Sensed and Reanalysis Data.''}
+\emph{Environmental Research Communications} 7: 021009.
+\url{https://doi.org/10.1088/2515-7620/adb382}.
+
+\bibitem[\citeproctext]{ref-lee_drought_2026}
+Lee, Chaelim, Sinuk Kang, and Sangdan Kim. 2026. {``Drought Resistance
+of Dams Based on Propagation Analysis: {A} Case Study of Various
+Multipurpose Dams in {South} {Korea}.''} \emph{Journal of Hydrology:
+Regional Studies} 63 (February): 103106.
+\url{https://doi.org/10.1016/j.ejrh.2026.103106}.
+
+\bibitem[\citeproctext]{ref-lema_technical_2025}
+Lema, Fabián, Pablo A. Mendoza, Nicolás A. Vásquez, Naoki Mizukami,
+Mauricio Zambrano-Bigiarini, and Ximena Vargas. 2025. {``Technical Note:
+{What} Does the {Standardized} {Streamflow} {Index} Actually Reflect?
+{Insights} and Implications for Hydrological Drought Analysis.''}
+\emph{Hydrology and Earth System Sciences} 29 (8): 1981--2002.
+\url{https://doi.org/10.5194/hess-29-1981-2025}.
+
+\bibitem[\citeproctext]{ref-li_diminishing_2023}
+Li, Yao, Gang Zhao, George H. Allen, and Huilin Gao. 2023.
+{``Diminishing Storage Returns of Reservoir Construction.''}
+\emph{Nature Communications} 14 (1): 3203.
+\url{https://doi.org/10.1038/s41467-023-38843-5}.
+
+\bibitem[\citeproctext]{ref-lopezmoreno_dam_2009}
+López‐Moreno, J. I., S. M. Vicente‐Serrano, S. Beguería, J. M.
+García‐Ruiz, M. M. Portela, and A. B. Almeida. 2009. {``Dam Effects on
+Droughts Magnitude and Duration in a Transboundary Basin: {The} {Lower}
+{River} {Tagus}, {Spain} and {Portugal}.''} \emph{Water Resources
+Research} 45 (2): 2008WR007198.
+\url{https://doi.org/10.1029/2008WR007198}.
+
+\bibitem[\citeproctext]{ref-macpherson_evolving_2023}
+Macpherson, Elizabeth, Cristy Clark, Pía Weber Salazar, Natalie Baird,
+Afshin Akhtar-Khavari, and Edward Challies. 2023. {``Evolving Rights to
+(and of) Water in {Chile}: A Case for Relationship-Based Water Law and
+Governance.''} \emph{The International Journal of Human Rights},
+October, 1--26. \url{https://doi.org/10.1080/13642987.2023.2266719}.
+
+\bibitem[\citeproctext]{ref-McKee1993}
+McKee, Thomas B., Nolan J. Doesken, and John Kleist. 1993. {``The
+Relationship of Drought Frequency and Duration to Time Scales.''}
+\emph{Proceedings of the Ninth Conference on Applied Climatology,
+American Meteorological Society} 17 (22): 179--84.
+
+\bibitem[\citeproctext]{ref-Meza2013}
+Meza, Francisco J. 2013. {``Recent Trends and \{{ENSO}\} Influence on
+Droughts in \{{N}\}orthern \{{C}\}hile: \{{A}\}n Application of the
+\{{S}\}tandarized \{{P}\}recipitation \{{E}\}vapotranspiration
+\{{I}\}ndex.''} \emph{Weather and Climate Extremes} 1: 51--58.
+
+\bibitem[\citeproctext]{ref-Oertel2020}
+Oertel, Melanie, Francisco Javier Meza, and Jorge Gironás. 2020.
+{``Observed Trends and Relationships Between {ENSO} and Standardized
+Hydrometeorological Drought Indices in Central {Chile}.''}
+\emph{Hydrological Processes} 34 (2): 159--74.
+\url{https://doi.org/10.1002/hyp.13596}.
+
+\bibitem[\citeproctext]{ref-reade_malagueno_libre_2024}
+Reade Malagueño, Benji, and Paolo D'Odorico. 2024. {``\emph{¿{Libre} de
+La {Maleza} {Estatista}?} {Assessing} {Neoliberal} {Promises} and
+{Water} {Markets} in {Chile}.''} \emph{Earth's Future} 12 (10):
+e2024EF004963. \url{https://doi.org/10.1029/2024EF004963}.
+
+\bibitem[\citeproctext]{ref-rivera_legal_2016}
+Rivera, Diego, Alex Godoy-Faúndez, Mario Lillo, Amaya Alvez, Verónica
+Delgado, Consuelo Gonzalo-Martín, Ernestina Menasalvas, Roberto
+Costumero, and Ángel García-Pedrero. 2016. {``Legal Disputes as a Proxy
+for Regional Conflicts over Water Rights in {Chile}.''} \emph{Journal of
+Hydrology} 535 (April): 36--45.
+\url{https://doi.org/10.1016/j.jhydrol.2016.01.057}.
+
+\bibitem[\citeproctext]{ref-rivera-vidal_managed_2025}
+Rivera-Vidal, Rayen, José Luis Arumí, Ovidio Melo, Verónica Delgado,
+Víctor Parra, Alejandra Stehr, and Linda Daniele. 2025. {``Managed
+Aquifer Recharge Implementation Challenges: {Lessons} from {Chile}'s
+Water-Scarce Regions.''} \emph{Groundwater for Sustainable Development}
+31 (November): 101502. \url{https://doi.org/10.1016/j.gsd.2025.101502}.
+
+\bibitem[\citeproctext]{ref-scanlon_global_2023}
+Scanlon, Bridget R., Sarah Fakhreddine, Ashraf Rateb, Inge De Graaf, Jay
+Famiglietti, Tom Gleeson, R. Quentin Grafton, et al. 2023. {``Global
+Water Resources and the Role of Groundwater in a Resilient Water
+Future.''} \emph{Nature Reviews Earth \& Environment} 4 (2): 87--101.
+\url{https://doi.org/10.1038/s43017-022-00378-6}.
+
+\bibitem[\citeproctext]{ref-schilstra_effects_2024}
+Schilstra, Marco, Wen Wang, Pieter Richard Van Oel, Jingshu Wang, and
+Hui Cheng. 2024. {``The Effects of Reservoir Storage and Water Use on
+the Upstream--Downstream Drought Propagation.''} \emph{Journal of
+Hydrology} 631 (March): 130668.
+\url{https://doi.org/10.1016/j.jhydrol.2024.130668}.
+
+\bibitem[\citeproctext]{ref-Taucare2024}
+Taucare, Matías, Benoît Viguier, Ronny Figueroa, and Linda Daniele.
+2024. {``The Alarming State of {Central} {Chile}'s Groundwater
+Resources: {A} Paradigmatic Case of a Lasting Overexploitation.''}
+\emph{Science of The Total Environment} 906 (January): 167723.
+\url{https://doi.org/10.1016/j.scitotenv.2023.167723}.
+
+\bibitem[\citeproctext]{ref-VanLoon2015}
+Van Loon, Anne F. 2015. {``Hydrological Drought Explained.''}
+\emph{WIREs Water} 2 (4): 359--92.
+\url{https://doi.org/10.1002/wat2.1085}.
+
+\bibitem[\citeproctext]{ref-Vicente-Serrano2010}
+Vicente-Serrano, Sergio M., Santiago Beguería, and Juan I. López-Moreno.
+2010. {``A Multiscalar Drought Index Sensitive to Global Warming: {The}
+Standardized Precipitation Evapotranspiration Index.''} \emph{Journal of
+Climate} 23 (7): 1696--1718.
+\url{https://doi.org/10.1175/2009JCLI2909.1}.
+
+\bibitem[\citeproctext]{ref-Vicente-Serrano2012c}
+Vicente-Serrano, Sergio M, Juan I López-Moreno, Santiago Beguería, Jorge
+Lorenzo-Lacruz, Cesar Azorin-Molina, and Enrique Morán-Tejeda. 2012.
+{``Accurate Computation of a Streamflow Drought Index.''} \emph{J.
+Hydrol. Eng.} 17(2): 318--32. \url{http://hdl.handle.net/10261/49224}.
+
+\bibitem[\citeproctext]{ref-vicenteserrano_unraveling_2019}
+Vicente‐Serrano, Sergio M., Tim R. McVicar, Diego G. Miralles, Yuting
+Yang, and Miquel Tomas‐Burguera. 2019. {``Unraveling the Influence of
+Atmospheric Evaporative Demand on Drought and Its Response to Climate
+Change.''} \emph{WIREs Climate Change}, December.
+\url{https://doi.org/10.1002/wcc.632}.
+
+\bibitem[\citeproctext]{ref-wang_propagation_2016}
+Wang, Wen, Maurits W. Ertsen, Mark D. Svoboda, and Mohsin Hafeez. 2016.
+{``Propagation of Drought: {From} Meteorological Drought to Agricultural
+and Hydrological Drought.''} \emph{Advances in Meteorology}.
+\url{https://doi.org/10.1155/2016/6547209}.
+
+\bibitem[\citeproctext]{ref-wang_reservoir_2024}
+Wang, Zhiwei, Liguang Jiang, Karina Nielsen, and Lei Wang. 2024.
+{``Reservoir {Filling} {Up} {Problems} in a {Changing} {Climate}:
+{Insights} {From} {CryoSat}‐2 {Altimetry}.''} \emph{Geophysical Research
+Letters} 51 (10): e2024GL108934.
+\url{https://doi.org/10.1029/2024GL108934}.
+
+\bibitem[\citeproctext]{ref-webb_water_2021}
+Webb, Mariana J., Jonathan M. Winter, Stephanie A. Spera, Jonathan W.
+Chipman, and Erich C. Osterberg. 2021. {``Water, Agriculture, and
+Climate Dynamics in Central {Chile}'s {Aconcagua} {River} {Basin}.''}
+\emph{Physical Geography} 42 (5): 395--415.
+\url{https://doi.org/10.1080/02723646.2020.1790719}.
+
+\bibitem[\citeproctext]{ref-wu_non-linear_2017}
+Wu, Jiefeng, Xingwei Chen, Huaxia Yao, Lu Gao, Ying Chen, and Meibing
+Liu. 2017. {``Non-Linear Relationship of Hydrological Drought Responding
+to Meteorological Drought and Impact of a Large Reservoir.''}
+\emph{Journal of Hydrology} 551 (August): 495--507.
+\url{https://doi.org/10.1016/j.jhydrol.2017.06.029}.
+
+\bibitem[\citeproctext]{ref-wu_impacts_2018}
+Wu, Jiefeng, Zhiyong Liu, Huaxia Yao, Xiaohong Chen, Xingwei Chen,
+Yanhui Zheng, and Yanhu He. 2018. {``Impacts of Reservoir Operations on
+Multi-Scale Correlations Between Hydrological Drought and Meteorological
+Drought.''} \emph{Journal of Hydrology} 563 (August): 726--36.
+\url{https://doi.org/10.1016/j.jhydrol.2018.06.053}.
+
+\bibitem[\citeproctext]{ref-zambrano_drought_2025}
+Zambrano, Francisco, Anton Vrieling, Francisco Meza, Iongel
+Duran‐Llacer, Francisco Fernández, Alejandro Venegas‐González, Nicolas
+Raab, and Dylan Craven. 2025. {``From {Drought} to {Aridification}:
+{Land}‐{Cover} {Fingerprints} of a {Drying} {Chile}.''} \emph{Earth's
+Future} 13 (12): e2025EF006744.
+\url{https://doi.org/10.1029/2025EF006744}.
+
+\bibitem[\citeproctext]{ref-Zambrano2018}
+Zambrano, Francisco, Anton Vrieling, Andy Nelson, Michele Meroni, and
+Tsegaye Tadesse. 2018. {``Prediction of Drought-Induced Reduction of
+Agricultural Productivity in {Chile} from {MODIS}, Rainfall Estimates,
+and Climate Oscillation Indices.''} \emph{Remote Sensing of Environment}
+219 (December): 15--30. \url{https://doi.org/10.1016/j.rse.2018.10.006}.
+
+\bibitem[\citeproctext]{ref-Zambrano2017}
+Zambrano, Francisco, Brian Wardlow, Tsegaye Tadesse, Mario
+Lillo-Saavedra, and Octavio Lagos. 2017. {``Evaluating Satellite-Derived
+Long-Term Historical Precipitation Datasets for Drought Monitoring in
+{Chile}.''} \emph{Atmospheric Research} 186 (April): 26--42.
+\url{https://doi.org/10.1016/j.atmosres.2016.11.006}.
+
+\end{CSLReferences}
+
 
 
 

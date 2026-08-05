@@ -23,7 +23,11 @@ The analysis grain is the DGA sub-watershed (467 units), chosen over the
 coarser watershed grain (101 units) for power and common support, reservoirs sit in Chile's largest
 main-stem basins, and the finer grain supplies far more controls inside the treated size range
 (detailed in the archived analysis repository). A sub-watershed is treated if it contains ≥1 of the 26
-monitored reservoirs by point-in-polygon assignment, giving 24 treated units. The reservoirs are
+monitored reservoirs by point-in-polygon assignment, giving 24 treated units (two reservoirs share a
+sub-watershed). After entropy balancing, three high-Andes treated units fall outside local elevation
+common support, leaving 21 treated basins in all analyses; the progression from 26 reservoirs to 24
+treated sub-watersheds to 21 retained treated units is fixed across every estimator and table. The
+reservoirs are
 predominantly irrigation (20 of 26; three hydropower, two potable supply, one mixed), so the treated
 set is dominated by the use type built to buffer agricultural drought, and the headline streamflow
 result is unchanged when restricted to irrigation-only treated basins (Supplementary Table S11). An untreated
@@ -103,9 +107,15 @@ snowmelt confound on the placebo estimand itself (Supplementary Table S12): we r
 downstream buffering models with a forcing-by-snowpack adjustment, within the low-snow half of units
 (below-median peak SWE), across early and late halves of the panel, and with a snow-year interaction
 that asks whether the apparent buffering strengthens in high-snow years. ERA5-Land underestimates
-absolute Andean snowpack, the same class of product caveat we apply to MOD16 evapotranspiration, so
-all snow terms enter standardized, which is insensitive to multiplicative bias; gauge-level
-sensitivity checks among undammed controls are likewise reported per standard deviation of peak SWE.
+absolute Andean snowpack, a product limitation analogous to the MOD16 ET bias we disqualify
+elsewhere. Both biases can attenuate estimated effects. The difference in treatment is
+substantive rather than asymmetric: MOD16's underestimation is land-cover-dependent
+(concentrated over irrigated land) and potentially non-multiplicative, biasing the
+orchard-ET slope gap toward zero in a way standardization cannot remove, so we exclude those
+outcomes from evidence. ERA5-Land's snow bias is predominantly multiplicative and
+land-cover-independent, so standardization, which is insensitive to multiplicative bias,
+removes it; all snow terms therefore enter standardized, and gauge-level sensitivity checks
+among undammed controls are reported per standard deviation of peak SWE.
 
 **Groundwater levels.** DGA well hydrographs of depth to water (2000–2021; 216 wells carry usable
 hydrographs nationally, of which 213 fall inside the matched basins and enter the bound; a Hampel
@@ -328,7 +338,8 @@ All analyses are implemented in R within a `targets` pipeline (matched-set const
 and figures are individual targets), using `WeightIt`/`cobalt` for balancing and diagnostics,
 `fixest` for fixed-effects regression, `sf`/`terra`/`exactextractr` for the spatial extractions, and
 `renv` for package pinning. Every result in the manuscript corresponds to a named pipeline target;
-no figure or table is produced by hand.
+no figure or table is produced by hand. The complete R session information and package versions
+are archived alongside the pipeline output and reproducible via `renv::restore()`.
 
 # Data and code availability
 

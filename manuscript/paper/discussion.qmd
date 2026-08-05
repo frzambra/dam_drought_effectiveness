@@ -1,13 +1,15 @@
 # Discussion
 
-Across a matched national design and multiple estimators, the operational effect of
-reservoirs on drought brackets zero once siting is matched out. Dammed basins hold about 4.5
-times more cropland than matched controls, but that gap is fixed across the record, with parallel
-pre-trends and no detected megadrought divergence. One reading fits:
-reservoirs mark where water-dependent vulnerability already concentrated rather than make it. This is a finding, not a failure of power: the apparent effect has an
-identified cause and the positive control shows the design detects buffering. The placebo is the cleanest
-falsification: a regulation effect must appear only below the dam; it does not, and what remains
-is the aridity gradient.
+Across a matched national design, multiple estimators, and a within-basin
+falsification test, the apparent drought buffering attributed to reservoirs is a measurable
+siting confound. The upstream placebo is the decisive evidence: a regulation effect must
+appear only below the dam; it does not, and what remains is the aridity gradient. Dammed
+basins hold about 4.5 times more cropland than matched controls, but that gap is fixed
+across the record, with parallel pre-trends and no detected megadrought divergence.
+One reading fits: reservoirs mark where water-dependent vulnerability already concentrated
+rather than make it. This is a finding, not a failure of power: the apparent effect has an
+identified cause and the positive control shows the design detects buffering when it is
+present.
 
 The corollary is transferable: dammed-versus-undammed or before-after contrasts inherit the
 full siting confound
@@ -17,8 +19,9 @@ short, steep catchments like Chile's; in large low-gradient basins,
 floodplain storage and transmission losses would blur the contrast; porting it would need
 routing-corrected lags or naturalized-flow counterfactuals.
 
-If reservoirs neither buffer nor amplify multi-year drought operationally, what matters
-is the water available to store. The storage band steps down at the
+If the streamflow pathway excludes material operational buffering at multi-year scale and the
+demand-side outcomes are consistent with no amplification at their respective detection
+limits, what matters is the water available to store. The storage band steps down at the
 megadrought onset, peak and trough together, while the amplitude trend is too imprecise to
 determine whether buffering capacity degraded. The powered result is the level decline, the expected mass-balance outcome of persistent
 inflow deficits; descriptive and confounded with management change, it supports no causal
@@ -46,7 +49,16 @@ travels depends on governance: the siting lesson holds wherever dams are placed 
 prior appropriation, which forfeits unused rights, may amplify induced demand while adaptive
 allocation curtails it. Whether the null is general or the mark of a fully allocated
 market we cannot adjudicate: rights kept accruing in dammed basins, but systems with water still
-unallocated could express an induced demand that ours cannot.
+unallocated could express an induced demand that ours cannot. The upstream placebo itself ports
+more broadly. Short, steep catchments with gauges above and below dams are common across the
+world's regulated mountain rivers: the California Coast Ranges and Sierra Nevada, the Spanish
+Sierra Nevada and Pyrenees, the Italian Apennines and Alps, the African Rift, and the Andean
+cordillera beyond Chile. In large low-gradient basins, the Murray-Darling, the Colorado below
+Lake Mead, or the Indus plains, floodplain storage and transmission losses would blur the
+above/below contrast and routing-corrected lags or naturalized-flow counterfactuals would be
+needed. The placebo method is therefore not universal, but its scope conditions are explicit
+and its required data, paired gauges above and below dams, exist across much of the world's
+irrigated mountain-front hydrology.
 
 Chile's 1981 Water Code makes water-use rights perpetual private
 property, so the reflexive response has been supply-side, new dams and
@@ -99,9 +111,18 @@ carryover was physically available, so its absence in outcomes is not a design t
 historical commissioning would probe construction-phase induced demand; a rule-curve
 quasi-experiment on release records, once public, would isolate operation.
 
-At the multi-year timescale of structural aridification, then, reservoirs neither create
-resilience nor postpone vulnerability operationally: storage neither
-buffers nor amplifies the drought signal beyond what siting implies, while the water available to
-store declines. The nulls are bounds, not zeros; effects inside them can be volumetrically material
-(Supplementary Table S16). Resilience to a falling supply ceiling will come from confronting
-demand and allocation, not more impoundments.
+At the multi-year timescale of structural aridification, then, the design detects neither
+operational buffering nor megadrought-era demand expansion beyond the siting legacy:
+the apparent buffering is a statistical shadow of where dams sit, not of what they do,
+while the water available to store declines. The nulls are bounds, not zeros; effects inside
+them can be volumetrically material (Supplementary Table S16). But under structural
+aridification with no operational buffering at the multi-year scale, building more storage
+is a supply-blind response to a supply problem. Chile is currently evaluating at least 26
+new reservoir sites to expand storage, while its agricultural water demand continues to
+grow under perpetual private water rights that the 2022 Water Code reform only begins to
+address [@macpherson_evolving_2023]. The alternative is not theoretical: demand reallocation
+through active water markets, irrigation efficiency, managed aquifer recharge, and crop
+transitions toward lower water footprints are available now and do not depend on rainfall
+[@grafton_paradox_2018; @scanlon_global_2023; @rivera-vidal_managed_2025]. Resilience to a
+falling supply ceiling will come from confronting demand and allocation, not from more
+impoundments.
