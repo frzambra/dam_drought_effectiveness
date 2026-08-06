@@ -418,3 +418,78 @@ elevation_adjusted_placebo <- function(stations_units, ssi_panel_itt, ssi_panel_
     elev_term_p = c(obs_itt[["elev_p"]], obs_down[["elev_p"]], obs_up[["elev_p"]], NA_real_),
     n_perm = nv)
 }
+
+#' R4 4th round, comment 2 (2026-08-05): gauge-misclassification robustness for the up/down
+#' placebo. The SRTM elevation-based up/down split could misplace a gauge on an unregulated
+#' parallel tributary. We can't route against network geometry (not in the data), but we bound
+#' the risk with the best available proxies: (a) every downstream gauge should lie in the dam's
+#' own river sub-cuenca in the DGA hydrographic hierarchy; we drop any that don't; and (b) the
+#' gauges least defensibly "downstream" are those within a small elevation margin of the dam, so
+#' we re-estimate after dropping them. Each scenario re-fits the downstream buffering slope and
+#' the down-minus-up contrast D under unit-level permutation inference.
+#' @param streamflow_stations assign_stations_to_units() output
+#' @param ssi12 compute_ssi() output (codigo, year, month, ssi)
+#' @param spei12_monthly unit-month SPEI-12
+#' @param matched_set matched set
+#' @param dam_elev extract_dam_elevation() output (unit_id, dam_elev_m)
+#' @param cross_river_codes gauges in a sub-cuenca named for a different river than the dam
+#' @param margin_m drop downstream gauges within this elevation margin of the dam (default 100)
+#' @param n_perm permutations per scenario
+gauge_classification_robustness <- function(streamflow_stations, ssi12, spei12_monthly,
+                                            matched_set, dam_elev,
+                                            cross_river_codes = integer(0),
+                                            margin_m = 100L, n_perm = 1000L, seed = 1L) {
+  su <- data.table::as.data.table(streamflow_stations)
+  de <- data.table::as.data.table(dam_elev)
+  su <- merge(su, de, by = "unit_id", all.x = TRUE)
+  # identify borderline downstream gauges (within margin_m of the dam elevation)
+  su[treat == 1L & regulated == "down", near_dam := dam_elev_m - altura < margin_m]
+  su[is.na(near_dam), near_dam := FALSE]
+
+  fit_contrast <- function(stations_sub, permute = TRUE) {
+    # rebuild the down and up panels from the filtered station table
+    p_down <- build_ssi_panel(ssi12, stations_sub, spei12_monthly, matched_set, "down")
+    p_up   <- build_ssi_panel(ssi12, stations_sub, spei12_monthly, matched_set, "up")
+    b_down <- ssi_buffer_coef(fit_ssi_buffering(p_down))
+    b_up   <- ssi_buffer_coef(fit_ssi_buffering(p_up))
+    D <- b_down - b_up
+    if (!permute) return(list(down = b_down, up = b_up, D = D, p_D = NA_real_, p_down = NA_real_))
+    # permutation: permute treatment within strata, refit both panels
+    u <- unique(data.table::as.data.table(p_down)[, .(unit_id, treat, kg_group, aridity_mean)])
+    qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+    u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+    base_down <- data.table::as.data.table(p_down)[, !"treat", with = FALSE]
+    base_up   <- data.table::as.data.table(p_up)[,   !"treat", with = FALSE]
+    one <- function(b) {
+      set.seed(seed + b)
+      up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+      tryCatch({
+        d1 <- ssi_buffer_coef(fit_ssi_buffering(merge(base_down, up[, .(unit_id, treat)], by = "unit_id")))
+        d2 <- ssi_buffer_coef(fit_ssi_buffering(merge(base_up,   up[, .(unit_id, treat)], by = "unit_id")))
+        c(down = d1, up = d2)
+      }, error = function(e) c(down = NA_real_, up = NA_real_))
+    }
+    ncore <- max(1L, parallel::detectCores() - 2L)
+    perm <- do.call(rbind, parallel::mclapply(seq_len(n_perm), one, mc.cores = ncore))
+    perm <- perm[stats::complete.cases(perm), , drop = FALSE]
+    nv <- nrow(perm)
+    pp <- function(obs, x) (1 + sum(abs(x) >= abs(obs), na.rm = TRUE)) / (1 + nv)
+    list(down = b_down, up = b_up, D = D,
+         p_D = pp(D, perm[, "down"] - perm[, "up"]),
+         p_down = pp(b_down, perm[, "down"]), n_perm = nv)
+  }
+
+  scen <- list(
+    "baseline (all downstream gauges)" = su,
+    "excluding cross-river gauge(s)"   = su[!(codigo %in% cross_river_codes)],
+    su[!(near_dam)])
+  names(scen)[3] <- sprintf("excluding gauges within %dm of dam", margin_m)
+
+  rows <- lapply(names(scen), function(nm) {
+    r <- fit_contrast(scen[[nm]])
+    data.table::data.table(scenario = nm, n_down = sum(scen[[nm]]$regulated == "down"),
+                           down_est = r$down, up_est = r$up, D = r$D,
+                           p_D = round(r$p_D, 3), p_down = round(r$p_down, 3))
+  })
+  data.table::rbindlist(rows)
+}

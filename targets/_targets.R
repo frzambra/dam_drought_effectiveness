@@ -459,6 +459,19 @@ list(
   tar_target(table_elev_adjusted_placebo_file,
              write_table(elev_adjusted_placebo, "table_elev_adjusted_placebo"),
              format = "file"),
+  # Gauge-misclassification robustness (reviewer 2026-08-05, 4th round): re-run the placebo
+  # contrast after (a) dropping the 3 downstream gauges that sit in a sub-cuenca named for a
+  # different river or tributary than the dam (Duqueco tributary under Biobío dams; Itata river
+  # under the Laja dam), and (b) dropping the downstream gauges within 100 m of the dam elevation
+  # (the ones most plausibly on a parallel tributary).
+  tar_target(gauge_class_robust,
+             gauge_classification_robustness(streamflow_stations, ssi12, spei12_monthly,
+                                             matched_set, dam_elev,
+                                             cross_river_codes = c(8323001, 8122001),
+                                             margin_m = 100L)),
+  tar_target(table_gauge_class_robust_file,
+             write_table(gauge_class_robust, "table_gauge_classification_robustness"),
+             format = "file"),
   # Early/late megadrought phase split (reviewer round 7, comment 1): does the placebo hold at
   # drought onset (2010-2014), before storage depletion could wash out early buffering? Per-phase
   # treat:spei_c for the three subsets plus the treat:spei_c:late shift on the pooled panel.

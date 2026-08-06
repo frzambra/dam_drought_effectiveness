@@ -269,12 +269,14 @@ reconcile arithmetically; the pooled interaction is the phase-shift test, and it
 all small-cluster inference in the design, is by treatment permutation rather than cluster-robust
 standard errors (Supplementary Table S27). Gauge class (upstream versus downstream) is assigned
 from SRTM elevation relative to the reservoir outlet (a gauge below the dam elevation is
-"downstream"), a classification that is right for the short, steep Andean catchments studied
-here but carries a residual risk that a gauge classed downstream sits on an unregulated
-tributary or below a second dam, which would bias the placebo toward the null; the geomorphic
-relief check and the gauge-elevation sensitivity analyses bound this risk (Supplementary
-Tables S20, S22), but the classification is not independently validated against routed network
-topology, a residual caveat.
+"downstream"). Because a routed stream network is not available in the study data, we bound the
+misclassification risk two ways (Supplementary Table S32): against the DGA hydrographic
+sub-cuenca hierarchy, we flag downstream gauges whose sub-cuenca is named for a different river
+or an unregulated tributary than the dam and re-estimate the placebo without them; and we
+re-estimate dropping the downstream gauges within 100 m of the dam elevation, the ones most
+plausibly on a parallel tributary. The geomorphic relief check and the gauge-elevation
+sensitivity analyses further bound the risk (Supplementary Tables S20, S22); a residual caveat
+remains that the classification is not validated against routed network topology.
 
 ## Inference
 
@@ -304,17 +306,4 @@ and figures are individual targets), using `WeightIt`/`cobalt` for balancing and
 no figure or table is produced by hand. The complete R session information and package versions
 are archived alongside the pipeline output and reproducible via `renv::restore()`.
 
-# Data and code availability
 
-The full analysis pipeline, comprising the `targets` workflow, the reusable R functions (`src/R/`), the
-study-parameter configuration (`config/`), and the scripts that generate every figure and table,
-is openly available at <https://github.com/frzambra/dam_drought_effectiveness> and archived on
-Zenodo (DOI: 10.5281/zenodo.21052149). The pinned R environment
-(`renv.lock`) reproduces the package versions used. Reservoir storage records, the derived result
-tables, and matched-set metadata are included in the repository; the third-party input datasets are
-publicly available from their providers as cited: CHIRPS/CHIRTS (SPEI-12 forcing and baseline
-aridity), MODIS MOD16 (evapotranspiration), MapBiomas Chile (land cover), the CR2
-network (streamflow), ERA5-Land (snow water equivalent), SRTM (elevation), and the DGA reservoir,
-watershed, water-rights, and well-hydrograph registries. Every
-result in the manuscript corresponds to a named pipeline target, so the analyses can be regenerated
-with a single `targets::tar_make()`.

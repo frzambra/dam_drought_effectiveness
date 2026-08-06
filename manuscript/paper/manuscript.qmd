@@ -1,5 +1,5 @@
 ---
-title: "The upstream placebo: reservoir siting, not regulation, explains apparent drought buffering during Chile's megadrought"
+title: "An upstream placebo shows that reservoir siting explains apparent drought buffering during Chile's megadrought"
 author:
   - name: Francisco Zambrano Bigiarini
     affiliations:
@@ -21,7 +21,8 @@ abstract: |
   $p = 0.72$). Hard-balancing aridity (standardized mean difference 0.000, effective control 19)
   makes even the apparent buffering vanish (intent-to-treat $-0.02$, $p > 0.85$). Over the streamflow
   record, the first decade of the megadrought ending March 2020 and excluding the 2019–2022 peak,
-  the null is well powered, excluding operational buffering above 46 to 59% of baseline, and a
+  the null is well powered, excluding only large operational buffering (above 46 to 59% of
+  baseline; moderate buffering remains possible), and a
   positive control recovers injected effects one to one. Dammed basins hold 4.5 times more cropland
   than matched controls, a siting legacy with no detected divergence within power. The storage band
   drifts downward, shrinking the carryover available to buffer multi-year drought. Cropland
@@ -39,7 +40,7 @@ keywords:
   - Chile
 date: last-modified
 bibliography: references.bib
-number-sections: false
+number-sections: true
 format:
   elsevier-pdf:
     keep-tex: true
@@ -90,3 +91,5 @@ is not the answer; managing how water is used is.
 {{< include discussion.qmd >}}
 
 {{< include conclusions.qmd >}}
+
+{{< include data_&_code.qmd >}}

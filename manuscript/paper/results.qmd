@@ -73,7 +73,15 @@ identical area to downstream gauges (mean 3,156 versus 3,071 km²), and among co
 transmission slope does not vary significantly with log area ($-0.07$ per e-fold, $p = 0.06$,
 $n = 84$), with a non-monotonic tercile pattern (0.87, 0.89, 0.73 from small to large;
 Supplementary Table S30), so even a weak area sensitivity cannot drive a contrast between
-equally sized upstream and downstream catchments.
+equally sized upstream and downstream catchments. Gauge misclassification cannot manufacture the
+contrast either. Downstream gauges are assigned from SRTM elevation relative to the dam, so a
+gauge on an unregulated parallel tributary would artificially narrow the down/up contrast.
+Against the DGA hydrographic hierarchy, 67 of 70 downstream gauges lie in a sub-cuenca named for
+the dam's own river; three sit on a tributary or different river (two on the Duqueco below the
+Biobío dams, one on the Itata below the Laja). Excluding those three leaves the contrast null
+($D = +0.04$, $p = 0.69$), and excluding the sixteen gauges within 100 m of the dam likewise
+leaves it null ($D = +0.12$, $p = 0.47$), moving the downstream estimate toward zero rather than
+toward buffering (Supplementary Table S32).
 Upstream gauges sit higher, and the elevation gradient is real: among control gauges, the
 transmission slope flattens with elevation ($-0.21$ per km, $p < 0.001$, $n = 84$), and the
 0.54 km mean up/down elevation gap would predict a steeper (more negative) upstream differential
@@ -121,7 +129,9 @@ The null is informative but its power is concentrated in the streamflow
 pathway. With about 21 dammed clusters the design cannot claim exact equivalence to zero but rules
 out operational buffering above 46 to 59% of baseline, and a positive control confirms it:
 injected buffering is recovered one-to-one and detected beyond that
-threshold (Methods; Supplementary Fig. S2 and Tables S1, S3). The powered streamflow null covers
+threshold (Methods; Supplementary Fig. S2 and Tables S1, S3). This is a wide null: moderate
+buffering (e.g., a 30 to 40% reduction in transmission) is fully compatible with the data; only
+very large effects are excluded, so the finding is no *large* operational buffering, not none. The powered streamflow null covers
 the record that ends in March 2020, so it spans the first decade of the megadrought but not the
 2019–2022 peak deficits; the storage and cropland pathways, which run to 2024, are the only
 multi-year-drought evidence for the late phase. Of the remaining pathways,
