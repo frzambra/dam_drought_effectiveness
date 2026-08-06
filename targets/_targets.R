@@ -428,6 +428,15 @@ list(
              ssi_placebo_comparability(streamflow_stations, ssi12, ssi_panel_itt)),
   tar_target(table_placebo_check_file, write_table(ssi_placebo_check, "table_placebo_check"),
              format = "file"),
+  # Catchment-area confound in the up/down placebo (reviewer 2026-08-05, 2nd round): mirror the
+  # elevation test with unit area as the drainage-area proxy, so the up/down catchment-size gap
+  # cannot manufacture the placebo attenuation.
+  tar_target(catchment_area_check,
+             catchment_area_sensitivity(streamflow_stations, ssi12, ssi_panel_itt,
+                                        matched_set$data)),
+  tar_target(table_catchment_area_file,
+             write_table(catchment_area_check, "table_catchment_area"),
+             format = "file"),
   # Snowmelt-confound bound for the up/down placebo (reviewer 2026-07-02, reworked after the
   # internal NW review): test on the DIFFERENTIAL estimand (treat:spei_c of the up/down panels) —
   # snow-adjusted refit, low-snow subsample, early/late stationarity, snow-year modulation — plus
@@ -441,12 +450,64 @@ list(
                                       ssi_panel_up, ssi_panel_down, cfg_sources)),
   tar_target(table_snow_placebo_file, write_table(snow_placebo_check, "table_snow_placebo"),
              format = "file"),
+  # Elevation-adjusted placebo test (reviewer 2026-08-05, 3rd round): the raw up/down contrast
+  # could be confounded by the gauge elevation gradient, so re-estimate treat:SPEI net of a
+  # SPEI x elevation interaction, for ITT/down/up plus the D_adj contrast, with permutation.
+  tar_target(elev_adjusted_placebo,
+             elevation_adjusted_placebo(streamflow_stations, ssi_panel_itt,
+                                        ssi_panel_down, ssi_panel_up)),
+  tar_target(table_elev_adjusted_placebo_file,
+             write_table(elev_adjusted_placebo, "table_elev_adjusted_placebo"),
+             format = "file"),
   # Early/late megadrought phase split (reviewer round 7, comment 1): does the placebo hold at
   # drought onset (2010-2014), before storage depletion could wash out early buffering? Per-phase
   # treat:spei_c for the three subsets plus the treat:spei_c:late shift on the pooled panel.
   tar_target(phase_split_check,
              build_phase_split_check(ssi_panel_itt, ssi_panel_down, ssi_panel_up)),
   tar_target(table_phase_split_file, write_table(phase_split_check, "table_phase_split"),
+             format = "file"),
+  # Direct within-basin placebo contrast test (reviewer 2026-08-05, MC1): the central falsifier,
+  # downstream-minus-upstream differential slope with its own permutation p, paired within basins.
+  tar_target(placebo_contrast,
+             placebo_contrast_test(ssi_panel_down, ssi_panel_up)),
+  tar_target(placebo_contrast_table, placebo_contrast_row(placebo_contrast)),
+  tar_target(table_placebo_contrast_file, write_table(placebo_contrast_table, "table_placebo_contrast"),
+             format = "file"),
+  # Permutation inference for the phase-shift analysis (reviewer 2026-08-05, MC3): valid small-
+  # cluster inference for the treat:spei_c:late shifts and the downstream-minus-upstream contrast.
+  tar_target(phase_shift_perm,
+             build_phase_shift_permutation(ssi_panel_itt, ssi_panel_down, ssi_panel_up)),
+  tar_target(table_phase_shift_perm_file,
+             write_table(phase_shift_perm, "table_phase_shift_permutation"),
+             format = "file"),
+  # Permutation inference for siting-ladder rung 4 (reviewer 2026-08-05, MN2): the "design +
+  # within region" estimate reported without a permutation p in the ladder table.
+  tar_target(siting_rung4_perm, permute_siting_rung4(ssi_panel_itt)),
+  tar_target(siting_rung4_perm_row,
+             data.table::data.table(
+               quantity = "siting-ladder rung 4 (design + within region), permutation p",
+               estimate = siting_rung4_perm$observed,
+               detail = sprintf("est %+.3f, permutation p = %.3f (%d perms), null SD %.3f",
+                                siting_rung4_perm$observed, siting_rung4_perm$p_perm,
+                                siting_rung4_perm$n_perm, siting_rung4_perm$null_sd))),
+  tar_target(table_siting_rung4_file, write_table(siting_rung4_perm_row, "table_siting_rung4_perm"),
+             format = "file"),
+  # Reviewer 2026-08-05, comment 2: non-linear / dry-tail transmission. Quadratic SPEI interaction
+  # (full panel) plus dry-tail re-estimates at SPEI < -1.0 and < -1.5, each with permutation.
+  tar_target(nonlinear_transmission, nonlinear_transmission_test(ssi_panel_itt)),
+  tar_target(nonlinear_transmission_row,
+             data.table::data.table(
+               quantity = "non-linear transmission test (treat x SPEI^2), permutation p",
+               estimate = nonlinear_transmission$observed,
+               detail = sprintf("est %+.3f, permutation p = %.3f (%d perms), null SD %.3f; a dry-tail-only buffering effect would appear as a nonzero interaction",
+                                nonlinear_transmission$observed, nonlinear_transmission$p_perm,
+                                nonlinear_transmission$n_perm, nonlinear_transmission$null_sd))),
+  tar_target(dry_tail_10, dry_tail_transmission(ssi_panel_itt, ssi_panel_down, ssi_panel_up, thr = -1.0)),
+  tar_target(dry_tail_15, dry_tail_transmission(ssi_panel_itt, ssi_panel_down, ssi_panel_up, thr = -1.5)),
+  tar_target(dry_tail_table, rbind(dry_tail_10, dry_tail_15)),
+  tar_target(table_dry_tail_file, write_table(dry_tail_table, "table_dry_tail"),
+             format = "file"),
+  tar_target(table_nonlinear_file, write_table(nonlinear_transmission_row, "table_nonlinear_transmission"),
              format = "file"),
   # #6 POSITIVE CONTROL: inject a known buffering slope into treated downstream units, confirm the
   # estimator recovers it and that randomization inference rejects once the effect exceeds the MDE.

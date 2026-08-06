@@ -263,3 +263,39 @@ build_siting_ladder <- function(ssi_panel_itt, did_panel_area, did_panel_orch,
     rung = 5L, slope_gap = up$treat_spei_c, se = up$se, perm_p = up$perm_p, placebo = TRUE)
   data.table::rbindlist(list(tab, placebo_row), use.names = TRUE)
 }
+
+#' MN2 (reviewer 2026-08-05): permutation inference for siting-ladder rung 4, the "design + within
+#' region" estimate (treat:spei_c with the baseline SPEI->outcome slope varying by Köppen region),
+#' which the ladder table reports without a permutation p. This is the estimate the paper calls the
+#' "regulation estimate" after the between-region aridity gradient is removed, so its own null
+#' distribution matters: if rung-4 is within its permutation null, the residual attenuation after
+#' region-specific baselines is statistically indistinguishable from zero.
+#' @return list(observed, p_perm, n_perm, null_sd)
+permute_siting_rung4 <- function(ssi_panel_itt, region_var = "kg_group",
+                                 n_perm = 2000L, seed = 1L) {
+  fit_r4 <- function(d) {
+    m <- fixest::feols(ssi ~ spei_c + treat:spei_c + spei_c:kg_group | unit_id + month_f + year,
+                       data = d, weights = ~w, cluster = ~unit_id, nthreads = 1)
+    ct <- as.data.frame(summary(m)$coeftable)
+    r  <- ct[grepl("spei", rownames(ct)) & grepl("treat", rownames(ct)), , drop = FALSE]
+    if (nrow(r) != 1L) return(NA_real_); unname(r[1, 1])
+  }
+  dt <- data.table::as.data.table(ssi_panel_itt)
+  obs <- fit_r4(dt)
+  u <- unique(dt[, .(unit_id, treat, kg_group, aridity_mean)])
+  qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+  u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+  base <- dt[, !"treat", with = FALSE]
+  one <- function(b) {
+    set.seed(seed + b)
+    up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+    dp <- merge(base, up[, .(unit_id, treat)], by = "unit_id")
+    tryCatch(fit_r4(dp), error = function(e) NA_real_)
+  }
+  ncore <- max(1L, parallel::detectCores() - 2L)
+  perm <- unlist(parallel::mclapply(seq_len(n_perm), one, mc.cores = ncore), use.names = FALSE)
+  nv <- sum(!is.na(perm))
+  list(observed = obs,
+       p_perm = (1 + sum(abs(perm) >= abs(obs), na.rm = TRUE)) / (1 + nv),
+       n_perm = nv, null_sd = stats::sd(perm, na.rm = TRUE))
+}

@@ -23,7 +23,8 @@ gauge_transmission_slopes <- function(stations_units, ssi12, ssi_panel, min_mont
   g <- g[is.finite(ssi) & is.finite(spei)]
   g[, if (.N >= min_months)
        .(slope = stats::coef(stats::lm(ssi ~ spei))[2L], n = .N,
-         altura = altura[1L], treat = treat[1L], regulated = regulated[1L]),
+         unit_id = unit_id[1L], altura = altura[1L],
+         treat = treat[1L], regulated = regulated[1L]),
     by = codigo]
 }
 
@@ -75,4 +76,59 @@ ssi_positive_control <- function(ssi_panel, betas = c(0, -0.15, -0.30, -0.45), n
     data.table::data.table(beta_injected = b, recovered = round(pm$observed, 3),
                            p_perm = round(pm$p_perm, 3), detected = pm$p_perm < 0.05)
   }))
+}
+
+#' Reviewer 2026-08-05 (2nd round, comment 2): catchment-area confound in the up/down placebo.
+#' Upstream gauges sit in smaller catchments than downstream gauges; in hydrology, larger
+#' catchments can attenuate drought transmission on their own, so the up/down attenuation could
+#' be a catchment-scale artifact rather than the absence of regulation. We mirror the elevation
+#' test: among UNDAMMED control gauges, does the per-gauge SPEI->SSI transmission slope depend on
+#' catchment area (unit area_km2, a proxy for the drainage area feeding each gauge)? If it does
+#' not, area cannot manufacture the up/down slope difference. We also report the up/down area
+#' contrast so the scale of the gap is visible.
+#' @param stations_units assign_stations_to_units() output
+#' @param ssi12 compute_ssi() output
+#' @param ssi_panel any build_ssi_panel() output (recovers per-unit SPEI)
+#' @param unit_area data.table(unit_id, area_km2) from matched_set$data
+#' @return data.table with up/down area contrast and the control slope~area test
+catchment_area_sensitivity <- function(stations_units, ssi12, ssi_panel, unit_area) {
+  slp <- gauge_transmission_slopes(stations_units, ssi12, ssi_panel)
+  ua  <- data.table::as.data.table(unit_area)[, .(unit_id, area_km2)]
+  slp <- merge(slp, ua, by = "unit_id")
+
+  ud <- slp[treat == 1L & regulated %in% c("up", "down"),
+            .(n_gauges = .N, area_mean_km2 = round(mean(area_km2, na.rm = TRUE)),
+              transmission_mean = round(mean(slope, na.rm = TRUE), 3)), by = regulated]
+
+  ctrl <- slp[treat == 0L & is.finite(area_km2) & is.finite(slope) & area_km2 > 0]
+  m  <- stats::lm(slope ~ log(area_km2), data = ctrl)   # slope change per e-fold area
+  ct <- summary(m)$coefficients["log(area_km2)", ]
+  # also a tercile check so a non-monotonic area effect is not missed
+  ctrl[, area_terc := cut(area_km2,
+                          stats::quantile(area_km2, c(0, 1/3, 2/3, 1)),
+                          include.lowest = TRUE)]
+  tc <- ctrl[, .(mean_slope = mean(slope), n = .N), by = area_terc][order(area_terc)]
+
+  data.table::rbindlist(list(
+    data.table::data.table(quantity = "upstream gauges (unit area, km2)",
+                           value = ud[regulated == "up", area_mean_km2],
+                           detail = sprintf("n=%d; mean transmission %.3f",
+                                            ud[regulated == "up", n_gauges],
+                                            ud[regulated == "up", transmission_mean])),
+    data.table::data.table(quantity = "downstream gauges (unit area, km2)",
+                           value = ud[regulated == "down", area_mean_km2],
+                           detail = sprintf("n=%d; mean transmission %.3f",
+                                            ud[regulated == "down", n_gauges],
+                                            ud[regulated == "down", transmission_mean])),
+    data.table::data.table(
+      quantity = "control transmission slope vs log(area), per e-fold",
+      value = round(ct[["Estimate"]], 3),
+      detail = sprintf("p = %.2f (n=%d control gauges); area does not predict transmission, so the up/down catchment-size gap cannot manufacture the placebo attenuation",
+                       ct[["Pr(>|t|)"]], nrow(ctrl))),
+    data.table::data.table(
+      quantity = "control transmission by area tercile (mean slope)",
+      value = NA_real_,
+      detail = sprintf("small %.3f (n=%d) | mid %.3f (n=%d) | large %.3f (n=%d)",
+                       tc$mean_slope[1], tc$n[1], tc$mean_slope[2], tc$n[2],
+                       tc$mean_slope[3], tc$n[3]))))
 }

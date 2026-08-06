@@ -196,3 +196,225 @@ permute_ssi_buffer <- function(ssi_panel, n_perm = 2000L, seed = 1L) {
   list(observed = obs, p_perm = (1 + sum(abs(perm) >= abs(obs), na.rm = TRUE)) / (1 + nv),
        n_perm = nv)
 }
+
+#' MC1 (reviewer 2026-08-05): direct within-basin test of the upstream/downstream placebo
+#' contrast. The paper's central falsifier is that "apparent buffering is as strong upstream as
+#' downstream"; this was previously asserted from point estimates (-0.20 vs -0.16) without a test
+#' of the difference. D = beta_down - beta_up, the difference in the treat:SPEI differential
+#' transmission slope between regulated downstream and unregulated upstream reaches of the SAME
+#' treated basins. A genuine reservoir effect predicts D < 0 (more buffering below the dam);
+#' D ~ 0 means the upstream placebo already reproduces the downstream attenuation (siting).
+#' Treatment labels are permuted at the UNIT level within kg_group x aridity-tercile strata, the
+#' design's inference regime, preserving the paired structure (the same treated basins contribute
+#' both slopes via their own down/up gauge subsets).
+#' @return list(down, up, D, p_perm, n_perm, null_sd, D_residual, p_two_sided)
+placebo_contrast_test <- function(ssi_panel_down, ssi_panel_up, n_perm = 2000L, seed = 1L) {
+  fit_one <- function(panel) ssi_buffer_coef(fit_ssi_buffering(panel))
+  obs_down <- fit_one(ssi_panel_down)
+  obs_up   <- fit_one(ssi_panel_up)
+  obs_D    <- obs_down - obs_up
+
+  u <- unique(data.table::as.data.table(ssi_panel_down)[, .(unit_id, treat, kg_group, aridity_mean)])
+  qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+  u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+  base_down <- data.table::as.data.table(ssi_panel_down)[, !"treat", with = FALSE]
+  base_up   <- data.table::as.data.table(ssi_panel_up)[,   !"treat", with = FALSE]
+
+  one <- function(b) {
+    set.seed(seed + b)
+    up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+    pd <- merge(base_down, up[, .(unit_id, treat)], by = "unit_id")
+    pu <- merge(base_up,   up[, .(unit_id, treat)], by = "unit_id")
+    tryCatch(fit_one(pd) - fit_one(pu), error = function(e) NA_real_)
+  }
+  ncore <- max(1L, parallel::detectCores() - 2L)
+  perm <- unlist(parallel::mclapply(seq_len(n_perm), one, mc.cores = ncore), use.names = FALSE)
+  nv <- sum(!is.na(perm))
+  list(down = obs_down, up = obs_up, D = obs_D,
+       p_perm = (1 + sum(abs(perm) >= abs(obs_D), na.rm = TRUE)) / (1 + nv),
+       n_perm = nv, null_sd = stats::sd(perm, na.rm = TRUE))
+}
+
+#' One-row summary of the placebo-contrast test for the manuscript table.
+placebo_contrast_row <- function(pct) {
+  data.table::data.table(
+    quantity = "within-basin placebo contrast (downstream - upstream differential slope)",
+    estimate = pct$D,
+    detail = sprintf(
+      "downstream %+.3f, upstream placebo %+.3f, D = %+.3f (SE_perm %.3f); permutation p = %.3f (%d perms); a genuine regulation effect would give D < 0",
+      pct$down, pct$up, pct$D, pct$null_sd, pct$p_perm, pct$n_perm))
+}
+
+#' R2 (reviewer 2026-08-05, comment 2): test for non-linear / dry-tail reservoir transmission.
+#' The linear SPEI->SSI transmission slope could mask buffering that acts only in extreme deficits
+#' (threshold-based release rules). Two responses, both with unit-level permutation inference:
+#'  (a) nonlinearity test on the full panel: add a quadratic SPEI term with a treat interaction;
+#'      a reservoir effect confined to the dry tail would appear as a nonzero treat:SPEI^2 term.
+#'  (b) dry-tail re-estimate: restrict to drought months (SPEI < thr) and re-fit the buffering
+#'      slope on ITT / downstream / upstream plus the up/down placebo contrast D.
+#' @return list for the nonlinearity test
+nonlinear_transmission_test <- function(ssi_panel_itt, n_perm = 2000L, seed = 1L) {
+  fit_q <- function(d) {
+    d <- data.table::as.data.table(d)
+    d[, spei2 := spei_c^2]
+    m <- fixest::feols(ssi ~ spei_c + spei2 + treat:spei_c + treat:spei2 |
+                         unit_id + month_f + year,
+                       data = d, weights = ~w, cluster = ~unit_id, nthreads = 1)
+    ct <- as.data.frame(summary(m)$coeftable)
+    r  <- ct[grepl("spei2", rownames(ct)) & grepl("treat", rownames(ct)), , drop = FALSE]
+    if (nrow(r) != 1L) return(NA_real_); unname(r[1, 1])
+  }
+  dt <- data.table::as.data.table(ssi_panel_itt)
+  obs <- fit_q(dt)
+  u <- unique(dt[, .(unit_id, treat, kg_group, aridity_mean)])
+  qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+  u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+  base <- dt[, !"treat", with = FALSE]
+  one <- function(b) {
+    set.seed(seed + b)
+    up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+    dp <- merge(base, up[, .(unit_id, treat)], by = "unit_id")
+    tryCatch(fit_q(dp), error = function(e) NA_real_)
+  }
+  ncore <- max(1L, parallel::detectCores() - 2L)
+  perm <- unlist(parallel::mclapply(seq_len(n_perm), one, mc.cores = ncore), use.names = FALSE)
+  nv <- sum(!is.na(perm))
+  list(observed = obs,
+       p_perm = (1 + sum(abs(perm) >= abs(obs), na.rm = TRUE)) / (1 + nv),
+       n_perm = nv, null_sd = stats::sd(perm, na.rm = TRUE))
+}
+
+#' Dry-tail re-estimate of the buffering test and the up/down placebo contrast, restricting the
+#' SSI panel to meteorological drought months (SPEI < `thr`). A buffering effect that only acts in
+#' the extreme tail would appear here and not in the full-sample linear fit.
+#' @return data.table(subset, estimate, p_perm, n_perm, detail)
+dry_tail_transmission <- function(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                  thr = -1.0, n_perm = 2000L, seed = 1L) {
+  dt <- data.table::as.data.table(ssi_panel_itt)[spei < thr]
+  dd <- data.table::as.data.table(ssi_panel_down)[spei < thr]
+  du <- data.table::as.data.table(ssi_panel_up)[spei < thr]
+
+  fit_buf <- function(p) ssi_buffer_coef(fit_ssi_buffering(p))
+  u <- unique(dt[, .(unit_id, treat, kg_group, aridity_mean)])
+  qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+  u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+  base <- dt[, !"treat", with = FALSE]
+  base_d <- dd[, !"treat", with = FALSE]
+  base_u <- du[, !"treat", with = FALSE]
+
+  one <- function(b) {
+    set.seed(seed + b)
+    up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+    c(
+      itt = tryCatch(fit_buf(merge(base,   up[, .(unit_id, treat)], by = "unit_id")),
+                     error = function(e) NA_real_),
+      down = tryCatch(fit_buf(merge(base_d, up[, .(unit_id, treat)], by = "unit_id")),
+                      error = function(e) NA_real_),
+      upr = tryCatch(fit_buf(merge(base_u, up[, .(unit_id, treat)], by = "unit_id")),
+                     error = function(e) NA_real_))
+  }
+  ncore <- max(1L, parallel::detectCores() - 2L)
+  perm <- do.call(rbind, parallel::mclapply(seq_len(n_perm), one, mc.cores = ncore))
+  perm <- perm[stats::complete.cases(perm), , drop = FALSE]
+  nv <- nrow(perm)
+  pp <- function(obs, x) (1 + sum(abs(x) >= abs(obs), na.rm = TRUE)) / (1 + nv)
+
+  obs_itt  <- fit_buf(dt);  obs_down <- fit_buf(dd);  obs_up <- fit_buf(du)
+  obs_D <- obs_down - obs_up
+  D_null <- perm[, "down"] - perm[, "upr"]
+
+  data.table::data.table(
+    quantity = c(
+      sprintf("dry-tail buffering, ITT (SPEI < %.1f)", thr),
+      sprintf("dry-tail buffering, downstream (SPEI < %.1f)", thr),
+      sprintf("dry-tail buffering, upstream placebo (SPEI < %.1f)", thr),
+      sprintf("dry-tail placebo contrast down-minus-up (SPEI < %.1f)", thr)),
+    value = c(obs_itt, obs_down, obs_up, obs_D),
+    detail = c(
+      sprintf("est %+.3f, permutation p = %.3f (%d perms)", obs_itt, pp(obs_itt, perm[, "itt"]), nv),
+      sprintf("est %+.3f, permutation p = %.3f (%d perms)", obs_down, pp(obs_down, perm[, "down"]), nv),
+      sprintf("est %+.3f, permutation p = %.3f (%d perms)", obs_up, pp(obs_up, perm[, "upr"]), nv),
+      sprintf("D = %+.3f, permutation p = %.3f (%d perms); regulation would give D < 0",
+              obs_D, pp(obs_D, D_null), nv)))
+}
+
+#' R3 third round (2026-08-05): elevation-adjusted placebo test.
+#' The raw up/down transmission contrast could be confounded by the gauge elevation gradient
+#' (among controls, transmission flattens ~0.21 per km; upstream gauges sit ~0.54 km higher than
+#' downstream). This fits the buffering model with a SPEI x elevation interaction so the treat:SPEI
+#' differential slope is estimated net of the elevation-driven transmission gradient, for the ITT /
+#' downstream / upstream panels, plus the up/down contrast D_adj = beta_down_adj - beta_up_adj,
+#' each under unit-level permutation inference within the design's strata. A genuine regulation
+#' effect requires D_adj < 0; a null D_adj means the up/down similarity survives elevation adjustment.
+#' @return data.table(subset, estimate_raw, estimate_adj, p_perm_adj, elev_term_p, n_perm)
+elevation_adjusted_placebo <- function(stations_units, ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                       n_perm = 2000L, seed = 1L) {
+  su <- data.table::as.data.table(stations_units)
+  unit_elev <- function(subset) {
+    keep <- su[treat == 0 | switch(subset,
+                                   itt  = treat == 1,
+                                   down = regulated == "down",
+                                   up   = regulated == "up")]
+    keep[, .(elev_m = mean(altura, na.rm = TRUE)), by = unit_id]
+  }
+  e_itt  <- unit_elev("itt");  e_down <- unit_elev("down");  e_up <- unit_elev("up")
+
+  prep <- function(panel, elev) {
+    d <- merge(data.table::as.data.table(panel), elev, by = "unit_id", all.x = TRUE)
+    d[, elev_c := (elev_m / 1000) - mean(elev_m / 1000, na.rm = TRUE)]
+    d[]
+  }
+  fit_adj <- function(d) {
+    m <- fixest::feols(ssi ~ spei_c + spei_c:elev_c + treat:spei_c + treat:spei_c:elev_c |
+                         unit_id + month_f + year,
+                       data = d, weights = ~w, cluster = ~unit_id, nthreads = 1)
+    ct <- as.data.frame(summary(m)$coeftable)
+    b  <- ct[grepl("treat", rownames(ct)) & grepl("spei_c", rownames(ct)) & !grepl("elev", rownames(ct)),
+             , drop = FALSE]
+    ep <- ct[grepl("spei_c", rownames(ct)) & grepl("elev_c", rownames(ct)) & !grepl("treat", rownames(ct)),
+             , drop = FALSE]
+    c(beta = if (nrow(b) == 1L) b[1, 1] else NA_real_,
+      elev_p = if (nrow(ep) == 1L) ep[1, 4] else NA_real_)
+  }
+  d_itt  <- prep(ssi_panel_itt, e_itt)
+  d_down <- prep(ssi_panel_down, e_down)
+  d_up   <- prep(ssi_panel_up, e_up)
+
+  obs_itt  <- fit_adj(d_itt);  obs_down <- fit_adj(d_down);  obs_up <- fit_adj(d_up)
+  obs_D <- obs_down[["beta"]] - obs_up[["beta"]]
+
+  u <- unique(data.table::as.data.table(ssi_panel_itt)[, .(unit_id, treat, kg_group, aridity_mean)])
+  qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+  u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+  base_itt  <- d_itt[,  !"treat", with = FALSE]
+  base_down <- d_down[, !"treat", with = FALSE]
+  base_up   <- d_up[,   !"treat", with = FALSE]
+
+  one <- function(b) {
+    set.seed(seed + b)
+    up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+    c(itt  = fit_adj(merge(base_itt,  up[, .(unit_id, treat)], by = "unit_id"))[["beta"]],
+      down = fit_adj(merge(base_down, up[, .(unit_id, treat)], by = "unit_id"))[["beta"]],
+      upr  = fit_adj(merge(base_up,   up[, .(unit_id, treat)], by = "unit_id"))[["beta"]])
+  }
+  ncore <- max(1L, parallel::detectCores() - 2L)
+  perm <- do.call(rbind, parallel::mclapply(seq_len(n_perm), one, mc.cores = ncore))
+  perm <- perm[stats::complete.cases(perm), , drop = FALSE]
+  nv <- nrow(perm)
+  pp <- function(obs, x) (1 + sum(abs(x) >= abs(obs), na.rm = TRUE)) / (1 + nv)
+  D_null <- perm[, "down"] - perm[, "upr"]
+
+  data.table::data.table(
+    subset = c("ITT", "downstream", "upstream placebo", "contrast down-up"),
+    estimate_raw = c(ssi_buffer_coef(fit_ssi_buffering(ssi_panel_itt)),
+                     ssi_buffer_coef(fit_ssi_buffering(ssi_panel_down)),
+                     ssi_buffer_coef(fit_ssi_buffering(ssi_panel_up)),
+                     NA_real_),
+    estimate_adj = c(obs_itt[["beta"]], obs_down[["beta"]], obs_up[["beta"]], obs_D),
+    p_perm_adj = c(pp(obs_itt[["beta"]], perm[, "itt"]),
+                   pp(obs_down[["beta"]], perm[, "down"]),
+                   pp(obs_up[["beta"]],  perm[, "upr"]),
+                   pp(obs_D, D_null)),
+    elev_term_p = c(obs_itt[["elev_p"]], obs_down[["elev_p"]], obs_up[["elev_p"]], NA_real_),
+    n_perm = nv)
+}

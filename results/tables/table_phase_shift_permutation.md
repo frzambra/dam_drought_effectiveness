@@ -1,0 +1,5 @@
+| quantity | value | detail |
+|---|---|---|
+| downstream: early-to-late phase shift (treat x SPEI x late), permutation p | 0.293 | est +0.293, permutation p = 0.355 (2000 perms) |
+| upstream placebo: early-to-late phase shift (treat x SPEI x late), permutation p | 0.364 | est +0.364, permutation p = 0.088 (2000 perms) |
+| phase-shift contrast (downstream shift - upstream placebo shift) | -0.0716 | est -0.072, permutation p = 0.798 (2000 perms); a regulation effect would give contrast < 0 |

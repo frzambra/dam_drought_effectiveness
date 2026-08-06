@@ -1,0 +1,19 @@
+# Conclusions
+
+At the multi-year timescale of structural aridification, then, the design detects no
+operational buffering above 46 to 59% of baseline and no megadrought-era demand expansion
+beyond the siting legacy:
+the apparent buffering is a statistical shadow of where dams sit, not of what they do,
+while the water available to store declines. The nulls are bounds, not zeros; effects inside
+them can be volumetrically material (Supplementary Table S16). But under structural
+aridification with no operational buffering within the design's bounds at the multi-year
+scale, building more storage
+is a supply-blind response to a supply problem. Chile continues to plan new reservoir
+construction to expand storage, while its agricultural water demand continues to
+grow under perpetual private water rights that the 2022 Water Code reform only begins to
+address [@macpherson_evolving_2023]. The alternative is not theoretical: demand reallocation
+through active water markets, irrigation efficiency, managed aquifer recharge, and crop
+transitions toward lower water footprints are available now and do not depend on rainfall
+[@grafton_paradox_2018; @scanlon_global_2023; @rivera-vidal_managed_2025]. Resilience to a
+falling supply ceiling will come from confronting demand and allocation, not from more
+impoundments.

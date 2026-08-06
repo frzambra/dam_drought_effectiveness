@@ -3,11 +3,14 @@
 A persistent obstacle separates what we think reservoirs do during drought from what they
 actually do: dams are built where water is already scarce, so dammed basins differ
 systematically from undammed ones before any drought strikes. The short-term hydrological
-benefit of storage is documented [@wu_non-linear_2017; @wu_impacts_2018], but whether
-reservoirs buffer multi-year drought, or whether the apparent buffering is a statistical
-shadow of where dams sit, has remained untested for want of a credible counterfactual
-[@di_baldassarre_water_2018]. The distinction matters. If buffering is real, expanding
-storage is a rational adaptation to intensifying drought. If it is siting, then the
+benefit of storage is documented [@wu_non-linear_2017; @wu_impacts_2018], and model-based
+counterfactuals, in which a reservoir's effect is read against reconstructed or simulated
+unregulated flow, find that regulation attenuates hydrological drought downstream
+[@wu_assessing_2019; @wu_reservoirs_2021; @wan_hydrological_2017]. Whether this buffering
+extends to multi-year drought, however, remains contested, because those counterfactuals are
+themselves model-dependent: they can embed assumptions about where the dam sits and about the
+unregulated baseline it is measured against. The distinction matters. If buffering is real,
+expanding storage is a rational adaptation to intensifying drought. If it is siting, then the
 reflexive global response, more dams, invests in the wrong mechanism.
 
 The reservoir-effect hypothesis [@di_baldassarre_water_2018] formalizes the concern: greater
@@ -17,10 +20,13 @@ adapt, magnifying the damage when drought finally outlasts the reservoir. Consis
 this, global demand has outpaced storage for decades, returns of new dams are diminishing
 [@li_diminishing_2023], and most reservoirs now fail to refill [@wang_reservoir_2024].
 Whether these feedbacks dominate, or are outweighed by the protection dams provide, remains
-debated [@kellner_controversial_2021]. But the empirical literature has a structural
-weakness: dammed-versus-undammed or before-after comparisons cannot separate a reservoir
-effect from the siting decision, because reservoirs concentrate where irrigation demand and
-aridity already concentrate.
+debated [@kellner_controversial_2021]. What the empirical literature still lacks is a
+counterfactual that separates a reservoir effect from the siting decision without leaning on
+a modeled unregulated baseline. Paired-gauge comparisons, which read a dam's effect against
+an unregulated reference reach, have been applied at national scale to flow-regime alteration
+[@chalise_dams_2021; @chalise_spectral_2023], but not to the transmission of multi-year
+meteorological drought conditional on the deficit actually experienced, the quantity that
+determines whether reservoirs buffer the droughts that matter.
 
 We address this with a within-basin falsification test. If a dam buffers drought,
 streamflow transmission from meteorological to hydrological drought should flatten only
@@ -48,10 +54,12 @@ with streamflow gauges above and below major dams, provide the physical setup th
 placebo requires, a configuration present across the world's regulated mountain rivers from
 the Sierra Nevada to the European Alps to the African Rift.
 
-We apply this design across four outcome pathways: streamflow drought transmission, cropland
-area change, consumptive water-rights accrual, and evapotranspiration. Throughout, outcomes
+We apply this design across the streamflow, cropland, and water-rights pathways, with an
+evapotranspiration pathway that we attempt but exclude from the evidence because the available
+product is biased toward zero over irrigated land (Results). Throughout, outcomes
 are evaluated at annual to multi-year accumulations, the timescale of structural drought, not
-of seasonal operation. We find that across the streamflow pathway the apparent buffering is a
+of seasonal operation. We find that across the streamflow pathway, over the first decade of the megadrought for
+which streamflow records exist, the apparent buffering is a
 siting confound, that the upstream placebo identifies it, and that the operational effect of
 reservoirs on drought brackets zero once siting is matched out. The upstream placebo is a
 portable method: wherever rivers have gauges above and below dams, the same falsification

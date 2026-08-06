@@ -1,0 +1,9 @@
+quantity,value,detail
+"dry-tail buffering, ITT (SPEI < -1.0)",0.00112076314881859,"est +0.001, permutation p = 1.000 (2000 perms)"
+"dry-tail buffering, downstream (SPEI < -1.0)",-0.198842321283953,"est -0.199, permutation p = 0.711 (2000 perms)"
+"dry-tail buffering, upstream placebo (SPEI < -1.0)",0.0515567893503555,"est +0.052, permutation p = 0.939 (2000 perms)"
+dry-tail placebo contrast down-minus-up (SPEI < -1.0),-0.250399110634308,"D = -0.250, permutation p = 0.487 (2000 perms); regulation would give D < 0"
+"dry-tail buffering, ITT (SPEI < -1.5)",0.583618682718797,"est +0.584, permutation p = 0.512 (2000 perms)"
+"dry-tail buffering, downstream (SPEI < -1.5)",2.51793097623154,"est +2.518, permutation p = 0.425 (2000 perms)"
+"dry-tail buffering, upstream placebo (SPEI < -1.5)",-0.708863020717401,"est -0.709, permutation p = 0.518 (2000 perms)"
+dry-tail placebo contrast down-minus-up (SPEI < -1.5),3.22679399694894,"D = +3.227, permutation p = 0.453 (2000 perms); regulation would give D < 0"

@@ -13,25 +13,23 @@ author:
     attributes:
       corresponding: true
 abstract: |
-  Much of what the hydrological literature attributes to reservoir drought buffering may be a
-  measurable siting confound. We treat reservoir presence as a basin-level intervention in Chile's
-  megadrought and separate siting from operation with an upstream/downstream placebo: regulated
-  reaches below each dam are compared against unregulated reaches above, which share climate,
-  geology, and selection history but not the reservoir. Across the streamflow pathway the apparent
-  buffering is as strong upstream as downstream (differential slopes $-0.20$ versus $-0.16$,
-  randomization-inference $p = 0.39$), the signature of aridity, not regulation. A hard-balanced
-  match forcing aridity to be identical across groups (standardized mean difference 0.000) makes
-  even the apparent buffering vanish entirely (intent-to-treat $-0.02$, $p > 0.85$). The streamflow
-  null is well powered, excluding operational buffering above 46 to 59% of baseline, and a positive
-  control confirms that the design recovers injected effects one to one. Dammed basins hold 4.5
-  times more cropland than matched controls, a siting legacy stable across the 2000 to 2024 record
-  with no detected megadrought divergence. The storage band drifts downward in step with the
-  independent decline in unregulated streamflow. Demand-side outcomes, cropland expansion, water
-  rights accrual, and evapotranspiration, are consistent with no operational effect but
-  underpowered as stand-alone tests. Through the megadrought we detect no operational buffering
-  and no megadrought-era demand expansion beyond the siting legacy. The upstream placebo is a
-  portable method for regulated rivers with gauges above and below dams. Adaptation must shift
-  toward managing demand.
+  Much of what is attributed to reservoir drought buffering may be a measurable siting confound.
+  We treat reservoir presence as a basin-level intervention in Chile's megadrought and separate
+  siting from operation with an upstream/downstream placebo, comparing regulated reaches below each
+  dam against unregulated reaches above. Across streamflow, the apparent buffering is as strong
+  upstream as downstream (slopes $-0.20$ versus $-0.16$; pooled gap $p = 0.39$, paired contrast
+  $p = 0.72$). Hard-balancing aridity (standardized mean difference 0.000, effective control 19)
+  makes even the apparent buffering vanish (intent-to-treat $-0.02$, $p > 0.85$). Over the streamflow
+  record, the first decade of the megadrought ending March 2020 and excluding the 2019–2022 peak,
+  the null is well powered, excluding operational buffering above 46 to 59% of baseline, and a
+  positive control recovers injected effects one to one. Dammed basins hold 4.5 times more cropland
+  than matched controls, a siting legacy with no detected divergence within power. The storage band
+  drifts downward, shrinking the carryover available to buffer multi-year drought. Cropland
+  expansion and water-rights accrual are consistent with no effect but underpowered; evapotranspiration
+  is excluded by a documented product bias. We detect no operational buffering within the design's
+  bounds and no megadrought-era demand expansion beyond the siting legacy. The upstream placebo is a
+  portable method for regulated rivers. Whether the demand-side null generalizes, or marks a fully
+  allocated market, remains to be tested. Adaptation must shift toward managing demand.
 keywords:
   - reservoir effect
   - drought propagation
@@ -43,11 +41,13 @@ date: last-modified
 bibliography: references.bib
 number-sections: false
 format:
-  pdf:
+  elsevier-pdf:
     keep-tex: true
-    cite-style: author-year
-    classoption: ["12pt"]
-    linestretch: 2
+    journal:
+      name: "Water Resources Research"
+      model: 3p
+      cite-style: authoryear
+    classoption: ["review", "number", "sort,compress"]
     header-includes:
       - \usepackage{setspace}
       - \doublespacing
@@ -68,10 +68,25 @@ if (file.exists(renv_activate)) source(renv_activate)
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
+# Plain Language Summary
+
+When drought strikes, governments often respond by building more reservoirs, on the assumption
+that storing water cushions communities when rainfall fails. But dams are built where water is
+already scarce, so basins with dams differ from basins without them even before any drought.
+We separated the effect of the dam from the effect of its location by comparing river gauges
+above and below each dam, and by matching dry dammed basins to similar undammed ones across
+Chile's decade long megadrought. Once location is accounted for, reservoirs show no measurable
+buffer against multi year drought: streamflow, farmland, and water rights all respond the same
+with or without a dam, and the apparent buffering reflects where dams are built, not what they
+do. With the water available to store falling, our results suggest that building more reservoirs
+is not the answer; managing how water is used is.
+
 {{< include introduction.qmd >}}
+
+{{< include methods.qmd >}}
 
 {{< include results.qmd >}}
 
 {{< include discussion.qmd >}}
 
-{{< include methods.qmd >}}
+{{< include conclusions.qmd >}}
