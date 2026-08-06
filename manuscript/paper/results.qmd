@@ -56,7 +56,14 @@ regulation; a decomposition confirms the signal dies only
 when each climate region has its own baseline transmission (Supplementary Fig. S3 and Table S4). Hard-balancing aridity gives the same verdict without parametric adjustment: with
 log-aridity fully balanced (effective control sample 19), the apparent buffering vanishes
 (intent-to-treat $-0.02$, upstream $-0.05$, permutation $p > 0.85$; Supplementary Table S17),
-exactly what a siting confound predicts. The parametric adjustment it replaces interpolates
+exactly what a siting confound predicts. This corroborates but does not by itself carry the
+result: at an effective control sample of 19, the hard-balanced fit detects only very large
+effects (an 80%-power MDE near 77% of baseline, versus 46 to 59% in the primary), so its
+contribution is agreement with the powered design rather than independent power, exactly as its
+methods note states. The main matched analysis, which retains an aridity residual
+(standardized mean difference 0.17), is not left confounded: the doubly-robust outcome model
+absorbs that residual, and the decisive within-basin placebo and the within-region comparison
+need no aridity balance at all. The parametric adjustment it replaces interpolates
 within support, every dammed basin inside the control aridity range (Supplementary Fig. S8). Nor is the null a standardization artifact: SSI is
 normalized per gauge, which would divide out dam-induced variance compression, but on log flow
 the gaps stay null
@@ -82,6 +89,22 @@ Biobío dams, one on the Itata below the Laja). Excluding those three leaves the
 ($D = +0.04$, $p = 0.69$), and excluding the sixteen gauges within 100 m of the dam likewise
 leaves it null ($D = +0.12$, $p = 0.47$), moving the downstream estimate toward zero rather than
 toward buffering (Supplementary Table S32).
+
+Cumulative catchment scale cannot manufacture the contrast either. The local polygon area does
+not capture the drainage integrated by a downstream gauge, but the gauge's own mean discharge,
+proportional to cumulative contributing area, does, and larger scale genuinely flattens
+transmission among control gauges (slope $+0.08$ per log discharge, $p < 0.001$, $n = 84$;
+Supplementary Table S33). Adding a SPEI-by-log-discharge interaction so the differential slope is
+net of cumulative scale leaves every effect and the contrast null (intent-to-treat $-0.09$,
+$p = 0.50$; downstream $-0.10$, $p = 0.50$; upstream placebo $-0.07$, $p = 0.68$; contrast
+$D = -0.03$, $p = 0.74$; Supplementary Table S33). The scale gap is small in most paired basins,
+the downstream/upstream discharge ratio below 2 in 10 of 15 (median 1.1), because the downstream
+gauges sit just below the dams before large tributaries enter. The paired placebo's power is
+likewise disclosed: with 15 basins it detects at 80% power only a downstream-minus-upstream gap
+above 0.28 SSI units, about 52% of baseline, so moderate downstream-specific buffering is not
+excluded (Supplementary Table S34); the placebo's value is discriminating a regulation signature
+from a siting one, which the elevation-, scale-, and misclassification-robust estimates confirm,
+not ruling out every buffering magnitude.
 Upstream gauges sit higher, and the elevation gradient is real: among control gauges, the
 transmission slope flattens with elevation ($-0.21$ per km, $p < 0.001$, $n = 84$), and the
 0.54 km mean up/down elevation gap would predict a steeper (more negative) upstream differential

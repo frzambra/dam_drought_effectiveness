@@ -472,6 +472,22 @@ list(
   tar_target(table_gauge_class_robust_file,
              write_table(gauge_class_robust, "table_gauge_classification_robustness"),
              format = "file"),
+  # Cumulative-catchment-scale confound (reviewer 2026-08-05, 5th round): local polygon area does
+  # not capture the cumulative drainage feeding a downstream gauge. Add per-gauge log mean
+  # discharge (proportional to cumulative area) as a SPEI-interacted covariate, re-fit buffering
+  # + D contrast under permutation, and report the control-gauge scale sensitivity and the
+  # up/down discharge ratio among paired basins.
+  tar_target(cumulative_scale_check,
+             cumulative_scale_sensitivity(streamflow_stations, streamflow_monthly, ssi12,
+                                          ssi_panel_itt, ssi_panel_down, ssi_panel_up)),
+  tar_target(table_cumulative_scale_file,
+             write_table(cumulative_scale_check, "table_cumulative_scale"),
+             format = "file"),
+  # Paired-placebo power analysis (reviewer 2026-08-05, 5th round): MDE of the down-minus-up
+  # contrast at 80% power from the permutation-null SD, so the Type-II-error risk is quantified.
+  tar_target(paired_placebo_power, paired_placebo_power(ssi_panel_down, ssi_panel_up)),
+  tar_target(table_paired_power_file, write_table(paired_placebo_power, "table_paired_placebo_power"),
+             format = "file"),
   # Early/late megadrought phase split (reviewer round 7, comment 1): does the placebo hold at
   # drought onset (2010-2014), before storage depletion could wash out early buffering? Per-phase
   # treat:spei_c for the three subsets plus the treat:spei_c:late shift on the pooled panel.

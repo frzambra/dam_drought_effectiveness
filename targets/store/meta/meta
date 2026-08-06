@@ -266,6 +266,10 @@ catchment_area_check|stem|0fcf10fb7aca6aa6|ff190429d5e77a3a|e23ac737849c5964|182
 table_catchment_area_file|stem|ef1e1bf00285b99f|c94ad6bbf1124421|6ac26aa9201af12b|1831349848|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_catchment_area.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_catchment_area.md|t20670.9783918278s|s1020b|1020|file|local|vector|||0.046||
 elev_adjusted_placebo|stem|666143f931f4e52e|cfa3470ee3a97284|35fd3eb1e7863c50|1761231298||t20671.0354633017s|s396b|396|rds|local|vector|||48.834||
 table_elev_adjusted_placebo_file|stem|5d43d52f89444190|a41e126e25868926|82945417842178ae|423063375|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_elev_adjusted_placebo.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_elev_adjusted_placebo.md|t20671.0354666958s|s739b|739|file|local|vector|||0.103||
+gauge_class_robust|stem|5de8c4a587f484da|ad1364c29ce347ab|42fc104fa16754d5|1783655018||t20671.0586845469s|s419b|419|rds|local|vector|||45.955||
+table_gauge_class_robust_file|stem|00904e4260d4d6e8|df88b3b98a1c5473|9b8fbb27f87b2b3a|-1424741725|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_gauge_classification_robustness.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_gauge_classification_robustness.md|t20671.0586859332s|s712b|712|file|local|vector|||0.064||
+cumulative_scale_check|stem|70f5a4497c548ed4|de1f08ce151eef13|30a15905d34af832|-1635058216||t20671.0745736572s|s634b|634|rds|local|vector|||26.009||
+table_cumulative_scale_file|stem|30d9e2346128d5d5|e9a40a0b66938be7|03a876ff136e5f03|1559572966|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_cumulative_scale.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_cumulative_scale.md|t20671.0745748092s|s1722b|1722|file|local|vector|||0.055||
 combine_orchard_natural|function|026f24865c13a546
 .overlap_band|function|a4bb90d678c64d5e
 .refit_ebal|function|d2294018ccd1e7f0
@@ -404,6 +408,7 @@ permute_ssi_buffer|function|de238fada2d6ca98
 elevation_adjusted_placebo|function|a01dc6ea4f5e2487
 placebo_contrast_test|function|0a660fae05336ecc
 dry_tail_transmission|function|8fdd51a48774b9c4
+cumulative_scale_sensitivity|function|61fc990c0c61da7d
 catchment_area_sensitivity|function|1fdaabc651d64529
 ssi_placebo_comparability|function|caa01b89e82b1e47
 build_raster_catalog|function|49250859291e554b
@@ -482,5 +487,5 @@ fig_decomposition_ladder|function|28df90195b68be7c
 fig_streamflow|function|1313774e3c7f77ee
 fig_area_did|function|d8e9b43f3c548420
 fig_drought_forcing|function|44511bb2009cf1f4
-gauge_class_robust|stem|5de8c4a587f484da|ad1364c29ce347ab|42fc104fa16754d5|1783655018||t20671.0586845469s|s419b|419|rds|local|vector|||45.955||
-table_gauge_class_robust_file|stem|00904e4260d4d6e8|df88b3b98a1c5473|9b8fbb27f87b2b3a|-1424741725|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_gauge_classification_robustness.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_gauge_classification_robustness.md|t20671.0586859332s|s712b|712|file|local|vector|||0.064||
+paired_placebo_power|stem|9f27630bd3e81a32|1b3eaa4ccadc41e5|9cea000c8cce9ae9|837400531||t20671.0762374383s|s413b|413|rds|local|vector|||27.754||
+table_paired_power_file|stem|bd6d647e917c55d9|d63e9ab2d1048007|902741a6d7c09d7b|109215508|/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_paired_placebo_power.csv*/home/francisco/Documentos/R-Projects/dam_drought_effectiveness/results/tables/table_paired_placebo_power.md|t20671.076238775s|s734b|734|file|local|vector|||0.056||

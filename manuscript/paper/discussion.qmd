@@ -27,13 +27,11 @@ megadrought onset, peak and trough together, which directly shrinks the carryove
 across years, the buffering mechanism for multi-year drought: the pool available to carry a
 second and third dry year is materially smaller by 2024 than it was in 2010. This is a real
 reduction in multi-year buffering capacity. Whether it is supply-driven or management-driven
-cannot be attributed causally: the trend is descriptive, has no control group, and is
-confounded with potential operational changes. It is directionally consistent with a
-supply-side reading. The seasonal amplitude
+cannot be attributed causally, since the trend is descriptive and confounded with operational
+change; it is directionally consistent with a supply-side reading. The seasonal amplitude
 is unchanged within a wide interval, indicating that the reservoirs still refill to their
 seasonal pattern when water arrives, consistent with the carryover loss tracking falling inflow
-rather than a failure of the refill cycle; but the descriptive trend cannot separate inflow
-decline from operational or management change. The powered result is the level decline, the expected mass-balance outcome of persistent
+rather than a failure of the refill cycle. The powered result is the level decline, the expected mass-balance outcome of persistent
 inflow deficits; descriptive and confounded with management change, it supports no causal
 attribution but is directionally consistent with the independent decline in unregulated
 control streamflow, which fell faster (2.9% per year) than the storage stock (1.3 percentage
