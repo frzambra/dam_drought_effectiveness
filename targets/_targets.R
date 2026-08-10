@@ -639,6 +639,12 @@ list(
   tar_target(storage_period_tab, storage_period_comparison(storage_band)),
   tar_target(table_storage_period_file,
              write_table(storage_period_tab, "table_storage_period"), format = "file"),
+  # Step-change vs continuous drift in the storage band (reviewer 2026-08-05, 6th round): within-
+  # megadrought (2010-2024) trend plus a nested 2010-step + post-step-drift model, so the level
+  # shift and any residual drift are separated.
+  tar_target(storage_step_trend_tab, storage_step_vs_trend(storage_band)),
+  tar_target(table_storage_step_trend_file,
+             write_table(storage_step_trend_tab, "table_storage_step_vs_trend"), format = "file"),
   # Physical validation of the winsorization cap (reviewer round 3, comment 5).
   tar_target(winsor_physical_tab,
              winsor_physical_check(water_rights_assigned, streamflow_monthly, streamflow_stations)),
@@ -675,6 +681,186 @@ list(
                                    streamflow_stations, storage_band)),
   tar_target(table_carryover_file,
              write_table(carryover_tab, "table_carryover"), format = "file"),
+  # Storage-capacity heterogeneity (reviewer 2026-08-05, 6th round): disaggregate the buffering
+  # test by reservoir carryover ratio (capacity / annual downstream flow), so large carryover
+  # reservoirs are not diluted by seasonal ones. Re-estimates ITT + down/up contrast within the
+  # carryover (>= 0.5 yr) and seasonal subgroups, under permutation.
+  tar_target(storage_het_units, {
+    cap <- unique(data.table::as.data.table(levels_long)[is.finite(max_level_hm3),
+                                                         .(ID_DGA, max_level_hm3)])
+    ru <- data.table::as.data.table(reservoir_units)[level == "subcuencas", .(ID_DGA, unit_id)]
+    su <- data.table::as.data.table(streamflow_stations)[treat == 1L & regulated == "down",
+                                                         .(codigo, unit_id)]
+    q  <- merge(data.table::as.data.table(streamflow_monthly), su, by = "codigo")
+    qu <- q[, .(q_ms = mean(q_mon, na.rm = TRUE)), by = unit_id]
+    qu[, flow_hm3 := q_ms * 31.536]
+    d <- merge(merge(cap, ru, by = "ID_DGA"), qu, by = "unit_id")
+    d[, ratio := max_level_hm3 / flow_hm3]
+    d[, .(ratio = max(ratio)), by = unit_id][ratio >= 0.5, unit_id]
+  }),
+  tar_target(storage_het_check,
+             storage_capacity_heterogeneity(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                            storage_het_units, n_perm = 2000L)),
+  tar_target(table_storage_het_file,
+             write_table(storage_het_check, "table_storage_capacity_heterogeneity"),
+             format = "file"),
+  # === Reviewer 2026-08-06 (first round) ==========================================================
+  # (1) FATAL FLAW: downstream extraction masking. Local cropland (MapBiomas class 18) in 5/10 km
+  #     buffers around each gauge; the down/up extraction gradient in treated basins; the control
+  #     transmission-slope sensitivity to local extraction; and the predicted masking magnitude.
+  tar_target(mb_mask_paths, {
+    sources_yml
+    y <- c("2007" = 2007L, "2020" = 2020L)
+    setNames(mirror_paths_local(mapbiomas_paths(cfg_sources, unname(y)),
+                                project_path("data/interim/mapbiomas_local")), names(y))
+  }, format = "file"),
+  tar_target(extraction_masking_tab,
+             extraction_masking_check(streamflow_stations_raw, streamflow_stations, ssi12,
+                                      ssi_panel_itt, streamflow_monthly, mb_mask_paths,
+                                      mapbiomas_years = c(2007L, 2020L))),
+  tar_target(table_extraction_masking_file,
+             write_table(extraction_masking_tab, "table_extraction_masking"), format = "file"),
+  #    Direct control for downstream extraction: the placebo net of a SPEI x local-cropland
+  #    interaction (mirrors the elevation-adjusted placebo), under permutation.
+  tar_target(cropland_adj_placebo,
+             cropland_adjusted_placebo(streamflow_stations_raw, streamflow_stations, ssi12,
+                                       ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                       mb_mask_paths, mapbiomas_years = c(2007L, 2020L),
+                                       n_perm = 1000L)),
+  tar_target(table_cropland_adj_placebo_file,
+             write_table(cropland_adj_placebo, "table_cropland_adj_placebo"), format = "file"),
+  # (2) Comment 1: strictly-paired carryover contrast. The 7+10=17 capacity split is on the
+  #     buffering/ITT sample; restrict the down/up contrast to the strictly-paired basins so the
+  #     carryover buffering does not rest on the partially-paired composition.
+  tar_target(strictly_paired_carryover_tab,
+             strictly_paired_carryover(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                       storage_het_units, n_perm = 1000L)),
+  tar_target(table_strictly_paired_carryover_file,
+             write_table(strictly_paired_carryover_tab, "table_strictly_paired_carryover"),
+             format = "file"),
+  # (3) Comment 2: carryover-ratio denominator sensitivity. Recomputed with the unregulated
+  #     upstream-gauge flow (the available inflow proxy) and the resulting heterogeneity split.
+  tar_target(carryover_ratio_sens,
+             carryover_ratio_sensitivity(levels_long, reservoir_units, streamflow_stations,
+                                         streamflow_monthly, storage_het_units)),
+  tar_target(table_carryover_ratio_sens_file,
+             write_table(carryover_ratio_sens$tab, "table_carryover_ratio_sensitivity"),
+             format = "file"),
+  tar_target(carryover_upflow_het, {
+    t <- carryover_ratio_sens$tab
+    up_units <- t[class_up == "carryover", as.character(unit_id)]
+    storage_capacity_heterogeneity(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                   up_units, n_perm = 2000L)
+  }),
+  tar_target(table_carryover_upflow_het_file,
+             write_table(carryover_upflow_het, "table_carryover_upflow_heterogeneity"),
+             format = "file"),
+  # (5) WRR revision (2026-08-06, second round): carryover-claim hardening. (a) The contrast on
+  #     the irrigation-only carryover basins, excluding the two dams with hydropower operation
+  #     (Colbún 0732, Lago Laja 0837), so the buffering reading is not hydropower scheduling;
+  #     (b) leave-one-out re-runs with their own permutation p, since with 7 treated units a
+  #     single basin could move the permutation p across 0.05.
+  tar_target(carryover_robustness, {
+    nm <- setNames(as.character(carryover_ratio_sens$tab$reservoir),
+                   as.character(carryover_ratio_sens$tab$unit_id))
+    carryover_robustness_checks(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                storage_het_units, hydro_units = c("0732", "0837"),
+                                unit_names = nm, n_perm = 1000L)
+  }),
+  tar_target(table_carryover_robustness_file,
+             write_table(carryover_robustness, "table_carryover_robustness"),
+             format = "file"),
+  # === Reviewer 3, second round (2026-08-06) ======================================================
+  # FATAL FLAW: cascade-dam contamination of the upstream placebo. Upstream gauges are screened
+  # against the full national dam inventory (same-unit tier + same-cuenca conservative tier) and
+  # the placebo re-run without flagged gauges. Dam elevation caches (data/interim/) were extracted
+  # via SRTM90m (the project SRTM 3s DEM lives on the external drive); regenerate against the DEM
+  # with extract_dam_elevation() when the drive is mounted.
+  tar_target(dam_unit_elev_csv, "data/interim/dam_inventory_treated_elev.csv", format = "file"),
+  tar_target(dam_cuenca_elev_csv, "data/interim/dam_inventory_cuenca_elev.csv", format = "file"),
+  tar_target(upstream_contamination,
+             upstream_contamination_check(dam_unit_elev_csv, dam_cuenca_elev_csv,
+                                          matched_subcuencas, streamflow_stations, ssi12,
+                                          spei12_monthly, matched_set, ssi_panel_itt,
+                                          ssi_panel_down, storage_het_units, n_perm = 1000L)),
+  tar_target(table_upstream_contamination_file,
+             write_table(upstream_contamination, "table_upstream_contamination"),
+             format = "file"),
+  # Comment 3: capacity-weighted + absolute-volume storage-band trends.
+  tar_target(storage_weighted_tab, storage_band_weighted(storage_band, levels_long)),
+  tar_target(table_storage_weighted_file,
+             write_table(storage_weighted_tab, "table_storage_weighted"), format = "file"),
+  # Comment 5: hard-balance weight diagnostics + leave-one-out over top-weighted controls.
+  tar_target(hard_balance_weights,
+             hard_balance_weight_diagnostics(matched_set_hard, match_covariates, ssi12,
+                                             streamflow_stations, spei12_monthly)),
+  tar_target(table_hard_balance_weights_file,
+             write_table(hard_balance_weights, "table_hard_balance_weights"), format = "file"),
+  # === Reviewer 3, third round (2026-08-06) =======================================================
+  # FATAL FLAW: routed-network validation of the up/down gauge classification (HydroRIVERS v1.0,
+  # data/raw/hydrorivers/, NEXT_DOWN topology traced from each gauge through its dam reach).
+  tar_target(hydrorivers_shp,
+             "data/raw/hydrorivers/HydroRIVERS_v10_sa_shp/HydroRIVERS_v10_sa.shp",
+             format = "file"),
+  tar_target(network_connectivity,
+             hydroriver_connectivity_check(hydrorivers_shp, streamflow_stations_raw,
+                                           streamflow_stations, points, reservoir_units, ssi12,
+                                           spei12_monthly, matched_set, ssi_panel_down,
+                                           n_perm = 1000L)),
+  tar_target(table_network_connectivity_file,
+             write_table(network_connectivity, "table_network_connectivity"), format = "file"),
+  # (1) smooth national time trend replacing year FE
+  tar_target(smooth_trend_tab,
+             smooth_trend_sensitivity(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                      n_perm = 1000L)),
+  tar_target(table_smooth_trend_file,
+             write_table(smooth_trend_tab, "table_smooth_trend"), format = "file"),
+  # (2) elevation-partitioned permutation null (aggregate + carryover contrasts)
+  tar_target(elevsplit_perm_tab,
+             placebo_elevsplit_permutation(ssi12, streamflow_stations, spei12_monthly,
+                                           matched_set, storage_het_units, n_perm = 1000L)),
+  tar_target(table_elevsplit_perm_file,
+             write_table(elevsplit_perm_tab, "table_elevsplit_permutation"), format = "file"),
+  # (3) SSI re-standardized on the 1990-2020 (31-year) baseline
+  tar_target(ssi_baseline_tab,
+             ssi_baseline_sensitivity(streamflow_monthly, streamflow_stations, spei12_monthly,
+                                      matched_set, n_perm = 1000L)),
+  tar_target(table_ssi_baseline_file,
+             write_table(ssi_baseline_tab, "table_ssi_baseline"), format = "file"),
+  # (4) drought-conditional missingness assessment
+  tar_target(missingness_tab,
+             missingness_drought_bias(streamflow_monthly, streamflow_stations, spei12_monthly)),
+  tar_target(table_missingness_file,
+             write_table(missingness_tab, "table_missingness_drought"), format = "file"),
+  # (5) storage trends on the coverage-stable reservoir subset
+  tar_target(storage_stable_tab, storage_stable_trends(storage_band)),
+  tar_target(table_storage_stable_file,
+             write_table(storage_stable_tab, "table_storage_stable_subset"), format = "file"),
+  # (6) non-linear aridity-by-forcing sensitivity
+  tar_target(nonlin_aridity_tab, nonlinear_aridity_sensitivity(ssi_panel_itt, n_perm = 1000L)),
+  tar_target(table_nonlin_aridity_file,
+             write_table(nonlin_aridity_tab, "table_nonlinear_aridity"), format = "file"),
+  # (7) control basins screened against the national dam inventory; re-balanced dam-free refit
+  tar_target(control_contamination_tab,
+             control_dam_contamination(
+               "data/raw/reservoirs/reservoirs_shapefile/Embalse_2026_05_31.shp",
+               matched_subcuencas, matched_set, match_covariates, ssi12,
+               streamflow_stations, spei12_monthly, n_perm = 1000L)),
+  tar_target(table_control_contamination_file,
+             write_table(control_contamination_tab, "table_control_dam_contamination"),
+             format = "file"),
+  # === Reviewer 3, fourth round (2026-08-06): wild cluster bootstrap for storage trends =========
+  tar_target(storage_wcb_tab, storage_wild_bootstrap(storage_band, levels_long, B = 1999L)),
+  tar_target(table_storage_wcb_file,
+             write_table(storage_wcb_tab, "table_storage_wild_bootstrap"), format = "file"),
+  # (4) Comment 3: sub-watershed SPEI exposure misclassification bound. Gauge-point SPEI vs the
+  #     subcuenca-mean SPEI the model uses, per gauge class (correlation, error variance, implied
+  #     slope attenuation).
+  tar_target(spei_exposure_tab,
+             spei_exposure_bound(streamflow_stations_raw, streamflow_stations, spei12_monthly,
+                                 spei12_stack)),
+  tar_target(table_spei_exposure_file,
+             write_table(spei_exposure_tab, "table_spei_exposure"), format = "file"),
   # ET confound demonstration (reviewer): whole-basin vs vegetated-cell ET event studies
   tar_target(fig_et_confound_obj, fig_et_confound(es_et, es_orch, did_panel_et, did_panel_orch)),
   tar_target(fig_et_confound_file,

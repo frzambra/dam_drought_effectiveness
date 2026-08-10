@@ -633,3 +633,65 @@ paired_placebo_power <- function(ssi_panel_down, ssi_panel_up, n_perm = 2000L, s
       "observed D %+.3f (perm p %.3f), null SD %.3f; MDE %.3f SSI units = %.1f%% of the %.2f downstream baseline at 80%% power, alpha 0.05; a true downstream-specific buffering gap above this is detected, smaller gaps are not excluded (n = 15 paired basins)",
       pct$D, pct$p_perm, pct$null_sd, mde, 100 * mde / baseline, baseline))
 }
+
+#' R6 6th round, comment 3 (2026-08-05): storage-capacity heterogeneity of the buffering test.
+#' Pooling seasonal reservoirs (small capacity-to-flow) with carryover reservoirs could dilute a
+#' multi-year buffering signal, since a seasonal reservoir cannot carry water across years and so
+#' cannot buffer 12-month accumulations. We disaggregate by the per-unit reservoir carryover ratio
+#' (total capacity / mean annual downstream discharge, in years): a treated unit is "carryover" if
+#' the ratio is >= 0.5. We re-estimate the ITT buffering slope and the downstream/upstream contrast
+#' on the carryover subgroup (carryover treated units + all controls) and on the seasonal subgroup,
+#' each under unit-level permutation inference. If only carryover reservoirs buffer, the carryover
+#' subgroup should show a negative (buffering) treat:SPEI that the seasonal subgroup does not.
+#' @return data.table(subset, n_treat, est_itt, p_itt, est_down, est_up, D, p_D)
+storage_capacity_heterogeneity <- function(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
+                                           carryover_units, n_perm = 1000L, seed = 1L) {
+  carryover_units <- as.character(carryover_units)
+  one_subset <- function(panel, keep_treat) {
+    d <- data.table::as.data.table(panel)
+    # restrict treated to the subgroup; drop other treated
+    d <- d[treat == 0 | unit_id %in% keep_treat]
+    d
+  }
+  fit_buf <- function(d) ssi_buffer_coef(fit_ssi_buffering(d))
+
+  run_group <- function(units, label) {
+    d_itt  <- one_subset(ssi_panel_itt, units)
+    d_down <- one_subset(ssi_panel_down, units)
+    d_up   <- one_subset(ssi_panel_up, units)
+    est_itt  <- fit_buf(d_itt)
+    est_down <- fit_buf(d_down)
+    est_up   <- fit_buf(d_up)
+    D <- est_down - est_up
+
+    u <- unique(data.table::as.data.table(d_itt)[, .(unit_id, treat, kg_group, aridity_mean)])
+    qs <- stats::quantile(u$aridity_mean, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+    u[, stratum := paste(kg_group, cut(aridity_mean, unique(qs), include.lowest = TRUE))]
+    base_itt  <- d_itt[,  !"treat", with = FALSE]
+    base_down <- d_down[, !"treat", with = FALSE]
+    base_up   <- d_up[,   !"treat", with = FALSE]
+    one <- function(b) {
+      set.seed(seed + b)
+      up <- data.table::copy(u)[, treat := sample(treat), by = stratum]
+      c(itt  = fit_buf(merge(base_itt,  up[, .(unit_id, treat)], by = "unit_id")),
+        down = fit_buf(merge(base_down, up[, .(unit_id, treat)], by = "unit_id")),
+        upr  = fit_buf(merge(base_up,   up[, .(unit_id, treat)], by = "unit_id")))
+    }
+    ncore <- max(1L, parallel::detectCores() - 2L)
+    perm <- do.call(rbind, parallel::mclapply(seq_len(n_perm), one, mc.cores = ncore))
+    perm <- perm[stats::complete.cases(perm), , drop = FALSE]
+    nv <- nrow(perm)
+    pp <- function(o, x) (1 + sum(abs(x) >= abs(o), na.rm = TRUE)) / (1 + nv)
+    data.table::data.table(
+      subset = label,
+      n_treat = length(unique(d_itt[treat == 1]$unit_id)),
+      est_itt = round(est_itt, 3), p_itt = round(pp(est_itt, perm[, "itt"]), 3),
+      est_down = round(est_down, 3), est_up = round(est_up, 3),
+      D = round(D, 3), p_D = round(pp(D, perm[, "down"] - perm[, "upr"]), 3), n_perm = nv)
+  }
+  data.table::rbindlist(list(
+    run_group(carryover_units, "carryover reservoirs (capacity >= 0.5 yr)"),
+    run_group(setdiff(unique(data.table::as.data.table(ssi_panel_itt)[treat == 1]$unit_id),
+                      carryover_units),
+              "seasonal reservoirs (capacity < 0.5 yr)")))
+}

@@ -17,50 +17,56 @@ The reservoir-effect hypothesis [@di_baldassarre_water_2018] formalizes the conc
 supply invites expansion, so demand grows to meet and then exceed each increment of storage
 (the supply-demand cycle), and prolonged reliance on stored abundance erodes the incentive to
 adapt, magnifying the damage when drought finally outlasts the reservoir. Consistent with
-this, global demand has outpaced storage for decades, returns of new dams are diminishing
-[@li_diminishing_2023], and most reservoirs now fail to refill [@wang_reservoir_2024].
-Whether these feedbacks dominate, or are outweighed by the protection dams provide, remains
-debated [@kellner_controversial_2021]. What the empirical literature still lacks is a
-counterfactual that separates a reservoir effect from the siting decision without leaning on
-a modeled unregulated baseline. Paired-gauge comparisons, which read a dam's effect against
-an unregulated reference reach, have been applied at national scale to flow-regime alteration
-[@chalise_dams_2021; @chalise_spectral_2023], but not to the transmission of multi-year
-meteorological drought conditional on the deficit actually experienced, the quantity that
-determines whether reservoirs buffer the droughts that matter.
+this, global demand has outpaced storage for decades and most reservoirs now fail to refill
+[@li_diminishing_2023; @wang_reservoir_2024], yet whether these feedbacks dominate, or are
+outweighed by the protection dams provide, remains debated [@kellner_controversial_2021]. What
+the empirical literature still lacks is a counterfactual that separates a reservoir effect from
+the siting decision without leaning on a modeled unregulated baseline. Paired-gauge comparisons,
+which read a dam's effect against an unregulated reference reach, have been applied at national
+scale to flow-regime alteration [@chalise_dams_2021; @chalise_spectral_2023], but not to the
+transmission of multi-year meteorological drought conditional on the deficit actually
+experienced, the quantity that determines whether reservoirs buffer the droughts that matter.
 
 We address this with a within-basin falsification test. If a dam buffers drought,
 streamflow transmission from meteorological to hydrological drought should flatten only
 below the dam, where regulation operates. If it flattens equally at the unregulated
 upstream reaches of the same basins, the attenuation is siting, not regulation. This
-upstream/downstream placebo is the paper's central identification strategy. We complement
-it with a matched cross-basin comparison that conditions each dammed basin against
-hydroclimatically comparable undammed basins, and we evaluate both against the drought each
-basin actually experienced rather than against calendar time, breaking the collinearity
-between the megadrought onset and the treatment clock.
+upstream/downstream placebo is the paper's central identification strategy. We complement it with
+a matched cross-basin comparison of each dammed basin against hydroclimatically comparable
+undammed ones, evaluating both against the drought each basin actually experienced rather than
+calendar time, breaking the collinearity between the megadrought onset and the treatment clock.
 
 Chile is an acute testbed. Since 2010 its central regions have endured a *megadrought*, an
 uninterrupted run of dry years shading into structural aridification with a documented
 anthropogenic component [@garreaud_20102015_2017; @Garreaud2025; @zambrano_drought_2025;
 @Boisier2018; @vicenteserrano_unraveling_2019]. The 1981 Water Code makes water-use rights
 perpetual private property that the state cannot readily curtail, so the policy reflex has
-been supply-side: new dams and inter-basin transfers, alongside market incentives that
+been supply-side, new dams and inter-basin transfers, alongside market incentives that
 concentrated water in high-value export crops [@Barria2021; @reade_malagueno_libre_2024;
 @rivera_legal_2016]. In the snow-fed basins of central Chile demand already outruns supply
 in roughly three years of every ten [@webb_water_2021]. Chile thus exhibits every ingredient
-of the reservoir effect: extreme persistent forcing, a supply-side response, and demand
-expansion under weak adaptive feedback, making it a most-likely case for detecting a
-reservoir effect if one operates. At the same time, its short, steep Andean catchments,
-with streamflow gauges above and below major dams, provide the physical setup the upstream
-placebo requires, a configuration present across the world's regulated mountain rivers from
-the Sierra Nevada to the European Alps to the African Rift.
+of the reservoir effect, making it a most-likely case for detecting one if it operates, and its
+short, steep Andean catchments, with streamflow gauges above and below major dams, provide the
+physical setup the upstream placebo requires, a configuration present across the world's
+regulated mountain rivers from the Sierra Nevada to the European Alps to the African Rift.
 
-We apply this design across the streamflow, cropland, and water-rights pathways, with an
-evapotranspiration pathway that we attempt but exclude from the evidence because the available
-product is biased toward zero over irrigated land (Results). Throughout, outcomes
-are evaluated at annual to multi-year accumulations, the timescale of structural drought, not
-of seasonal operation. We find that across the streamflow pathway, over the first decade of the megadrought for
-which streamflow records exist, the apparent buffering is a
-siting confound, that the upstream placebo identifies it, and that the operational effect of
-reservoirs on drought brackets zero once siting is matched out. The upstream placebo is a
-portable method: wherever rivers have gauges above and below dams, the same falsification
-test can separate siting from effect.
+We apply this design across the streamflow, cropland, and water-rights pathways, together with
+an evapotranspiration pathway that we evaluate against the known limitations of the available
+product. Throughout, outcomes are evaluated at annual to multi-year accumulations, the
+timescale of structural drought, not of seasonal operation.
+
+Our objective is to adjudicate two competing accounts of the attenuated drought transmission
+that dammed basins have been reported to show, and to bound what the data can and cannot decide
+between them. Under the operational-buffering
+account, that attenuation is a regulation effect: transmission should flatten specifically below
+dams and not at the unregulated reaches above them, should persist when dammed basins are
+compared within their own climate regime, and should concentrate in the reservoirs whose
+storage is large enough to carry water across years. Under the siting account, the same
+attenuation is a property of where dams are built: it should be equally present upstream, and
+should dissolve once the aridity gradient along which reservoirs are sited is removed. The
+reservoir-effect hypothesis adds a demand-side prediction that runs against buffering
+altogether: if storage induces the expansion it is built to serve, dammed basins should
+accumulate irrigated land and water claims faster through a prolonged drought, steepening their
+deficit-to-impact response rather than flattening it. We test each prediction with
+pre-specified falsifiers, and, because a failure to reject is only as informative as the effect
+size the design can exclude, we report the minimum detectable effect alongside every estimate.

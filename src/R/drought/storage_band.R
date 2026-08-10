@@ -63,3 +63,39 @@ storage_period_comparison <- function(band_annual, split_year = 2010L) {
   }
   data.table::rbindlist(lapply(c("peak", "trough", "amplitude"), one))
 }
+
+#' R6 6th round, comment 4 (2026-08-05): is the storage decline a step-change at the 2010
+#' megadrought onset or a continuous drift? The full-window trend in table_storage_band mixes the
+#' two. We report (a) the within-megadrought (2010-2024) trend of peak and trough, to show whether
+#' storage stabilized at a lower equilibrium or kept drifting downward through the drought; and
+#' (b) a model that nests both a 2010 level shift and a post-shift linear trend, so the step-change
+#' and any residual drift are separated. Pooled within-reservoir (ID_DGA FE), reservoir-clustered SE.
+#' @return data.table(component, quantity, estimate, se, p, detail)
+storage_step_vs_trend <- function(band_annual, split_year = 2010L) {
+  d <- data.table::as.data.table(band_annual)
+  # within-megadrought linear trend
+  dm <- d[year >= split_year]
+  one_trend <- function(comp) {
+    m <- fixest::feols(stats::as.formula(sprintf("%s ~ year | ID_DGA", comp)),
+                       data = dm, cluster = ~ID_DGA)
+    ct <- as.data.frame(summary(m)$coeftable)["year", ]
+    data.table::data.table(component = comp, quantity = "within-megadrought trend (per yr)",
+                           estimate = ct[[1]], se = ct[[2]], p = ct[[4]])
+  }
+  # step + post-step trend: peak ~ post + year:post | ID_DGA
+  d[, post := as.integer(year >= split_year)]
+  one_nest <- function(comp) {
+    d[, yr_post := (year - split_year) * post]
+    m <- fixest::feols(stats::as.formula(sprintf("%s ~ post + yr_post | ID_DGA", comp)),
+                       data = d, cluster = ~ID_DGA)
+    ct <- as.data.frame(summary(m)$coeftable)
+    data.table::rbindlist(list(
+      data.table::data.table(component = comp, quantity = "step change at 2010",
+                             estimate = ct["post", 1], se = ct["post", 2], p = ct["post", 4]),
+      data.table::data.table(component = comp, quantity = "post-2010 drift (per yr)",
+                             estimate = ct["yr_post", 1], se = ct["yr_post", 2], p = ct["yr_post", 4])))
+  }
+  data.table::rbindlist(list(
+    one_trend("peak"), one_trend("trough"),
+    one_nest("peak"), one_nest("trough")))
+}

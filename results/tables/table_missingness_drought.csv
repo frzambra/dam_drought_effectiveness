@@ -1,0 +1,5 @@
+quantity,value,detail
+"gauge-month missingness within record span, 2000-2020",0.1567,15.67% of 47124 gauge-months (months failing the >= 20-valid-days rule or absent)
+missingness in drought months (SPEI < -1) vs other months,0.3379,drought 33.79% vs non-drought 13.90%
+"missingness on SPEI (gauge FE, unit-clustered)",-0.05068,"per SPEI unit; SE 0.00891, p = 2.27e-07; a negative sign means drier months are MORE likely missing"
+"drought-month missingness, treated downstream vs upstream gauges",-0.0216,"down 32.92%, up 35.09%; a differential would be needed to bias the contrast D"

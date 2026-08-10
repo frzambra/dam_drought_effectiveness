@@ -1,0 +1,3 @@
+# Review comment
+
+The statistical significance of the reservoir storage trends (peak and trough declines) is estimated using cluster-robust standard errors with only 22 to 26 clusters (reservoirs). However, as acknowledged elsewhere in the manuscript, cluster-robust standard errors tend to over-reject and produce over-optimistic p-values when the number of clusters is small (around 21). This makes the reported significance of the peak storage trend (p = 0.013) and the step-down in 2010 (p = 0.04) highly fragile. The authors should use a more robust inference method, such as the wild cluster bootstrap or randomization inference, to confirm these trends.

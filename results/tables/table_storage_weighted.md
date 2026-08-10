@@ -1,0 +1,12 @@
+| quantity | value | detail |
+|---|---|---|
+| capacity-weighted trend (per yr), peak | -0.0087 | SE 0.0030, p = 0.007 (capacity-weighted reservoir FE, clustered) |
+| capacity-weighted trend (per yr), trough | -0.0166 | SE 0.0017, p = 5.7e-10 (capacity-weighted reservoir FE, clustered) |
+| capacity-weighted trend (per yr), amplitude | 0.0079 | SE 0.0022, p = 0.00124 (capacity-weighted reservoir FE, clustered) |
+| capacity-weighted step at 2010, peak | -0.178 | SE 0.0515, p = 0.00205 (capacity-weighted reservoir FE, clustered) |
+| capacity-weighted step at 2010, trough | -0.117 | SE 0.0554, p = 0.0462 (capacity-weighted reservoir FE, clustered) |
+| capacity-weighted post-2010 drift (per yr), peak | 0.0009 | SE 0.0011, p = 0.43 (capacity-weighted reservoir FE, clustered) |
+| capacity-weighted post-2010 drift (per yr), trough | -0.0127 | SE 0.0028, p = 0.000143 (capacity-weighted reservoir FE, clustered) |
+| coverage-stable subset share of fleet capacity | 0.977 | 22 of 25 reservoirs with >= 18 band years; totals below use years with all 22 reporting |
+| fleet total peak storage (hm3), trend and 2010 step |  -88 | trend -88.0 hm3/yr (p = 0.0216); 2010 step -1549 hm3 (p = 0.106), post-2010 drift +204.9 hm3/yr (p = 0.518); 22 reservoirs with full coverage, 20 of 21 years |
+| fleet total trough (carryover) storage (hm3), trend and 2010 step | -209 | trend -209.2 hm3/yr (p = 7.53e-05); 2010 step -1254 hm3 (p = 0.384), post-2010 drift -71.3 hm3/yr (p = 0.884); 22 reservoirs with full coverage, 20 of 21 years |

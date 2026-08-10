@@ -1,0 +1,16 @@
+unit_id,reservoir,capacity_hm3,flow_down_hm3,ratio_down,flow_up_hm3,ratio_up,class_down,class_up,flip
+0210,Conchi,22,30.1,0.732,24.5,0.899,carryover,carryover,""
+0343,Lautaro,16,50.9,0.314,51.5,0.311,seasonal,seasonal,""
+0382,Santa Juana,176,151.7,1.16,125.5,1.403,carryover,carryover,""
+0432,Puclaro,209,291.1,0.718,338.7,0.617,carryover,carryover,""
+0450,Recoleta,100,45.1,2.218,93,1.075,carryover,carryover,""
+0453,Cogotí,156,61.3,2.546,49.1,3.176,carryover,carryover,""
+0471,Corrales,50,338.1,0.148,25,2.002,seasonal,carryover,yes
+0472,El Bato,26,88.4,0.294,73,0.356,seasonal,seasonal,""
+0603,Convento Viejo,237,1230.3,0.193,489.8,0.484,seasonal,seasonal,""
+0732,Colbún,1544,2345.4,0.658,3021.1,0.511,carryover,carryover,""
+0733,Digua,225,923.9,0.244,749.3,0.3,seasonal,seasonal,""
+0735,Bullileo,60,1811.9,0.033,,,seasonal,no-up-gauge,yes
+0811,Coihueco,30,762.2,0.039,192.2,0.156,seasonal,seasonal,""
+0831,Ralco,1174,6538.7,0.18,3091.5,0.38,seasonal,seasonal,""
+0837,Lago Laja,5582,742.1,7.522,195,28.619,carryover,carryover,""

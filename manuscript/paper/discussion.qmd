@@ -1,16 +1,19 @@
 # Discussion
 
 Across a matched national design, multiple estimators, and a within-basin
-falsification test, the apparent drought buffering attributed to reservoirs is a measurable
-siting confound. The upstream placebo is the decisive evidence: a regulation effect must
-appear only below the dam; it does not, and what remains is the aridity gradient. Dammed
+falsification test, the apparent drought buffering attributed to reservoirs is, for the
+seasonal majority of the fleet, a measurable siting confound. The upstream placebo is the
+decisive evidence: a regulation effect must appear only below the dam, and across the fleet it
+does not; what remains in the aggregate is the aridity gradient. The exception is itself
+informative: the seven carryover-capable reservoirs show a downstream-specific contrast exactly
+where a real regulation effect should sit, an exploratory signal bounded below, so the null is
+a statement about storage-limited reservoirs, not about storage as such. Dammed
 basins hold about 4.5 times more cropland than matched controls, but that gap is fixed
 across the record, with parallel pre-trends and no megadrought divergence detected within
-the design's power (a bounded null, not a confirmed absence).
-One reading fits: reservoirs mark where water-dependent vulnerability already concentrated
-rather than make it. This is a finding, not a failure of power: the apparent effect has an
-identified cause and the positive control shows the design detects buffering when it is
-present.
+the design's power (a bounded null, not a confirmed absence). One reading fits: reservoirs mark
+where water-dependent vulnerability already concentrated rather than make it. This is a finding,
+not a failure of power: the apparent effect has an identified cause, and the positive control
+shows the design detects buffering when it is present.
 
 The corollary is transferable: dammed-versus-undammed or before-after contrasts inherit the
 full siting confound
@@ -84,8 +87,10 @@ reallocation and managed aquifer recharge [@grafton_paradox_2018; @scanlon_globa
 Several limitations bound these conclusions, each quantified in the Supplementary
 Information. The result is a bounded null: the design excludes streamflow buffering above 46 to 59% of
 baseline, demand-side outcomes are far less powered and the pre-trend test power-limited
-(Supplementary Tables S2, S14), so causal weight rests on the placebo, demand nulls corroborating;
-all survive the hard-balanced match (Supplementary Table S17). The powered streamflow null also
+(Supplementary Tables S1, S14), so causal weight rests on the placebo, demand nulls corroborating;
+all survive the hard-balanced match, itself a fragile corroboration at its small effective
+sample, whose weight concentration and leave-one-out sensitivity are disclosed (Supplementary
+Tables S17, S45). The powered streamflow null also
 ends in March 2020, before the most acute 2019–2022 deficits, so the late-phase storage and
 cropland pathways carry that part of the record. The early-to-late phase analysis is likewise
 null under the design's permutation inference, with neither the downstream nor the upstream
@@ -117,21 +122,56 @@ substitution at scale but do not close the pathway. The snowmelt confound, acute
 these snow-fed Andean basins [@ayala_glaciers_2025; @gotte_hydrological_2024], is tested on the
 differential estimand and excluded across four specifications (Supplementary Table S12). The
 geomorphic check leaves the placebo unchanged, though 2.5 km relief cannot resolve aquifer
-storage itself, a residual caveat (Supplementary Table S22). The placebo also spans land-cover and
-abstraction contrasts, downstream valleys more cultivated, upstream reaches carrying unrecorded
-diversions; gauge fixed effects absorb these level differences, and drought-intensified upstream
-abstraction would steepen upstream transmission, working against the observed upstream attenuation, not
-producing it. Administrative closure cannot force the demand null: treated basins entered the drought with
+storage itself, a residual caveat (Supplementary Table S22). Cascade contamination of the
+upstream placebo, upstream gauges that are themselves regulated by another dam, is screened
+against the 1,370-dam national inventory and excluded at three tiers, and removing the flagged
+gauges deepens rather than removes the upstream attenuation (Supplementary Table S43); the
+classification is likewise validated against routed network topology, where the strictly
+same-channel contrast turns positive, unregulated reaches more attenuated than regulated ones
+(Supplementary Table S46). Streamflow missingness is drought-selective but common across gauge
+classes, so it truncates the dry tail without generating the null contrast (Supplementary
+Table S50). The placebo also spans land-cover and
+abstraction contrasts: within paired basins, downstream valleys carry about two and a half times
+the cropland of upstream headwaters (per-basin means, 12 of 15 basins downstream-richer;
+Supplementary Table S36), and upstream reaches carry
+unrecorded diversions. Gauge fixed effects absorb these level differences, and the gradient cannot
+mask a buffer: local cropland intensity does not predict the transmission slope among control
+gauges (p ≥ 0.41), the point estimate carries the sign opposite to the masking mechanism, and
+re-fitting the placebo net of a SPEI-by-local-cropland interaction leaves the contrast null
+($-0.03$, p = 0.83; Supplementary Tables S36, S37). The cropland sensitivity is identified
+among control gauges, so a release-sustained extraction response could exceed it; the adjusted
+model therefore lets treated reaches carry their own SPEI-by-cropland term, and the implied
+masking magnitude sits two orders below the contrast MDE either way.
+Administrative closure cannot force the demand null: treated basins entered the drought with
 higher allocated stock yet accrued rights 2.7 times faster, and parallel control cropland
-contradicts collapse prevention (Supplementary Table S15). No matched pair shares a watershed; outbound transfers would shrink the
+contradicts collapse prevention (Supplementary Table S15); what closure does do is make grant
+accrual a weak proxy for total demand, the registry limitation discussed above. No matched pair shares a watershed; outbound transfers would shrink the
 gap and imports would mimic downstream-specific buffering, which is absent (Supplementary Table
 S15); irrigation-only restriction leaves the result unchanged (Supplementary Table S11). MOD16's bias toward the null excludes the ET pathway from evidence
 (Supplementary Table S21); the demand conclusion rests on cropland and the registry, with thermal
-ET as future work. Finally, the 12-month accumulation targets multi-year
+ET as future work. The 12-month accumulation targets multi-year
 vulnerability, not the sub-seasonal buffering reservoirs also provide, which we neither
-test nor dispute. The fleet is partly seasonal by design, the median
-treated reservoir storing 0.3 years of downstream flow, yet seven of 17 hold at least half a year,
-four exceed a year, and none empties seasonally (Supplementary Table S23):
-carryover was physically available, so its absence in outcomes is not a design tautology. Two extensions can test what our window cannot: a staggered event study of cropland around
+test nor dispute. The fleet is partly seasonal by design: the median
+treated reservoir stores 0.3 years of downstream flow, and only seven of seventeen hold at least
+half a year (Supplementary Table S23). This heterogeneity is informative: the seven carryover-capable
+reservoirs show a downstream-specific buffering the seasonal ones do not (contrast $-0.23$,
+$p = 0.014$; Supplementary Table S35), so the aggregate null is a statement about the seasonal
+majority, not about reservoirs that can actually carry water across years. Reservoirs with enough
+storage to bridge a dry year appear to buffer multi-year drought; seasonal ones, which physically
+cannot, do not. The signal survives the confounds we can test but not every inferential stress.
+It is not hydropower scheduling: excluding the two dams operated also for generation (Colbún,
+Lago Laja) strengthens the contrast on the five irrigation-only carryover basins ($D = -0.31$,
+$p = 0.057$; Supplementary Table S42). It is directionally stable under every leave-one-out, but
+its permutation p spans 0.004 to 0.12 across single-basin exclusions (Supplementary Table S42),
+and the threshold is classification-bounded: recomputing the carryover ratio with unregulated
+upstream-gauge flow, the available inflow proxy, keeps every carryover basin classified as
+carryover but reclassifies one seasonal basin into the group, under which split the carryover
+contrast is still negative but no longer significant ($D = -0.165$, $p = 0.146$; Supplementary
+Table S40). Together with the absence of any multiplicity adjustment across the paper's
+robustness battery, this is why the split is labeled exploratory. It bounds the generalization:
+the headline null applies to the storage-limited fleet, and the capacity-threshold signal is a
+directionally robust candidate for a rule-curve or
+commissioning-based test with more carryover reservoirs.
+Two extensions can test what our window cannot: a staggered event study of cropland around
 historical commissioning would probe construction-phase induced demand; a rule-curve
 quasi-experiment on release records, once public, would isolate operation.

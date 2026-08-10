@@ -1,0 +1,5 @@
+quantity,value,detail
+"smooth-trend buffering, ITT",-0.188,perm p = 0.320 (1000 perms); year-FE primary -0.183
+"smooth-trend buffering, downstream",-0.17,perm p = 0.445 (1000 perms); year-FE primary -0.165
+"smooth-trend buffering, upstream placebo",-0.19,perm p = 0.487 (1000 perms); year-FE primary -0.201
+smooth-trend placebo contrast (down - up),0.021,cubic national time trend + month FE retain the temporal drought signal that year FE absorb; regulation would give < 0

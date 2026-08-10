@@ -1,0 +1,4 @@
+| subset | n_treat | est_itt | p_itt | est_down | est_up | D | p_D | n_perm |
+|---|---|---|---|---|---|---|---|---|
+| carryover reservoirs (capacity >= 0.5 yr) |    7 | -0.323 | 0.247 | -0.459 | -0.227 | -0.232 | 0.014 | 2e+03 |
+| seasonal reservoirs (capacity < 0.5 yr) |   10 | -0.078 | 0.601 | 0.001 | -0.178 | 0.178 | 0.258 | 2e+03 |

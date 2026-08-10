@@ -1,0 +1,10 @@
+| quantity | value | detail |
+|---|---|---|
+| downstream-gauge local cropland (2007, 5 km) | 0.197 | per-basin mean over 15 paired basins; downstream valleys are ~2.5x more cropped than upstream headwaters |
+| upstream-gauge local cropland (2007, 5 km) | 0.0774 | per-basin mean over 15 paired basins |
+| down-up cropland gap (paired treated gauges) | 0.12 | positive = downstream more extracted; 12 of 15 paired basins have down > up |
+| control transmission slope vs local cropland (raw) | -0.0466 | p = 0.749 (n=84 control gauges); local extraction does NOT predict transmission |
+| control transmission slope vs local cropland (+ elevation) | -0.1 | p = 0.432; sign opposite to the masking mechanism (high-extraction reaches are if anything flatter) |
+| control transmission slope vs local cropland (+ elevation + discharge) | -0.0948 | p = 0.407 (n=84); robust to scale/elevation |
+| predicted masking magnitude (gap x raw sensitivity) | -0.00559 | = -0.0056 SSI/SPEI, far below the 0.28 MDE and the -0.23 carryover contrast |
+| predicted masking magnitude (gap x full sensitivity) | -0.0114 | = -0.0114 SSI/SPEI, ~3% of the 0.28 MDE |

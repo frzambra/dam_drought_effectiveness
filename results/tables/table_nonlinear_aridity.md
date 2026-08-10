@@ -1,0 +1,4 @@
+| quantity | value | detail |
+|---|---|---|
+| buffering ITT net of quadratic aridity-by-forcing terms | -0.057 | perm p = 0.430 (1000 perms); linear-adjustment primary -0.183 |
+| aridity-by-forcing terms (linear; quadratic) | 0.033 | linear p = 0.364; quadratic -0.067, p = 1.8e-06 (cluster-robust); the control transmission gradient across aridity is also tercile-checked in Supplementary Table S20 |
