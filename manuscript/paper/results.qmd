@@ -6,95 +6,94 @@ Reservoirs in Chile are built where drought bites hardest: our 21 dammed basins 
 centre and north, so a raw comparison would confuse the reservoir with its location. Two comparisons
 separate them (@fig-schematic). First, each dammed basin is compared only with undammed basins
 sharing its climate, size and elevation (21 of 24 dammed basins against an effective 91 of 244
-controls; Supplementary Figs. S4, S5), both evaluated against the drought each experienced, so the
+controls; Supplementary Figs. S3, S4), both evaluated against the drought each experienced, so the
 contrast is impact per unit of deficit. Second, within each dammed basin, regulated reaches
 below the dam are compared against unregulated reaches above it. A genuine reservoir effect must
 appear in these comparisons. Across the fleet none does; the exception, developed below, is the
 carryover-capable minority. The controls are genuinely undammed: only 10 of the 244 hold a material
 dam from the 1,370-impoundment national inventory, and a re-balanced dam-free control pool leaves
-every streamflow estimate unchanged (Supplementary Table S53).
+every streamflow estimate unchanged (Supplementary Table S3).
 
 ```{r}
 #| label: fig-schematic
 #| out-width: \\textwidth
-#| fig-cap: "The two comparisons that separate the reservoir from its location. (a) Matched comparison: each dammed basin against undammed basins sharing its climate, size and elevation, both exposed to the same drought. (b) Within-basin placebo: a gauge below the dam against one above it; a genuine reservoir effect must appear downstream only. Study-area map and matching diagnostics: Supplementary Figs. S4, S5."
+#| fig-cap: "The two comparisons that separate the reservoir from its location. (a) Matched comparison: each dammed basin against undammed basins sharing its climate, size and elevation, both exposed to the same drought. (b) Within-basin placebo: a gauge below the dam against one above it; a genuine reservoir effect must appear downstream only. Study-area map and matching diagnostics: Supplementary Figs. S3, S4."
 #| echo: false
 knitr::include_graphics("../../results/figures/fig_design_schematic_v2.png")
 ```
 
 ## Fleet-wide, the apparent buffering is the location, not the dam {#sec-placebo}
 
-The most direct test is on streamflow. Meteorological drought (Standardized Precipitation
-Evapotranspiration Index of 12 months, SPEI-12; the sustained forcing is documented in Supplementary
-Fig. S1) propagates into streamflow drought (Standardized Streamflow Index of 12 months, SSI-12)
-more gently in dammed basins, the visual signature of buffering (@fig-streamflow, panel a). But this
-flattening tracks where dams sit, not what they do. If the dam were doing the buffering,
-transmission would flatten only below it; instead it flattens just as much at the unregulated
-*upstream* reaches of the same basins (differential slope $-0.20$ upstream versus $-0.16$
-downstream; @fig-streamflow, panel b). The direct within-basin test confirms the contrast is null:
-downstream minus upstream is $+0.04$ with a paired permutation $p = 0.72$ (Supplementary Table S25),
-and a variant giving pseudo-treated controls an elevation-partitioned gauge split leaves the null
-standard deviation unchanged, so the scheme is not compressing it ($p = 0.73$; Supplementary Table
-S48). The national gap of $-0.18$ accordingly collapses to about $-0.05$ once
-basins are compared within the same climate region, itself permutation-null ($p = 0.65$;
-Supplementary Table S26), and in the high-supply south, where buffering should be easiest, the
-upstream and downstream gaps are identical. The pooled gap does not
-survive randomization inference ($p_{\text{perm}} = 0.39$), and the decomposition confirms the signal dies only when each climate region carries its own baseline transmission
-(Supplementary Fig. S3 and Table S4).
+The most direct test is on streamflow. Meteorological drought (SPEI-12; the sustained forcing is
+documented in Supplementary Fig. S5) propagates into streamflow drought (SSI-12) more gently in
+dammed basins, the visual signature of buffering (@fig-streamflow, panel a). But this flattening
+tracks where dams sit, not what they do. If the dam were doing the buffering, transmission would
+flatten only below it; instead it flattens just as much at the unregulated *upstream* reaches of the
+same basins (differential slope $-0.20$ upstream versus $-0.16$ downstream; @fig-streamflow, panel
+b). The direct within-basin test confirms the contrast is null: downstream minus upstream is $+0.04$
+with a paired permutation $p = 0.72$ (Supplementary Table S29), and a variant giving pseudo-treated
+controls an elevation-partitioned gauge split leaves the null standard deviation unchanged, so the
+scheme is not compressing it ($p = 0.73$; Supplementary Table S30). The national gap of $-0.18$
+accordingly collapses to about $-0.05$ once basins are compared within the same climate region,
+itself permutation-null ($p = 0.65$; Supplementary Table S28), and in the high-supply south, where
+buffering should be easiest, the upstream and downstream gaps are identical. The pooled gap does not
+survive randomization inference ($p_{\text{perm}} = 0.39$), and the decomposition confirms the
+signal dies only when each climate region carries its own baseline transmission (Supplementary Fig.
+S6 and Table S47).
 
 Three independent routes through the aridity confound agree. Hard-balancing aridity makes even the
 *apparent* buffering vanish (intent-to-treat, the all-gauges estimand, $-0.02$ against $-0.18$;
-upstream $-0.05$ against $-0.20$; $p > 0.85$; Supplementary Table S17), a point-estimate shift of
+upstream $-0.05$ against $-0.20$; $p > 0.85$; Supplementary Table S23), a point-estimate shift of
 about two primary standard errors rather than variance inflation alone. That fit is fragile and we
-treat it as corroboration only: at an effective control sample of 19 its minimum detectable effect
-is near 77% of baseline, its weights are concentrated, and while re-balanced leave-one-out keeps the
+treat it as corroboration only: at an effective control sample of 19 its MDE is near
+77% of baseline, its weights are concentrated, and while re-balanced leave-one-out keeps the
 estimate near zero for seven of the eight top-weighted controls, dropping the most-weighted basin
-returns $-0.184$ with balance restored (Supplementary Table S45).
+returns $-0.184$ with balance restored (Supplementary Table S24).
 No variant turns the null into detected buffering, since every value lies inside the primary
 permutation null. Second, transmission is genuinely non-linear in aridity (quadratic
 aridity-by-forcing term $p < 10^{-5}$), and admitting that curvature collapses the apparent
-intent-to-treat buffering to $-0.06$ ($p = 0.43$; Supplementary Table S52). Third, the within-region
+intent-to-treat buffering to $-0.06$ ($p = 0.43$; Supplementary Table S22). Third, the within-region
 comparison needs no aridity balance at all. The placebo and the within-region estimator therefore
 carry the result; the hard balance and the parametric adjustment, which interpolates within support
-(Supplementary Fig. S8), corroborate it.
+(Supplementary Fig. S2), corroborate it.
 
 Neither the index nor the specification manufactures the null. On log flow the gaps stay null
-($p \geq 0.42$) and downstream relative variability is uncompressed (Supplementary Table S19).
+($p \geq 0.42$) and downstream relative variability is uncompressed (Supplementary Table S12).
 Re-standardizing SSI on the 1990–2020 baseline leaves every estimate essentially unchanged (contrast
-$+0.02$, $p = 0.89$; Supplementary Table S49), so the megadrought-heavy reference window is not
+$+0.02$, $p = 0.89$; Supplementary Table S11), so the megadrought-heavy reference window is not
 distorting the slopes, and replacing the year fixed effects with a cubic national time trend, retaining the temporal
 drought signal they absorb, reproduces every slope (all permutation-null; Supplementary Table
-S47). Missing streamflow is drought-selective (34% of drought gauge-months fail
+S25). Missing streamflow is drought-selective (34% of drought gauge-months fail
 the completeness rules against 14% otherwise), but the truncation is shared by treated and control
 gauges and nearly identical across gauge classes (33% downstream versus 35% upstream), so it thins
-the dry tail for every slope without manufacturing the contrast (Supplementary Table S50). Nor does
+the dry tail for every slope without manufacturing the contrast (Supplementary Table S10). Nor does
 the pooled slope hide early buffering: at drought onset (2010–2014, storage near-full) the upstream
 and downstream gaps are identical ($-0.43$ both), and neither phase shift nor its contrast is
-significant under permutation (Supplementary Tables S24, S27). A dry-tail effect is likewise absent:
+significant under permutation (Supplementary Tables S41, S42). A dry-tail effect is likewise absent:
 the quadratic SPEI interaction is null ($p = 0.65$) and drought-month refits leave every estimate
-and the contrast null (contrast $p = 0.49$; Supplementary Tables S28, S29).
+and the contrast null (contrast $p = 0.49$; Supplementary Tables S39, S40).
 
 The placebo's comparability assumptions survive testing. Upstream gauges sit 0.54 km higher, and
 elevation genuinely flattens transmission among control gauges ($-0.21$ per km, $p < 0.001$,
-$n = 84$, from a positive baseline of $0.53$; Supplementary Table S2), but the gradient works
+$n = 84$, from a positive baseline of $0.53$; Supplementary Table S31), but the gradient works
 *against* the finding: it alone would make upstream look more buffered, and the gap times that
 sensitivity over-explains the observed $-0.04$ difference, leaving at most $0.07$ of
-downstream-specific buffering, 13% of baseline (Supplementary Table S20). Cumulative scale behaves
+downstream-specific buffering, 13% of baseline (Supplementary Table S21). Cumulative scale behaves
 the same way, flattening transmission among controls ($+0.08$ per log discharge, $p < 0.001$) while
 the paired basins differ little in scale. Fitting the placebo net of each gradient leaves every
 effect null and the contrast unchanged (elevation-adjusted $D = +0.02$; discharge-adjusted
-$D = -0.03$; Supplementary Tables S31, S33). Local relief, separating bedrock from alluvial reaches,
+$D = -0.03$; Supplementary Tables S33, S34). Local relief, separating bedrock from alluvial reaches,
 likewise leaves it unchanged, moving the downstream estimate toward the upstream value rather than
-away (Supplementary Table S22); the snowmelt confound is excluded on the differential estimand
+away (Supplementary Table S35); the snowmelt confound is excluded on the differential estimand
 across four specifications; and the exposure error implied by the shared subcuenca forcing is about
 0.01 units, asymmetric in the direction that works against downstream-specific buffering
-(Supplementary Table S38).
+(Supplementary Table S45).
 
 Gauge classification survives three validations. Against the DGA hydrographic hierarchy, 67 of 70
 downstream gauges lie in a sub-cuenca named for the dam's own river; excluding the three exceptions
 leaves the contrast null ($D = +0.04$), as does excluding the sixteen gauges within 100 m of the dam
 ($D = +0.12$), both moving the downstream estimate toward zero rather than toward buffering
-(Supplementary Table S32). The mirror-image concern is cascade contamination, an upstream gauge
+(Supplementary Table S36). The mirror-image concern is cascade contamination, an upstream gauge
 itself below *another* dam (Ralco above Pangue; the Laguna del Maule works above Colbún; La Laguna
 above Puclaro), whose flattened transmission would be real regulation misread as siting. Screening
 all 35 upstream gauges, carried by 16 basins (one holds upstream but no usable downstream gauge, so
@@ -102,16 +101,16 @@ it enters the upstream panel but not the 15-basin paired contrast), the placebo 
 excluding the three flagged within their own sub-watershed gives upstream $-0.245$ and $D = +0.08$;
 adding the documented historical cascades, ten gauges in all, gives $-0.204$ and $D = +0.04$; and
 the conservative cuenca-wide bound, stripping 20 of 35 gauges, gives $-0.21$ and $D = +0.05$, every
-contrast permutation-null (Supplementary Table S43). The direction of
+contrast permutation-null (Supplementary Table S38). The direction of
 change is diagnostic: were the upstream flattening hidden regulation, removing flagged gauges should
 steepen the placebo toward zero, and instead it deepens. Routed topology closes the twin concern
 that elevation-classified upstream gauges sit on parallel, disconnected tributaries: snapping every
 gauge and dam to the HydroRIVERS network (median snap 264 m) and tracing flow paths, the strictly
 network-validated same-channel contrast is *positive* (down $-0.24$, up $-0.36$, $D = +0.12$,
 $p = 0.18$), the unregulated reaches more attenuated than the regulated ones (Supplementary Table
-S46). The contrast's power is disclosed rather than assumed: with 15 paired basins it detects only
+S37). The contrast's power is disclosed rather than assumed: with 15 paired basins it detects only
 gaps above 0.28 SSI units, about 52% of baseline, so moderate downstream-specific buffering is not
-excluded (Supplementary Table S34).
+excluded (Supplementary Table S46).
 
 A skeptical reading asks whether the flat contrast hides a real buffer masked by the extraction
 gradient, since downstream valleys carry far more irrigation and drought-intensified extraction
@@ -119,10 +118,10 @@ would steepen the downstream slope. The gradient is real, cropland within 5 km o
 averaging 0.20 of the buffer area against 0.08 upstream, but local extraction does not predict the
 transmission slope among control gauges ($p \geq 0.41$), the point estimate carries the sign
 opposite the masking mechanism, and the gradient times that sensitivity predicts a steepening of
-about 0.01 SSI units, two orders of magnitude below the minimum detectable effect (Supplementary
-Table S36). Re-fitting the placebo net of a SPEI-by-local-cropland interaction, with a
+about 0.01 SSI units, two orders of magnitude below the MDE (Supplementary
+Table S43). Re-fitting the placebo net of a SPEI-by-local-cropland interaction, with a
 treated-specific term so treated reaches are not held to the control-identified sensitivity, leaves
-the contrast null ($-0.03$, $p = 0.83$; Supplementary Table S37). Cropland is a static proxy, but a
+the contrast null ($-0.03$, $p = 0.83$; Supplementary Table S44). Cropland is a static proxy, but a
 mechanism that leaves no imprint across a two-and-a-half-fold extraction gradient cannot hide a
 material buffer.
 
@@ -136,56 +135,55 @@ knitr::include_graphics("../../results/figures/fig_streamflow.png")
 ## The powered nulls exclude operational buffering; demand pathways are bounded {#sec-bounding}
 
 The same answer holds across the remaining pathways (@fig-forest, @tbl-main): every estimate that
-carries evidential weight brackets zero, from cropland-area expansion
-($-0.69$ ha km^-2^, 95% CI $[-2.4, 1.1]$) and its forcing-conditioned slope gap
-($p_{\text{perm}} = 0.91$). That slope gap carries a structural caveat: central Chile's cropland is
+carries evidential weight brackets zero: the cropland-area expansion ATT ($-0.69$ ha km^-2^, 95%
+confidence interval $[-2.4, 1.1]$) and its forcing-conditioned slope gap ($p_{\text{perm}} = 0.91$). That slope gap carries a structural caveat: central Chile's cropland is
 dominated by perennial orchards and vineyards, which cannot flex with annual SPEI, so a null
 interaction is expected on rigidity grounds alone, and the informative cropland test is the dynamic
 event study below. The evapotranspiration pathway is excluded rather than counted as a null:
 whole-basin ET is confounded by barren-land aridity with failed pre-trends, and the post-hoc orchard
 stratum relies on MODIS MOD16, whose documented bias toward zero over irrigated land, a product
-property identified independently of our results, disqualifies its null (Supplementary Table S21,
+property identified independently of our results, disqualifies its null (Supplementary Table S16,
 Fig. S7).
 
 The null is informative but its power is concentrated in streamflow. With about 21 dammed clusters
 the design cannot claim exact equivalence to zero but rules out operational buffering above 46 to
 59% of baseline, and a positive control confirms it: injected buffering is recovered one-to-one and
-detected beyond that threshold (Supplementary Fig. S2 and Table S3). This is a wide null: a 30 to 40% reduction in transmission
+detected beyond that threshold (Supplementary Fig. S8 and Table S48). This is a wide null: a 30 to 40% reduction in transmission
 is fully compatible with the data, so the finding is no *large* operational buffering, not none. It also covers a record ending in March 2020,
 spanning the first decade of the megadrought but not the 2019–2022 peak deficits, which the storage
 and cropland pathways carry to 2024. Only streamflow excludes material effects at operationally
-relevant magnitudes: the cropland and evapotranspiration designs have minimum detectable effects far
-above baseline (7,330% and 237%; Supplementary Table S1), so their nulls corroborate rather than
+relevant magnitudes: the cropland and evapotranspiration designs have MDEs far above
+baseline (7,330% and 237%; Supplementary Table S49), so their nulls corroborate rather than
 independently establish absence.
 
 Pooling the fleet, moreover, hides a heterogeneity by storage capacity. We label this split
-exploratory at the outset: it was prompted in review, it is a subgroup analysis of seven treated
+exploratory at the outset: it is a subgroup analysis of seven treated
 units inside a large robustness battery, and no multiplicity adjustment is applied, so we read it as
 hypothesis-generating. Split by the carryover ratio on the buffering sample of 17 basins, the seven
 carryover reservoirs show a downstream-specific buffering the seasonal ones do not: slope $-0.46$ downstream versus $-0.23$ upstream, a contrast of $-0.23$ ($p = 0.014$;
-Supplementary Table S35), essentially unchanged on the six strictly paired basins ($D = -0.234$,
-$p = 0.004$; Supplementary Table S39) and surviving the elevation-partitioned null ($p = 0.025$;
-Supplementary Table S48); the ten seasonal reservoirs show no such contrast ($D = +0.18$,
+Supplementary Table S50), essentially unchanged on the six strictly paired basins ($D = -0.234$,
+$p = 0.004$; Supplementary Table S8) and surviving the elevation-partitioned null ($p = 0.025$;
+Supplementary Table S30); the ten seasonal reservoirs show no such contrast ($D = +0.18$,
 $p = 0.26$), their estimate being if anything positive, the direction drought-intensified diversion
 would produce though indistinguishable from zero. The signal is not a hydropower-scheduling
 artifact: excluding the two dams operated also for generation *strengthens* the estimate on the five
 irrigation-only carryover basins ($D = -0.31$, $p = 0.057$). Its fragility is instead statistical: the contrast stays negative under every
 leave-one-out, but the permutation p ranges from 0.004 to 0.12 and sits at or above the 0.05
-convention for three of the seven exclusions (Supplementary Table S42). It
+convention for three of the seven exclusions (Supplementary Table S9). It
 is also classification-sensitive: recomputing the ratio with unregulated upstream-gauge flow keeps
 all seven carryover basins but moves one seasonal basin into the group, under which split the
 contrast is still negative but no longer significant ($D = -0.165$, $p = 0.146$; Supplementary Table
-S40). The direction is robust to the denominator and to single-basin exclusion; the significance is
+S7). The direction is robust to the denominator and to single-basin exclusion; the significance is
 robust to neither. Within those bounds, reservoirs with enough storage to carry water across years
 appear to buffer multi-year drought while seasonal ones, which physically cannot, show nothing, so
 the aggregate null is driven by the seasonal majority.
 
 ```{r}
 #| label: tbl-main
-#| tbl-cap: "Reservoir-effect estimates across estimators: cross-sectional doubly-robust matched ATTs (including the water-rights induced-demand test) and forcing-interacted DiD slope gaps (treat:SPEI). The DiD row and water-rights accrual are judged by randomization-inference p-values, the design's primary inference at ~21 clusters; cluster-robust CIs over-reject here and are shown for completeness. A positive estimate would indicate induced-demand vulnerability; a negative one, operational buffering."
+#| tbl-cap: "Reservoir-effect estimates across estimators: cross-sectional doubly-robust matched ATTs (including the water-rights induced-demand test) and forcing-interacted difference-in-differences (DiD) slope gaps (treat:SPEI). The DiD row and water-rights accrual are judged by randomization-inference p-values, the design's primary inference at ~21 clusters; cluster-robust confidence intervals over-reject here and are shown for completeness. A positive estimate would indicate induced-demand vulnerability; a negative one, operational buffering."
 #| echo: false
 tab <- data.table::fread("../../results/tables/table_main_results.csv")
-# ET pathway relegated to the SI (Supplementary Table S21): whole-basin ET is confounded
+# ET pathway relegated to the SI (Supplementary Table S16): whole-basin ET is confounded
 # (barren-land aridity, failed pre-trends) and the orchard rows are MOD16 product-limited.
 tab <- tab[!outcome %in% c("Whole-basin ET", "Orchard ET", "Reservoir ET buffering")]
 knitr::kable(tab[, .(Group = group, Outcome = outcome, Estimand = estimand,
@@ -200,7 +198,7 @@ knitr::kable(tab[, .(Group = group, Outcome = outcome, Estimand = estimand,
 
 ```{r}
 #| label: fig-forest
-#| fig-cap: "Dammed-versus-control effect across estimators, each expressed in its own standard errors so the axis metric is identical for every row; an estimate inside +/-2 is indistinguishable from no effect. Rows judged by randomization inference, the design's valid inference at ~21 clusters, are annotated with their p, and under that inference every estimate brackets zero. Water-rights accrual sits outside +/-1.96 by its naive standard error yet is null by the design (p_perm = 0.52), the apparent induced demand lying inside the permutation null expected from the dammed basins' unbalanced aridity (Supplementary Fig. S6)."
+#| fig-cap: "Dammed-versus-control effect across estimators, each expressed in its own standard errors so the axis metric is identical for every row; an estimate inside +/-2 is indistinguishable from no effect. Rows judged by randomization inference, the design's valid inference at ~21 clusters, are annotated with their p, and under that inference every estimate brackets zero. Water-rights accrual sits outside +/-1.96 by its naive standard error yet is null by the design (p_perm = 0.52), the apparent induced demand lying inside the permutation null expected from the dammed basins' unbalanced aridity (Supplementary Fig. S1)."
 #| echo: false
 knitr::include_graphics("../../results/figures/fig_convergent_null.png")
 ```
@@ -208,23 +206,24 @@ knitr::include_graphics("../../results/figures/fig_convergent_null.png")
 ## Reservoirs mark prior vulnerability; megadrought divergence is bounded, not absent
 
 Dammed basins carry the vulnerability reservoirs are blamed for concentrating, about 4.5 times more
-cropland than matched controls (10.8% versus 2.4% of basin area; @fig-area, panel a), but that gap
+cropland than matched controls (entropy-balancing-weighted means 10.8% versus 2.4% of basin area,
+with 95% bands in @fig-area, panel a), but that gap
 is a *siting* signature stable across the record. A dynamic event study finds the differential
 trend flat before 2010 (cluster-robust $p = 0.65$, permutation $p = 0.72$) with no post-2010
 divergence detected ($p = 0.81$; @fig-area, panel b), and the null is metric-invariant, likewise
 permutation-null on log cropland share ($p = 0.37$). Both are bounded nulls, not confirmations of
 parallelism: the pre-trend test detects only divergence accumulating to about half the control
-cropland level by 2009, and the permutation envelope widens after 2015 (Supplementary Table S14): reservoirs
+cropland level by 2009, and the permutation envelope widens after 2015 (Supplementary Table S51): reservoirs
 mark where cropland already was, and within these bounds the record is consistent with no
 megadrought-era expansion, though late-panel divergence remains possible.
 
-The same holds for the most direct demand measure. In the Chilean Water Directorate (DGA) registry
+The same holds for the most direct demand measure. In the DGA registry
 of consumptive water rights, dammed basins appear to accrue rights faster than controls, on both the
 outlier-robust count ($+20$ per 100 km²; @fig-forest, @tbl-main) and the winsorized volume ($+2.5$
 l/s per km²), each with an analytic interval excluding zero. This is the naive-analysis trap the
 design catches, since arid basins carry denser water-rights activity. The count does not survive randomization inference
 ($p_{\text{perm}} = 0.52$) and remains null under a fully non-parametric match on the
-aridity-overlap subset ($p_{\text{perm}} = 0.42$; Supplementary Table S7). The winsorized volume is
+aridity-overlap subset ($p_{\text{perm}} = 0.42$; Supplementary Table S20). The winsorized volume is
 more delicate: insensitive to the winsorization threshold on the full sample, it reaches
 $p = 0.005$ on the smaller aridity-overlap subset under unit-level permutation, yet those residuals
 are spatially autocorrelated and the effect is not significant under the governing cuenca-block
@@ -255,11 +254,11 @@ If streamflow excludes material operational buffering and the demand pathways sh
 within their detection limits, what matters is how much water there is to store (@fig-storage). The decline is not a smooth drift: the peak steps down at the 2010
 megadrought onset while the trough keeps eroding through it. Because 22 to 26 reservoir clusters are
 too few for cluster-robust inference, every storage p-value below is a null-imposed wild cluster
-bootstrap (Supplementary Table S54). Over 2005–2024 peak storage falls by 1.3 percentage points of
+bootstrap (Supplementary Table S6). Over 2005–2024 peak storage falls by 1.3 percentage points of
 capacity per year ($p = 0.004$) and the trough by 1.2 pp yr^-1^ ($p = 0.001$), with no detectable
-amplitude trend ($p = 0.98$; Supplementary Table S5); nested at the 2010 split, the peak steps down
+amplitude trend ($p = 0.98$; Supplementary Table S52); nested at the 2010 split, the peak steps down
 ($-0.19$ of capacity, $p = 0.009$) then shows no further drift, while the trough, whose step is not
-significant, keeps falling ($-0.010$ yr^-1^, $p = 0.009$; Supplementary Table S41). Bootstrap
+significant, keeps falling ($-0.010$ yr^-1^, $p = 0.009$; Supplementary Table S53). Bootstrap
 inference tightens rather than weakens these: the peak rests at a lower equilibrium while the
 carryover floor still erodes. Nor is the pattern an artifact of equal-weighting a fleet whose capacities span three
 orders of magnitude: weighted by capacity the trough decline is steeper rather than weaker ($-1.7$
@@ -293,7 +292,7 @@ expansion (@fig-area, @tbl-main) [@li_diminishing_2023; @wang_reservoir_2024].
 
 ```{r}
 #| label: fig-storage
-#| fig-cap: "Reservoir storage declines; the carryover buffer shrinks with supply. (a) Cross-reservoir annual storage band: realized median peak and trough percent-of-capacity (solid) with interquartile ribbons, and the peak-trough amplitude (grey dashed). Medians are used because a few reservoirs report storage above nominal capacity (dotted 100% line); the band drifts down while the amplitude does not narrow. (b) Per-year trend slope of peak, trough, and amplitude (reservoir fixed effects), with 95% cluster-robust intervals; every coefficient is confirmed by wild cluster bootstrap (Supplementary Table S54). Descriptive: pooled within-reservoir trend, no control group."
+#| fig-cap: "Reservoir storage declines; the carryover buffer shrinks with supply. (a) Cross-reservoir annual storage band: realized median peak and trough percent-of-capacity (solid) with interquartile ribbons, and the peak-trough amplitude (grey dashed). Medians are used because a few reservoirs report storage above nominal capacity (dotted 100% line); the band drifts down while the amplitude does not narrow. (b) Per-year trend slope of peak, trough, and amplitude (reservoir fixed effects), with 95% cluster-robust intervals; every coefficient is confirmed by wild cluster bootstrap (Supplementary Table S6). Descriptive: pooled within-reservoir trend, no control group."
 #| echo: false
 knitr::include_graphics("../../results/figures/fig_storage_band.png")
 ```

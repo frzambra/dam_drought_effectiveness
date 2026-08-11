@@ -1,4 +1,4 @@
 | quantity | value | detail |
 |---|---|---|
-| aggregate contrast D under elevation-partitioned null | 0.037 | perm p = 0.728, null SD 0.093 (1000 perms); composition-fixed scheme: p = 0.718, null SD 0.098 (Supplementary Table S25) |
-| carryover contrast D under elevation-partitioned null | -0.232 | perm p = 0.025, null SD 0.103 (1000 perms); composition-fixed scheme: p = 0.014 (Supplementary Table S35) |
+| aggregate contrast D under elevation-partitioned null | 0.037 | perm p = 0.728, null SD 0.093 (1000 perms); composition-fixed scheme: p = 0.718, null SD 0.098 (Supplementary Table S29) |
+| carryover contrast D under elevation-partitioned null | -0.232 | perm p = 0.025, null SD 0.103 (1000 perms); composition-fixed scheme: p = 0.014 (Supplementary Table S50) |

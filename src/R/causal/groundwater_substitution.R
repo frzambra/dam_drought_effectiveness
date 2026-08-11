@@ -5,7 +5,7 @@
 # assign wells to subcuencas by point-in-polygon, take each well's depth-to-water TREND over the
 # megadrought (m/yr; positive = water table dropping = depletion), aggregate to the basin, and ask
 # whether dammed basins draw down groundwater differentially faster than matched controls, judged by
-# the design's randomization inference. A null bounds the confound. Feeds Supplementary Table S10.
+# the design's randomization inference. A null bounds the confound. Feeds Supplementary Table S17.
 
 #' Read the DGA well hydrographs (.rds): code, date, raw GWL and the Hampel/LOESS-filtered series.
 read_gw_levels <- function(path) {

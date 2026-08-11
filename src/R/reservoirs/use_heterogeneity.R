@@ -3,7 +3,7 @@
 # not managed to buffer agricultural drought, so mixing them with irrigation reservoirs could dilute a
 # buffering signal. Here we (i) report the use composition of the treated basins and (ii) re-estimate
 # the headline streamflow slope gap on the IRRIGATION-only subset (dropping treated basins whose
-# reservoirs are purely hydropower/potable, controls unchanged). Feeds Supplementary Table S11.
+# reservoirs are purely hydropower/potable, controls unchanged). Feeds Supplementary Table S1.
 
 #' Classify treated subcuencas by whether they contain any irrigation reservoir.
 #' @return data.table(unit_id, has_irrig, n_res, uses)

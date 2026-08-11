@@ -5,7 +5,7 @@
 # discriminator), and repeat the confound machinery on the DIFFERENTIAL estimand: does relief
 # predict transmission among undammed controls, does a relief-by-forcing adjustment move the
 # up/down coefficients, and does the equivalence persist among low-relief (alluvial) units?
-# Feeds Supplementary Table S22.
+# Feeds Supplementary Table S35.
 
 #' Local relief (m) within `radius_m` of each gauge from the SRTM DEM.
 gauge_relief <- function(dem_path, gauges, radius_m = 2500) {

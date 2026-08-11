@@ -1,5 +1,5 @@
 quantity,value,detail
 hard-balance control weights: maximum normalized share,0.132,"top-5 share 0.44, Kish ESS 18.9 of 244 controls (participation ratio 0.077)"
-"hard-balanced ITT slope, all controls",-0.023,primary-design estimate -0.183; hard-balanced perm p > 0.85 (Supplementary Table S17)
+"hard-balanced ITT slope, all controls",-0.023,primary-design estimate -0.183; hard-balanced perm p > 0.85 (Supplementary Table S23)
 naive leave-one-out (weights fixed) over top-8 controls,0.182,"estimates span [-0.182, 0.057]; largest excursion dropping unit 0250; removing a balancing unit without re-balancing reintroduces the aridity imbalance, so drift toward the confounded -0.183 is mechanical, not fragility"
 re-balanced leave-one-out over top-8 controls,0.184,"entropy balance re-fit without each unit: estimates span [-0.184, 0.002], log-aridity SMD stays -0.000 to 0.000, ESS 11.6 to 18.1; largest excursion dropping unit 0250"

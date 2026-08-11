@@ -239,7 +239,7 @@ hard_balance_weight_diagnostics <- function(matched_set_hard, match_covariates, 
     data.table::data.table(
       quantity = "hard-balanced ITT slope, all controls",
       value = round(base, 3),
-      detail = "primary-design estimate -0.183; hard-balanced perm p > 0.85 (Supplementary Table S17)"),
+      detail = "primary-design estimate -0.183; hard-balanced perm p > 0.85 (Supplementary Table S23)"),
     data.table::data.table(
       quantity = sprintf("naive leave-one-out (weights fixed) over top-%d controls", k),
       value = round(max(abs(loo_naive$est)), 3),

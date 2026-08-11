@@ -61,6 +61,7 @@ number-sections: true
 format:
   agu-pdf:
     linestretch: 2
+    journame: "WRR: Water Resources Research"
     keep-tex: true
     header-includes:
       - \usepackage{threeparttable}
@@ -89,3 +90,5 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 {{< include conclusions.qmd >}}
 
 {{< include data_&_code.qmd >}}
+
+# References {-}

@@ -52,7 +52,7 @@
 }
 
 #' Wild-cluster-bootstrap confirmation of the storage-band trends and 2010 step, unweighted and
-#' capacity-weighted (Supplementary Table S54).
+#' capacity-weighted (Supplementary Table S6).
 #' @return data.table(quantity, value, detail)
 storage_wild_bootstrap <- function(band_annual, levels_long, split_year = 2010L,
                                    B = 1999L, seed = 1L) {

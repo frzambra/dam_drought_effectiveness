@@ -65,7 +65,7 @@
   path[seq_len(i)]
 }
 
-#' Routed-network validation of the upstream/downstream placebo (Supplementary Table S46).
+#' Routed-network validation of the upstream/downstream placebo (Supplementary Table S37).
 #' @return data.table(quantity, value, detail)
 hydroriver_connectivity_check <- function(hydroriver_shp, streamflow_stations_raw,
                                           streamflow_stations, points, reservoir_units,
@@ -160,7 +160,7 @@ hydroriver_connectivity_check <- function(hydroriver_shp, streamflow_stations_ra
 # --- Comment 1: smooth national time trend instead of year FE ------------------------------------
 
 #' Buffering slopes with year fixed effects replaced by a cubic national time trend
-#' (Supplementary Table S47).
+#' (Supplementary Table S25).
 smooth_trend_sensitivity <- function(ssi_panel_itt, ssi_panel_down, ssi_panel_up,
                                      n_perm = 1000L, seed = 1L) {
   fit_smooth <- function(d) {
@@ -195,7 +195,7 @@ smooth_trend_sensitivity <- function(ssi_panel_itt, ssi_panel_down, ssi_panel_up
 #' elevation-partitioned gauge split (above-median -> up panel, at/below -> down panel), so the
 #' null distribution of D carries the natural up/down differences that the composition-fixed
 #' scheme sets to zero by construction. Applied to the aggregate contrast and to the carryover
-#' subgroup contrast (Supplementary Table S48).
+#' subgroup contrast (Supplementary Table S30).
 placebo_elevsplit_permutation <- function(ssi12, streamflow_stations, spei12_monthly,
                                           matched_set, storage_het_units,
                                           n_perm = 1000L, seed = 1L) {
@@ -256,19 +256,19 @@ placebo_elevsplit_permutation <- function(ssi12, streamflow_stations, spei12_mon
     data.table::data.table(
       quantity = "aggregate contrast D under elevation-partitioned null",
       value = round(obs_D, 3),
-      detail = sprintf("perm p = %.3f, null SD %.3f (%d perms); composition-fixed scheme: p = 0.718, null SD 0.098 (Supplementary Table S25)",
+      detail = sprintf("perm p = %.3f, null SD %.3f (%d perms); composition-fixed scheme: p = 0.718, null SD 0.098 (Supplementary Table S29)",
                        nl$p(obs_D), nl$sd, nl$nv)),
     data.table::data.table(
       quantity = "carryover contrast D under elevation-partitioned null",
       value = round(obs_Dc, 3),
-      detail = sprintf("perm p = %.3f, null SD %.3f (%d perms); composition-fixed scheme: p = 0.014 (Supplementary Table S35)",
+      detail = sprintf("perm p = %.3f, null SD %.3f (%d perms); composition-fixed scheme: p = 0.014 (Supplementary Table S50)",
                        nlc$p(obs_Dc), nlc$sd, nlc$nv))))
 }
 
 # --- Comment 3: SSI standardization baseline -----------------------------------------------------
 
 #' Buffering and placebo re-estimated with SSI standardized on 1990-2020 (31 years), meeting the
-#' 30-year guideline; the CR2 daily record begins in 1900 (Supplementary Table S49).
+#' 30-year guideline; the CR2 daily record begins in 1900 (Supplementary Table S11).
 ssi_baseline_sensitivity <- function(streamflow_monthly, streamflow_stations, spei12_monthly,
                                      matched_set, ref_years = 1990:2020,
                                      n_perm = 1000L, seed = 1L) {
@@ -304,7 +304,7 @@ ssi_baseline_sensitivity <- function(streamflow_monthly, streamflow_stations, sp
 
 # --- Comment 4: drought-conditional missingness --------------------------------------------------
 
-#' Does the no-imputation rule preferentially delete drought months? (Supplementary Table S50)
+#' Does the no-imputation rule preferentially delete drought months? (Supplementary Table S10)
 missingness_drought_bias <- function(streamflow_monthly, streamflow_stations,
                                      spei12_monthly, years = 2000:2020) {
   st <- data.table::as.data.table(streamflow_stations)
@@ -354,7 +354,7 @@ missingness_drought_bias <- function(streamflow_monthly, streamflow_stations,
 # --- Comment 5: coverage-stable storage subset ---------------------------------------------------
 
 #' Storage-band trends restricted to reservoirs covering >= min_years of 2005-2024
-#' (Supplementary Table S51).
+#' (Supplementary Table S5).
 storage_stable_trends <- function(band_annual, min_years = 18L,
                                   split_year = 2010L) {
   d <- data.table::as.data.table(band_annual)
@@ -383,7 +383,7 @@ storage_stable_trends <- function(band_annual, min_years = 18L,
 
 # --- Comment 6: non-linear aridity interaction ---------------------------------------------------
 
-#' Buffering slope net of quadratic aridity-by-forcing interactions (Supplementary Table S52).
+#' Buffering slope net of quadratic aridity-by-forcing interactions (Supplementary Table S22).
 nonlinear_aridity_sensitivity <- function(ssi_panel_itt, n_perm = 1000L, seed = 1L) {
   fit_nl <- function(d) {
     d <- data.table::as.data.table(d)
@@ -417,14 +417,14 @@ nonlinear_aridity_sensitivity <- function(ssi_panel_itt, n_perm = 1000L, seed = 
     data.table::data.table(
       quantity = "aridity-by-forcing terms (linear; quadratic)",
       value = round(la1[1, 1], 3),
-      detail = sprintf("linear p = %.3g; quadratic %.3f, p = %.3g (cluster-robust); the control transmission gradient across aridity is also tercile-checked in Supplementary Table S20",
+      detail = sprintf("linear p = %.3g; quadratic %.3f, p = %.3g (cluster-robust); the control transmission gradient across aridity is also tercile-checked in Supplementary Table S21",
                        la1[1, 4], la2r[1, 1], la2r[1, 4]))))
 }
 
 # --- Comment 7: control contamination by unmonitored dams ----------------------------------------
 
 #' Screen matched control basins against the national dam inventory and re-fit the streamflow
-#' results with a re-balanced dam-free control pool (Supplementary Table S53).
+#' results with a re-balanced dam-free control pool (Supplementary Table S3).
 control_dam_contamination <- function(dam_shp, matched_subcuencas, matched_set,
                                       match_covariates, ssi12, streamflow_stations,
                                       spei12_monthly, n_perm = 1000L, seed = 1L) {

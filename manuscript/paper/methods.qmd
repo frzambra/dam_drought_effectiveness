@@ -3,7 +3,7 @@
 ## Study area, units, and treatment
 
 We study continental Chile (≈18–44° S), a strong north–south aridity gradient spanning hyper-arid,
-Mediterranean, and humid-temperate climates [@vasquez_robust_2025], over 2005-2024, when reservoir storage,
+Mediterranean, and humid-temperate climates [@vasquez_robust_2025], over 2005–2024, when reservoir storage,
 meteorological forcing, and satellite outcomes jointly exist. The design is
 a matched comparison of dammed versus undammed sub-watersheds. Because most treated reservoirs (18
 of 24) predate the storage record, treatment is effectively time-invariant and a staggered-adoption
@@ -12,18 +12,19 @@ meteorological forcing rather than on calendar time. The estimand is a reservoir
 effect *conditional on the covariates that govern where reservoirs are sited*, isolating *operation*
 from *siting* [@di_baldassarre_water_2018].
 
-The analysis grain is the DGA sub-watershed (467 units), chosen over the watershed grain because
-reservoirs sit in Chile's largest main-stem basins and the finer grain supplies more controls inside
-the treated size range. A sub-watershed is treated if it contains ≥1 of the 26
-monitored reservoirs, giving 24 treated units, of which 21 survive elevation common support. The
-reservoirs are predominantly irrigation (20 of 26), and the streamflow result is unchanged
-restricted to irrigation-only basins (Supplementary Table S11). Untreated sub-watersheds inside a
-reservoir's watershed are removed as contaminated (45 units), leaving 398 clean controls, which
-defuses the most direct downstream-spillover (SUTVA) violation; no matched pair shares a watershed
-(Supplementary Table S15). Because "undammed" is defined
-against the 26 monitored reservoirs, the matched controls are additionally screened against the full
-1,370-impoundment national inventory and the results re-fit with the entropy balance re-estimated on
-the dam-free control pool (Supplementary Table S53).
+The analysis grain is the sub-watershed of Chile's Dirección General de Aguas (DGA), the national
+water directorate, 467 units, chosen
+over the watershed grain because reservoirs sit in Chile's largest main-stem basins and the finer
+grain supplies more controls inside the treated size range. A sub-watershed is treated if it
+contains ≥1 of the 26 monitored reservoirs, giving 24 treated units, of which 21 survive elevation
+common support. The reservoirs are predominantly irrigation (20 of 26), and the streamflow result is
+unchanged restricted to irrigation-only basins (Supplementary Table S1). Untreated sub-watersheds
+inside a reservoir's watershed are removed as contaminated (45 units), leaving 398 clean controls,
+which defuses the most direct violation of the stable unit treatment value assumption, downstream
+spillover; no matched pair shares a watershed (Supplementary Table S2). Because "undammed" is
+defined against the 26 monitored reservoirs, the matched controls are additionally screened against
+the full 1,370-impoundment national inventory and the results re-fit with the entropy balance
+re-estimated on the dam-free control pool (Supplementary Table S3).
 
 ## Data
 
@@ -32,62 +33,68 @@ complete calendar years 2005–2024) with per-reservoir capacity in hm³; becaus
 share units, percent-of-capacity is the cross-reservoir-comparable state variable. The band trends
 are re-fit three further ways, since capacities span three orders of magnitude and several
 reservoirs enter the panel after 2005 with filling phases that static fixed effects do not absorb:
-weighted by capacity and as fleet-total volumes (Supplementary Table S44), on the coverage-stable
-subset alone (Supplementary Table S51), and, because a descriptive trend offers no treatment
+weighted by capacity and as fleet-total volumes (Supplementary Table S4), on the coverage-stable
+subset alone (Supplementary Table S5), and, because a descriptive trend offers no treatment
 assignment to permute, with every coefficient confirmed by a restricted wild cluster bootstrap using
-reservoir-level Rademacher weights (Supplementary Table S54). For the capacity heterogeneity test the buffering
+reservoir-level Rademacher weights (Supplementary Table S6). For the capacity heterogeneity test the buffering
 sample (17 treated basins with a usable downstream gauge) is split at a carryover ratio of 0.5,
 capacity divided by mean annual downstream flow in years. Because that denominator is regulated and
-consumed, the ratio is recomputed with unregulated upstream-gauge flow (Supplementary Table S40);
+consumed, the ratio is recomputed with unregulated upstream-gauge flow (Supplementary Table S7);
 and because the class mixes irrigation reservoirs with two dams operated also for hydropower
 (Colbún, Lago Laja), and seven units are few enough that one basin can move a permutation p across
 conventional thresholds, the contrast is re-estimated excluding that pair, under leave-one-out, and
-on strictly paired basins (Supplementary Tables S39, S42). That split is exploratory and
-reviewer-prompted, carrying no multiplicity adjustment.
+on strictly paired basins (Supplementary Tables S8, S9). That split is exploratory,
+carrying no multiplicity adjustment.
 
-**Meteorological forcing.** SPEI at 12-month accumulation, from CHIRPS precipitation and CHIRTS
-temperature standardized on 1991–2020 [@Vicente-Serrano2010], is the exogenous dose; CHIRPS-derived
-indices are validated for Chilean drought monitoring [@Zambrano2017; @Meza2013; @Oertel2020]. The
-12-month accumulation matches the annual, snowmelt-fed cycle of central Chile and the inter-seasonal
+**Meteorological forcing.** The Standardized Precipitation Evapotranspiration Index (SPEI) at
+12-month accumulation, from Climate Hazards Group Infrared Precipitation with Stations (CHIRPS)
+precipitation and Climate Hazards Center Infrared Temperature with Stations (CHIRTS) temperature
+standardized on 1991–2020 [@Vicente-Serrano2010], is the exogenous dose; CHIRPS-derived indices are
+validated for Chilean drought monitoring [@Zambrano2017; @Meza2013; @Oertel2020]. The 12-month
+accumulation matches the annual, snowmelt-fed cycle of central Chile and the inter-seasonal
 carryover irrigation reservoirs bridge; estimates are insensitive to 6- and 24-month alternatives,
 and the window does not resolve 1 to 3 month buffering, a boundary of our conclusions
 [@wu_non-linear_2017; @wu_impacts_2018]. Conditioning on forcing breaks the collinearity between
 megadrought onset and treatment clock.
 
-**Hydrological drought.** Daily streamflow from the DGA network (2000–2020), compiled by CR2
-(https://cr2.cl), aggregated to SSI-12 [@Vicente-Serrano2012c; @lema_technical_2025], the
+**Hydrological drought.** Daily streamflow from the DGA network (2000–2020), compiled by the Center
+for Climate and Resilience Research (CR2, https://cr2.cl), aggregated to the Standardized Streamflow
+Index at 12-month accumulation (SSI-12) [@Vicente-Serrano2012c; @lema_technical_2025], the
 regulated-flow analogue of SPEI-12 and the placebo outcome; gauges are classified upstream or
-downstream of each dam by SRTM elevation. Missing values are never imputed: monthly means require
-≥20 valid days, the 12-month accumulation propagates any missing month, gauges need ≥96 monthly SSI
-values, and stations ≥10 years of record extending past 2010. Gaps therefore shrink the sample
-rather than distort the index, and their drought-conditional structure is quantified overall and by
-gauge class (Supplementary Table S50). SSI is standardized on the common 2000–2020 window so all
-gauges share one reference; because that window is megadrought-dominated and shorter than the
-30-year guideline, estimates are re-derived on the 1990–2020 baseline, which the 1900-onset record
-permits (Supplementary Table S49). Because SSI normalizes each gauge, the slope could divide out
-dam-induced variance compression, so models are re-estimated on log 12-month mean flow and the
-compression premise tested directly (Supplementary Table S19).
+downstream of each dam by Shuttle Radar Topography Mission (SRTM) elevation. Missing values are
+never imputed: monthly means require ≥20 valid days, the 12-month accumulation propagates any
+missing month, gauges need ≥96 monthly SSI values, and stations ≥10 years of record extending past
+2010. Gaps therefore shrink the sample rather than distort the index, and their drought-conditional
+structure is quantified overall and by gauge class (Supplementary Table S10). SSI is standardized on
+the common 2000–2020 window so all gauges share one reference; because that window is
+megadrought-dominated and shorter than the 30-year guideline, estimates are re-derived on the
+1990–2020 baseline, which the 1900-onset record permits (Supplementary Table S11). Because SSI
+normalizes each gauge, the slope could divide out dam-induced variance compression, so models are
+re-estimated on log 12-month mean flow and the compression premise tested directly (Supplementary
+Table S12).
 
 **Land use, water rights, and auxiliary data.** Annual cropland area comes from MapBiomas Chile
-Collection 2 (30 m, 1999–2024) and evapotranspiration from MODIS MOD16 (8-day, ~500 m, 2001–2024),
-whole-basin and for an orchard stratum from the CIREN/ODEPA cadastre; both track drought-driven
-agricultural losses in Chile [@Zambrano2018]. Consumptive rights from the DGA registry, which
-records each right's grant date, flow, and capture point, are assigned to sub-watersheds as an
-annual cumulative stock; because the registry carries severe volume errors, the primary measure is
-rights density (count per 100 km²), with a winsorized volume series insensitive to threshold
-(Supplementary Table S8) and rank-based tests on raw volumes (Supplementary Table S18; both in
-Supplementary Fig. S6). ERA5-Land snow water equivalent (0.1°, 2000–2026) tests the snowmelt
-confound on the placebo estimand through a forcing-by-snowpack adjustment, a low-snow subsample, a
-snow-year interaction, and an early/late split (Supplementary Table S12); its bias is multiplicative,
-so standardization removes it, unlike the land-cover-dependent MOD16 ET bias that disqualifies the
-ET outcomes (Supplementary Table S21). DGA well hydrographs (2000–2021,
-213 wells) give per-basin depletion rates bounding the groundwater-substitution confound
-(Supplementary Table S10).
+Collection 2 (30 m, 1999–2024) and evapotranspiration (ET) from the Moderate Resolution Imaging
+Spectroradiometer (MODIS) MOD16 product (8-day, ~500 m, 2001–2024), whole-basin and for an orchard
+stratum from the national cadastre of Chile's Natural Resources Information Centre and Office of
+Agricultural Studies and Policies; both track drought-driven agricultural losses in Chile
+[@Zambrano2018]. Consumptive rights from the DGA registry, which records each right's grant date,
+flow, and capture point, are assigned to sub-watersheds as an annual cumulative stock; because the
+registry carries severe volume errors, the primary measure is rights density (count per 100 km²),
+with a winsorized volume series insensitive to threshold (Supplementary Table S13) and rank-based
+tests on raw volumes (Supplementary Table S14; both in Supplementary Fig. S1). ERA5-Land reanalysis
+snow water equivalent (0.1°, 2000–2026) tests the snowmelt confound on the placebo estimand through
+a forcing-by-snowpack adjustment, a low-snow subsample, a snow-year interaction, and an early/late
+split (Supplementary Table S15); its bias is multiplicative, so standardization removes it, unlike
+the land-cover-dependent MOD16 ET bias that disqualifies the ET outcomes (Supplementary Table S16).
+DGA well hydrographs (2000–2021, 213 wells) give per-basin depletion rates bounding the
+groundwater-substitution confound (Supplementary Table S17).
 
-**Matching covariates.** Baseline aridity (P/PET over the 1991–2020 WMO normal), watershed area,
-mean elevation (SRTM), and Köppen–Geiger class, by zonal statistics; recomputing aridity on the
-strictly pre-drought 1991–2009 window is essentially identical ($r = 0.998$), so the matching does
-not lean on drought-period variation (Supplementary Table S13).
+**Matching covariates.** Baseline aridity (precipitation over potential evapotranspiration, P/PET,
+over the 1991–2020 World Meteorological Organization normal), watershed area, mean elevation (SRTM),
+and Köppen–Geiger class, by zonal statistics; recomputing aridity on the strictly pre-drought
+1991–2009 window is essentially identical ($r = 0.998$), so the matching does not lean on
+drought-period variation (Supplementary Table S18).
 
 ## Matched control construction
 
@@ -100,16 +107,16 @@ falling from 1.18/0.37 to ≈0.000) against 244 in-window controls. Baseline ari
 P/PET 0.26 treated versus 0.80 control) but is *not* a balance target, because hard-balancing
 collapses the effective control sample from 91 to 19; the residual imbalance (standardized mean
 difference ≈0.17) is absorbed by the doubly-robust outcome model, an interpolation within support
-since all treated basins lie inside the control aridity range (Supplementary Fig. S8), and
-weighting-only and overlap-subset fits leave the central nulls unchanged (Supplementary Tables S6,
-S7). Baseline cropland is deliberately not a balance target either, since cropland concentration is
+since all treated basins lie inside the control aridity range (Supplementary Fig. S2), and
+weighting-only and overlap-subset fits leave the central nulls unchanged (Supplementary Tables S19,
+S20). Baseline cropland is deliberately not a balance target either, since cropland concentration is
 plausibly a consequence of siting and sits adjacent to the demand outcomes, so balancing it would
 condition on a mediator; its functional form is instead tested by metric invariance on log cropland
-share (Supplementary Table S20). Because transmission can be non-linear in aridity, the model is
-also re-fit with quadratic aridity-by-forcing interactions (Supplementary Table S52). The strict
+share (Supplementary Table S21). Because transmission can be non-linear in aridity, the model is
+also re-fit with quadratic aridity-by-forcing interactions (Supplementary Table S22). The strict
 hard-balanced fit (log-aridity standardized mean difference 0.000, effective sample ≈19) is a
 primary sensitivity, reported with weight-concentration diagnostics and leave-one-out re-fits
-(Supplementary Tables S17, S45); at that sample it corroborates rather than powers the result. The decisive evidence, the within-basin placebo, the within-region
+(Supplementary Tables S23, S24); at that sample it corroborates rather than powers the result. The decisive evidence, the within-basin placebo, the within-region
 comparison, and randomization inference, uses no outcome-model aridity adjustment, and coarsened
 exact matching and nearest-neighbour matching on the identical sample give the same effects.
 
@@ -118,13 +125,14 @@ exact matching and nearest-neighbour matching on the identical sample give the s
 **Matched ATT and transmission slope.** Each outcome is estimated weighting only, regression only,
 and doubly-robust (entropy weights plus an outcome model in log(area), elevation, and log(aridity)),
 so functional-form sensitivity is visible; covariates are centred at the treated mean and standard
-errors are HC3-robust. To remove megadrought *exposure*, concentrated in exactly the arid basins
-where reservoirs sit, the outcome for that machinery is the per-basin *transmission slope*, the
-regression of an annual outcome on annual SPEI-12; the vulnerability hypothesis predicts a *steeper*
-slope in dammed basins. Table 1 carries two level-change ATTs, cropland-area expansion (ha km^-2^
-added) and water-rights accrual. A third outcome, reservoir ET buffering, applies the slope
-machinery to orchard-cell MOD16 ET and carries no evidential weight, since MOD16 underestimates ET
-over irrigated land and biases that gap toward zero.
+errors use the HC3 heteroskedasticity-consistent estimator. To remove megadrought *exposure*,
+concentrated in exactly the arid basins where reservoirs sit, the outcome for that machinery is the
+per-basin *transmission slope*, the regression of an annual outcome on annual SPEI-12; the
+vulnerability hypothesis predicts a *steeper* slope in dammed basins. Table 1 carries two
+level-change ATTs, cropland-area expansion (ha km^-2^ added) and water-rights accrual. A third
+outcome, reservoir ET buffering, applies the slope machinery to orchard-cell MOD16 ET and carries no
+evidential weight, since MOD16 underestimates ET over irrigated land and biases that gap toward
+zero.
 
 **Forcing-interacted difference-in-differences.** On the observed area and ET panels we fit
 
@@ -142,7 +150,7 @@ annual drought-response differential, and cumulative expansion is instead tested
 study (dammed × year, reference 2009) with bounded pre- and post-2010 trend tests. Because year effects absorb
 the common temporal component, $\beta$ is identified from within-year spatial variation in SPEI; as
 a sensitivity retaining the temporal signal, the streamflow models are re-fit with year effects
-replaced by a cubic national time trend (Supplementary Table S47).
+replaced by a cubic national time trend (Supplementary Table S25).
 
 **Bounding the nulls.** Because the headline results are nulls, we bound the effect rather than rely
 on failure to reject: a two one-sided test declaring equivalence when the 90% interval lies within
@@ -151,7 +159,7 @@ $\alpha = 0.05$). Since no hydrological standard defines a negligible reservoir 
 is anchored in operational drought classification, whose severity categories are ≈0.5 standardized
 units wide [@McKee1993; @Vicente-Serrano2010], so a 25% slope change perturbs the propagated index
 by less than one category, though it still translates to a materially non-trivial volume
-(Supplementary Table S16). MDEs and
+(Supplementary Table S26). MDEs and
 equivalence intervals use the permutation-null standard deviation, since cluster-robust standard
 errors over-reject at ~21 clusters. A positive control confirms the
 null is informative: injected buffering is recovered one-to-one, with detection once it exceeds the
@@ -160,7 +168,7 @@ MDE.
 **Inference.** With ~21 treated clusters, cluster-robust standard errors over-reject, so the primary
 inference is *randomization inference*: treatment is permuted among units within Köppen ×
 aridity-tercile strata (≥999 permutations). Residual spatial dependence is assessed with Moran's $I$
-(Supplementary Table S9); where present, notably the water-rights outcomes, those outcomes are
+(Supplementary Table S27); where present, notably the water-rights outcomes, those outcomes are
 re-run with a permutation that swaps treatment at the watershed-block level, and this spatially
 valid inference governs where the two disagree. Residual confounding is probed with an aridity
 placebo relabeling the most-arid control tercile as pseudo-treated.
@@ -169,7 +177,7 @@ placebo relabeling the most-arid control tercile as pseudo-treated.
 arises: (1) a naive pooled slope gap, what a conventional dammed-versus-undammed study reports; (2)
 unit and time fixed effects, unweighted; (3) the design estimator; (4) the design estimator with
 baseline transmission free to vary by Köppen region, reported with its own permutation null
-(Supplementary Table S26). The rungs are distinct controls, since the entropy balancing neither
+(Supplementary Table S28). The rungs are distinct controls, since the entropy balancing neither
 balances the residual within-region aridity gradient nor imposes a region-specific dose-response, so
 an apparent effect can survive rungs (1) to (3) and die at rung (4). The collapse from (3) to (4) is
 the between-region aridity confound; the residual at (4) is the regulation estimate.
@@ -183,7 +191,7 @@ dose-response the upstream placebo does not reproduce. Of the 21 treated matched
 basins, 17 have a usable downstream gauge and enter the buffering sample; 15 also have an upstream
 gauge and form the paired contrast. The contrast
 $D = \beta_{\text{down}} - \beta_{\text{up}}$ is tested against its permutation distribution
-(Supplementary Table S25). Because control basins have no dam and therefore no natural gauge
+(Supplementary Table S29). Because control basins have no dam and therefore no natural gauge
 partition, the scheme holds panel composition fixed: each panel contains the treated basins' gauges
 of that class plus every control basin's full gauge set; in each draw treatment is reassigned at
 basin level within Köppen × aridity-tercile strata and the *same* draw applied to both panels before
@@ -193,34 +201,34 @@ identical gauge set to both panels, the up/down heterogeneity real treated basin
 from its null contribution, which could compress the null variance and make the test
 anti-conservative; that bias can only overstate significance, never manufacture a null, and both
 contrasts are re-tested under a variant null partitioning each pseudo-treated basin's gauges at its
-median elevation (Supplementary Table S48). Subgroup and covariate-adjusted contrasts inherit the
+median elevation (Supplementary Table S30). Subgroup and covariate-adjusted contrasts inherit the
 same construction, and the contrast is also split by Köppen region.
 
 The placebo's comparability assumptions are measured rather than assumed. Upstream reaches sit
 higher and drain smaller areas, so we quantify the elevation and area gradients among undammed
 control gauges and re-fit the placebo net of a SPEI-by-elevation interaction and, using each gauge's
 mean annual discharge as the cumulative-scale measure the local polygon area misses, net of a
-SPEI-by-log-discharge interaction (Supplementary Tables S2, S30, S31, S33); the linearity of the
-elevation sensitivity is checked across the ~2000 m snowline (Supplementary Table S20) and the
-bedrock-to-alluvial transition with 2.5 km local relief (Supplementary Table S22). Because gauge
+SPEI-by-log-discharge interaction (Supplementary Tables S31, S32, S33, S34); the linearity of the
+elevation sensitivity is checked across the ~2000 m snowline (Supplementary Table S21) and the
+bedrock-to-alluvial transition with 2.5 km local relief (Supplementary Table S35). Because gauge
 class is assigned from SRTM elevation, misclassification is bounded three ways: excluding downstream
 gauges whose DGA sub-cuenca is named for a different river and those within 100 m of the dam
-(Supplementary Table S32); validating against routed HydroRIVERS v1.0 topology, snapping every gauge
+(Supplementary Table S36); validating against routed HydroRIVERS v1.0 topology, snapping every gauge
 and dam to its nearest reach, tracing the NEXT_DOWN path, and re-estimating on network-connected
-gauges only (Supplementary Table S46); and screening upstream gauges for cascade contamination
+gauges only (Supplementary Table S37); and screening upstream gauges for cascade contamination
 against the national inventory at three tiers, below a *material* dam (DGA-monitored,
 registry-large, or wall height ≥15 m) inside their own sub-watershed, below the documented
 historical cascades, and below any material dam anywhere in their cuenca, the last over-flagging
-parallel tributaries to bound the worst case (Supplementary Table S43).
+parallel tributaries to bound the worst case (Supplementary Table S38).
 
 Four further specifications bound the remaining threats: a quadratic SPEI interaction and
 drought-month refits, testing whether the linear form masks an effect confined to extreme deficits
-(Supplementary Tables S28, S29); an early/late megadrought split, tested as a treat × SPEI × phase
-interaction under permutation (Supplementary Tables S24, S27); a down/up extraction gradient from
+(Supplementary Tables S39, S40); an early/late megadrought split, tested as a treat × SPEI × phase
+interaction under permutation (Supplementary Tables S41, S42); a down/up extraction gradient from
 MapBiomas cropland in gauge buffers, with the placebo re-fit net of a SPEI-by-local-cropland
 interaction carrying a treated-specific term, since drought-intensified downstream extraction could
-steepen the downstream slope and mask buffering (Supplementary Tables S36, S37); and a bound on the
+steepen the downstream slope and mask buffering (Supplementary Tables S43, S44); and a bound on the
 exposure misclassification implied by both gauge classes sharing the subcuenca-average SPEI
-(Supplementary Table S38). The paired contrast's own MDE is reported alongside (Supplementary Table
-S34).
+(Supplementary Table S45). The paired contrast's own MDE is reported alongside (Supplementary Table
+S46).
 

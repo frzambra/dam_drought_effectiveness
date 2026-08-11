@@ -9,7 +9,7 @@ physical: the seven carryover-capable reservoirs, holding at least half a year o
 do show downstream-specific buffering, an exploratory but directionally robust signal, so the
 aggregate null describes the seasonal majority. The
 nulls are bounds, not zeros; effects inside them can be volumetrically material (Supplementary
-Table S16). But under structural aridification, with no operational buffering within the design's
+Table S26). But under structural aridification, with no operational buffering within the design's
 bounds for the storage-limited fleet, building more storage
 is a supply-blind response to a supply problem. Chile continues to plan new reservoir
 construction to expand storage, while its agricultural water demand continues to

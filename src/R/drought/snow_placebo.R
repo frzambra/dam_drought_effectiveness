@@ -18,7 +18,7 @@
 # that disqualifies MOD16 for irrigation ET — so all coefficients use STANDARDIZED (relative) SWE,
 # which is robust to multiplicative bias, and test (4) doubles as a product positive-control: a
 # nonzero spei_c x snow-year term among the panels shows the product resolves real snow signal.
-# Feeds Supplementary Table S12.
+# Feeds Supplementary Table S15.
 
 #' Crop the global ERA5-Land SWE NetCDF to Chile and reduce it to a climatology + per-year stack:
 #' long-term mean SWE, mean annual-peak SWE, and one annual-peak layer per calendar year (m w.e.),

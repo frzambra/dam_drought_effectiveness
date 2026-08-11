@@ -1,6 +1,6 @@
 # FATAL-FLAW response (2026-07-03 review): SSI standardizes each gauge to its own (regulated)
 # distribution, so any variance compression by the dam is divided out and the SSI slope tests
-# percentile transmission, not volumetric response. Two direct checks (Supplementary Table S19):
+# percentile transmission, not volumetric response. Two direct checks (Supplementary Table S12):
 #   (1) proportional volumetric transmission — replace SSI with log 12-month mean flow (a
 #       semi-elasticity, % flow per SPEI unit, NOT variance-normalized) and re-run the buffering
 #       models and the upstream placebo;
@@ -33,7 +33,7 @@ fit_logq_buffering <- function(panel)
   fixest::feols(lq ~ spei_c + treat:spei_c | unit_id + month_f + year,
                 data = panel, weights = ~w, cluster = ~unit_id, nthreads = 1)
 
-#' @return data.table(quantity, value, detail) for Supplementary Table S19
+#' @return data.table(quantity, value, detail) for Supplementary Table S12
 build_volumetric_check <- function(monthly_flow, stations_units, spei12_monthly, matched_set,
                                    n_perm = 1000L) {
   cfun <- function(mm) {

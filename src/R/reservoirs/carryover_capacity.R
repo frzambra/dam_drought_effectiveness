@@ -3,7 +3,7 @@
 # seasonal-only design? Two facts from the project's own data: capacity relative to mean annual
 # downstream flow (a carryover ratio; >= ~0.5 implies substantial interannual storage), and the
 # pre-2010 annual trough (reservoirs were NOT emptied seasonally, so storage persisted across
-# years and carryover buffering was physically available). Feeds Supplementary Table S23.
+# years and carryover buffering was physically available). Feeds Supplementary Table S54.
 
 #' @return data.table(quantity, value, detail)
 build_carryover_check <- function(levels_long, reservoir_units, streamflow_monthly,

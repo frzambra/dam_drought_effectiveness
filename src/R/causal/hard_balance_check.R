@@ -2,7 +2,7 @@
 # comment 1). The primary design leaves a residual aridity imbalance to the doubly-robust outcome
 # model; the reviewer asks for a strict matched analysis with aridity hard-balanced (ESS ~19) to
 # show the nulls hold WITHOUT parametric extrapolation across the hydroclimatic regime gap. Feeds
-# Supplementary Table S17.
+# Supplementary Table S23.
 
 #' @param matched_set_hard fit_matched_set_hard() output
 #' @return data.table(quantity, value, detail)
