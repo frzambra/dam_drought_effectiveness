@@ -26,9 +26,9 @@ The third-party input datasets are publicly available from their providers:
   <https://doi.org/10.5067/MODIS/MOD16A2GF.061>.
 - **Land cover.** MapBiomas Chile Collection 2, annual 30 m land-cover and land-use
   classification, <https://chile.mapbiomas.org>.
-- **Streamflow.** Daily mean streamflow for 811 DGA gauges (dataset `cr2_qflxDaily_2020`, February
-  1913 to March 2020), compiled by the Center for Climate and Resilience Research (CR2),
-  <https://www.cr2.cl>.
+- **Streamflow.** Daily mean streamflow for 811 DGA gauges, February 1913 to March 2020, compiled
+  by the Center for Climate and Resilience Research (CR2), <https://www.cr2.cl>, distributed as
+  `cr2_qflxDaily_2020`.
 - **Snow water equivalent.** ERA5-Land monthly averaged reanalysis, snow depth water equivalent
   (variable `sd`) at 0.1°, Copernicus Climate Change Service Climate Data Store, catalogue entry
   `reanalysis-era5-land-monthly-means`, documented by @munozsabater_era5land_2021.

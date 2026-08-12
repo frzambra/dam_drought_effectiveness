@@ -1,10 +1,10 @@
 {
-  "title": "Dams mark multi-year drought vulnerability rather than buffer it in Chile's megadrought",
+  "title": "An upstream placebo shows that reservoir siting explains the apparent drought buffering of seasonal reservoirs in Chile's megadrought",
   "upload_type": "dataset",
   "description": "Data and code archive for the manuscript. Contains the analysis pipeline (R/targets), the reusable R functions and study-parameter configuration, the study's primary reservoir storage and capacity dataset, reservoir polygons, and every derived result table and figure produced by the pipeline. Large third-party raster inputs (CHIRPS/CHIRTS, MODIS, MapBiomas, CR2 streamflow, ERA5-Land, SRTM) are public and documented in config/data_sources.yml rather than redistributed; reproducing pipeline targets that depend on them requires downloading those inputs separately.",
   "creators": [
     {
-      "name": "Zambrano Bigiarini, Francisco",
+      "name": "Zambrano, Francisco",
       "affiliation": "Facultad de Medicina Veterinaria y Agronomía, Universidad de Las Américas, Santiago, Chile",
       "orcid": "0000-0001-6896-8534"
     }
