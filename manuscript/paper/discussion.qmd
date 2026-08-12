@@ -17,11 +17,7 @@ shows the design detects buffering when it is present.
 
 The corollary is transferable: dammed-versus-undammed or before-after contrasts inherit the
 full siting confound
-[@lopezmoreno_dam_2009; @wu_non-linear_2017; @schilstra_effects_2024; @lee_drought_2026]. The
-upstream placebo ports to regulated rivers with gauges above and below a dam, most directly to
-short, steep catchments like Chile's; in large low-gradient basins,
-floodplain storage and transmission losses would blur the contrast; porting it would need
-routing-corrected lags or naturalized-flow counterfactuals.
+[@lopezmoreno_dam_2009; @wu_non-linear_2017; @schilstra_effects_2024; @lee_drought_2026].
 
 If the streamflow pathway excludes material operational buffering at multi-year scale and the
 demand-side outcomes are consistent with no amplification at their respective detection
@@ -50,10 +46,8 @@ These findings give the contested socio-hydrological *reservoir effect* and *sup
 identified test, and find the protective function over-attributed to storage. Because treatment is
 time-invariant, we test the spatial imprint of these feedbacks, not the
 longitudinal loop. The 4.5-fold cropland gap could be the equilibrated legacy of
-demand induced at construction, so our null covers the megadrought era; historical induced demand
-is testable only with staggered commissioning. And the record opens in the scarcity phase, after
-any expansion under perceived abundance, so it bounds drought-era
-expansion, not the cycle as a whole. Within scope the
+demand induced at construction, and the record opens in the scarcity phase, after any expansion
+under perceived abundance, so our null bounds drought-era expansion, not the cycle as a whole. Within scope the
 nulls refine the theory: the cycle
 leaves no operational imprint during drought, so its mechanisms likely act through siting and
 construction rather than operation, a distinction current
@@ -64,20 +58,15 @@ allocation curtails it. Whether the null is general or the mark of a fully alloc
 market we cannot adjudicate: rights kept accruing in dammed basins, but systems with water still
 unallocated could express an induced demand that ours cannot. The upstream placebo itself ports
 more broadly. Short, steep catchments with gauges above and below dams are common across the
-world's regulated mountain rivers: the California Coast Ranges and Sierra Nevada, the Spanish
-Sierra Nevada and Pyrenees, the Italian Apennines and Alps, the African Rift, and the Andean
-cordillera beyond Chile. In large low-gradient basins, the Murray-Darling, the Colorado below
-Lake Mead, or the Indus plains, floodplain storage and transmission losses would blur the
-above/below contrast and routing-corrected lags or naturalized-flow counterfactuals would be
-needed. The placebo method is therefore not universal, but its scope conditions are explicit
-and its required data, paired gauges above and below dams, exist across much of the world's
-irrigated mountain-front hydrology.
+world's regulated mountain rivers, from the Sierra Nevada to the Pyrenees, the Alps, and the
+Andean cordillera beyond Chile. In large low-gradient basins such as the Murray-Darling or the
+Indus plains, floodplain storage and transmission losses would blur the above/below contrast and
+routing-corrected lags or naturalized-flow counterfactuals would be needed. The method is
+therefore not universal, but its scope conditions are explicit and the paired gauges it requires
+exist across much of the world's irrigated mountain-front hydrology.
 
-Chile's 1981 Water Code makes water-use rights perpetual private
-property, so the reflexive response has been supply-side, new dams and
-inter-basin transfers [@Barria2021; @Garreaud2025]; the 2022 reform moves
-toward the adaptive allocation our results argue for
-[@macpherson_evolving_2023] but postdates our window. Under
+Chile's 2022 Water Code reform moves toward the adaptive allocation our
+results argue for [@macpherson_evolving_2023] but postdates our window. Under
 structural aridification, building more storage is a supply-blind
 response to a supply problem: the buffering dams provide is a property of where they sit, not of
 what they do [@ho_future_2017]. Adaptation must shift toward demand management,
@@ -100,15 +89,10 @@ than evidence of regulation; cluster-robust intervals, which the design's own ru
 over-reject at about 21 clusters, overstate the phase signal. The registry measures paper rights, not wet water: Chilean basins are widely over-allocated and
 granted rights can sit unused or hoarded [@Barria2021; @reade_malagueno_libre_2024], so under
 drought, when physical availability binds, the accrual we test is an entitlement response that
-non-use could dampen; cropland is the physical check. The registry also records original grant
-dates, not market transfers: many basins have been administratively closed to new allocations
-for decades, so the flat accrual reflects the absence of new state grants rather than the
-reallocation of existing rights, which in Chile's private water market proceeds through
-transactions registered in local real-estate offices, not the DGA grant registry
-[@reade_malagueno_libre_2024]. Market-driven concentration of rights below reservoirs, if
-present, is therefore invisible to the accrual measure; cropland trajectories are the physical
-check that argues against such concentration at scale, but a transaction-level test would be
-needed to close this pathway. Both metrics also miss intensification
+non-use could dampen; cropland is the physical check. The registry also records original grant dates, not the market transfers through
+which rights change hands in administratively closed basins [@reade_malagueno_libre_2024], so
+concentration below reservoirs would be invisible to the accrual measure; cropland trajectories
+argue against it at scale, but a transaction-level test would be needed to close this pathway. Both metrics also miss intensification
 within an unchanged footprint; central Chile's documented shift toward thirsty export fruit
 [@reade_malagueno_libre_2024] is exactly such a transition, invisible to both; a
 consumption-grade test awaits thermal ET or crop-transition maps.
@@ -142,10 +126,9 @@ re-fitting the placebo net of a SPEI-by-local-cropland interaction leaves the co
 among control gauges, so a release-sustained extraction response could exceed it; the adjusted
 model therefore lets treated reaches carry their own SPEI-by-cropland term, and the implied
 masking magnitude sits two orders below the contrast MDE either way.
-Administrative closure cannot force the demand null: treated basins entered the drought with
-higher allocated stock yet accrued rights 2.7 times faster, and parallel control cropland
-contradicts collapse prevention (Supplementary Table S2); what closure does do is make grant
-accrual a weak proxy for total demand, the registry limitation discussed above. No matched pair shares a watershed; outbound transfers would shrink the
+Administrative closure cannot force the demand null, since treated basins kept accruing rights
+faster than their controls (Supplementary Table S2); what it does do is make grant accrual a weak
+proxy for total demand. No matched pair shares a watershed; outbound transfers would shrink the
 gap and imports would mimic downstream-specific buffering, which is absent (Supplementary Table
 S2); irrigation-only restriction leaves the result unchanged (Supplementary Table S1). MOD16's bias toward the null excludes the ET pathway from evidence
 (Supplementary Table S16); the demand conclusion rests on cropland and the registry, with thermal

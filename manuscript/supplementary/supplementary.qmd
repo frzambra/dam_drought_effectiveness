@@ -25,8 +25,9 @@ Supplementary Figure S1 is the water-rights induced-demand test and Supplementar
 non-parametric aridity common-support check; Supplementary Figures S3 and S4 give the full
 study-area map and the matching diagnostics; and Supplementary Figure S5 documents the drought
 forcing, Supplementary Figure S6 the siting-confound decomposition, Supplementary Figure S7 the
-barren-land evapotranspiration (ET) confound demonstration, and Supplementary Figure S8 the
-informativeness of the null.
+barren-land evapotranspiration (ET) confound demonstration, Supplementary Figure S8 the
+informativeness of the null, and Supplementary Figure S9 the forest plot of
+dammed-versus-control effects across estimators.
 
 Supplementary Table S1 tests reservoir-use heterogeneity (irrigation-only subset), Supplementary
 Table S2 collects the inter-basin spillover (cuenca disjointness) and administrative-demand checks
@@ -203,6 +204,19 @@ estimator (points on the dashed expected-recovery line), the no-injection case i
 flagged, and randomization inference detects the effect (filled points) once the injected slope
 reaches −0.30. The estimator would therefore reveal a large operational buffering effect if one
 existed.
+
+![](../../results/figures/fig_convergent_null.png){width=90%}
+
+**Supplementary Figure S9 | Dammed-versus-control effect across estimators.** Each estimate is
+expressed in its own standard errors so the axis metric is identical for every row; an estimate
+inside +/-2 is indistinguishable from no effect. Rows judged by randomization inference, the
+design's valid inference at ~21 clusters, are annotated with their p, and under that inference
+every estimate brackets zero. Water-rights accrual sits outside +/-1.96 by its naive standard
+error yet is null by the design (p_perm = 0.52), the apparent induced demand lying inside the
+permutation null expected from the dammed basins' unbalanced aridity (Supplementary Fig. S1). The
+underlying estimates, with confidence intervals and verdicts, are Table 1 of the main text.
+
+\clearpage
 
 \clearpage
 

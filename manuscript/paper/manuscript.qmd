@@ -33,21 +33,11 @@ abstract: |
   Much of what is attributed to reservoir drought buffering may be a measurable siting confound.
   We treat reservoir presence as a basin-level intervention in Chile's megadrought and separate
   siting from operation with an upstream/downstream placebo. Across streamflow, the apparent
-  buffering is as strong upstream as downstream (slopes $-0.20$ versus $-0.16$; pooled gap
-  $p = 0.39$, paired contrast $p = 0.72$), and it collapses once climate regions carry their own
-  baseline transmission (residual $-0.05$, $p = 0.65$). Over the first decade of the megadrought the
+  buffering is as strong upstream as downstream , and it collapses once climate regions carry their own  baseline transmission. Over the first decade of the megadrought the
   null is powered against large effects, excluding operational buffering above 46 to 59% of
   baseline transmission. But the fleet is storage-limited: in an exploratory split, the seven
   carryover-capable reservoirs (capacity at least half a year of downstream flow) show
-  downstream-specific buffering (contrast $-0.23$, $p = 0.014$) that the seasonal majority does
-  not; its direction is robust to the capacity classification and to single-basin exclusion, its
-  significance to neither, so carryover reservoirs are candidates for genuine buffering rather
-  than a confirmed exception. Dammed basins hold 4.5 times more cropland than
-  matched controls, a siting legacy with no detected divergence within power; water-rights accrual
-  is consistent with no effect but underpowered, a genuine null on new state grants that cannot
-  see market reallocation in administratively closed basins. The storage band steps down at 2010
-  and the carryover floor keeps eroding. The upstream placebo is a portable method. For the
-  storage-limited fleet, within these bounds, adaptation must shift toward managing demand.
+  downstream-specific buffering that the seasonal majority does not; its direction is robust to the capacity classification and to single-basin exclusion, its significance to neither, so carryover reservoirs are candidates for genuine buffering rather than a confirmed exception. Dammed basins hold 4.5 times more cropland than matched controls, a siting legacy with no detected divergence within power; water-rights accrual is consistent with no effect but underpowered, a genuine null on new state grants that cannot see market reallocation in administratively closed basins. The storage band steps down at 2010 and the carryover floor keeps eroding. The upstream placebo is a portable method. For the storage-limited fleet, within these bounds, adaptation must shift toward managing demand.
 keywords:
   - reservoir effect
   - drought propagation
@@ -65,6 +55,7 @@ format:
     keep-tex: true
     header-includes:
       - \usepackage{threeparttable}
+      - \setlength{\tabcolsep}{4pt}
 execute:
   echo: false
   warning: false
@@ -88,6 +79,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 {{< include discussion.qmd >}}
 
 {{< include conclusions.qmd >}}
+
+{{< include acknowledgments.qmd >}}
 
 {{< include data_&_code.qmd >}}
 

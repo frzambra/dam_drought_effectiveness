@@ -94,36 +94,26 @@ downstream gauges lie in a sub-cuenca named for the dam's own river; excluding t
 leaves the contrast null ($D = +0.04$), as does excluding the sixteen gauges within 100 m of the dam
 ($D = +0.12$), both moving the downstream estimate toward zero rather than toward buffering
 (Supplementary Table S36). The mirror-image concern is cascade contamination, an upstream gauge
-itself below *another* dam (Ralco above Pangue; the Laguna del Maule works above Colbún; La Laguna
-above Puclaro), whose flattened transmission would be real regulation misread as siting. Screening
-all 35 upstream gauges, carried by 16 basins (one holds upstream but no usable downstream gauge, so
-it enters the upstream panel but not the 15-basin paired contrast), the placebo survives every tier:
-excluding the three flagged within their own sub-watershed gives upstream $-0.245$ and $D = +0.08$;
-adding the documented historical cascades, ten gauges in all, gives $-0.204$ and $D = +0.04$; and
-the conservative cuenca-wide bound, stripping 20 of 35 gauges, gives $-0.21$ and $D = +0.05$, every
-contrast permutation-null (Supplementary Table S38). The direction of
-change is diagnostic: were the upstream flattening hidden regulation, removing flagged gauges should
-steepen the placebo toward zero, and instead it deepens. Routed topology closes the twin concern
-that elevation-classified upstream gauges sit on parallel, disconnected tributaries: snapping every
-gauge and dam to the HydroRIVERS network (median snap 264 m) and tracing flow paths, the strictly
-network-validated same-channel contrast is *positive* (down $-0.24$, up $-0.36$, $D = +0.12$,
-$p = 0.18$), the unregulated reaches more attenuated than the regulated ones (Supplementary Table
-S37). The contrast's power is disclosed rather than assumed: with 15 paired basins it detects only
-gaps above 0.28 SSI units, about 52% of baseline, so moderate downstream-specific buffering is not
+itself below *another* dam, whose flattened transmission would be real regulation misread as
+siting. Screening all 35 upstream gauges against the national inventory, the placebo survives every
+tier, from excluding the three flagged within their own sub-watershed ($D = +0.08$) to the
+conservative cuenca-wide bound stripping 20 of 35 gauges ($D = +0.05$), every contrast
+permutation-null (Supplementary Table S38). The direction of change is diagnostic: were the
+upstream flattening hidden regulation, removing flagged gauges should steepen the placebo toward
+zero, and instead it deepens. Snapping every gauge and dam to the HydroRIVERS network closes the
+twin concern that elevation-classified upstream gauges sit on parallel, disconnected tributaries:
+the strictly network-validated same-channel contrast is *positive* ($D = +0.12$, $p = 0.18$), the
+unregulated reaches more attenuated than the regulated ones (Supplementary Table S37). The
+contrast's power is disclosed rather than assumed: with 15 paired basins it detects only gaps
+above 0.28 SSI units, about 52% of baseline, so moderate downstream-specific buffering is not
 excluded (Supplementary Table S46).
 
-A skeptical reading asks whether the flat contrast hides a real buffer masked by the extraction
-gradient, since downstream valleys carry far more irrigation and drought-intensified extraction
-would steepen the downstream slope. The gradient is real, cropland within 5 km of a downstream gauge
-averaging 0.20 of the buffer area against 0.08 upstream, but local extraction does not predict the
-transmission slope among control gauges ($p \geq 0.41$), the point estimate carries the sign
-opposite the masking mechanism, and the gradient times that sensitivity predicts a steepening of
-about 0.01 SSI units, two orders of magnitude below the MDE (Supplementary
-Table S43). Re-fitting the placebo net of a SPEI-by-local-cropland interaction, with a
-treated-specific term so treated reaches are not held to the control-identified sensitivity, leaves
-the contrast null ($-0.03$, $p = 0.83$; Supplementary Table S44). Cropland is a static proxy, but a
-mechanism that leaves no imprint across a two-and-a-half-fold extraction gradient cannot hide a
-material buffer.
+A skeptical reading asks whether the flat contrast hides a real buffer masked by the downstream
+extraction gradient. The gradient is real, cropland within 5 km of a downstream gauge averaging 0.20
+of the buffer area against 0.08 upstream, but it cannot hide a buffer: local extraction does not
+predict the transmission slope among control gauges ($p \geq 0.41$), its point estimate carries the
+sign opposite the masking mechanism, and re-fitting the placebo net of a SPEI-by-local-cropland
+interaction leaves the contrast null ($-0.03$, $p = 0.83$; Supplementary Tables S43, S44).
 
 ```{r}
 #| label: fig-streamflow
@@ -134,7 +124,7 @@ knitr::include_graphics("../../results/figures/fig_streamflow.png")
 
 ## The powered nulls exclude operational buffering; demand pathways are bounded {#sec-bounding}
 
-The same answer holds across the remaining pathways (@fig-forest, @tbl-main): every estimate that
+The same answer holds across the remaining pathways (@tbl-main): every estimate that
 carries evidential weight brackets zero: the cropland-area expansion ATT ($-0.69$ ha km^-2^, 95%
 confidence interval $[-2.4, 1.1]$) and its forcing-conditioned slope gap ($p_{\text{perm}} = 0.91$). That slope gap carries a structural caveat: central Chile's cropland is
 dominated by perennial orchards and vineyards, which cannot flex with annual SPEI, so a null
@@ -165,16 +155,14 @@ Supplementary Table S50), essentially unchanged on the six strictly paired basin
 $p = 0.004$; Supplementary Table S8) and surviving the elevation-partitioned null ($p = 0.025$;
 Supplementary Table S30); the ten seasonal reservoirs show no such contrast ($D = +0.18$,
 $p = 0.26$), their estimate being if anything positive, the direction drought-intensified diversion
-would produce though indistinguishable from zero. The signal is not a hydropower-scheduling
-artifact: excluding the two dams operated also for generation *strengthens* the estimate on the five
-irrigation-only carryover basins ($D = -0.31$, $p = 0.057$). Its fragility is instead statistical: the contrast stays negative under every
-leave-one-out, but the permutation p ranges from 0.004 to 0.12 and sits at or above the 0.05
-convention for three of the seven exclusions (Supplementary Table S9). It
-is also classification-sensitive: recomputing the ratio with unregulated upstream-gauge flow keeps
-all seven carryover basins but moves one seasonal basin into the group, under which split the
-contrast is still negative but no longer significant ($D = -0.165$, $p = 0.146$; Supplementary Table
-S7). The direction is robust to the denominator and to single-basin exclusion; the significance is
-robust to neither. Within those bounds, reservoirs with enough storage to carry water across years
+would produce though indistinguishable from zero. The signal's fragility is statistical rather
+than mechanistic. It is not a hydropower-scheduling artifact, since excluding the two dams operated also for generation
+*strengthens* the estimate on the five irrigation-only carryover basins ($D = -0.31$,
+$p = 0.057$); but the contrast, while negative under every leave-one-out, carries a permutation p
+ranging from 0.004 to 0.12, and recomputing the ratio with unregulated upstream-gauge flow moves
+one seasonal basin into the group, under which split it is still negative but no longer significant
+($D = -0.165$, $p = 0.146$; Supplementary Tables S7, S9). The direction is robust to the
+denominator and to single-basin exclusion; the significance is robust to neither. Within those bounds, reservoirs with enough storage to carry water across years
 appear to buffer multi-year drought while seasonal ones, which physically cannot, show nothing, so
 the aggregate null is driven by the seasonal majority.
 
@@ -186,22 +174,28 @@ tab <- data.table::fread("../../results/tables/table_main_results.csv")
 # ET pathway relegated to the SI (Supplementary Table S16): whole-basin ET is confounded
 # (barren-land aridity, failed pre-trends) and the orchard rows are MOD16 product-limited.
 tab <- tab[!outcome %in% c("Whole-basin ET", "Orchard ET", "Reservoir ET buffering")]
+# Display-layer formatting only: the CSV carries plain-text units and an ASCII arrow, which
+# LaTeX renders literally; the estimator names are shortened because the caption defines them.
+tab[, group := sub("Cross-sectional matched ATT", "Matched ATT", group, fixed = TRUE)]
+tab[, group := sub("Forcing-interacted DiD (slope-gap)", "Forcing-interacted DiD",
+                   group, fixed = TRUE)]
+tab[, estimand := gsub("km^-2", "km$^{-2}$", estimand, fixed = TRUE)]
+tab[, estimand := gsub("km^2", "km$^{2}$", estimand, fixed = TRUE)]
+tab[, estimand := gsub("deficit->impact", "deficit-to-impact", estimand, fixed = TRUE)]
 knitr::kable(tab[, .(Group = group, Outcome = outcome, Estimand = estimand,
                      Estimate = round(estimate, 3),
-                     `95% CI` = sprintf("[%.3g, %.3g]", ci_lo, ci_hi),
-                     p = ifelse(is.na(p), "-", sprintf("%.2f", p)), Verdict = verdict)]) |>
-  kableExtra::kable_styling(
-    font_size = 6,
-    latex_options = "scale_down"
-  )
+                     `95\\% CI` = sprintf("[%.3g, %.3g]", ci_lo, ci_hi),
+                     p = ifelse(is.na(p), "-", sprintf("%.2f", p)), Verdict = verdict)],
+             format = "latex", booktabs = TRUE, longtable = FALSE, escape = FALSE,
+             linesep = "\\addlinespace",
+             align = c("l", "l", "l", "r", "l", "r", "l")) |>
+  kableExtra::kable_styling(font_size = 8, latex_options = c("hold_position", "scale_down")) |>
+  kableExtra::column_spec(1, width = "2.0cm") |>
+  kableExtra::column_spec(2, width = "2.9cm") |>
+  kableExtra::column_spec(3, width = "3.0cm") |>
+  kableExtra::column_spec(5, width = "2.5cm")
 ```
 
-```{r}
-#| label: fig-forest
-#| fig-cap: "Dammed-versus-control effect across estimators, each expressed in its own standard errors so the axis metric is identical for every row; an estimate inside +/-2 is indistinguishable from no effect. Rows judged by randomization inference, the design's valid inference at ~21 clusters, are annotated with their p, and under that inference every estimate brackets zero. Water-rights accrual sits outside +/-1.96 by its naive standard error yet is null by the design (p_perm = 0.52), the apparent induced demand lying inside the permutation null expected from the dammed basins' unbalanced aridity (Supplementary Fig. S1)."
-#| echo: false
-knitr::include_graphics("../../results/figures/fig_convergent_null.png")
-```
 
 ## Reservoirs mark prior vulnerability; megadrought divergence is bounded, not absent
 
@@ -219,7 +213,7 @@ megadrought-era expansion, though late-panel divergence remains possible.
 
 The same holds for the most direct demand measure. In the DGA registry
 of consumptive water rights, dammed basins appear to accrue rights faster than controls, on both the
-outlier-robust count ($+20$ per 100 km²; @fig-forest, @tbl-main) and the winsorized volume ($+2.5$
+outlier-robust count ($+20$ per 100 km²; @tbl-main, Supplementary Fig. S9) and the winsorized volume ($+2.5$
 l/s per km²), each with an analytic interval excluding zero. This is the naive-analysis trap the
 design catches, since arid basins carry denser water-rights activity. The count does not survive randomization inference
 ($p_{\text{perm}} = 0.52$) and remains null under a fully non-parametric match on the

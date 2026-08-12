@@ -28,12 +28,13 @@ re-estimated on the dam-free control pool (Supplementary Table S3).
 
 ## Data
 
-**Reservoir storage.** Monthly storage for 26 monitored reservoirs (DGA, 2005–2026; we analyse
+### Reservoir storage
+
+Monthly storage for 26 monitored reservoirs (DGA, 2005–2026; we analyse
 complete calendar years 2005–2024) with per-reservoir capacity in hm³; because storage and capacity
 share units, percent-of-capacity is the cross-reservoir-comparable state variable. The band trends
 are re-fit three further ways, since capacities span three orders of magnitude and several
-reservoirs enter the panel after 2005 with filling phases that static fixed effects do not absorb:
-weighted by capacity and as fleet-total volumes (Supplementary Table S4), on the coverage-stable
+reservoirs enter the panel after 2005 with filling phases that static fixed effects do not absorb, weighted by capacity and as fleet-total volumes (Supplementary Table S4), on the coverage-stable
 subset alone (Supplementary Table S5), and, because a descriptive trend offers no treatment
 assignment to permute, with every coefficient confirmed by a restricted wild cluster bootstrap using
 reservoir-level Rademacher weights (Supplementary Table S6). For the capacity heterogeneity test the buffering
@@ -46,7 +47,9 @@ conventional thresholds, the contrast is re-estimated excluding that pair, under
 on strictly paired basins (Supplementary Tables S8, S9). That split is exploratory,
 carrying no multiplicity adjustment.
 
-**Meteorological forcing.** The Standardized Precipitation Evapotranspiration Index (SPEI) at
+### Meteorological forcing
+
+The Standardized Precipitation Evapotranspiration Index (SPEI) at
 12-month accumulation, from Climate Hazards Group Infrared Precipitation with Stations (CHIRPS)
 precipitation and Climate Hazards Center Infrared Temperature with Stations (CHIRTS) temperature
 standardized on 1991–2020 [@Vicente-Serrano2010], is the exogenous dose; CHIRPS-derived indices are
@@ -57,12 +60,14 @@ and the window does not resolve 1 to 3 month buffering, a boundary of our conclu
 [@wu_non-linear_2017; @wu_impacts_2018]. Conditioning on forcing breaks the collinearity between
 megadrought onset and treatment clock.
 
-**Hydrological drought.** Daily streamflow from the DGA network (2000–2020), compiled by the Center
+### Hydrological drought
+
+Daily streamflow from the DGA network (2000–2020), compiled by the Center
 for Climate and Resilience Research (CR2, https://cr2.cl), aggregated to the Standardized Streamflow
 Index at 12-month accumulation (SSI-12) [@Vicente-Serrano2012c; @lema_technical_2025], the
 regulated-flow analogue of SPEI-12 and the placebo outcome; gauges are classified upstream or
 downstream of each dam by Shuttle Radar Topography Mission (SRTM) elevation. Missing values are
-never imputed: monthly means require ≥20 valid days, the 12-month accumulation propagates any
+never imputed, monthly means require ≥20 valid days, the 12-month accumulation propagates any
 missing month, gauges need ≥96 monthly SSI values, and stations ≥10 years of record extending past
 2010. Gaps therefore shrink the sample rather than distort the index, and their drought-conditional
 structure is quantified overall and by gauge class (Supplementary Table S10). SSI is standardized on
@@ -73,9 +78,11 @@ normalizes each gauge, the slope could divide out dam-induced variance compressi
 re-estimated on log 12-month mean flow and the compression premise tested directly (Supplementary
 Table S12).
 
-**Land use, water rights, and auxiliary data.** Annual cropland area comes from MapBiomas Chile
+### Land use, water rights, and auxiliary data
+
+Annual cropland area comes from MapBiomas Chile
 Collection 2 (30 m, 1999–2024) and evapotranspiration (ET) from the Moderate Resolution Imaging
-Spectroradiometer (MODIS) MOD16 product (8-day, ~500 m, 2001–2024), whole-basin and for an orchard
+Spectroradiometer (MODIS) MOD16A2GF version 061 product (8-day, ~500 m, 2001–2024), whole-basin and for an orchard
 stratum from the national cadastre of Chile's Natural Resources Information Centre and Office of
 Agricultural Studies and Policies; both track drought-driven agricultural losses in Chile
 [@Zambrano2018]. Consumptive rights from the DGA registry, which records each right's grant date,
@@ -90,7 +97,9 @@ the land-cover-dependent MOD16 ET bias that disqualifies the ET outcomes (Supple
 DGA well hydrographs (2000–2021, 213 wells) give per-basin depletion rates bounding the
 groundwater-substitution confound (Supplementary Table S17).
 
-**Matching covariates.** Baseline aridity (precipitation over potential evapotranspiration, P/PET,
+### Matching covariates
+
+Baseline aridity (precipitation over potential evapotranspiration, P/PET,
 over the 1991–2020 World Meteorological Organization normal), watershed area, mean elevation (SRTM),
 and Köppen–Geiger class, by zonal statistics; recomputing aridity on the strictly pre-drought
 1991–2009 window is essentially identical ($r = 0.998$), so the matching does not lean on
@@ -122,7 +131,9 @@ exact matching and nearest-neighbour matching on the identical sample give the s
 
 ## Estimands, estimators, and inference
 
-**Matched ATT and transmission slope.** Each outcome is estimated weighting only, regression only,
+### Matched ATT and transmission slope
+
+Each outcome is estimated weighting only, regression only,
 and doubly-robust (entropy weights plus an outcome model in log(area), elevation, and log(aridity)),
 so functional-form sensitivity is visible; covariates are centred at the treated mean and standard
 errors use the HC3 heteroskedasticity-consistent estimator. To remove megadrought *exposure*,
@@ -134,7 +145,9 @@ outcome, reservoir ET buffering, applies the slope machinery to orchard-cell MOD
 evidential weight, since MOD16 underestimates ET over irrigated land and biases that gap toward
 zero.
 
-**Forcing-interacted difference-in-differences.** On the observed area and ET panels we fit
+### Forcing-interacted difference-in-differences
+
+On the observed area and ET panels we fit
 
 $$
 y_{it} = \beta\,(\text{dammed}_i \times \text{SPEI}_{it}) + \gamma\,\text{SPEI}_{it}
@@ -152,7 +165,9 @@ the common temporal component, $\beta$ is identified from within-year spatial va
 a sensitivity retaining the temporal signal, the streamflow models are re-fit with year effects
 replaced by a cubic national time trend (Supplementary Table S25).
 
-**Bounding the nulls.** Because the headline results are nulls, we bound the effect rather than rely
+### Bounding the nulls
+
+Because the headline results are nulls, we bound the effect rather than rely
 on failure to reject: a two one-sided test declaring equivalence when the 90% interval lies within
 ±25% of baseline transmission, plus the threshold-free minimum detectable effect (MDE; 80% power,
 $\alpha = 0.05$). Since no hydrological standard defines a negligible reservoir effect, the margin
@@ -165,7 +180,9 @@ errors over-reject at ~21 clusters. A positive control confirms the
 null is informative: injected buffering is recovered one-to-one, with detection once it exceeds the
 MDE.
 
-**Inference.** With ~21 treated clusters, cluster-robust standard errors over-reject, so the primary
+### Inference
+
+With ~21 treated clusters, cluster-robust standard errors over-reject, so the primary
 inference is *randomization inference*: treatment is permuted among units within Köppen ×
 aridity-tercile strata (≥999 permutations). Residual spatial dependence is assessed with Moran's $I$
 (Supplementary Table S27); where present, notably the water-rights outcomes, those outcomes are
@@ -173,7 +190,9 @@ re-run with a permutation that swaps treatment at the watershed-block level, and
 valid inference governs where the two disagree. Residual confounding is probed with an aridity
 placebo relabeling the most-arid control tercile as pseudo-treated.
 
-**Siting-confound decomposition.** A ladder on the same panel locates where any apparent buffering
+### Siting-confound decomposition
+
+A ladder on the same panel locates where any apparent buffering
 arises: (1) a naive pooled slope gap, what a conventional dammed-versus-undammed study reports; (2)
 unit and time fixed effects, unweighted; (3) the design estimator; (4) the design estimator with
 baseline transmission free to vary by Köppen region, reported with its own permutation null
