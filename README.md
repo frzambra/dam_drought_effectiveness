@@ -1,9 +1,16 @@
-# Dams mark multi-year drought vulnerability rather than buffer it in Chile's megadrought
+# An upstream placebo shows that reservoir siting explains the apparent drought buffering of seasonal reservoirs in Chile's megadrought
 
-Data and code archive for the manuscript investigating whether reservoirs in
-Chile reduce drought impacts or primarily delay them while increasing
-long-term vulnerability through expansion of water-dependent land uses,
-across the 2010-present megadrought.
+Data and code archive for the manuscript testing whether reservoirs buffer
+drought in Chile or whether the apparent buffering is a siting confound. We
+treat reservoir presence as a basin level intervention during Chile's
+megadrought and separate siting from operation with an upstream and
+downstream streamflow placebo, then match dry dammed basins to similar
+undammed ones. The seasonal reservoirs that dominate the fleet show no
+measurable buffer against multi year drought once siting is accounted for.
+Only the carryover capable reservoirs, those holding at least half a year of
+downstream flow, show a downstream specific buffering signal that the
+seasonal majority does not. Prepared for submission to Water Resources
+Research.
 
 ## Repository structure
 
@@ -26,6 +33,7 @@ across the 2010-present megadrought.
 - `manuscript/paper/` -- the Quarto manuscript sources
   (`manuscript.qmd` and per-section `.qmd` files) and the rendered PDF.
 - `manuscript/supplementary/` -- supplementary material.
+- `manuscript/submission/` -- the journal cover letter.
 
 ## Reproducing the analysis
 

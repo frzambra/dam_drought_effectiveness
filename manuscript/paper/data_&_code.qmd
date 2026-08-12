@@ -3,9 +3,9 @@
 The full analysis pipeline, comprising the `targets` workflow, the reusable R functions (`src/R/`),
 the study-parameter configuration (`config/`), and the scripts that generate every figure and
 table, is openly available at <https://github.com/frzambra/dam_drought_effectiveness> and archived
-on Zenodo [@zambrano_dam_2026]. That archive also holds the reservoir storage records, the derived
-result tables, the standardized drought indices computed for this study, and the matched-set
-metadata, and is the citable version of record for both the software and the data generated here.
+on Zenodo [@zambrano_dam_2026]. That archive also holds the reservoir storage records and the
+national dam registry, the derived result tables, and the matched-set weights and metadata, and is
+the citable version of record for both the software and the data generated here.
 All analyses run in R, using `WeightIt`/`cobalt` for balancing and diagnostics, `fixest` for
 fixed-effects regression, and `sf`/`terra`/`exactextractr` for the spatial extractions; the pinned
 R environment (`renv.lock`) reproduces the package versions used. Every result in the manuscript
@@ -18,7 +18,9 @@ The third-party input datasets are publicly available from their providers:
   (CHIRPS) and Climate Hazards Center Infrared Temperature with Stations (CHIRTS), Climate Hazards
   Center, University of California Santa Barbara, <https://www.chc.ucsb.edu/data>. The SPEI-12
   forcing and the P/PET aridity index were derived from these products for this study on a
-  1991–2020 reference period and are included in the Zenodo archive.
+  1991–2020 reference period. The national index rasters are too large to archive with the
+  repository; the pipeline extracts the basin-level series from them, and that extraction code and
+  the resulting analysis tables are in the archive.
 - **Evapotranspiration.** MODIS MOD16A2GF version 061 gap-filled 8-day actual evapotranspiration
   at ~500 m, NASA Land Processes Distributed Active Archive Center,
   <https://doi.org/10.5067/MODIS/MOD16A2GF.061>.

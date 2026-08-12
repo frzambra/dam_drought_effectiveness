@@ -1,6 +1,5 @@
 # Acknowledgments {-}
 
-FUNDING STATEMENT TO BE COMPLETED BEFORE SUBMISSION: list the grants that supported this work,
-with funder and award numbers, or state that the research received no specific funding.
-The author declares no competing interests. This manuscript reports original work by a sole
-author, is not under consideration elsewhere, and has not been published previously.
+The National Research and Development Agency of Chile (ANID) funded this study through the drought emergency project FSEQ210022 and Fondecyt Iniciación N°11190360.
+
+
