@@ -6,4 +6,4 @@ data/
 CLAUDE.md
 docs/
 .claude/
-./agents
+.agents/
